@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+// import "D:/library/caffe_env/caffe/include/caffe/proto/caffe.proto";
+import "caffe/proto/caffe.proto";
+
+package caffe_ext;
+
+message BBox{
+  required float x_min = 1;
+  required float y_min = 2;
+  required float x_max = 3;
+  required float y_max = 4;
+}
+
+message ImgBBoxAnnoDatum {
+  required caffe.Datum img_datum = 1;
+  repeated int32 labels = 2;
+  repeated BBox bboxes = 3;
+}
