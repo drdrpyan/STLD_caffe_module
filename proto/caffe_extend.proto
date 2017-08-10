@@ -5,15 +5,19 @@ import "caffe/proto/caffe.proto";
 
 package caffe_ext;
 
-message BBox{
-  required float x_min = 1;
-  required float y_min = 2;
-  required float x_max = 3;
-  required float y_max = 4;
-}
+//message BBox{
+//  required float x_min = 1;
+//  required float y_min = 2;
+//  required float x_max = 3;
+//  required float y_max = 4;
+//}
 
 message ImgBBoxAnnoDatum {
   required caffe.Datum img_datum = 1;
-  repeated int32 labels = 2;
-  repeated BBox bboxes = 3;
+  repeated int32 label = 2;
+  //repeated BBox bboxes = 3;
+  repeated float x_min = 3;
+  repeated float y_min = 4;
+  repeated float x_max = 5;
+  repeated float y_max = 6;
 }

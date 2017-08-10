@@ -21,9 +21,6 @@ namespace caffe_ext {
 
 namespace {
 
-const ::google::protobuf::Descriptor* BBox_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  BBox_reflection_ = NULL;
 const ::google::protobuf::Descriptor* ImgBBoxAnnoDatum_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   ImgBBoxAnnoDatum_reflection_ = NULL;
@@ -38,28 +35,14 @@ void protobuf_AssignDesc_caffe_5fextend_2eproto() {
     ::google::protobuf::DescriptorPool::generated_pool()->FindFileByName(
       "caffe_extend.proto");
   GOOGLE_CHECK(file != NULL);
-  BBox_descriptor_ = file->message_type(0);
-  static const int BBox_offsets_[4] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBox, x_min_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBox, y_min_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBox, x_max_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBox, y_max_),
-  };
-  BBox_reflection_ =
-    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      BBox_descriptor_,
-      BBox::internal_default_instance(),
-      BBox_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBox, _has_bits_),
-      -1,
-      -1,
-      sizeof(BBox),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBox, _internal_metadata_));
-  ImgBBoxAnnoDatum_descriptor_ = file->message_type(1);
-  static const int ImgBBoxAnnoDatum_offsets_[3] = {
+  ImgBBoxAnnoDatum_descriptor_ = file->message_type(0);
+  static const int ImgBBoxAnnoDatum_offsets_[6] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoDatum, img_datum_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoDatum, labels_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoDatum, bboxes_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoDatum, label_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoDatum, x_min_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoDatum, y_min_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoDatum, x_max_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoDatum, y_max_),
   };
   ImgBBoxAnnoDatum_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -85,16 +68,12 @@ void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      BBox_descriptor_, BBox::internal_default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       ImgBBoxAnnoDatum_descriptor_, ImgBBoxAnnoDatum::internal_default_instance());
 }
 
 }  // namespace
 
 void protobuf_ShutdownFile_caffe_5fextend_2eproto() {
-  BBox_default_instance_.Shutdown();
-  delete BBox_reflection_;
   ImgBBoxAnnoDatum_default_instance_.Shutdown();
   delete ImgBBoxAnnoDatum_reflection_;
 }
@@ -103,9 +82,7 @@ void protobuf_InitDefaults_caffe_5fextend_2eproto_impl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::caffe::protobuf_InitDefaults_caffe_2eproto();
-  BBox_default_instance_.DefaultConstruct();
   ImgBBoxAnnoDatum_default_instance_.DefaultConstruct();
-  BBox_default_instance_.get_mutable()->InitAsDefaultInstance();
   ImgBBoxAnnoDatum_default_instance_.get_mutable()->InitAsDefaultInstance();
 }
 
@@ -120,11 +97,10 @@ void protobuf_AddDesc_caffe_5fextend_2eproto_impl() {
   protobuf_InitDefaults_caffe_5fextend_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\022caffe_extend.proto\022\tcaffe_ext\032\027caffe/p"
-    "roto/caffe.proto\"B\n\004BBox\022\r\n\005x_min\030\001 \002(\002\022"
-    "\r\n\005y_min\030\002 \002(\002\022\r\n\005x_max\030\003 \002(\002\022\r\n\005y_max\030\004"
-    " \002(\002\"d\n\020ImgBBoxAnnoDatum\022\037\n\timg_datum\030\001 "
-    "\002(\0132\014.caffe.Datum\022\016\n\006labels\030\002 \003(\005\022\037\n\006bbo"
-    "xes\030\003 \003(\0132\017.caffe_ext.BBox", 226);
+    "roto/caffe.proto\"~\n\020ImgBBoxAnnoDatum\022\037\n\t"
+    "img_datum\030\001 \002(\0132\014.caffe.Datum\022\r\n\005label\030\002"
+    " \003(\005\022\r\n\005x_min\030\003 \003(\002\022\r\n\005y_min\030\004 \003(\002\022\r\n\005x_"
+    "max\030\005 \003(\002\022\r\n\005y_max\030\006 \003(\002", 184);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "caffe_extend.proto", &protobuf_RegisterTypes);
   ::caffe::protobuf_AddDesc_caffe_2eproto();
@@ -156,507 +132,12 @@ static void MergeFromFail(int line) {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int BBox::kXMinFieldNumber;
-const int BBox::kYMinFieldNumber;
-const int BBox::kXMaxFieldNumber;
-const int BBox::kYMaxFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-BBox::BBox()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (this != internal_default_instance()) protobuf_InitDefaults_caffe_5fextend_2eproto();
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:caffe_ext.BBox)
-}
-
-void BBox::InitAsDefaultInstance() {
-}
-
-BBox::BBox(const BBox& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  UnsafeMergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:caffe_ext.BBox)
-}
-
-void BBox::SharedCtor() {
-  _cached_size_ = 0;
-  ::memset(&x_min_, 0, reinterpret_cast<char*>(&y_max_) -
-    reinterpret_cast<char*>(&x_min_) + sizeof(y_max_));
-}
-
-BBox::~BBox() {
-  // @@protoc_insertion_point(destructor:caffe_ext.BBox)
-  SharedDtor();
-}
-
-void BBox::SharedDtor() {
-}
-
-void BBox::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* BBox::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return BBox_descriptor_;
-}
-
-const BBox& BBox::default_instance() {
-  protobuf_InitDefaults_caffe_5fextend_2eproto();
-  return *internal_default_instance();
-}
-
-::google::protobuf::internal::ExplicitlyConstructed<BBox> BBox_default_instance_;
-
-BBox* BBox::New(::google::protobuf::Arena* arena) const {
-  BBox* n = new BBox;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void BBox::Clear() {
-// @@protoc_insertion_point(message_clear_start:caffe_ext.BBox)
-#if defined(__clang__)
-#define ZR_HELPER_(f) \
-  _Pragma("clang diagnostic push") \
-  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
-  __builtin_offsetof(BBox, f) \
-  _Pragma("clang diagnostic pop")
-#else
-#define ZR_HELPER_(f) reinterpret_cast<char*>(\
-  &reinterpret_cast<BBox*>(16)->f)
-#endif
-
-#define ZR_(first, last) do {\
-  ::memset(&(first), 0,\
-           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
-} while (0)
-
-  ZR_(x_min_, y_max_);
-
-#undef ZR_HELPER_
-#undef ZR_
-
-  _has_bits_.Clear();
-  if (_internal_metadata_.have_unknown_fields()) {
-    mutable_unknown_fields()->Clear();
-  }
-}
-
-bool BBox::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:caffe_ext.BBox)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required float x_min = 1;
-      case 1: {
-        if (tag == 13) {
-          set_has_x_min();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &x_min_)));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(21)) goto parse_y_min;
-        break;
-      }
-
-      // required float y_min = 2;
-      case 2: {
-        if (tag == 21) {
-         parse_y_min:
-          set_has_y_min();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &y_min_)));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(29)) goto parse_x_max;
-        break;
-      }
-
-      // required float x_max = 3;
-      case 3: {
-        if (tag == 29) {
-         parse_x_max:
-          set_has_x_max();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &x_max_)));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(37)) goto parse_y_max;
-        break;
-      }
-
-      // required float y_max = 4;
-      case 4: {
-        if (tag == 37) {
-         parse_y_max:
-          set_has_y_max();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &y_max_)));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectAtEnd()) goto success;
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:caffe_ext.BBox)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:caffe_ext.BBox)
-  return false;
-#undef DO_
-}
-
-void BBox::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:caffe_ext.BBox)
-  // required float x_min = 1;
-  if (has_x_min()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->x_min(), output);
-  }
-
-  // required float y_min = 2;
-  if (has_y_min()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->y_min(), output);
-  }
-
-  // required float x_max = 3;
-  if (has_x_max()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->x_max(), output);
-  }
-
-  // required float y_max = 4;
-  if (has_y_max()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->y_max(), output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:caffe_ext.BBox)
-}
-
-::google::protobuf::uint8* BBox::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:caffe_ext.BBox)
-  // required float x_min = 1;
-  if (has_x_min()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->x_min(), target);
-  }
-
-  // required float y_min = 2;
-  if (has_y_min()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->y_min(), target);
-  }
-
-  // required float x_max = 3;
-  if (has_x_max()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->x_max(), target);
-  }
-
-  // required float y_max = 4;
-  if (has_y_max()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->y_max(), target);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:caffe_ext.BBox)
-  return target;
-}
-
-size_t BBox::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:caffe_ext.BBox)
-  size_t total_size = 0;
-
-  if (has_x_min()) {
-    // required float x_min = 1;
-    total_size += 1 + 4;
-  }
-
-  if (has_y_min()) {
-    // required float y_min = 2;
-    total_size += 1 + 4;
-  }
-
-  if (has_x_max()) {
-    // required float x_max = 3;
-    total_size += 1 + 4;
-  }
-
-  if (has_y_max()) {
-    // required float y_max = 4;
-    total_size += 1 + 4;
-  }
-
-  return total_size;
-}
-size_t BBox::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:caffe_ext.BBox)
-  size_t total_size = 0;
-
-  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
-    // required float x_min = 1;
-    total_size += 1 + 4;
-
-    // required float y_min = 2;
-    total_size += 1 + 4;
-
-    // required float x_max = 3;
-    total_size += 1 + 4;
-
-    // required float y_max = 4;
-    total_size += 1 + 4;
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
-  }
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void BBox::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:caffe_ext.BBox)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  const BBox* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const BBox>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:caffe_ext.BBox)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:caffe_ext.BBox)
-    UnsafeMergeFrom(*source);
-  }
-}
-
-void BBox::MergeFrom(const BBox& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:caffe_ext.BBox)
-  if (GOOGLE_PREDICT_TRUE(&from != this)) {
-    UnsafeMergeFrom(from);
-  } else {
-    MergeFromFail(__LINE__);
-  }
-}
-
-void BBox::UnsafeMergeFrom(const BBox& from) {
-  GOOGLE_DCHECK(&from != this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_x_min()) {
-      set_x_min(from.x_min());
-    }
-    if (from.has_y_min()) {
-      set_y_min(from.y_min());
-    }
-    if (from.has_x_max()) {
-      set_x_max(from.x_max());
-    }
-    if (from.has_y_max()) {
-      set_y_max(from.y_max());
-    }
-  }
-  if (from._internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::UnknownFieldSet::MergeToInternalMetdata(
-      from.unknown_fields(), &_internal_metadata_);
-  }
-}
-
-void BBox::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:caffe_ext.BBox)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void BBox::CopyFrom(const BBox& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:caffe_ext.BBox)
-  if (&from == this) return;
-  Clear();
-  UnsafeMergeFrom(from);
-}
-
-bool BBox::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
-
-  return true;
-}
-
-void BBox::Swap(BBox* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void BBox::InternalSwap(BBox* other) {
-  std::swap(x_min_, other->x_min_);
-  std::swap(y_min_, other->y_min_);
-  std::swap(x_max_, other->x_max_);
-  std::swap(y_max_, other->y_max_);
-  std::swap(_has_bits_[0], other->_has_bits_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata BBox::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = BBox_descriptor_;
-  metadata.reflection = BBox_reflection_;
-  return metadata;
-}
-
-#if PROTOBUF_INLINE_NOT_IN_HEADERS
-// BBox
-
-// required float x_min = 1;
-bool BBox::has_x_min() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-void BBox::set_has_x_min() {
-  _has_bits_[0] |= 0x00000001u;
-}
-void BBox::clear_has_x_min() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-void BBox::clear_x_min() {
-  x_min_ = 0;
-  clear_has_x_min();
-}
-float BBox::x_min() const {
-  // @@protoc_insertion_point(field_get:caffe_ext.BBox.x_min)
-  return x_min_;
-}
-void BBox::set_x_min(float value) {
-  set_has_x_min();
-  x_min_ = value;
-  // @@protoc_insertion_point(field_set:caffe_ext.BBox.x_min)
-}
-
-// required float y_min = 2;
-bool BBox::has_y_min() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-void BBox::set_has_y_min() {
-  _has_bits_[0] |= 0x00000002u;
-}
-void BBox::clear_has_y_min() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-void BBox::clear_y_min() {
-  y_min_ = 0;
-  clear_has_y_min();
-}
-float BBox::y_min() const {
-  // @@protoc_insertion_point(field_get:caffe_ext.BBox.y_min)
-  return y_min_;
-}
-void BBox::set_y_min(float value) {
-  set_has_y_min();
-  y_min_ = value;
-  // @@protoc_insertion_point(field_set:caffe_ext.BBox.y_min)
-}
-
-// required float x_max = 3;
-bool BBox::has_x_max() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-void BBox::set_has_x_max() {
-  _has_bits_[0] |= 0x00000004u;
-}
-void BBox::clear_has_x_max() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-void BBox::clear_x_max() {
-  x_max_ = 0;
-  clear_has_x_max();
-}
-float BBox::x_max() const {
-  // @@protoc_insertion_point(field_get:caffe_ext.BBox.x_max)
-  return x_max_;
-}
-void BBox::set_x_max(float value) {
-  set_has_x_max();
-  x_max_ = value;
-  // @@protoc_insertion_point(field_set:caffe_ext.BBox.x_max)
-}
-
-// required float y_max = 4;
-bool BBox::has_y_max() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-void BBox::set_has_y_max() {
-  _has_bits_[0] |= 0x00000008u;
-}
-void BBox::clear_has_y_max() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-void BBox::clear_y_max() {
-  y_max_ = 0;
-  clear_has_y_max();
-}
-float BBox::y_max() const {
-  // @@protoc_insertion_point(field_get:caffe_ext.BBox.y_max)
-  return y_max_;
-}
-void BBox::set_y_max(float value) {
-  set_has_y_max();
-  y_max_ = value;
-  // @@protoc_insertion_point(field_set:caffe_ext.BBox.y_max)
-}
-
-inline const BBox* BBox::internal_default_instance() {
-  return &BBox_default_instance_.get();
-}
-#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
-
-// ===================================================================
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int ImgBBoxAnnoDatum::kImgDatumFieldNumber;
-const int ImgBBoxAnnoDatum::kLabelsFieldNumber;
-const int ImgBBoxAnnoDatum::kBboxesFieldNumber;
+const int ImgBBoxAnnoDatum::kLabelFieldNumber;
+const int ImgBBoxAnnoDatum::kXMinFieldNumber;
+const int ImgBBoxAnnoDatum::kYMinFieldNumber;
+const int ImgBBoxAnnoDatum::kXMaxFieldNumber;
+const int ImgBBoxAnnoDatum::kYMaxFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ImgBBoxAnnoDatum::ImgBBoxAnnoDatum()
@@ -725,8 +206,11 @@ void ImgBBoxAnnoDatum::Clear() {
   if (has_img_datum()) {
     if (img_datum_ != NULL) img_datum_->::caffe::Datum::Clear();
   }
-  labels_.Clear();
-  bboxes_.Clear();
+  label_.Clear();
+  x_min_.Clear();
+  y_min_.Clear();
+  x_max_.Clear();
+  y_max_.Clear();
   _has_bits_.Clear();
   if (_internal_metadata_.have_unknown_fields()) {
     mutable_unknown_fields()->Clear();
@@ -751,42 +235,101 @@ bool ImgBBoxAnnoDatum::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(16)) goto parse_labels;
+        if (input->ExpectTag(16)) goto parse_label;
         break;
       }
 
-      // repeated int32 labels = 2;
+      // repeated int32 label = 2;
       case 2: {
         if (tag == 16) {
-         parse_labels:
+         parse_label:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 16, input, this->mutable_labels())));
+                 1, 16, input, this->mutable_label())));
         } else if (tag == 18) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, this->mutable_labels())));
+                 input, this->mutable_label())));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(16)) goto parse_labels;
-        if (input->ExpectTag(26)) goto parse_bboxes;
+        if (input->ExpectTag(16)) goto parse_label;
+        if (input->ExpectTag(29)) goto parse_x_min;
         break;
       }
 
-      // repeated .caffe_ext.BBox bboxes = 3;
+      // repeated float x_min = 3;
       case 3: {
-        if (tag == 26) {
-         parse_bboxes:
-          DO_(input->IncrementRecursionDepth());
-         parse_loop_bboxes:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
-                input, add_bboxes()));
+        if (tag == 29) {
+         parse_x_min:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 1, 29, input, this->mutable_x_min())));
+        } else if (tag == 26) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, this->mutable_x_min())));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(26)) goto parse_loop_bboxes;
-        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectTag(29)) goto parse_x_min;
+        if (input->ExpectTag(37)) goto parse_y_min;
+        break;
+      }
+
+      // repeated float y_min = 4;
+      case 4: {
+        if (tag == 37) {
+         parse_y_min:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 1, 37, input, this->mutable_y_min())));
+        } else if (tag == 34) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, this->mutable_y_min())));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(37)) goto parse_y_min;
+        if (input->ExpectTag(45)) goto parse_x_max;
+        break;
+      }
+
+      // repeated float x_max = 5;
+      case 5: {
+        if (tag == 45) {
+         parse_x_max:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 1, 45, input, this->mutable_x_max())));
+        } else if (tag == 42) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, this->mutable_x_max())));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(45)) goto parse_x_max;
+        if (input->ExpectTag(53)) goto parse_y_max;
+        break;
+      }
+
+      // repeated float y_max = 6;
+      case 6: {
+        if (tag == 53) {
+         parse_y_max:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 1, 53, input, this->mutable_y_max())));
+        } else if (tag == 50) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, this->mutable_y_max())));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(53)) goto parse_y_max;
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -822,16 +365,34 @@ void ImgBBoxAnnoDatum::SerializeWithCachedSizes(
       1, *this->img_datum_, output);
   }
 
-  // repeated int32 labels = 2;
-  for (int i = 0; i < this->labels_size(); i++) {
+  // repeated int32 label = 2;
+  for (int i = 0; i < this->label_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(
-      2, this->labels(i), output);
+      2, this->label(i), output);
   }
 
-  // repeated .caffe_ext.BBox bboxes = 3;
-  for (unsigned int i = 0, n = this->bboxes_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->bboxes(i), output);
+  // repeated float x_min = 3;
+  for (int i = 0; i < this->x_min_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(
+      3, this->x_min(i), output);
+  }
+
+  // repeated float y_min = 4;
+  for (int i = 0; i < this->y_min_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(
+      4, this->y_min(i), output);
+  }
+
+  // repeated float x_max = 5;
+  for (int i = 0; i < this->x_max_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(
+      5, this->x_max(i), output);
+  }
+
+  // repeated float y_max = 6;
+  for (int i = 0; i < this->y_max_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(
+      6, this->y_max(i), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -852,17 +413,34 @@ void ImgBBoxAnnoDatum::SerializeWithCachedSizes(
         1, *this->img_datum_, false, target);
   }
 
-  // repeated int32 labels = 2;
-  for (int i = 0; i < this->labels_size(); i++) {
+  // repeated int32 label = 2;
+  for (int i = 0; i < this->label_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(2, this->labels(i), target);
+      WriteInt32ToArray(2, this->label(i), target);
   }
 
-  // repeated .caffe_ext.BBox bboxes = 3;
-  for (unsigned int i = 0, n = this->bboxes_size(); i < n; i++) {
+  // repeated float x_min = 3;
+  for (int i = 0; i < this->x_min_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageNoVirtualToArray(
-        3, this->bboxes(i), false, target);
+      WriteFloatToArray(3, this->x_min(i), target);
+  }
+
+  // repeated float y_min = 4;
+  for (int i = 0; i < this->y_min_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteFloatToArray(4, this->y_min(i), target);
+  }
+
+  // repeated float x_max = 5;
+  for (int i = 0; i < this->x_max_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteFloatToArray(5, this->x_max(i), target);
+  }
+
+  // repeated float y_max = 6;
+  for (int i = 0; i < this->y_max_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteFloatToArray(6, this->y_max(i), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -883,28 +461,57 @@ size_t ImgBBoxAnnoDatum::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
         *this->img_datum_);
   }
-  // repeated int32 labels = 2;
+  // repeated int32 label = 2;
   {
     size_t data_size = 0;
-    unsigned int count = this->labels_size();
+    unsigned int count = this->label_size();
     for (unsigned int i = 0; i < count; i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->labels(i));
+        Int32Size(this->label(i));
     }
     total_size += 1 *
-                  ::google::protobuf::internal::FromIntSize(this->labels_size());
+                  ::google::protobuf::internal::FromIntSize(this->label_size());
     total_size += data_size;
   }
 
-  // repeated .caffe_ext.BBox bboxes = 3;
+  // repeated float x_min = 3;
   {
-    unsigned int count = this->bboxes_size();
-    total_size += 1UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->bboxes(i));
-    }
+    size_t data_size = 0;
+    unsigned int count = this->x_min_size();
+    data_size = 4UL * count;
+    total_size += 1 *
+                  ::google::protobuf::internal::FromIntSize(this->x_min_size());
+    total_size += data_size;
+  }
+
+  // repeated float y_min = 4;
+  {
+    size_t data_size = 0;
+    unsigned int count = this->y_min_size();
+    data_size = 4UL * count;
+    total_size += 1 *
+                  ::google::protobuf::internal::FromIntSize(this->y_min_size());
+    total_size += data_size;
+  }
+
+  // repeated float x_max = 5;
+  {
+    size_t data_size = 0;
+    unsigned int count = this->x_max_size();
+    data_size = 4UL * count;
+    total_size += 1 *
+                  ::google::protobuf::internal::FromIntSize(this->x_max_size());
+    total_size += data_size;
+  }
+
+  // repeated float y_max = 6;
+  {
+    size_t data_size = 0;
+    unsigned int count = this->y_max_size();
+    data_size = 4UL * count;
+    total_size += 1 *
+                  ::google::protobuf::internal::FromIntSize(this->y_max_size());
+    total_size += data_size;
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -945,8 +552,11 @@ void ImgBBoxAnnoDatum::MergeFrom(const ImgBBoxAnnoDatum& from) {
 
 void ImgBBoxAnnoDatum::UnsafeMergeFrom(const ImgBBoxAnnoDatum& from) {
   GOOGLE_DCHECK(&from != this);
-  labels_.UnsafeMergeFrom(from.labels_);
-  bboxes_.MergeFrom(from.bboxes_);
+  label_.UnsafeMergeFrom(from.label_);
+  x_min_.UnsafeMergeFrom(from.x_min_);
+  y_min_.UnsafeMergeFrom(from.y_min_);
+  x_max_.UnsafeMergeFrom(from.x_max_);
+  y_max_.UnsafeMergeFrom(from.y_max_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_img_datum()) {
       mutable_img_datum()->::caffe::Datum::MergeFrom(from.img_datum());
@@ -975,7 +585,6 @@ void ImgBBoxAnnoDatum::CopyFrom(const ImgBBoxAnnoDatum& from) {
 bool ImgBBoxAnnoDatum::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
-  if (!::google::protobuf::internal::AllAreInitialized(this->bboxes())) return false;
   return true;
 }
 
@@ -985,8 +594,11 @@ void ImgBBoxAnnoDatum::Swap(ImgBBoxAnnoDatum* other) {
 }
 void ImgBBoxAnnoDatum::InternalSwap(ImgBBoxAnnoDatum* other) {
   std::swap(img_datum_, other->img_datum_);
-  labels_.UnsafeArenaSwap(&other->labels_);
-  bboxes_.UnsafeArenaSwap(&other->bboxes_);
+  label_.UnsafeArenaSwap(&other->label_);
+  x_min_.UnsafeArenaSwap(&other->x_min_);
+  y_min_.UnsafeArenaSwap(&other->y_min_);
+  x_max_.UnsafeArenaSwap(&other->x_max_);
+  y_max_.UnsafeArenaSwap(&other->y_max_);
   std::swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
@@ -1048,64 +660,154 @@ void ImgBBoxAnnoDatum::set_allocated_img_datum(::caffe::Datum* img_datum) {
   // @@protoc_insertion_point(field_set_allocated:caffe_ext.ImgBBoxAnnoDatum.img_datum)
 }
 
-// repeated int32 labels = 2;
-int ImgBBoxAnnoDatum::labels_size() const {
-  return labels_.size();
+// repeated int32 label = 2;
+int ImgBBoxAnnoDatum::label_size() const {
+  return label_.size();
 }
-void ImgBBoxAnnoDatum::clear_labels() {
-  labels_.Clear();
+void ImgBBoxAnnoDatum::clear_label() {
+  label_.Clear();
 }
-::google::protobuf::int32 ImgBBoxAnnoDatum::labels(int index) const {
-  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.labels)
-  return labels_.Get(index);
+::google::protobuf::int32 ImgBBoxAnnoDatum::label(int index) const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.label)
+  return label_.Get(index);
 }
-void ImgBBoxAnnoDatum::set_labels(int index, ::google::protobuf::int32 value) {
-  labels_.Set(index, value);
-  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.labels)
+void ImgBBoxAnnoDatum::set_label(int index, ::google::protobuf::int32 value) {
+  label_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.label)
 }
-void ImgBBoxAnnoDatum::add_labels(::google::protobuf::int32 value) {
-  labels_.Add(value);
-  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.labels)
+void ImgBBoxAnnoDatum::add_label(::google::protobuf::int32 value) {
+  label_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.label)
 }
 const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-ImgBBoxAnnoDatum::labels() const {
-  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.labels)
-  return labels_;
+ImgBBoxAnnoDatum::label() const {
+  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.label)
+  return label_;
 }
 ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-ImgBBoxAnnoDatum::mutable_labels() {
-  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.labels)
-  return &labels_;
+ImgBBoxAnnoDatum::mutable_label() {
+  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.label)
+  return &label_;
 }
 
-// repeated .caffe_ext.BBox bboxes = 3;
-int ImgBBoxAnnoDatum::bboxes_size() const {
-  return bboxes_.size();
+// repeated float x_min = 3;
+int ImgBBoxAnnoDatum::x_min_size() const {
+  return x_min_.size();
 }
-void ImgBBoxAnnoDatum::clear_bboxes() {
-  bboxes_.Clear();
+void ImgBBoxAnnoDatum::clear_x_min() {
+  x_min_.Clear();
 }
-const ::caffe_ext::BBox& ImgBBoxAnnoDatum::bboxes(int index) const {
-  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.bboxes)
-  return bboxes_.Get(index);
+float ImgBBoxAnnoDatum::x_min(int index) const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.x_min)
+  return x_min_.Get(index);
 }
-::caffe_ext::BBox* ImgBBoxAnnoDatum::mutable_bboxes(int index) {
-  // @@protoc_insertion_point(field_mutable:caffe_ext.ImgBBoxAnnoDatum.bboxes)
-  return bboxes_.Mutable(index);
+void ImgBBoxAnnoDatum::set_x_min(int index, float value) {
+  x_min_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.x_min)
 }
-::caffe_ext::BBox* ImgBBoxAnnoDatum::add_bboxes() {
-  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.bboxes)
-  return bboxes_.Add();
+void ImgBBoxAnnoDatum::add_x_min(float value) {
+  x_min_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.x_min)
 }
-::google::protobuf::RepeatedPtrField< ::caffe_ext::BBox >*
-ImgBBoxAnnoDatum::mutable_bboxes() {
-  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.bboxes)
-  return &bboxes_;
+const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::x_min() const {
+  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.x_min)
+  return x_min_;
 }
-const ::google::protobuf::RepeatedPtrField< ::caffe_ext::BBox >&
-ImgBBoxAnnoDatum::bboxes() const {
-  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.bboxes)
-  return bboxes_;
+::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_x_min() {
+  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.x_min)
+  return &x_min_;
+}
+
+// repeated float y_min = 4;
+int ImgBBoxAnnoDatum::y_min_size() const {
+  return y_min_.size();
+}
+void ImgBBoxAnnoDatum::clear_y_min() {
+  y_min_.Clear();
+}
+float ImgBBoxAnnoDatum::y_min(int index) const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.y_min)
+  return y_min_.Get(index);
+}
+void ImgBBoxAnnoDatum::set_y_min(int index, float value) {
+  y_min_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.y_min)
+}
+void ImgBBoxAnnoDatum::add_y_min(float value) {
+  y_min_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.y_min)
+}
+const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::y_min() const {
+  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.y_min)
+  return y_min_;
+}
+::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_y_min() {
+  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.y_min)
+  return &y_min_;
+}
+
+// repeated float x_max = 5;
+int ImgBBoxAnnoDatum::x_max_size() const {
+  return x_max_.size();
+}
+void ImgBBoxAnnoDatum::clear_x_max() {
+  x_max_.Clear();
+}
+float ImgBBoxAnnoDatum::x_max(int index) const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.x_max)
+  return x_max_.Get(index);
+}
+void ImgBBoxAnnoDatum::set_x_max(int index, float value) {
+  x_max_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.x_max)
+}
+void ImgBBoxAnnoDatum::add_x_max(float value) {
+  x_max_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.x_max)
+}
+const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::x_max() const {
+  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.x_max)
+  return x_max_;
+}
+::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_x_max() {
+  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.x_max)
+  return &x_max_;
+}
+
+// repeated float y_max = 6;
+int ImgBBoxAnnoDatum::y_max_size() const {
+  return y_max_.size();
+}
+void ImgBBoxAnnoDatum::clear_y_max() {
+  y_max_.Clear();
+}
+float ImgBBoxAnnoDatum::y_max(int index) const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.y_max)
+  return y_max_.Get(index);
+}
+void ImgBBoxAnnoDatum::set_y_max(int index, float value) {
+  y_max_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.y_max)
+}
+void ImgBBoxAnnoDatum::add_y_max(float value) {
+  y_max_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.y_max)
+}
+const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::y_max() const {
+  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.y_max)
+  return y_max_;
+}
+::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_y_max() {
+  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.y_max)
+  return &y_max_;
 }
 
 inline const ImgBBoxAnnoDatum* ImgBBoxAnnoDatum::internal_default_instance() {

@@ -38,141 +38,9 @@ void protobuf_InitDefaults_caffe_5fextend_2eproto();
 void protobuf_AssignDesc_caffe_5fextend_2eproto();
 void protobuf_ShutdownFile_caffe_5fextend_2eproto();
 
-class BBox;
 class ImgBBoxAnnoDatum;
 
 // ===================================================================
-
-class BBox : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe_ext.BBox) */ {
- public:
-  BBox();
-  virtual ~BBox();
-
-  BBox(const BBox& from);
-
-  inline BBox& operator=(const BBox& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BBox& default_instance();
-
-  static const BBox* internal_default_instance();
-
-  void Swap(BBox* other);
-
-  // implements Message ----------------------------------------------
-
-  inline BBox* New() const { return New(NULL); }
-
-  BBox* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const BBox& from);
-  void MergeFrom(const BBox& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  size_t ByteSizeLong() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
-    return InternalSerializeWithCachedSizesToArray(false, output);
-  }
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(BBox* other);
-  void UnsafeMergeFrom(const BBox& from);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // required float x_min = 1;
-  bool has_x_min() const;
-  void clear_x_min();
-  static const int kXMinFieldNumber = 1;
-  float x_min() const;
-  void set_x_min(float value);
-
-  // required float y_min = 2;
-  bool has_y_min() const;
-  void clear_y_min();
-  static const int kYMinFieldNumber = 2;
-  float y_min() const;
-  void set_y_min(float value);
-
-  // required float x_max = 3;
-  bool has_x_max() const;
-  void clear_x_max();
-  static const int kXMaxFieldNumber = 3;
-  float x_max() const;
-  void set_x_max(float value);
-
-  // required float y_max = 4;
-  bool has_y_max() const;
-  void clear_y_max();
-  static const int kYMaxFieldNumber = 4;
-  float y_max() const;
-  void set_y_max(float value);
-
-  // @@protoc_insertion_point(class_scope:caffe_ext.BBox)
- private:
-  inline void set_has_x_min();
-  inline void clear_has_x_min();
-  inline void set_has_y_min();
-  inline void clear_has_y_min();
-  inline void set_has_x_max();
-  inline void clear_has_x_max();
-  inline void set_has_y_max();
-  inline void clear_has_y_max();
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  float x_min_;
-  float y_min_;
-  float x_max_;
-  float y_max_;
-  friend void  protobuf_InitDefaults_caffe_5fextend_2eproto_impl();
-  friend void  protobuf_AddDesc_caffe_5fextend_2eproto_impl();
-  friend void protobuf_AssignDesc_caffe_5fextend_2eproto();
-  friend void protobuf_ShutdownFile_caffe_5fextend_2eproto();
-
-  void InitAsDefaultInstance();
-};
-extern ::google::protobuf::internal::ExplicitlyConstructed<BBox> BBox_default_instance_;
-
-// -------------------------------------------------------------------
 
 class ImgBBoxAnnoDatum : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe_ext.ImgBBoxAnnoDatum) */ {
  public:
@@ -254,29 +122,65 @@ class ImgBBoxAnnoDatum : public ::google::protobuf::Message /* @@protoc_insertio
   ::caffe::Datum* release_img_datum();
   void set_allocated_img_datum(::caffe::Datum* img_datum);
 
-  // repeated int32 labels = 2;
-  int labels_size() const;
-  void clear_labels();
-  static const int kLabelsFieldNumber = 2;
-  ::google::protobuf::int32 labels(int index) const;
-  void set_labels(int index, ::google::protobuf::int32 value);
-  void add_labels(::google::protobuf::int32 value);
+  // repeated int32 label = 2;
+  int label_size() const;
+  void clear_label();
+  static const int kLabelFieldNumber = 2;
+  ::google::protobuf::int32 label(int index) const;
+  void set_label(int index, ::google::protobuf::int32 value);
+  void add_label(::google::protobuf::int32 value);
   const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      labels() const;
+      label() const;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-      mutable_labels();
+      mutable_label();
 
-  // repeated .caffe_ext.BBox bboxes = 3;
-  int bboxes_size() const;
-  void clear_bboxes();
-  static const int kBboxesFieldNumber = 3;
-  const ::caffe_ext::BBox& bboxes(int index) const;
-  ::caffe_ext::BBox* mutable_bboxes(int index);
-  ::caffe_ext::BBox* add_bboxes();
-  ::google::protobuf::RepeatedPtrField< ::caffe_ext::BBox >*
-      mutable_bboxes();
-  const ::google::protobuf::RepeatedPtrField< ::caffe_ext::BBox >&
-      bboxes() const;
+  // repeated float x_min = 3;
+  int x_min_size() const;
+  void clear_x_min();
+  static const int kXMinFieldNumber = 3;
+  float x_min(int index) const;
+  void set_x_min(int index, float value);
+  void add_x_min(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      x_min() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_x_min();
+
+  // repeated float y_min = 4;
+  int y_min_size() const;
+  void clear_y_min();
+  static const int kYMinFieldNumber = 4;
+  float y_min(int index) const;
+  void set_y_min(int index, float value);
+  void add_y_min(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      y_min() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_y_min();
+
+  // repeated float x_max = 5;
+  int x_max_size() const;
+  void clear_x_max();
+  static const int kXMaxFieldNumber = 5;
+  float x_max(int index) const;
+  void set_x_max(int index, float value);
+  void add_x_max(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      x_max() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_x_max();
+
+  // repeated float y_max = 6;
+  int y_max_size() const;
+  void clear_y_max();
+  static const int kYMaxFieldNumber = 6;
+  float y_max(int index) const;
+  void set_y_max(int index, float value);
+  void add_y_max(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      y_max() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_y_max();
 
   // @@protoc_insertion_point(class_scope:caffe_ext.ImgBBoxAnnoDatum)
  private:
@@ -286,8 +190,11 @@ class ImgBBoxAnnoDatum : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > labels_;
-  ::google::protobuf::RepeatedPtrField< ::caffe_ext::BBox > bboxes_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > label_;
+  ::google::protobuf::RepeatedField< float > x_min_;
+  ::google::protobuf::RepeatedField< float > y_min_;
+  ::google::protobuf::RepeatedField< float > x_max_;
+  ::google::protobuf::RepeatedField< float > y_max_;
   ::caffe::Datum* img_datum_;
   friend void  protobuf_InitDefaults_caffe_5fextend_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_5fextend_2eproto_impl();
@@ -304,109 +211,6 @@ extern ::google::protobuf::internal::ExplicitlyConstructed<ImgBBoxAnnoDatum> Img
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
-// BBox
-
-// required float x_min = 1;
-inline bool BBox::has_x_min() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void BBox::set_has_x_min() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void BBox::clear_has_x_min() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void BBox::clear_x_min() {
-  x_min_ = 0;
-  clear_has_x_min();
-}
-inline float BBox::x_min() const {
-  // @@protoc_insertion_point(field_get:caffe_ext.BBox.x_min)
-  return x_min_;
-}
-inline void BBox::set_x_min(float value) {
-  set_has_x_min();
-  x_min_ = value;
-  // @@protoc_insertion_point(field_set:caffe_ext.BBox.x_min)
-}
-
-// required float y_min = 2;
-inline bool BBox::has_y_min() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void BBox::set_has_y_min() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void BBox::clear_has_y_min() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void BBox::clear_y_min() {
-  y_min_ = 0;
-  clear_has_y_min();
-}
-inline float BBox::y_min() const {
-  // @@protoc_insertion_point(field_get:caffe_ext.BBox.y_min)
-  return y_min_;
-}
-inline void BBox::set_y_min(float value) {
-  set_has_y_min();
-  y_min_ = value;
-  // @@protoc_insertion_point(field_set:caffe_ext.BBox.y_min)
-}
-
-// required float x_max = 3;
-inline bool BBox::has_x_max() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void BBox::set_has_x_max() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void BBox::clear_has_x_max() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void BBox::clear_x_max() {
-  x_max_ = 0;
-  clear_has_x_max();
-}
-inline float BBox::x_max() const {
-  // @@protoc_insertion_point(field_get:caffe_ext.BBox.x_max)
-  return x_max_;
-}
-inline void BBox::set_x_max(float value) {
-  set_has_x_max();
-  x_max_ = value;
-  // @@protoc_insertion_point(field_set:caffe_ext.BBox.x_max)
-}
-
-// required float y_max = 4;
-inline bool BBox::has_y_max() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-inline void BBox::set_has_y_max() {
-  _has_bits_[0] |= 0x00000008u;
-}
-inline void BBox::clear_has_y_max() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-inline void BBox::clear_y_max() {
-  y_max_ = 0;
-  clear_has_y_max();
-}
-inline float BBox::y_max() const {
-  // @@protoc_insertion_point(field_get:caffe_ext.BBox.y_max)
-  return y_max_;
-}
-inline void BBox::set_y_max(float value) {
-  set_has_y_max();
-  y_max_ = value;
-  // @@protoc_insertion_point(field_set:caffe_ext.BBox.y_max)
-}
-
-inline const BBox* BBox::internal_default_instance() {
-  return &BBox_default_instance_.get();
-}
-// -------------------------------------------------------------------
-
 // ImgBBoxAnnoDatum
 
 // required .caffe.Datum img_datum = 1;
@@ -454,72 +258,160 @@ inline void ImgBBoxAnnoDatum::set_allocated_img_datum(::caffe::Datum* img_datum)
   // @@protoc_insertion_point(field_set_allocated:caffe_ext.ImgBBoxAnnoDatum.img_datum)
 }
 
-// repeated int32 labels = 2;
-inline int ImgBBoxAnnoDatum::labels_size() const {
-  return labels_.size();
+// repeated int32 label = 2;
+inline int ImgBBoxAnnoDatum::label_size() const {
+  return label_.size();
 }
-inline void ImgBBoxAnnoDatum::clear_labels() {
-  labels_.Clear();
+inline void ImgBBoxAnnoDatum::clear_label() {
+  label_.Clear();
 }
-inline ::google::protobuf::int32 ImgBBoxAnnoDatum::labels(int index) const {
-  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.labels)
-  return labels_.Get(index);
+inline ::google::protobuf::int32 ImgBBoxAnnoDatum::label(int index) const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.label)
+  return label_.Get(index);
 }
-inline void ImgBBoxAnnoDatum::set_labels(int index, ::google::protobuf::int32 value) {
-  labels_.Set(index, value);
-  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.labels)
+inline void ImgBBoxAnnoDatum::set_label(int index, ::google::protobuf::int32 value) {
+  label_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.label)
 }
-inline void ImgBBoxAnnoDatum::add_labels(::google::protobuf::int32 value) {
-  labels_.Add(value);
-  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.labels)
+inline void ImgBBoxAnnoDatum::add_label(::google::protobuf::int32 value) {
+  label_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.label)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-ImgBBoxAnnoDatum::labels() const {
-  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.labels)
-  return labels_;
+ImgBBoxAnnoDatum::label() const {
+  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.label)
+  return label_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-ImgBBoxAnnoDatum::mutable_labels() {
-  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.labels)
-  return &labels_;
+ImgBBoxAnnoDatum::mutable_label() {
+  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.label)
+  return &label_;
 }
 
-// repeated .caffe_ext.BBox bboxes = 3;
-inline int ImgBBoxAnnoDatum::bboxes_size() const {
-  return bboxes_.size();
+// repeated float x_min = 3;
+inline int ImgBBoxAnnoDatum::x_min_size() const {
+  return x_min_.size();
 }
-inline void ImgBBoxAnnoDatum::clear_bboxes() {
-  bboxes_.Clear();
+inline void ImgBBoxAnnoDatum::clear_x_min() {
+  x_min_.Clear();
 }
-inline const ::caffe_ext::BBox& ImgBBoxAnnoDatum::bboxes(int index) const {
-  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.bboxes)
-  return bboxes_.Get(index);
+inline float ImgBBoxAnnoDatum::x_min(int index) const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.x_min)
+  return x_min_.Get(index);
 }
-inline ::caffe_ext::BBox* ImgBBoxAnnoDatum::mutable_bboxes(int index) {
-  // @@protoc_insertion_point(field_mutable:caffe_ext.ImgBBoxAnnoDatum.bboxes)
-  return bboxes_.Mutable(index);
+inline void ImgBBoxAnnoDatum::set_x_min(int index, float value) {
+  x_min_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.x_min)
 }
-inline ::caffe_ext::BBox* ImgBBoxAnnoDatum::add_bboxes() {
-  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.bboxes)
-  return bboxes_.Add();
+inline void ImgBBoxAnnoDatum::add_x_min(float value) {
+  x_min_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.x_min)
 }
-inline ::google::protobuf::RepeatedPtrField< ::caffe_ext::BBox >*
-ImgBBoxAnnoDatum::mutable_bboxes() {
-  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.bboxes)
-  return &bboxes_;
+inline const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::x_min() const {
+  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.x_min)
+  return x_min_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::caffe_ext::BBox >&
-ImgBBoxAnnoDatum::bboxes() const {
-  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.bboxes)
-  return bboxes_;
+inline ::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_x_min() {
+  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.x_min)
+  return &x_min_;
+}
+
+// repeated float y_min = 4;
+inline int ImgBBoxAnnoDatum::y_min_size() const {
+  return y_min_.size();
+}
+inline void ImgBBoxAnnoDatum::clear_y_min() {
+  y_min_.Clear();
+}
+inline float ImgBBoxAnnoDatum::y_min(int index) const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.y_min)
+  return y_min_.Get(index);
+}
+inline void ImgBBoxAnnoDatum::set_y_min(int index, float value) {
+  y_min_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.y_min)
+}
+inline void ImgBBoxAnnoDatum::add_y_min(float value) {
+  y_min_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.y_min)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::y_min() const {
+  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.y_min)
+  return y_min_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_y_min() {
+  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.y_min)
+  return &y_min_;
+}
+
+// repeated float x_max = 5;
+inline int ImgBBoxAnnoDatum::x_max_size() const {
+  return x_max_.size();
+}
+inline void ImgBBoxAnnoDatum::clear_x_max() {
+  x_max_.Clear();
+}
+inline float ImgBBoxAnnoDatum::x_max(int index) const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.x_max)
+  return x_max_.Get(index);
+}
+inline void ImgBBoxAnnoDatum::set_x_max(int index, float value) {
+  x_max_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.x_max)
+}
+inline void ImgBBoxAnnoDatum::add_x_max(float value) {
+  x_max_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.x_max)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::x_max() const {
+  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.x_max)
+  return x_max_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_x_max() {
+  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.x_max)
+  return &x_max_;
+}
+
+// repeated float y_max = 6;
+inline int ImgBBoxAnnoDatum::y_max_size() const {
+  return y_max_.size();
+}
+inline void ImgBBoxAnnoDatum::clear_y_max() {
+  y_max_.Clear();
+}
+inline float ImgBBoxAnnoDatum::y_max(int index) const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoDatum.y_max)
+  return y_max_.Get(index);
+}
+inline void ImgBBoxAnnoDatum::set_y_max(int index, float value) {
+  y_max_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoDatum.y_max)
+}
+inline void ImgBBoxAnnoDatum::add_y_max(float value) {
+  y_max_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe_ext.ImgBBoxAnnoDatum.y_max)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::y_max() const {
+  // @@protoc_insertion_point(field_list:caffe_ext.ImgBBoxAnnoDatum.y_max)
+  return y_max_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_y_max() {
+  // @@protoc_insertion_point(field_mutable_list:caffe_ext.ImgBBoxAnnoDatum.y_max)
+  return &y_max_;
 }
 
 inline const ImgBBoxAnnoDatum* ImgBBoxAnnoDatum::internal_default_instance() {
   return &ImgBBoxAnnoDatum_default_instance_.get();
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 
