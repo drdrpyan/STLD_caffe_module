@@ -24,6 +24,18 @@ namespace {
 const ::google::protobuf::Descriptor* ImgBBoxAnnoDatum_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   ImgBBoxAnnoDatum_reflection_ = NULL;
+const ::google::protobuf::Descriptor* ImgBBoxAnnoParameter_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  ImgBBoxAnnoParameter_reflection_ = NULL;
+const ::google::protobuf::Descriptor* HeatmapConcatParameter_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  HeatmapConcatParameter_reflection_ = NULL;
+const ::google::protobuf::Descriptor* BBoxToLabelmapParameter_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  BBoxToLabelmapParameter_reflection_ = NULL;
+const ::google::protobuf::Descriptor* ExtendedLayerParameter_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  ExtendedLayerParameter_reflection_ = NULL;
 
 }  // namespace
 
@@ -54,6 +66,69 @@ void protobuf_AssignDesc_caffe_5fextend_2eproto() {
       -1,
       sizeof(ImgBBoxAnnoDatum),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoDatum, _internal_metadata_));
+  ImgBBoxAnnoParameter_descriptor_ = file->message_type(1);
+  static const int ImgBBoxAnnoParameter_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoParameter, img_height_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoParameter, img_width_),
+  };
+  ImgBBoxAnnoParameter_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      ImgBBoxAnnoParameter_descriptor_,
+      ImgBBoxAnnoParameter::internal_default_instance(),
+      ImgBBoxAnnoParameter_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoParameter, _has_bits_),
+      -1,
+      -1,
+      sizeof(ImgBBoxAnnoParameter),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoParameter, _internal_metadata_));
+  HeatmapConcatParameter_descriptor_ = file->message_type(2);
+  static const int HeatmapConcatParameter_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HeatmapConcatParameter, heatmap_file_),
+  };
+  HeatmapConcatParameter_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      HeatmapConcatParameter_descriptor_,
+      HeatmapConcatParameter::internal_default_instance(),
+      HeatmapConcatParameter_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HeatmapConcatParameter, _has_bits_),
+      -1,
+      -1,
+      sizeof(HeatmapConcatParameter),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HeatmapConcatParameter, _internal_metadata_));
+  BBoxToLabelmapParameter_descriptor_ = file->message_type(3);
+  static const int BBoxToLabelmapParameter_offsets_[4] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxToLabelmapParameter, img_height_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxToLabelmapParameter, img_width_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxToLabelmapParameter, h_stride_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxToLabelmapParameter, v_stride_),
+  };
+  BBoxToLabelmapParameter_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      BBoxToLabelmapParameter_descriptor_,
+      BBoxToLabelmapParameter::internal_default_instance(),
+      BBoxToLabelmapParameter_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxToLabelmapParameter, _has_bits_),
+      -1,
+      -1,
+      sizeof(BBoxToLabelmapParameter),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxToLabelmapParameter, _internal_metadata_));
+  ExtendedLayerParameter_descriptor_ = file->message_type(4);
+  static const int ExtendedLayerParameter_offsets_[4] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExtendedLayerParameter, layer_param_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExtendedLayerParameter, img_bbox_anno_param_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExtendedLayerParameter, heatmap_concat_param_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExtendedLayerParameter, bbox_to_labelmap_param_),
+  };
+  ExtendedLayerParameter_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      ExtendedLayerParameter_descriptor_,
+      ExtendedLayerParameter::internal_default_instance(),
+      ExtendedLayerParameter_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExtendedLayerParameter, _has_bits_),
+      -1,
+      -1,
+      sizeof(ExtendedLayerParameter),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExtendedLayerParameter, _internal_metadata_));
 }
 
 namespace {
@@ -69,6 +144,14 @@ void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       ImgBBoxAnnoDatum_descriptor_, ImgBBoxAnnoDatum::internal_default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      ImgBBoxAnnoParameter_descriptor_, ImgBBoxAnnoParameter::internal_default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      HeatmapConcatParameter_descriptor_, HeatmapConcatParameter::internal_default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      BBoxToLabelmapParameter_descriptor_, BBoxToLabelmapParameter::internal_default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      ExtendedLayerParameter_descriptor_, ExtendedLayerParameter::internal_default_instance());
 }
 
 }  // namespace
@@ -76,6 +159,14 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void protobuf_ShutdownFile_caffe_5fextend_2eproto() {
   ImgBBoxAnnoDatum_default_instance_.Shutdown();
   delete ImgBBoxAnnoDatum_reflection_;
+  ImgBBoxAnnoParameter_default_instance_.Shutdown();
+  delete ImgBBoxAnnoParameter_reflection_;
+  HeatmapConcatParameter_default_instance_.Shutdown();
+  delete HeatmapConcatParameter_reflection_;
+  BBoxToLabelmapParameter_default_instance_.Shutdown();
+  delete BBoxToLabelmapParameter_reflection_;
+  ExtendedLayerParameter_default_instance_.Shutdown();
+  delete ExtendedLayerParameter_reflection_;
 }
 
 void protobuf_InitDefaults_caffe_5fextend_2eproto_impl() {
@@ -83,7 +174,16 @@ void protobuf_InitDefaults_caffe_5fextend_2eproto_impl() {
 
   ::caffe::protobuf_InitDefaults_caffe_2eproto();
   ImgBBoxAnnoDatum_default_instance_.DefaultConstruct();
+  ImgBBoxAnnoParameter_default_instance_.DefaultConstruct();
+  ::google::protobuf::internal::GetEmptyString();
+  HeatmapConcatParameter_default_instance_.DefaultConstruct();
+  BBoxToLabelmapParameter_default_instance_.DefaultConstruct();
+  ExtendedLayerParameter_default_instance_.DefaultConstruct();
   ImgBBoxAnnoDatum_default_instance_.get_mutable()->InitAsDefaultInstance();
+  ImgBBoxAnnoParameter_default_instance_.get_mutable()->InitAsDefaultInstance();
+  HeatmapConcatParameter_default_instance_.get_mutable()->InitAsDefaultInstance();
+  BBoxToLabelmapParameter_default_instance_.get_mutable()->InitAsDefaultInstance();
+  ExtendedLayerParameter_default_instance_.get_mutable()->InitAsDefaultInstance();
 }
 
 GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_InitDefaults_caffe_5fextend_2eproto_once_);
@@ -100,7 +200,19 @@ void protobuf_AddDesc_caffe_5fextend_2eproto_impl() {
     "roto/caffe.proto\"~\n\020ImgBBoxAnnoDatum\022\037\n\t"
     "img_datum\030\001 \002(\0132\014.caffe.Datum\022\r\n\005label\030\002"
     " \003(\005\022\r\n\005x_min\030\003 \003(\002\022\r\n\005y_min\030\004 \003(\002\022\r\n\005x_"
-    "max\030\005 \003(\002\022\r\n\005y_max\030\006 \003(\002", 184);
+    "max\030\005 \003(\002\022\r\n\005y_max\030\006 \003(\002\"=\n\024ImgBBoxAnnoP"
+    "arameter\022\022\n\nimg_height\030\001 \002(\005\022\021\n\timg_widt"
+    "h\030\002 \002(\005\".\n\026HeatmapConcatParameter\022\024\n\014hea"
+    "tmap_file\030\001 \002(\t\"d\n\027BBoxToLabelmapParamet"
+    "er\022\022\n\nimg_height\030\001 \002(\005\022\021\n\timg_width\030\002 \002("
+    "\005\022\020\n\010h_stride\030\003 \002(\005\022\020\n\010v_stride\030\004 \002(\005\"\207\002"
+    "\n\026ExtendedLayerParameter\022*\n\013layer_param\030"
+    "\001 \002(\0132\025.caffe.LayerParameter\022<\n\023img_bbox"
+    "_anno_param\030\002 \001(\0132\037.caffe_ext.ImgBBoxAnn"
+    "oParameter\022\?\n\024heatmap_concat_param\030\003 \001(\013"
+    "2!.caffe_ext.HeatmapConcatParameter\022B\n\026b"
+    "box_to_labelmap_param\030\004 \001(\0132\".caffe_ext."
+    "BBoxToLabelmapParameter", 663);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "caffe_extend.proto", &protobuf_RegisterTypes);
   ::caffe::protobuf_AddDesc_caffe_2eproto();
@@ -812,6 +924,1819 @@ ImgBBoxAnnoDatum::mutable_y_max() {
 
 inline const ImgBBoxAnnoDatum* ImgBBoxAnnoDatum::internal_default_instance() {
   return &ImgBBoxAnnoDatum_default_instance_.get();
+}
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int ImgBBoxAnnoParameter::kImgHeightFieldNumber;
+const int ImgBBoxAnnoParameter::kImgWidthFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+ImgBBoxAnnoParameter::ImgBBoxAnnoParameter()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (this != internal_default_instance()) protobuf_InitDefaults_caffe_5fextend_2eproto();
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:caffe_ext.ImgBBoxAnnoParameter)
+}
+
+void ImgBBoxAnnoParameter::InitAsDefaultInstance() {
+}
+
+ImgBBoxAnnoParameter::ImgBBoxAnnoParameter(const ImgBBoxAnnoParameter& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  UnsafeMergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:caffe_ext.ImgBBoxAnnoParameter)
+}
+
+void ImgBBoxAnnoParameter::SharedCtor() {
+  _cached_size_ = 0;
+  ::memset(&img_height_, 0, reinterpret_cast<char*>(&img_width_) -
+    reinterpret_cast<char*>(&img_height_) + sizeof(img_width_));
+}
+
+ImgBBoxAnnoParameter::~ImgBBoxAnnoParameter() {
+  // @@protoc_insertion_point(destructor:caffe_ext.ImgBBoxAnnoParameter)
+  SharedDtor();
+}
+
+void ImgBBoxAnnoParameter::SharedDtor() {
+}
+
+void ImgBBoxAnnoParameter::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* ImgBBoxAnnoParameter::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return ImgBBoxAnnoParameter_descriptor_;
+}
+
+const ImgBBoxAnnoParameter& ImgBBoxAnnoParameter::default_instance() {
+  protobuf_InitDefaults_caffe_5fextend_2eproto();
+  return *internal_default_instance();
+}
+
+::google::protobuf::internal::ExplicitlyConstructed<ImgBBoxAnnoParameter> ImgBBoxAnnoParameter_default_instance_;
+
+ImgBBoxAnnoParameter* ImgBBoxAnnoParameter::New(::google::protobuf::Arena* arena) const {
+  ImgBBoxAnnoParameter* n = new ImgBBoxAnnoParameter;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void ImgBBoxAnnoParameter::Clear() {
+// @@protoc_insertion_point(message_clear_start:caffe_ext.ImgBBoxAnnoParameter)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(ImgBBoxAnnoParameter, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<ImgBBoxAnnoParameter*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&(first), 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  ZR_(img_height_, img_width_);
+
+#undef ZR_HELPER_
+#undef ZR_
+
+  _has_bits_.Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
+}
+
+bool ImgBBoxAnnoParameter::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:caffe_ext.ImgBBoxAnnoParameter)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required int32 img_height = 1;
+      case 1: {
+        if (tag == 8) {
+          set_has_img_height();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &img_height_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(16)) goto parse_img_width;
+        break;
+      }
+
+      // required int32 img_width = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_img_width:
+          set_has_img_width();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &img_width_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:caffe_ext.ImgBBoxAnnoParameter)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:caffe_ext.ImgBBoxAnnoParameter)
+  return false;
+#undef DO_
+}
+
+void ImgBBoxAnnoParameter::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:caffe_ext.ImgBBoxAnnoParameter)
+  // required int32 img_height = 1;
+  if (has_img_height()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->img_height(), output);
+  }
+
+  // required int32 img_width = 2;
+  if (has_img_width()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->img_width(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:caffe_ext.ImgBBoxAnnoParameter)
+}
+
+::google::protobuf::uint8* ImgBBoxAnnoParameter::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:caffe_ext.ImgBBoxAnnoParameter)
+  // required int32 img_height = 1;
+  if (has_img_height()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->img_height(), target);
+  }
+
+  // required int32 img_width = 2;
+  if (has_img_width()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->img_width(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:caffe_ext.ImgBBoxAnnoParameter)
+  return target;
+}
+
+size_t ImgBBoxAnnoParameter::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:caffe_ext.ImgBBoxAnnoParameter)
+  size_t total_size = 0;
+
+  if (has_img_height()) {
+    // required int32 img_height = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->img_height());
+  }
+
+  if (has_img_width()) {
+    // required int32 img_width = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->img_width());
+  }
+
+  return total_size;
+}
+size_t ImgBBoxAnnoParameter::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:caffe_ext.ImgBBoxAnnoParameter)
+  size_t total_size = 0;
+
+  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
+    // required int32 img_height = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->img_height());
+
+    // required int32 img_width = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->img_width());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void ImgBBoxAnnoParameter::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:caffe_ext.ImgBBoxAnnoParameter)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const ImgBBoxAnnoParameter* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const ImgBBoxAnnoParameter>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:caffe_ext.ImgBBoxAnnoParameter)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:caffe_ext.ImgBBoxAnnoParameter)
+    UnsafeMergeFrom(*source);
+  }
+}
+
+void ImgBBoxAnnoParameter::MergeFrom(const ImgBBoxAnnoParameter& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:caffe_ext.ImgBBoxAnnoParameter)
+  if (GOOGLE_PREDICT_TRUE(&from != this)) {
+    UnsafeMergeFrom(from);
+  } else {
+    MergeFromFail(__LINE__);
+  }
+}
+
+void ImgBBoxAnnoParameter::UnsafeMergeFrom(const ImgBBoxAnnoParameter& from) {
+  GOOGLE_DCHECK(&from != this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_img_height()) {
+      set_img_height(from.img_height());
+    }
+    if (from.has_img_width()) {
+      set_img_width(from.img_width());
+    }
+  }
+  if (from._internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::UnknownFieldSet::MergeToInternalMetdata(
+      from.unknown_fields(), &_internal_metadata_);
+  }
+}
+
+void ImgBBoxAnnoParameter::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:caffe_ext.ImgBBoxAnnoParameter)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ImgBBoxAnnoParameter::CopyFrom(const ImgBBoxAnnoParameter& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:caffe_ext.ImgBBoxAnnoParameter)
+  if (&from == this) return;
+  Clear();
+  UnsafeMergeFrom(from);
+}
+
+bool ImgBBoxAnnoParameter::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  return true;
+}
+
+void ImgBBoxAnnoParameter::Swap(ImgBBoxAnnoParameter* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void ImgBBoxAnnoParameter::InternalSwap(ImgBBoxAnnoParameter* other) {
+  std::swap(img_height_, other->img_height_);
+  std::swap(img_width_, other->img_width_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata ImgBBoxAnnoParameter::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = ImgBBoxAnnoParameter_descriptor_;
+  metadata.reflection = ImgBBoxAnnoParameter_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// ImgBBoxAnnoParameter
+
+// required int32 img_height = 1;
+bool ImgBBoxAnnoParameter::has_img_height() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void ImgBBoxAnnoParameter::set_has_img_height() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void ImgBBoxAnnoParameter::clear_has_img_height() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void ImgBBoxAnnoParameter::clear_img_height() {
+  img_height_ = 0;
+  clear_has_img_height();
+}
+::google::protobuf::int32 ImgBBoxAnnoParameter::img_height() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoParameter.img_height)
+  return img_height_;
+}
+void ImgBBoxAnnoParameter::set_img_height(::google::protobuf::int32 value) {
+  set_has_img_height();
+  img_height_ = value;
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoParameter.img_height)
+}
+
+// required int32 img_width = 2;
+bool ImgBBoxAnnoParameter::has_img_width() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void ImgBBoxAnnoParameter::set_has_img_width() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void ImgBBoxAnnoParameter::clear_has_img_width() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void ImgBBoxAnnoParameter::clear_img_width() {
+  img_width_ = 0;
+  clear_has_img_width();
+}
+::google::protobuf::int32 ImgBBoxAnnoParameter::img_width() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoParameter.img_width)
+  return img_width_;
+}
+void ImgBBoxAnnoParameter::set_img_width(::google::protobuf::int32 value) {
+  set_has_img_width();
+  img_width_ = value;
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoParameter.img_width)
+}
+
+inline const ImgBBoxAnnoParameter* ImgBBoxAnnoParameter::internal_default_instance() {
+  return &ImgBBoxAnnoParameter_default_instance_.get();
+}
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int HeatmapConcatParameter::kHeatmapFileFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+HeatmapConcatParameter::HeatmapConcatParameter()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (this != internal_default_instance()) protobuf_InitDefaults_caffe_5fextend_2eproto();
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:caffe_ext.HeatmapConcatParameter)
+}
+
+void HeatmapConcatParameter::InitAsDefaultInstance() {
+}
+
+HeatmapConcatParameter::HeatmapConcatParameter(const HeatmapConcatParameter& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  UnsafeMergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:caffe_ext.HeatmapConcatParameter)
+}
+
+void HeatmapConcatParameter::SharedCtor() {
+  _cached_size_ = 0;
+  heatmap_file_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+HeatmapConcatParameter::~HeatmapConcatParameter() {
+  // @@protoc_insertion_point(destructor:caffe_ext.HeatmapConcatParameter)
+  SharedDtor();
+}
+
+void HeatmapConcatParameter::SharedDtor() {
+  heatmap_file_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void HeatmapConcatParameter::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* HeatmapConcatParameter::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return HeatmapConcatParameter_descriptor_;
+}
+
+const HeatmapConcatParameter& HeatmapConcatParameter::default_instance() {
+  protobuf_InitDefaults_caffe_5fextend_2eproto();
+  return *internal_default_instance();
+}
+
+::google::protobuf::internal::ExplicitlyConstructed<HeatmapConcatParameter> HeatmapConcatParameter_default_instance_;
+
+HeatmapConcatParameter* HeatmapConcatParameter::New(::google::protobuf::Arena* arena) const {
+  HeatmapConcatParameter* n = new HeatmapConcatParameter;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void HeatmapConcatParameter::Clear() {
+// @@protoc_insertion_point(message_clear_start:caffe_ext.HeatmapConcatParameter)
+  if (has_heatmap_file()) {
+    heatmap_file_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  _has_bits_.Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
+}
+
+bool HeatmapConcatParameter::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:caffe_ext.HeatmapConcatParameter)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string heatmap_file = 1;
+      case 1: {
+        if (tag == 10) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_heatmap_file()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->heatmap_file().data(), this->heatmap_file().length(),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "caffe_ext.HeatmapConcatParameter.heatmap_file");
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:caffe_ext.HeatmapConcatParameter)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:caffe_ext.HeatmapConcatParameter)
+  return false;
+#undef DO_
+}
+
+void HeatmapConcatParameter::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:caffe_ext.HeatmapConcatParameter)
+  // required string heatmap_file = 1;
+  if (has_heatmap_file()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->heatmap_file().data(), this->heatmap_file().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "caffe_ext.HeatmapConcatParameter.heatmap_file");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->heatmap_file(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:caffe_ext.HeatmapConcatParameter)
+}
+
+::google::protobuf::uint8* HeatmapConcatParameter::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:caffe_ext.HeatmapConcatParameter)
+  // required string heatmap_file = 1;
+  if (has_heatmap_file()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->heatmap_file().data(), this->heatmap_file().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "caffe_ext.HeatmapConcatParameter.heatmap_file");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->heatmap_file(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:caffe_ext.HeatmapConcatParameter)
+  return target;
+}
+
+size_t HeatmapConcatParameter::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:caffe_ext.HeatmapConcatParameter)
+  size_t total_size = 0;
+
+  // required string heatmap_file = 1;
+  if (has_heatmap_file()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->heatmap_file());
+  }
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void HeatmapConcatParameter::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:caffe_ext.HeatmapConcatParameter)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const HeatmapConcatParameter* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const HeatmapConcatParameter>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:caffe_ext.HeatmapConcatParameter)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:caffe_ext.HeatmapConcatParameter)
+    UnsafeMergeFrom(*source);
+  }
+}
+
+void HeatmapConcatParameter::MergeFrom(const HeatmapConcatParameter& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:caffe_ext.HeatmapConcatParameter)
+  if (GOOGLE_PREDICT_TRUE(&from != this)) {
+    UnsafeMergeFrom(from);
+  } else {
+    MergeFromFail(__LINE__);
+  }
+}
+
+void HeatmapConcatParameter::UnsafeMergeFrom(const HeatmapConcatParameter& from) {
+  GOOGLE_DCHECK(&from != this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_heatmap_file()) {
+      set_has_heatmap_file();
+      heatmap_file_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.heatmap_file_);
+    }
+  }
+  if (from._internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::UnknownFieldSet::MergeToInternalMetdata(
+      from.unknown_fields(), &_internal_metadata_);
+  }
+}
+
+void HeatmapConcatParameter::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:caffe_ext.HeatmapConcatParameter)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void HeatmapConcatParameter::CopyFrom(const HeatmapConcatParameter& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:caffe_ext.HeatmapConcatParameter)
+  if (&from == this) return;
+  Clear();
+  UnsafeMergeFrom(from);
+}
+
+bool HeatmapConcatParameter::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+
+  return true;
+}
+
+void HeatmapConcatParameter::Swap(HeatmapConcatParameter* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void HeatmapConcatParameter::InternalSwap(HeatmapConcatParameter* other) {
+  heatmap_file_.Swap(&other->heatmap_file_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata HeatmapConcatParameter::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = HeatmapConcatParameter_descriptor_;
+  metadata.reflection = HeatmapConcatParameter_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// HeatmapConcatParameter
+
+// required string heatmap_file = 1;
+bool HeatmapConcatParameter::has_heatmap_file() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void HeatmapConcatParameter::set_has_heatmap_file() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void HeatmapConcatParameter::clear_has_heatmap_file() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void HeatmapConcatParameter::clear_heatmap_file() {
+  heatmap_file_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_heatmap_file();
+}
+const ::std::string& HeatmapConcatParameter::heatmap_file() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.HeatmapConcatParameter.heatmap_file)
+  return heatmap_file_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void HeatmapConcatParameter::set_heatmap_file(const ::std::string& value) {
+  set_has_heatmap_file();
+  heatmap_file_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:caffe_ext.HeatmapConcatParameter.heatmap_file)
+}
+void HeatmapConcatParameter::set_heatmap_file(const char* value) {
+  set_has_heatmap_file();
+  heatmap_file_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:caffe_ext.HeatmapConcatParameter.heatmap_file)
+}
+void HeatmapConcatParameter::set_heatmap_file(const char* value, size_t size) {
+  set_has_heatmap_file();
+  heatmap_file_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:caffe_ext.HeatmapConcatParameter.heatmap_file)
+}
+::std::string* HeatmapConcatParameter::mutable_heatmap_file() {
+  set_has_heatmap_file();
+  // @@protoc_insertion_point(field_mutable:caffe_ext.HeatmapConcatParameter.heatmap_file)
+  return heatmap_file_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* HeatmapConcatParameter::release_heatmap_file() {
+  // @@protoc_insertion_point(field_release:caffe_ext.HeatmapConcatParameter.heatmap_file)
+  clear_has_heatmap_file();
+  return heatmap_file_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void HeatmapConcatParameter::set_allocated_heatmap_file(::std::string* heatmap_file) {
+  if (heatmap_file != NULL) {
+    set_has_heatmap_file();
+  } else {
+    clear_has_heatmap_file();
+  }
+  heatmap_file_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), heatmap_file);
+  // @@protoc_insertion_point(field_set_allocated:caffe_ext.HeatmapConcatParameter.heatmap_file)
+}
+
+inline const HeatmapConcatParameter* HeatmapConcatParameter::internal_default_instance() {
+  return &HeatmapConcatParameter_default_instance_.get();
+}
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int BBoxToLabelmapParameter::kImgHeightFieldNumber;
+const int BBoxToLabelmapParameter::kImgWidthFieldNumber;
+const int BBoxToLabelmapParameter::kHStrideFieldNumber;
+const int BBoxToLabelmapParameter::kVStrideFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+BBoxToLabelmapParameter::BBoxToLabelmapParameter()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (this != internal_default_instance()) protobuf_InitDefaults_caffe_5fextend_2eproto();
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:caffe_ext.BBoxToLabelmapParameter)
+}
+
+void BBoxToLabelmapParameter::InitAsDefaultInstance() {
+}
+
+BBoxToLabelmapParameter::BBoxToLabelmapParameter(const BBoxToLabelmapParameter& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  UnsafeMergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:caffe_ext.BBoxToLabelmapParameter)
+}
+
+void BBoxToLabelmapParameter::SharedCtor() {
+  _cached_size_ = 0;
+  ::memset(&img_height_, 0, reinterpret_cast<char*>(&v_stride_) -
+    reinterpret_cast<char*>(&img_height_) + sizeof(v_stride_));
+}
+
+BBoxToLabelmapParameter::~BBoxToLabelmapParameter() {
+  // @@protoc_insertion_point(destructor:caffe_ext.BBoxToLabelmapParameter)
+  SharedDtor();
+}
+
+void BBoxToLabelmapParameter::SharedDtor() {
+}
+
+void BBoxToLabelmapParameter::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* BBoxToLabelmapParameter::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return BBoxToLabelmapParameter_descriptor_;
+}
+
+const BBoxToLabelmapParameter& BBoxToLabelmapParameter::default_instance() {
+  protobuf_InitDefaults_caffe_5fextend_2eproto();
+  return *internal_default_instance();
+}
+
+::google::protobuf::internal::ExplicitlyConstructed<BBoxToLabelmapParameter> BBoxToLabelmapParameter_default_instance_;
+
+BBoxToLabelmapParameter* BBoxToLabelmapParameter::New(::google::protobuf::Arena* arena) const {
+  BBoxToLabelmapParameter* n = new BBoxToLabelmapParameter;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void BBoxToLabelmapParameter::Clear() {
+// @@protoc_insertion_point(message_clear_start:caffe_ext.BBoxToLabelmapParameter)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(BBoxToLabelmapParameter, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<BBoxToLabelmapParameter*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&(first), 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  ZR_(img_height_, v_stride_);
+
+#undef ZR_HELPER_
+#undef ZR_
+
+  _has_bits_.Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
+}
+
+bool BBoxToLabelmapParameter::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:caffe_ext.BBoxToLabelmapParameter)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required int32 img_height = 1;
+      case 1: {
+        if (tag == 8) {
+          set_has_img_height();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &img_height_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(16)) goto parse_img_width;
+        break;
+      }
+
+      // required int32 img_width = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_img_width:
+          set_has_img_width();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &img_width_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(24)) goto parse_h_stride;
+        break;
+      }
+
+      // required int32 h_stride = 3;
+      case 3: {
+        if (tag == 24) {
+         parse_h_stride:
+          set_has_h_stride();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &h_stride_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(32)) goto parse_v_stride;
+        break;
+      }
+
+      // required int32 v_stride = 4;
+      case 4: {
+        if (tag == 32) {
+         parse_v_stride:
+          set_has_v_stride();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &v_stride_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:caffe_ext.BBoxToLabelmapParameter)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:caffe_ext.BBoxToLabelmapParameter)
+  return false;
+#undef DO_
+}
+
+void BBoxToLabelmapParameter::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:caffe_ext.BBoxToLabelmapParameter)
+  // required int32 img_height = 1;
+  if (has_img_height()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->img_height(), output);
+  }
+
+  // required int32 img_width = 2;
+  if (has_img_width()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->img_width(), output);
+  }
+
+  // required int32 h_stride = 3;
+  if (has_h_stride()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->h_stride(), output);
+  }
+
+  // required int32 v_stride = 4;
+  if (has_v_stride()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->v_stride(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:caffe_ext.BBoxToLabelmapParameter)
+}
+
+::google::protobuf::uint8* BBoxToLabelmapParameter::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:caffe_ext.BBoxToLabelmapParameter)
+  // required int32 img_height = 1;
+  if (has_img_height()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->img_height(), target);
+  }
+
+  // required int32 img_width = 2;
+  if (has_img_width()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->img_width(), target);
+  }
+
+  // required int32 h_stride = 3;
+  if (has_h_stride()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->h_stride(), target);
+  }
+
+  // required int32 v_stride = 4;
+  if (has_v_stride()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->v_stride(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:caffe_ext.BBoxToLabelmapParameter)
+  return target;
+}
+
+size_t BBoxToLabelmapParameter::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:caffe_ext.BBoxToLabelmapParameter)
+  size_t total_size = 0;
+
+  if (has_img_height()) {
+    // required int32 img_height = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->img_height());
+  }
+
+  if (has_img_width()) {
+    // required int32 img_width = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->img_width());
+  }
+
+  if (has_h_stride()) {
+    // required int32 h_stride = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->h_stride());
+  }
+
+  if (has_v_stride()) {
+    // required int32 v_stride = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->v_stride());
+  }
+
+  return total_size;
+}
+size_t BBoxToLabelmapParameter::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:caffe_ext.BBoxToLabelmapParameter)
+  size_t total_size = 0;
+
+  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
+    // required int32 img_height = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->img_height());
+
+    // required int32 img_width = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->img_width());
+
+    // required int32 h_stride = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->h_stride());
+
+    // required int32 v_stride = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->v_stride());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void BBoxToLabelmapParameter::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:caffe_ext.BBoxToLabelmapParameter)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const BBoxToLabelmapParameter* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const BBoxToLabelmapParameter>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:caffe_ext.BBoxToLabelmapParameter)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:caffe_ext.BBoxToLabelmapParameter)
+    UnsafeMergeFrom(*source);
+  }
+}
+
+void BBoxToLabelmapParameter::MergeFrom(const BBoxToLabelmapParameter& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:caffe_ext.BBoxToLabelmapParameter)
+  if (GOOGLE_PREDICT_TRUE(&from != this)) {
+    UnsafeMergeFrom(from);
+  } else {
+    MergeFromFail(__LINE__);
+  }
+}
+
+void BBoxToLabelmapParameter::UnsafeMergeFrom(const BBoxToLabelmapParameter& from) {
+  GOOGLE_DCHECK(&from != this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_img_height()) {
+      set_img_height(from.img_height());
+    }
+    if (from.has_img_width()) {
+      set_img_width(from.img_width());
+    }
+    if (from.has_h_stride()) {
+      set_h_stride(from.h_stride());
+    }
+    if (from.has_v_stride()) {
+      set_v_stride(from.v_stride());
+    }
+  }
+  if (from._internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::UnknownFieldSet::MergeToInternalMetdata(
+      from.unknown_fields(), &_internal_metadata_);
+  }
+}
+
+void BBoxToLabelmapParameter::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:caffe_ext.BBoxToLabelmapParameter)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void BBoxToLabelmapParameter::CopyFrom(const BBoxToLabelmapParameter& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:caffe_ext.BBoxToLabelmapParameter)
+  if (&from == this) return;
+  Clear();
+  UnsafeMergeFrom(from);
+}
+
+bool BBoxToLabelmapParameter::IsInitialized() const {
+  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+
+  return true;
+}
+
+void BBoxToLabelmapParameter::Swap(BBoxToLabelmapParameter* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void BBoxToLabelmapParameter::InternalSwap(BBoxToLabelmapParameter* other) {
+  std::swap(img_height_, other->img_height_);
+  std::swap(img_width_, other->img_width_);
+  std::swap(h_stride_, other->h_stride_);
+  std::swap(v_stride_, other->v_stride_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata BBoxToLabelmapParameter::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = BBoxToLabelmapParameter_descriptor_;
+  metadata.reflection = BBoxToLabelmapParameter_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// BBoxToLabelmapParameter
+
+// required int32 img_height = 1;
+bool BBoxToLabelmapParameter::has_img_height() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void BBoxToLabelmapParameter::set_has_img_height() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void BBoxToLabelmapParameter::clear_has_img_height() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void BBoxToLabelmapParameter::clear_img_height() {
+  img_height_ = 0;
+  clear_has_img_height();
+}
+::google::protobuf::int32 BBoxToLabelmapParameter::img_height() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.BBoxToLabelmapParameter.img_height)
+  return img_height_;
+}
+void BBoxToLabelmapParameter::set_img_height(::google::protobuf::int32 value) {
+  set_has_img_height();
+  img_height_ = value;
+  // @@protoc_insertion_point(field_set:caffe_ext.BBoxToLabelmapParameter.img_height)
+}
+
+// required int32 img_width = 2;
+bool BBoxToLabelmapParameter::has_img_width() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void BBoxToLabelmapParameter::set_has_img_width() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void BBoxToLabelmapParameter::clear_has_img_width() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void BBoxToLabelmapParameter::clear_img_width() {
+  img_width_ = 0;
+  clear_has_img_width();
+}
+::google::protobuf::int32 BBoxToLabelmapParameter::img_width() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.BBoxToLabelmapParameter.img_width)
+  return img_width_;
+}
+void BBoxToLabelmapParameter::set_img_width(::google::protobuf::int32 value) {
+  set_has_img_width();
+  img_width_ = value;
+  // @@protoc_insertion_point(field_set:caffe_ext.BBoxToLabelmapParameter.img_width)
+}
+
+// required int32 h_stride = 3;
+bool BBoxToLabelmapParameter::has_h_stride() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void BBoxToLabelmapParameter::set_has_h_stride() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void BBoxToLabelmapParameter::clear_has_h_stride() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void BBoxToLabelmapParameter::clear_h_stride() {
+  h_stride_ = 0;
+  clear_has_h_stride();
+}
+::google::protobuf::int32 BBoxToLabelmapParameter::h_stride() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.BBoxToLabelmapParameter.h_stride)
+  return h_stride_;
+}
+void BBoxToLabelmapParameter::set_h_stride(::google::protobuf::int32 value) {
+  set_has_h_stride();
+  h_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe_ext.BBoxToLabelmapParameter.h_stride)
+}
+
+// required int32 v_stride = 4;
+bool BBoxToLabelmapParameter::has_v_stride() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void BBoxToLabelmapParameter::set_has_v_stride() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void BBoxToLabelmapParameter::clear_has_v_stride() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void BBoxToLabelmapParameter::clear_v_stride() {
+  v_stride_ = 0;
+  clear_has_v_stride();
+}
+::google::protobuf::int32 BBoxToLabelmapParameter::v_stride() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.BBoxToLabelmapParameter.v_stride)
+  return v_stride_;
+}
+void BBoxToLabelmapParameter::set_v_stride(::google::protobuf::int32 value) {
+  set_has_v_stride();
+  v_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe_ext.BBoxToLabelmapParameter.v_stride)
+}
+
+inline const BBoxToLabelmapParameter* BBoxToLabelmapParameter::internal_default_instance() {
+  return &BBoxToLabelmapParameter_default_instance_.get();
+}
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int ExtendedLayerParameter::kLayerParamFieldNumber;
+const int ExtendedLayerParameter::kImgBboxAnnoParamFieldNumber;
+const int ExtendedLayerParameter::kHeatmapConcatParamFieldNumber;
+const int ExtendedLayerParameter::kBboxToLabelmapParamFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+ExtendedLayerParameter::ExtendedLayerParameter()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (this != internal_default_instance()) protobuf_InitDefaults_caffe_5fextend_2eproto();
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:caffe_ext.ExtendedLayerParameter)
+}
+
+void ExtendedLayerParameter::InitAsDefaultInstance() {
+  layer_param_ = const_cast< ::caffe::LayerParameter*>(
+      ::caffe::LayerParameter::internal_default_instance());
+  img_bbox_anno_param_ = const_cast< ::caffe_ext::ImgBBoxAnnoParameter*>(
+      ::caffe_ext::ImgBBoxAnnoParameter::internal_default_instance());
+  heatmap_concat_param_ = const_cast< ::caffe_ext::HeatmapConcatParameter*>(
+      ::caffe_ext::HeatmapConcatParameter::internal_default_instance());
+  bbox_to_labelmap_param_ = const_cast< ::caffe_ext::BBoxToLabelmapParameter*>(
+      ::caffe_ext::BBoxToLabelmapParameter::internal_default_instance());
+}
+
+ExtendedLayerParameter::ExtendedLayerParameter(const ExtendedLayerParameter& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  UnsafeMergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:caffe_ext.ExtendedLayerParameter)
+}
+
+void ExtendedLayerParameter::SharedCtor() {
+  _cached_size_ = 0;
+  layer_param_ = NULL;
+  img_bbox_anno_param_ = NULL;
+  heatmap_concat_param_ = NULL;
+  bbox_to_labelmap_param_ = NULL;
+}
+
+ExtendedLayerParameter::~ExtendedLayerParameter() {
+  // @@protoc_insertion_point(destructor:caffe_ext.ExtendedLayerParameter)
+  SharedDtor();
+}
+
+void ExtendedLayerParameter::SharedDtor() {
+  if (this != &ExtendedLayerParameter_default_instance_.get()) {
+    delete layer_param_;
+    delete img_bbox_anno_param_;
+    delete heatmap_concat_param_;
+    delete bbox_to_labelmap_param_;
+  }
+}
+
+void ExtendedLayerParameter::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* ExtendedLayerParameter::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return ExtendedLayerParameter_descriptor_;
+}
+
+const ExtendedLayerParameter& ExtendedLayerParameter::default_instance() {
+  protobuf_InitDefaults_caffe_5fextend_2eproto();
+  return *internal_default_instance();
+}
+
+::google::protobuf::internal::ExplicitlyConstructed<ExtendedLayerParameter> ExtendedLayerParameter_default_instance_;
+
+ExtendedLayerParameter* ExtendedLayerParameter::New(::google::protobuf::Arena* arena) const {
+  ExtendedLayerParameter* n = new ExtendedLayerParameter;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void ExtendedLayerParameter::Clear() {
+// @@protoc_insertion_point(message_clear_start:caffe_ext.ExtendedLayerParameter)
+  if (_has_bits_[0 / 32] & 15u) {
+    if (has_layer_param()) {
+      if (layer_param_ != NULL) layer_param_->::caffe::LayerParameter::Clear();
+    }
+    if (has_img_bbox_anno_param()) {
+      if (img_bbox_anno_param_ != NULL) img_bbox_anno_param_->::caffe_ext::ImgBBoxAnnoParameter::Clear();
+    }
+    if (has_heatmap_concat_param()) {
+      if (heatmap_concat_param_ != NULL) heatmap_concat_param_->::caffe_ext::HeatmapConcatParameter::Clear();
+    }
+    if (has_bbox_to_labelmap_param()) {
+      if (bbox_to_labelmap_param_ != NULL) bbox_to_labelmap_param_->::caffe_ext::BBoxToLabelmapParameter::Clear();
+    }
+  }
+  _has_bits_.Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
+}
+
+bool ExtendedLayerParameter::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:caffe_ext.ExtendedLayerParameter)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required .caffe.LayerParameter layer_param = 1;
+      case 1: {
+        if (tag == 10) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_layer_param()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_img_bbox_anno_param;
+        break;
+      }
+
+      // optional .caffe_ext.ImgBBoxAnnoParameter img_bbox_anno_param = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_img_bbox_anno_param:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_img_bbox_anno_param()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(26)) goto parse_heatmap_concat_param;
+        break;
+      }
+
+      // optional .caffe_ext.HeatmapConcatParameter heatmap_concat_param = 3;
+      case 3: {
+        if (tag == 26) {
+         parse_heatmap_concat_param:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_heatmap_concat_param()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(34)) goto parse_bbox_to_labelmap_param;
+        break;
+      }
+
+      // optional .caffe_ext.BBoxToLabelmapParameter bbox_to_labelmap_param = 4;
+      case 4: {
+        if (tag == 34) {
+         parse_bbox_to_labelmap_param:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_bbox_to_labelmap_param()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:caffe_ext.ExtendedLayerParameter)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:caffe_ext.ExtendedLayerParameter)
+  return false;
+#undef DO_
+}
+
+void ExtendedLayerParameter::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:caffe_ext.ExtendedLayerParameter)
+  // required .caffe.LayerParameter layer_param = 1;
+  if (has_layer_param()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      1, *this->layer_param_, output);
+  }
+
+  // optional .caffe_ext.ImgBBoxAnnoParameter img_bbox_anno_param = 2;
+  if (has_img_bbox_anno_param()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      2, *this->img_bbox_anno_param_, output);
+  }
+
+  // optional .caffe_ext.HeatmapConcatParameter heatmap_concat_param = 3;
+  if (has_heatmap_concat_param()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      3, *this->heatmap_concat_param_, output);
+  }
+
+  // optional .caffe_ext.BBoxToLabelmapParameter bbox_to_labelmap_param = 4;
+  if (has_bbox_to_labelmap_param()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      4, *this->bbox_to_labelmap_param_, output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:caffe_ext.ExtendedLayerParameter)
+}
+
+::google::protobuf::uint8* ExtendedLayerParameter::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:caffe_ext.ExtendedLayerParameter)
+  // required .caffe.LayerParameter layer_param = 1;
+  if (has_layer_param()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        1, *this->layer_param_, false, target);
+  }
+
+  // optional .caffe_ext.ImgBBoxAnnoParameter img_bbox_anno_param = 2;
+  if (has_img_bbox_anno_param()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        2, *this->img_bbox_anno_param_, false, target);
+  }
+
+  // optional .caffe_ext.HeatmapConcatParameter heatmap_concat_param = 3;
+  if (has_heatmap_concat_param()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        3, *this->heatmap_concat_param_, false, target);
+  }
+
+  // optional .caffe_ext.BBoxToLabelmapParameter bbox_to_labelmap_param = 4;
+  if (has_bbox_to_labelmap_param()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        4, *this->bbox_to_labelmap_param_, false, target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:caffe_ext.ExtendedLayerParameter)
+  return target;
+}
+
+size_t ExtendedLayerParameter::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:caffe_ext.ExtendedLayerParameter)
+  size_t total_size = 0;
+
+  // required .caffe.LayerParameter layer_param = 1;
+  if (has_layer_param()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->layer_param_);
+  }
+  if (_has_bits_[1 / 32] & 14u) {
+    // optional .caffe_ext.ImgBBoxAnnoParameter img_bbox_anno_param = 2;
+    if (has_img_bbox_anno_param()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          *this->img_bbox_anno_param_);
+    }
+
+    // optional .caffe_ext.HeatmapConcatParameter heatmap_concat_param = 3;
+    if (has_heatmap_concat_param()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          *this->heatmap_concat_param_);
+    }
+
+    // optional .caffe_ext.BBoxToLabelmapParameter bbox_to_labelmap_param = 4;
+    if (has_bbox_to_labelmap_param()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          *this->bbox_to_labelmap_param_);
+    }
+
+  }
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void ExtendedLayerParameter::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:caffe_ext.ExtendedLayerParameter)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const ExtendedLayerParameter* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const ExtendedLayerParameter>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:caffe_ext.ExtendedLayerParameter)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:caffe_ext.ExtendedLayerParameter)
+    UnsafeMergeFrom(*source);
+  }
+}
+
+void ExtendedLayerParameter::MergeFrom(const ExtendedLayerParameter& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:caffe_ext.ExtendedLayerParameter)
+  if (GOOGLE_PREDICT_TRUE(&from != this)) {
+    UnsafeMergeFrom(from);
+  } else {
+    MergeFromFail(__LINE__);
+  }
+}
+
+void ExtendedLayerParameter::UnsafeMergeFrom(const ExtendedLayerParameter& from) {
+  GOOGLE_DCHECK(&from != this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_layer_param()) {
+      mutable_layer_param()->::caffe::LayerParameter::MergeFrom(from.layer_param());
+    }
+    if (from.has_img_bbox_anno_param()) {
+      mutable_img_bbox_anno_param()->::caffe_ext::ImgBBoxAnnoParameter::MergeFrom(from.img_bbox_anno_param());
+    }
+    if (from.has_heatmap_concat_param()) {
+      mutable_heatmap_concat_param()->::caffe_ext::HeatmapConcatParameter::MergeFrom(from.heatmap_concat_param());
+    }
+    if (from.has_bbox_to_labelmap_param()) {
+      mutable_bbox_to_labelmap_param()->::caffe_ext::BBoxToLabelmapParameter::MergeFrom(from.bbox_to_labelmap_param());
+    }
+  }
+  if (from._internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::UnknownFieldSet::MergeToInternalMetdata(
+      from.unknown_fields(), &_internal_metadata_);
+  }
+}
+
+void ExtendedLayerParameter::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:caffe_ext.ExtendedLayerParameter)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ExtendedLayerParameter::CopyFrom(const ExtendedLayerParameter& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:caffe_ext.ExtendedLayerParameter)
+  if (&from == this) return;
+  Clear();
+  UnsafeMergeFrom(from);
+}
+
+bool ExtendedLayerParameter::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+
+  if (has_img_bbox_anno_param()) {
+    if (!this->img_bbox_anno_param_->IsInitialized()) return false;
+  }
+  if (has_heatmap_concat_param()) {
+    if (!this->heatmap_concat_param_->IsInitialized()) return false;
+  }
+  if (has_bbox_to_labelmap_param()) {
+    if (!this->bbox_to_labelmap_param_->IsInitialized()) return false;
+  }
+  return true;
+}
+
+void ExtendedLayerParameter::Swap(ExtendedLayerParameter* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void ExtendedLayerParameter::InternalSwap(ExtendedLayerParameter* other) {
+  std::swap(layer_param_, other->layer_param_);
+  std::swap(img_bbox_anno_param_, other->img_bbox_anno_param_);
+  std::swap(heatmap_concat_param_, other->heatmap_concat_param_);
+  std::swap(bbox_to_labelmap_param_, other->bbox_to_labelmap_param_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata ExtendedLayerParameter::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = ExtendedLayerParameter_descriptor_;
+  metadata.reflection = ExtendedLayerParameter_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// ExtendedLayerParameter
+
+// required .caffe.LayerParameter layer_param = 1;
+bool ExtendedLayerParameter::has_layer_param() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void ExtendedLayerParameter::set_has_layer_param() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void ExtendedLayerParameter::clear_has_layer_param() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void ExtendedLayerParameter::clear_layer_param() {
+  if (layer_param_ != NULL) layer_param_->::caffe::LayerParameter::Clear();
+  clear_has_layer_param();
+}
+const ::caffe::LayerParameter& ExtendedLayerParameter::layer_param() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ExtendedLayerParameter.layer_param)
+  return layer_param_ != NULL ? *layer_param_
+                         : *::caffe::LayerParameter::internal_default_instance();
+}
+::caffe::LayerParameter* ExtendedLayerParameter::mutable_layer_param() {
+  set_has_layer_param();
+  if (layer_param_ == NULL) {
+    layer_param_ = new ::caffe::LayerParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe_ext.ExtendedLayerParameter.layer_param)
+  return layer_param_;
+}
+::caffe::LayerParameter* ExtendedLayerParameter::release_layer_param() {
+  // @@protoc_insertion_point(field_release:caffe_ext.ExtendedLayerParameter.layer_param)
+  clear_has_layer_param();
+  ::caffe::LayerParameter* temp = layer_param_;
+  layer_param_ = NULL;
+  return temp;
+}
+void ExtendedLayerParameter::set_allocated_layer_param(::caffe::LayerParameter* layer_param) {
+  delete layer_param_;
+  layer_param_ = layer_param;
+  if (layer_param) {
+    set_has_layer_param();
+  } else {
+    clear_has_layer_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe_ext.ExtendedLayerParameter.layer_param)
+}
+
+// optional .caffe_ext.ImgBBoxAnnoParameter img_bbox_anno_param = 2;
+bool ExtendedLayerParameter::has_img_bbox_anno_param() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void ExtendedLayerParameter::set_has_img_bbox_anno_param() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void ExtendedLayerParameter::clear_has_img_bbox_anno_param() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void ExtendedLayerParameter::clear_img_bbox_anno_param() {
+  if (img_bbox_anno_param_ != NULL) img_bbox_anno_param_->::caffe_ext::ImgBBoxAnnoParameter::Clear();
+  clear_has_img_bbox_anno_param();
+}
+const ::caffe_ext::ImgBBoxAnnoParameter& ExtendedLayerParameter::img_bbox_anno_param() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ExtendedLayerParameter.img_bbox_anno_param)
+  return img_bbox_anno_param_ != NULL ? *img_bbox_anno_param_
+                         : *::caffe_ext::ImgBBoxAnnoParameter::internal_default_instance();
+}
+::caffe_ext::ImgBBoxAnnoParameter* ExtendedLayerParameter::mutable_img_bbox_anno_param() {
+  set_has_img_bbox_anno_param();
+  if (img_bbox_anno_param_ == NULL) {
+    img_bbox_anno_param_ = new ::caffe_ext::ImgBBoxAnnoParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe_ext.ExtendedLayerParameter.img_bbox_anno_param)
+  return img_bbox_anno_param_;
+}
+::caffe_ext::ImgBBoxAnnoParameter* ExtendedLayerParameter::release_img_bbox_anno_param() {
+  // @@protoc_insertion_point(field_release:caffe_ext.ExtendedLayerParameter.img_bbox_anno_param)
+  clear_has_img_bbox_anno_param();
+  ::caffe_ext::ImgBBoxAnnoParameter* temp = img_bbox_anno_param_;
+  img_bbox_anno_param_ = NULL;
+  return temp;
+}
+void ExtendedLayerParameter::set_allocated_img_bbox_anno_param(::caffe_ext::ImgBBoxAnnoParameter* img_bbox_anno_param) {
+  delete img_bbox_anno_param_;
+  img_bbox_anno_param_ = img_bbox_anno_param;
+  if (img_bbox_anno_param) {
+    set_has_img_bbox_anno_param();
+  } else {
+    clear_has_img_bbox_anno_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe_ext.ExtendedLayerParameter.img_bbox_anno_param)
+}
+
+// optional .caffe_ext.HeatmapConcatParameter heatmap_concat_param = 3;
+bool ExtendedLayerParameter::has_heatmap_concat_param() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void ExtendedLayerParameter::set_has_heatmap_concat_param() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void ExtendedLayerParameter::clear_has_heatmap_concat_param() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void ExtendedLayerParameter::clear_heatmap_concat_param() {
+  if (heatmap_concat_param_ != NULL) heatmap_concat_param_->::caffe_ext::HeatmapConcatParameter::Clear();
+  clear_has_heatmap_concat_param();
+}
+const ::caffe_ext::HeatmapConcatParameter& ExtendedLayerParameter::heatmap_concat_param() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ExtendedLayerParameter.heatmap_concat_param)
+  return heatmap_concat_param_ != NULL ? *heatmap_concat_param_
+                         : *::caffe_ext::HeatmapConcatParameter::internal_default_instance();
+}
+::caffe_ext::HeatmapConcatParameter* ExtendedLayerParameter::mutable_heatmap_concat_param() {
+  set_has_heatmap_concat_param();
+  if (heatmap_concat_param_ == NULL) {
+    heatmap_concat_param_ = new ::caffe_ext::HeatmapConcatParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe_ext.ExtendedLayerParameter.heatmap_concat_param)
+  return heatmap_concat_param_;
+}
+::caffe_ext::HeatmapConcatParameter* ExtendedLayerParameter::release_heatmap_concat_param() {
+  // @@protoc_insertion_point(field_release:caffe_ext.ExtendedLayerParameter.heatmap_concat_param)
+  clear_has_heatmap_concat_param();
+  ::caffe_ext::HeatmapConcatParameter* temp = heatmap_concat_param_;
+  heatmap_concat_param_ = NULL;
+  return temp;
+}
+void ExtendedLayerParameter::set_allocated_heatmap_concat_param(::caffe_ext::HeatmapConcatParameter* heatmap_concat_param) {
+  delete heatmap_concat_param_;
+  heatmap_concat_param_ = heatmap_concat_param;
+  if (heatmap_concat_param) {
+    set_has_heatmap_concat_param();
+  } else {
+    clear_has_heatmap_concat_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe_ext.ExtendedLayerParameter.heatmap_concat_param)
+}
+
+// optional .caffe_ext.BBoxToLabelmapParameter bbox_to_labelmap_param = 4;
+bool ExtendedLayerParameter::has_bbox_to_labelmap_param() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void ExtendedLayerParameter::set_has_bbox_to_labelmap_param() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void ExtendedLayerParameter::clear_has_bbox_to_labelmap_param() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void ExtendedLayerParameter::clear_bbox_to_labelmap_param() {
+  if (bbox_to_labelmap_param_ != NULL) bbox_to_labelmap_param_->::caffe_ext::BBoxToLabelmapParameter::Clear();
+  clear_has_bbox_to_labelmap_param();
+}
+const ::caffe_ext::BBoxToLabelmapParameter& ExtendedLayerParameter::bbox_to_labelmap_param() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ExtendedLayerParameter.bbox_to_labelmap_param)
+  return bbox_to_labelmap_param_ != NULL ? *bbox_to_labelmap_param_
+                         : *::caffe_ext::BBoxToLabelmapParameter::internal_default_instance();
+}
+::caffe_ext::BBoxToLabelmapParameter* ExtendedLayerParameter::mutable_bbox_to_labelmap_param() {
+  set_has_bbox_to_labelmap_param();
+  if (bbox_to_labelmap_param_ == NULL) {
+    bbox_to_labelmap_param_ = new ::caffe_ext::BBoxToLabelmapParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe_ext.ExtendedLayerParameter.bbox_to_labelmap_param)
+  return bbox_to_labelmap_param_;
+}
+::caffe_ext::BBoxToLabelmapParameter* ExtendedLayerParameter::release_bbox_to_labelmap_param() {
+  // @@protoc_insertion_point(field_release:caffe_ext.ExtendedLayerParameter.bbox_to_labelmap_param)
+  clear_has_bbox_to_labelmap_param();
+  ::caffe_ext::BBoxToLabelmapParameter* temp = bbox_to_labelmap_param_;
+  bbox_to_labelmap_param_ = NULL;
+  return temp;
+}
+void ExtendedLayerParameter::set_allocated_bbox_to_labelmap_param(::caffe_ext::BBoxToLabelmapParameter* bbox_to_labelmap_param) {
+  delete bbox_to_labelmap_param_;
+  bbox_to_labelmap_param_ = bbox_to_labelmap_param;
+  if (bbox_to_labelmap_param) {
+    set_has_bbox_to_labelmap_param();
+  } else {
+    clear_has_bbox_to_labelmap_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe_ext.ExtendedLayerParameter.bbox_to_labelmap_param)
+}
+
+inline const ExtendedLayerParameter* ExtendedLayerParameter::internal_default_instance() {
+  return &ExtendedLayerParameter_default_instance_.get();
 }
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
