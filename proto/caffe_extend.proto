@@ -31,6 +31,7 @@ message ImgBBoxAnnoDatum {
 message ImgBBoxAnnoParameter {
   required int32 img_height = 1;
   required int32 img_width = 2;
+  required int32 max_bbox_per_img = 3;
 }
 
 message HeatmapConcatParameter {

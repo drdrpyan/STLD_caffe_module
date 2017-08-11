@@ -67,9 +67,10 @@ void protobuf_AssignDesc_caffe_5fextend_2eproto() {
       sizeof(ImgBBoxAnnoDatum),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoDatum, _internal_metadata_));
   ImgBBoxAnnoParameter_descriptor_ = file->message_type(1);
-  static const int ImgBBoxAnnoParameter_offsets_[2] = {
+  static const int ImgBBoxAnnoParameter_offsets_[3] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoParameter, img_height_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoParameter, img_width_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ImgBBoxAnnoParameter, max_bbox_per_img_),
   };
   ImgBBoxAnnoParameter_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -200,19 +201,20 @@ void protobuf_AddDesc_caffe_5fextend_2eproto_impl() {
     "roto/caffe.proto\"~\n\020ImgBBoxAnnoDatum\022\037\n\t"
     "img_datum\030\001 \002(\0132\014.caffe.Datum\022\r\n\005label\030\002"
     " \003(\005\022\r\n\005x_min\030\003 \003(\002\022\r\n\005y_min\030\004 \003(\002\022\r\n\005x_"
-    "max\030\005 \003(\002\022\r\n\005y_max\030\006 \003(\002\"=\n\024ImgBBoxAnnoP"
+    "max\030\005 \003(\002\022\r\n\005y_max\030\006 \003(\002\"W\n\024ImgBBoxAnnoP"
     "arameter\022\022\n\nimg_height\030\001 \002(\005\022\021\n\timg_widt"
-    "h\030\002 \002(\005\".\n\026HeatmapConcatParameter\022\024\n\014hea"
-    "tmap_file\030\001 \002(\t\"d\n\027BBoxToLabelmapParamet"
-    "er\022\022\n\nimg_height\030\001 \002(\005\022\021\n\timg_width\030\002 \002("
-    "\005\022\020\n\010h_stride\030\003 \002(\005\022\020\n\010v_stride\030\004 \002(\005\"\207\002"
-    "\n\026ExtendedLayerParameter\022*\n\013layer_param\030"
-    "\001 \002(\0132\025.caffe.LayerParameter\022<\n\023img_bbox"
-    "_anno_param\030\002 \001(\0132\037.caffe_ext.ImgBBoxAnn"
-    "oParameter\022\?\n\024heatmap_concat_param\030\003 \001(\013"
-    "2!.caffe_ext.HeatmapConcatParameter\022B\n\026b"
-    "box_to_labelmap_param\030\004 \001(\0132\".caffe_ext."
-    "BBoxToLabelmapParameter", 663);
+    "h\030\002 \002(\005\022\030\n\020max_bbox_per_img\030\003 \002(\005\".\n\026Hea"
+    "tmapConcatParameter\022\024\n\014heatmap_file\030\001 \002("
+    "\t\"d\n\027BBoxToLabelmapParameter\022\022\n\nimg_heig"
+    "ht\030\001 \002(\005\022\021\n\timg_width\030\002 \002(\005\022\020\n\010h_stride\030"
+    "\003 \002(\005\022\020\n\010v_stride\030\004 \002(\005\"\207\002\n\026ExtendedLaye"
+    "rParameter\022*\n\013layer_param\030\001 \002(\0132\025.caffe."
+    "LayerParameter\022<\n\023img_bbox_anno_param\030\002 "
+    "\001(\0132\037.caffe_ext.ImgBBoxAnnoParameter\022\?\n\024"
+    "heatmap_concat_param\030\003 \001(\0132!.caffe_ext.H"
+    "eatmapConcatParameter\022B\n\026bbox_to_labelma"
+    "p_param\030\004 \001(\0132\".caffe_ext.BBoxToLabelmap"
+    "Parameter", 689);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "caffe_extend.proto", &protobuf_RegisterTypes);
   ::caffe::protobuf_AddDesc_caffe_2eproto();
@@ -932,6 +934,7 @@ inline const ImgBBoxAnnoDatum* ImgBBoxAnnoDatum::internal_default_instance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int ImgBBoxAnnoParameter::kImgHeightFieldNumber;
 const int ImgBBoxAnnoParameter::kImgWidthFieldNumber;
+const int ImgBBoxAnnoParameter::kMaxBboxPerImgFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ImgBBoxAnnoParameter::ImgBBoxAnnoParameter()
@@ -954,8 +957,8 @@ ImgBBoxAnnoParameter::ImgBBoxAnnoParameter(const ImgBBoxAnnoParameter& from)
 
 void ImgBBoxAnnoParameter::SharedCtor() {
   _cached_size_ = 0;
-  ::memset(&img_height_, 0, reinterpret_cast<char*>(&img_width_) -
-    reinterpret_cast<char*>(&img_height_) + sizeof(img_width_));
+  ::memset(&img_height_, 0, reinterpret_cast<char*>(&max_bbox_per_img_) -
+    reinterpret_cast<char*>(&img_height_) + sizeof(max_bbox_per_img_));
 }
 
 ImgBBoxAnnoParameter::~ImgBBoxAnnoParameter() {
@@ -1009,7 +1012,7 @@ void ImgBBoxAnnoParameter::Clear() {
            ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
 } while (0)
 
-  ZR_(img_height_, img_width_);
+  ZR_(img_height_, max_bbox_per_img_);
 
 #undef ZR_HELPER_
 #undef ZR_
@@ -1055,6 +1058,21 @@ bool ImgBBoxAnnoParameter::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(24)) goto parse_max_bbox_per_img;
+        break;
+      }
+
+      // required int32 max_bbox_per_img = 3;
+      case 3: {
+        if (tag == 24) {
+         parse_max_bbox_per_img:
+          set_has_max_bbox_per_img();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &max_bbox_per_img_)));
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -1094,6 +1112,11 @@ void ImgBBoxAnnoParameter::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->img_width(), output);
   }
 
+  // required int32 max_bbox_per_img = 3;
+  if (has_max_bbox_per_img()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->max_bbox_per_img(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -1113,6 +1136,11 @@ void ImgBBoxAnnoParameter::SerializeWithCachedSizes(
   // required int32 img_width = 2;
   if (has_img_width()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->img_width(), target);
+  }
+
+  // required int32 max_bbox_per_img = 3;
+  if (has_max_bbox_per_img()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->max_bbox_per_img(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -1141,13 +1169,20 @@ size_t ImgBBoxAnnoParameter::RequiredFieldsByteSizeFallback() const {
         this->img_width());
   }
 
+  if (has_max_bbox_per_img()) {
+    // required int32 max_bbox_per_img = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->max_bbox_per_img());
+  }
+
   return total_size;
 }
 size_t ImgBBoxAnnoParameter::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:caffe_ext.ImgBBoxAnnoParameter)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
     // required int32 img_height = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -1157,6 +1192,11 @@ size_t ImgBBoxAnnoParameter::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->img_width());
+
+    // required int32 max_bbox_per_img = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->max_bbox_per_img());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
@@ -1206,6 +1246,9 @@ void ImgBBoxAnnoParameter::UnsafeMergeFrom(const ImgBBoxAnnoParameter& from) {
     if (from.has_img_width()) {
       set_img_width(from.img_width());
     }
+    if (from.has_max_bbox_per_img()) {
+      set_max_bbox_per_img(from.max_bbox_per_img());
+    }
   }
   if (from._internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::UnknownFieldSet::MergeToInternalMetdata(
@@ -1228,7 +1271,7 @@ void ImgBBoxAnnoParameter::CopyFrom(const ImgBBoxAnnoParameter& from) {
 }
 
 bool ImgBBoxAnnoParameter::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
 
   return true;
 }
@@ -1240,6 +1283,7 @@ void ImgBBoxAnnoParameter::Swap(ImgBBoxAnnoParameter* other) {
 void ImgBBoxAnnoParameter::InternalSwap(ImgBBoxAnnoParameter* other) {
   std::swap(img_height_, other->img_height_);
   std::swap(img_width_, other->img_width_);
+  std::swap(max_bbox_per_img_, other->max_bbox_per_img_);
   std::swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
@@ -1302,6 +1346,30 @@ void ImgBBoxAnnoParameter::set_img_width(::google::protobuf::int32 value) {
   set_has_img_width();
   img_width_ = value;
   // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoParameter.img_width)
+}
+
+// required int32 max_bbox_per_img = 3;
+bool ImgBBoxAnnoParameter::has_max_bbox_per_img() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void ImgBBoxAnnoParameter::set_has_max_bbox_per_img() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void ImgBBoxAnnoParameter::clear_has_max_bbox_per_img() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void ImgBBoxAnnoParameter::clear_max_bbox_per_img() {
+  max_bbox_per_img_ = 0;
+  clear_has_max_bbox_per_img();
+}
+::google::protobuf::int32 ImgBBoxAnnoParameter::max_bbox_per_img() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoParameter.max_bbox_per_img)
+  return max_bbox_per_img_;
+}
+void ImgBBoxAnnoParameter::set_max_bbox_per_img(::google::protobuf::int32 value) {
+  set_has_max_bbox_per_img();
+  max_bbox_per_img_ = value;
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoParameter.max_bbox_per_img)
 }
 
 inline const ImgBBoxAnnoParameter* ImgBBoxAnnoParameter::internal_default_instance() {

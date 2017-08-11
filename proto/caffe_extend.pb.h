@@ -296,12 +296,21 @@ class ImgBBoxAnnoParameter : public ::google::protobuf::Message /* @@protoc_inse
   ::google::protobuf::int32 img_width() const;
   void set_img_width(::google::protobuf::int32 value);
 
+  // required int32 max_bbox_per_img = 3;
+  bool has_max_bbox_per_img() const;
+  void clear_max_bbox_per_img();
+  static const int kMaxBboxPerImgFieldNumber = 3;
+  ::google::protobuf::int32 max_bbox_per_img() const;
+  void set_max_bbox_per_img(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:caffe_ext.ImgBBoxAnnoParameter)
  private:
   inline void set_has_img_height();
   inline void clear_has_img_height();
   inline void set_has_img_width();
   inline void clear_has_img_width();
+  inline void set_has_max_bbox_per_img();
+  inline void clear_has_max_bbox_per_img();
 
   // helper for ByteSizeLong()
   size_t RequiredFieldsByteSizeFallback() const;
@@ -311,6 +320,7 @@ class ImgBBoxAnnoParameter : public ::google::protobuf::Message /* @@protoc_inse
   mutable int _cached_size_;
   ::google::protobuf::int32 img_height_;
   ::google::protobuf::int32 img_width_;
+  ::google::protobuf::int32 max_bbox_per_img_;
   friend void  protobuf_InitDefaults_caffe_5fextend_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_5fextend_2eproto_impl();
   friend void protobuf_AssignDesc_caffe_5fextend_2eproto();
@@ -946,6 +956,30 @@ inline void ImgBBoxAnnoParameter::set_img_width(::google::protobuf::int32 value)
   set_has_img_width();
   img_width_ = value;
   // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoParameter.img_width)
+}
+
+// required int32 max_bbox_per_img = 3;
+inline bool ImgBBoxAnnoParameter::has_max_bbox_per_img() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void ImgBBoxAnnoParameter::set_has_max_bbox_per_img() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void ImgBBoxAnnoParameter::clear_has_max_bbox_per_img() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void ImgBBoxAnnoParameter::clear_max_bbox_per_img() {
+  max_bbox_per_img_ = 0;
+  clear_has_max_bbox_per_img();
+}
+inline ::google::protobuf::int32 ImgBBoxAnnoParameter::max_bbox_per_img() const {
+  // @@protoc_insertion_point(field_get:caffe_ext.ImgBBoxAnnoParameter.max_bbox_per_img)
+  return max_bbox_per_img_;
+}
+inline void ImgBBoxAnnoParameter::set_max_bbox_per_img(::google::protobuf::int32 value) {
+  set_has_max_bbox_per_img();
+  max_bbox_per_img_ = value;
+  // @@protoc_insertion_point(field_set:caffe_ext.ImgBBoxAnnoParameter.max_bbox_per_img)
 }
 
 inline const ImgBBoxAnnoParameter* ImgBBoxAnnoParameter::internal_default_instance() {
