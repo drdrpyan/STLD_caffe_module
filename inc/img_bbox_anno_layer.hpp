@@ -4,7 +4,7 @@
 //#include "caffe_extend.pb.h"
 #include "caffe/layers/data_layer.hpp"
 
-namespace bgm
+namespace caffe
 {
 
 template <typename Dtype>

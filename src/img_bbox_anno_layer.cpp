@@ -12,7 +12,7 @@ using caffe::Batch;
 using caffe::ImgBBoxAnnoDatum;
 using std::vector;
 
-namespace bgm
+namespace caffe
 {
 
 //template <typename Dtype>
@@ -29,7 +29,7 @@ ImgBBoxAnnoLayer<Dtype>::ImgBBoxAnnoLayer(
     IMG_CHANNEL_(
       param.img_bbox_anno_param().colored() ? 3 : 1),
     IMG_HEIGHT_(param.img_bbox_anno_param().img_height()),
-    IMG_HEIGHT_(param.img_bbox_anno_param().img_width()),
+    IMG_WIDTH_(param.img_bbox_anno_param().img_width()),
     MAX_NUM_BBOX_(
       param.img_bbox_anno_param().max_bbox_per_img()){
   CHECK(BATCH_SIZE_ > 0);
@@ -103,12 +103,12 @@ void ImgBBoxAnnoLayer<Dtype>::load_batch(Batch<Dtype>* batch) {
     // read datum
     while (Skip())
       Next();
-    datum->ParseFromString(cursor_->value());
+    img_bbox_anno_datum.ParseFromString(cursor_->value());
     read_time += timer.MicroSeconds();
     
     // copy datum
-    CopyImage(item_id, img_bbox_anno_datum, *(batch->data_));
-    CopyLabel(item_id, img_bbox_anno_datum, *(batch->label_));
+    CopyImage(item_id, img_bbox_anno_datum, &(batch->data_));
+    CopyLabel(item_id, img_bbox_anno_datum, &(batch->label_));
 
     Next();
   }
@@ -155,8 +155,9 @@ void ImgBBoxAnnoLayer<Dtype>::CopyImage(
   Dtype* top_data = batch_data->mutable_cpu_data();
   const int OFFSET= batch_data->offset(item_id);
 
-  std::copy(datum.img_datum().data(), 
-            datum.img_datum().data() + IMG_SIZE, 
+  //datum.img_datum().data().be
+  std::copy(datum.img_datum().data().begin(), 
+            datum.img_datum().data().end(), 
             top_data + OFFSET);
 }
 
@@ -255,6 +256,6 @@ void ImgBBoxAnnoLayer<Dtype>::ComputeLabelShape(
 
 
 INSTANTIATE_CLASS(ImgBBoxAnnoLayer);
-//REGISTER_LAYER_CLASS(ImgBBoxAnno);
+REGISTER_LAYER_CLASS(ImgBBoxAnno);
 
 } // namespace bgm
