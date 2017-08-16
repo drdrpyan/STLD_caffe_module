@@ -1,8 +1,7 @@
 #ifndef TLR_IMG_BBOX_ANNO_LAYER_HPP_
 #define TLR_IMG_BBOX_ANNO_LAYER_HPP_
 
-#include "caffe_extend.pb.h"
-
+//#include "caffe_extend.pb.h"
 #include "caffe/layers/data_layer.hpp"
 
 namespace bgm
@@ -12,8 +11,8 @@ template <typename Dtype>
 class ImgBBoxAnnoLayer : public caffe::DataLayer<Dtype>
 {
   public:
-    ImgBBoxAnnoLayer(
-        const caffe_ext::ExtendedLayerParameter& param);
+    //ImgBBoxAnnoLayer(
+    //    const caffe_ext::ExtendedLayerParameter& param);
     virtual inline const char* type() const override;
 
   protected:

@@ -14,12 +14,13 @@ using std::vector;
 namespace bgm
 {
 
-template <typename Dtype>
-ImgBBoxAnnoLayer<Dtype>::ImgBBoxAnnoLayer(
-    const caffe_ext::ExtendedLayerParameter& param) 
-  : caffe::DataLayer<Dtype>(param.layer_param()){
+//template <typename Dtype>
+//ImgBBoxAnnoLayer<Dtype>::ImgBBoxAnnoLayer(
+//    const caffe_ext::ExtendedLayerParameter& param) 
+//  : caffe::DataLayer<Dtype>(param.layer_param()){
+//
+//}
 
-}
 template <typename Dtype>
 void ImgBBoxAnnoLayer<Dtype>::load_batch(Batch<Dtype>* batch) {
   CPUTimer batch_timer;
