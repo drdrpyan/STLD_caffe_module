@@ -71,6 +71,7 @@ class InfogainLossParameter;
 class InnerProductParameter;
 class InputParameter;
 class LRNParameter;
+class LabelParameter;
 class LayerParameter;
 class LogParameter;
 class LossParameter;
@@ -104,6 +105,24 @@ class V0LayerParameter;
 class V1LayerParameter;
 class WindowDataParameter;
 
+enum LabelParameter_LabelParamConstant {
+  LabelParameter_LabelParamConstant_DUMMY_LABEL = -1
+};
+bool LabelParameter_LabelParamConstant_IsValid(int value);
+const LabelParameter_LabelParamConstant LabelParameter_LabelParamConstant_LabelParamConstant_MIN = LabelParameter_LabelParamConstant_DUMMY_LABEL;
+const LabelParameter_LabelParamConstant LabelParameter_LabelParamConstant_LabelParamConstant_MAX = LabelParameter_LabelParamConstant_DUMMY_LABEL;
+const int LabelParameter_LabelParamConstant_LabelParamConstant_ARRAYSIZE = LabelParameter_LabelParamConstant_LabelParamConstant_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* LabelParameter_LabelParamConstant_descriptor();
+inline const ::std::string& LabelParameter_LabelParamConstant_Name(LabelParameter_LabelParamConstant value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    LabelParameter_LabelParamConstant_descriptor(), value);
+}
+inline bool LabelParameter_LabelParamConstant_Parse(
+    const ::std::string& name, LabelParameter_LabelParamConstant* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<LabelParameter_LabelParamConstant>(
+    LabelParameter_LabelParamConstant_descriptor(), name, value);
+}
 enum FillerParameter_VarianceNorm {
   FillerParameter_VarianceNorm_FAN_IN = 0,
   FillerParameter_VarianceNorm_FAN_OUT = 1,
@@ -1167,6 +1186,128 @@ class BBoxToLabelmapParameter : public ::google::protobuf::Message /* @@protoc_i
   void InitAsDefaultInstance();
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<BBoxToLabelmapParameter> BBoxToLabelmapParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class LabelParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.LabelParameter) */ {
+ public:
+  LabelParameter();
+  virtual ~LabelParameter();
+
+  LabelParameter(const LabelParameter& from);
+
+  inline LabelParameter& operator=(const LabelParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LabelParameter& default_instance();
+
+  static const LabelParameter* internal_default_instance();
+
+  void Swap(LabelParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline LabelParameter* New() const { return New(NULL); }
+
+  LabelParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const LabelParameter& from);
+  void MergeFrom(const LabelParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(LabelParameter* other);
+  void UnsafeMergeFrom(const LabelParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef LabelParameter_LabelParamConstant LabelParamConstant;
+  static const LabelParamConstant DUMMY_LABEL =
+    LabelParameter_LabelParamConstant_DUMMY_LABEL;
+  static inline bool LabelParamConstant_IsValid(int value) {
+    return LabelParameter_LabelParamConstant_IsValid(value);
+  }
+  static const LabelParamConstant LabelParamConstant_MIN =
+    LabelParameter_LabelParamConstant_LabelParamConstant_MIN;
+  static const LabelParamConstant LabelParamConstant_MAX =
+    LabelParameter_LabelParamConstant_LabelParamConstant_MAX;
+  static const int LabelParamConstant_ARRAYSIZE =
+    LabelParameter_LabelParamConstant_LabelParamConstant_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  LabelParamConstant_descriptor() {
+    return LabelParameter_LabelParamConstant_descriptor();
+  }
+  static inline const ::std::string& LabelParamConstant_Name(LabelParamConstant value) {
+    return LabelParameter_LabelParamConstant_Name(value);
+  }
+  static inline bool LabelParamConstant_Parse(const ::std::string& name,
+      LabelParamConstant* value) {
+    return LabelParameter_LabelParamConstant_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // required int32 num_label = 2;
+  bool has_num_label() const;
+  void clear_num_label();
+  static const int kNumLabelFieldNumber = 2;
+  ::google::protobuf::int32 num_label() const;
+  void set_num_label(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:caffe.LabelParameter)
+ private:
+  inline void set_has_num_label();
+  inline void clear_has_num_label();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::int32 num_label_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<LabelParameter> LabelParameter_default_instance_;
 
 // -------------------------------------------------------------------
 
@@ -4010,6 +4151,15 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::BBoxToLabelmapParameter* release_bbox_to_labelmap_param();
   void set_allocated_bbox_to_labelmap_param(::caffe::BBoxToLabelmapParameter* bbox_to_labelmap_param);
 
+  // optional .caffe.LabelParameter label_param = 1004;
+  bool has_label_param() const;
+  void clear_label_param();
+  static const int kLabelParamFieldNumber = 1004;
+  const ::caffe::LabelParameter& label_param() const;
+  ::caffe::LabelParameter* mutable_label_param();
+  ::caffe::LabelParameter* release_label_param();
+  void set_allocated_label_param(::caffe::LabelParameter* label_param);
+
   // @@protoc_insertion_point(class_scope:caffe.LayerParameter)
  private:
   inline void set_has_name();
@@ -4118,6 +4268,8 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_heatmap_concat_param();
   inline void set_has_bbox_to_labelmap_param();
   inline void clear_has_bbox_to_labelmap_param();
+  inline void set_has_label_param();
+  inline void clear_has_label_param();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<2> _has_bits_;
@@ -4181,6 +4333,7 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::ImgBBoxAnnoParameter* img_bbox_anno_param_;
   ::caffe::HeatmapConcatParameter* heatmap_concat_param_;
   ::caffe::BBoxToLabelmapParameter* bbox_to_labelmap_param_;
+  ::caffe::LabelParameter* label_param_;
   int phase_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
@@ -12543,6 +12696,37 @@ inline const BBoxToLabelmapParameter* BBoxToLabelmapParameter::internal_default_
 }
 // -------------------------------------------------------------------
 
+// LabelParameter
+
+// required int32 num_label = 2;
+inline bool LabelParameter::has_num_label() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void LabelParameter::set_has_num_label() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void LabelParameter::clear_has_num_label() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void LabelParameter::clear_num_label() {
+  num_label_ = 0;
+  clear_has_num_label();
+}
+inline ::google::protobuf::int32 LabelParameter::num_label() const {
+  // @@protoc_insertion_point(field_get:caffe.LabelParameter.num_label)
+  return num_label_;
+}
+inline void LabelParameter::set_num_label(::google::protobuf::int32 value) {
+  set_has_num_label();
+  num_label_ = value;
+  // @@protoc_insertion_point(field_set:caffe.LabelParameter.num_label)
+}
+
+inline const LabelParameter* LabelParameter::internal_default_instance() {
+  return &LabelParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
 // BlobShape
 
 // repeated int64 dim = 1 [packed = true];
@@ -18194,6 +18378,51 @@ inline void LayerParameter::set_allocated_bbox_to_labelmap_param(::caffe::BBoxTo
     clear_has_bbox_to_labelmap_param();
   }
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.bbox_to_labelmap_param)
+}
+
+// optional .caffe.LabelParameter label_param = 1004;
+inline bool LayerParameter::has_label_param() const {
+  return (_has_bits_[1] & 0x20000000u) != 0;
+}
+inline void LayerParameter::set_has_label_param() {
+  _has_bits_[1] |= 0x20000000u;
+}
+inline void LayerParameter::clear_has_label_param() {
+  _has_bits_[1] &= ~0x20000000u;
+}
+inline void LayerParameter::clear_label_param() {
+  if (label_param_ != NULL) label_param_->::caffe::LabelParameter::Clear();
+  clear_has_label_param();
+}
+inline const ::caffe::LabelParameter& LayerParameter::label_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.label_param)
+  return label_param_ != NULL ? *label_param_
+                         : *::caffe::LabelParameter::internal_default_instance();
+}
+inline ::caffe::LabelParameter* LayerParameter::mutable_label_param() {
+  set_has_label_param();
+  if (label_param_ == NULL) {
+    label_param_ = new ::caffe::LabelParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.label_param)
+  return label_param_;
+}
+inline ::caffe::LabelParameter* LayerParameter::release_label_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.label_param)
+  clear_has_label_param();
+  ::caffe::LabelParameter* temp = label_param_;
+  label_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_label_param(::caffe::LabelParameter* label_param) {
+  delete label_param_;
+  label_param_ = label_param;
+  if (label_param) {
+    set_has_label_param();
+  } else {
+    clear_has_label_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.label_param)
 }
 
 inline const LayerParameter* LayerParameter::internal_default_instance() {
@@ -26986,6 +27215,8 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -26995,6 +27226,11 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
 namespace google {
 namespace protobuf {
 
+template <> struct is_proto_enum< ::caffe::LabelParameter_LabelParamConstant> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::caffe::LabelParameter_LabelParamConstant>() {
+  return ::caffe::LabelParameter_LabelParamConstant_descriptor();
+}
 template <> struct is_proto_enum< ::caffe::FillerParameter_VarianceNorm> : ::google::protobuf::internal::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::caffe::FillerParameter_VarianceNorm>() {

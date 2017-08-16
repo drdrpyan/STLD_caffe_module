@@ -32,6 +32,13 @@ message BBoxToLabelmapParameter {
   required int32 v_stride = 4;
 }
 
+message LabelParameter{
+  enum LabelParamConstant {
+    DUMMY_LABEL = -1;
+  };
+
+  required int32 num_label = 2;
+}
 
 // Specifies the shape (dimensions) of a Blob.
 message BlobShape {
@@ -439,6 +446,7 @@ message LayerParameter {
   optional ImgBBoxAnnoParameter img_bbox_anno_param = 1001;
   optional HeatmapConcatParameter heatmap_concat_param = 1002;
   optional BBoxToLabelmapParameter bbox_to_labelmap_param = 1003; 
+  optional LabelParameter label_param = 1004;
 }
 
 // Message that stores parameters used to apply transformation
