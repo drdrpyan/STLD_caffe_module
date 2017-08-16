@@ -40,7 +40,7 @@ void protobuf_ShutdownFile_caffe_2eproto();
 
 class AccuracyParameter;
 class ArgMaxParameter;
-class BBoxToLabelmapParameter;
+class BBoxAnnoMapParameter;
 class BatchNormParameter;
 class BiasParameter;
 class BlobProto;
@@ -1058,14 +1058,14 @@ extern ::google::protobuf::internal::ExplicitlyConstructed<HeatmapConcatParamete
 
 // -------------------------------------------------------------------
 
-class BBoxToLabelmapParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.BBoxToLabelmapParameter) */ {
+class BBoxAnnoMapParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.BBoxAnnoMapParameter) */ {
  public:
-  BBoxToLabelmapParameter();
-  virtual ~BBoxToLabelmapParameter();
+  BBoxAnnoMapParameter();
+  virtual ~BBoxAnnoMapParameter();
 
-  BBoxToLabelmapParameter(const BBoxToLabelmapParameter& from);
+  BBoxAnnoMapParameter(const BBoxAnnoMapParameter& from);
 
-  inline BBoxToLabelmapParameter& operator=(const BBoxToLabelmapParameter& from) {
+  inline BBoxAnnoMapParameter& operator=(const BBoxAnnoMapParameter& from) {
     CopyFrom(from);
     return *this;
   }
@@ -1079,21 +1079,21 @@ class BBoxToLabelmapParameter : public ::google::protobuf::Message /* @@protoc_i
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const BBoxToLabelmapParameter& default_instance();
+  static const BBoxAnnoMapParameter& default_instance();
 
-  static const BBoxToLabelmapParameter* internal_default_instance();
+  static const BBoxAnnoMapParameter* internal_default_instance();
 
-  void Swap(BBoxToLabelmapParameter* other);
+  void Swap(BBoxAnnoMapParameter* other);
 
   // implements Message ----------------------------------------------
 
-  inline BBoxToLabelmapParameter* New() const { return New(NULL); }
+  inline BBoxAnnoMapParameter* New() const { return New(NULL); }
 
-  BBoxToLabelmapParameter* New(::google::protobuf::Arena* arena) const;
+  BBoxAnnoMapParameter* New(::google::protobuf::Arena* arena) const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const BBoxToLabelmapParameter& from);
-  void MergeFrom(const BBoxToLabelmapParameter& from);
+  void CopyFrom(const BBoxAnnoMapParameter& from);
+  void MergeFrom(const BBoxAnnoMapParameter& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -1112,8 +1112,8 @@ class BBoxToLabelmapParameter : public ::google::protobuf::Message /* @@protoc_i
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const;
-  void InternalSwap(BBoxToLabelmapParameter* other);
-  void UnsafeMergeFrom(const BBoxToLabelmapParameter& from);
+  void InternalSwap(BBoxAnnoMapParameter* other);
+  void UnsafeMergeFrom(const BBoxAnnoMapParameter& from);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return _internal_metadata_.arena();
@@ -1143,26 +1143,44 @@ class BBoxToLabelmapParameter : public ::google::protobuf::Message /* @@protoc_i
   ::google::protobuf::int32 img_width() const;
   void set_img_width(::google::protobuf::int32 value);
 
-  // required int32 h_stride = 3;
+  // required int32 receptive_field_h = 3;
+  bool has_receptive_field_h() const;
+  void clear_receptive_field_h();
+  static const int kReceptiveFieldHFieldNumber = 3;
+  ::google::protobuf::int32 receptive_field_h() const;
+  void set_receptive_field_h(::google::protobuf::int32 value);
+
+  // required int32 receptive_field_w = 4;
+  bool has_receptive_field_w() const;
+  void clear_receptive_field_w();
+  static const int kReceptiveFieldWFieldNumber = 4;
+  ::google::protobuf::int32 receptive_field_w() const;
+  void set_receptive_field_w(::google::protobuf::int32 value);
+
+  // required int32 h_stride = 5;
   bool has_h_stride() const;
   void clear_h_stride();
-  static const int kHStrideFieldNumber = 3;
+  static const int kHStrideFieldNumber = 5;
   ::google::protobuf::int32 h_stride() const;
   void set_h_stride(::google::protobuf::int32 value);
 
-  // required int32 v_stride = 4;
+  // required int32 v_stride = 6;
   bool has_v_stride() const;
   void clear_v_stride();
-  static const int kVStrideFieldNumber = 4;
+  static const int kVStrideFieldNumber = 6;
   ::google::protobuf::int32 v_stride() const;
   void set_v_stride(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:caffe.BBoxToLabelmapParameter)
+  // @@protoc_insertion_point(class_scope:caffe.BBoxAnnoMapParameter)
  private:
   inline void set_has_img_height();
   inline void clear_has_img_height();
   inline void set_has_img_width();
   inline void clear_has_img_width();
+  inline void set_has_receptive_field_h();
+  inline void clear_has_receptive_field_h();
+  inline void set_has_receptive_field_w();
+  inline void clear_has_receptive_field_w();
   inline void set_has_h_stride();
   inline void clear_has_h_stride();
   inline void set_has_v_stride();
@@ -1176,6 +1194,8 @@ class BBoxToLabelmapParameter : public ::google::protobuf::Message /* @@protoc_i
   mutable int _cached_size_;
   ::google::protobuf::int32 img_height_;
   ::google::protobuf::int32 img_width_;
+  ::google::protobuf::int32 receptive_field_h_;
+  ::google::protobuf::int32 receptive_field_w_;
   ::google::protobuf::int32 h_stride_;
   ::google::protobuf::int32 v_stride_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
@@ -1185,7 +1205,7 @@ class BBoxToLabelmapParameter : public ::google::protobuf::Message /* @@protoc_i
 
   void InitAsDefaultInstance();
 };
-extern ::google::protobuf::internal::ExplicitlyConstructed<BBoxToLabelmapParameter> BBoxToLabelmapParameter_default_instance_;
+extern ::google::protobuf::internal::ExplicitlyConstructed<BBoxAnnoMapParameter> BBoxAnnoMapParameter_default_instance_;
 
 // -------------------------------------------------------------------
 
@@ -4142,14 +4162,14 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::HeatmapConcatParameter* release_heatmap_concat_param();
   void set_allocated_heatmap_concat_param(::caffe::HeatmapConcatParameter* heatmap_concat_param);
 
-  // optional .caffe.BBoxToLabelmapParameter bbox_to_labelmap_param = 1003;
-  bool has_bbox_to_labelmap_param() const;
-  void clear_bbox_to_labelmap_param();
-  static const int kBboxToLabelmapParamFieldNumber = 1003;
-  const ::caffe::BBoxToLabelmapParameter& bbox_to_labelmap_param() const;
-  ::caffe::BBoxToLabelmapParameter* mutable_bbox_to_labelmap_param();
-  ::caffe::BBoxToLabelmapParameter* release_bbox_to_labelmap_param();
-  void set_allocated_bbox_to_labelmap_param(::caffe::BBoxToLabelmapParameter* bbox_to_labelmap_param);
+  // optional .caffe.BBoxAnnoMapParameter bbox_anno_map_param = 1003;
+  bool has_bbox_anno_map_param() const;
+  void clear_bbox_anno_map_param();
+  static const int kBboxAnnoMapParamFieldNumber = 1003;
+  const ::caffe::BBoxAnnoMapParameter& bbox_anno_map_param() const;
+  ::caffe::BBoxAnnoMapParameter* mutable_bbox_anno_map_param();
+  ::caffe::BBoxAnnoMapParameter* release_bbox_anno_map_param();
+  void set_allocated_bbox_anno_map_param(::caffe::BBoxAnnoMapParameter* bbox_anno_map_param);
 
   // optional .caffe.LabelParameter label_param = 1004;
   bool has_label_param() const;
@@ -4266,8 +4286,8 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_img_bbox_anno_param();
   inline void set_has_heatmap_concat_param();
   inline void clear_has_heatmap_concat_param();
-  inline void set_has_bbox_to_labelmap_param();
-  inline void clear_has_bbox_to_labelmap_param();
+  inline void set_has_bbox_anno_map_param();
+  inline void clear_has_bbox_anno_map_param();
   inline void set_has_label_param();
   inline void clear_has_label_param();
 
@@ -4332,7 +4352,7 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::WindowDataParameter* window_data_param_;
   ::caffe::ImgBBoxAnnoParameter* img_bbox_anno_param_;
   ::caffe::HeatmapConcatParameter* heatmap_concat_param_;
-  ::caffe::BBoxToLabelmapParameter* bbox_to_labelmap_param_;
+  ::caffe::BBoxAnnoMapParameter* bbox_anno_map_param_;
   ::caffe::LabelParameter* label_param_;
   int phase_;
   mutable int _cached_size_;
@@ -12593,106 +12613,154 @@ inline const HeatmapConcatParameter* HeatmapConcatParameter::internal_default_in
 }
 // -------------------------------------------------------------------
 
-// BBoxToLabelmapParameter
+// BBoxAnnoMapParameter
 
 // required int32 img_height = 1;
-inline bool BBoxToLabelmapParameter::has_img_height() const {
+inline bool BBoxAnnoMapParameter::has_img_height() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void BBoxToLabelmapParameter::set_has_img_height() {
+inline void BBoxAnnoMapParameter::set_has_img_height() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void BBoxToLabelmapParameter::clear_has_img_height() {
+inline void BBoxAnnoMapParameter::clear_has_img_height() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void BBoxToLabelmapParameter::clear_img_height() {
+inline void BBoxAnnoMapParameter::clear_img_height() {
   img_height_ = 0;
   clear_has_img_height();
 }
-inline ::google::protobuf::int32 BBoxToLabelmapParameter::img_height() const {
-  // @@protoc_insertion_point(field_get:caffe.BBoxToLabelmapParameter.img_height)
+inline ::google::protobuf::int32 BBoxAnnoMapParameter::img_height() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.img_height)
   return img_height_;
 }
-inline void BBoxToLabelmapParameter::set_img_height(::google::protobuf::int32 value) {
+inline void BBoxAnnoMapParameter::set_img_height(::google::protobuf::int32 value) {
   set_has_img_height();
   img_height_ = value;
-  // @@protoc_insertion_point(field_set:caffe.BBoxToLabelmapParameter.img_height)
+  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.img_height)
 }
 
 // required int32 img_width = 2;
-inline bool BBoxToLabelmapParameter::has_img_width() const {
+inline bool BBoxAnnoMapParameter::has_img_width() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void BBoxToLabelmapParameter::set_has_img_width() {
+inline void BBoxAnnoMapParameter::set_has_img_width() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void BBoxToLabelmapParameter::clear_has_img_width() {
+inline void BBoxAnnoMapParameter::clear_has_img_width() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void BBoxToLabelmapParameter::clear_img_width() {
+inline void BBoxAnnoMapParameter::clear_img_width() {
   img_width_ = 0;
   clear_has_img_width();
 }
-inline ::google::protobuf::int32 BBoxToLabelmapParameter::img_width() const {
-  // @@protoc_insertion_point(field_get:caffe.BBoxToLabelmapParameter.img_width)
+inline ::google::protobuf::int32 BBoxAnnoMapParameter::img_width() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.img_width)
   return img_width_;
 }
-inline void BBoxToLabelmapParameter::set_img_width(::google::protobuf::int32 value) {
+inline void BBoxAnnoMapParameter::set_img_width(::google::protobuf::int32 value) {
   set_has_img_width();
   img_width_ = value;
-  // @@protoc_insertion_point(field_set:caffe.BBoxToLabelmapParameter.img_width)
+  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.img_width)
 }
 
-// required int32 h_stride = 3;
-inline bool BBoxToLabelmapParameter::has_h_stride() const {
+// required int32 receptive_field_h = 3;
+inline bool BBoxAnnoMapParameter::has_receptive_field_h() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void BBoxToLabelmapParameter::set_has_h_stride() {
+inline void BBoxAnnoMapParameter::set_has_receptive_field_h() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void BBoxToLabelmapParameter::clear_has_h_stride() {
+inline void BBoxAnnoMapParameter::clear_has_receptive_field_h() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void BBoxToLabelmapParameter::clear_h_stride() {
+inline void BBoxAnnoMapParameter::clear_receptive_field_h() {
+  receptive_field_h_ = 0;
+  clear_has_receptive_field_h();
+}
+inline ::google::protobuf::int32 BBoxAnnoMapParameter::receptive_field_h() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.receptive_field_h)
+  return receptive_field_h_;
+}
+inline void BBoxAnnoMapParameter::set_receptive_field_h(::google::protobuf::int32 value) {
+  set_has_receptive_field_h();
+  receptive_field_h_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.receptive_field_h)
+}
+
+// required int32 receptive_field_w = 4;
+inline bool BBoxAnnoMapParameter::has_receptive_field_w() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void BBoxAnnoMapParameter::set_has_receptive_field_w() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void BBoxAnnoMapParameter::clear_has_receptive_field_w() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void BBoxAnnoMapParameter::clear_receptive_field_w() {
+  receptive_field_w_ = 0;
+  clear_has_receptive_field_w();
+}
+inline ::google::protobuf::int32 BBoxAnnoMapParameter::receptive_field_w() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.receptive_field_w)
+  return receptive_field_w_;
+}
+inline void BBoxAnnoMapParameter::set_receptive_field_w(::google::protobuf::int32 value) {
+  set_has_receptive_field_w();
+  receptive_field_w_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.receptive_field_w)
+}
+
+// required int32 h_stride = 5;
+inline bool BBoxAnnoMapParameter::has_h_stride() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void BBoxAnnoMapParameter::set_has_h_stride() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void BBoxAnnoMapParameter::clear_has_h_stride() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void BBoxAnnoMapParameter::clear_h_stride() {
   h_stride_ = 0;
   clear_has_h_stride();
 }
-inline ::google::protobuf::int32 BBoxToLabelmapParameter::h_stride() const {
-  // @@protoc_insertion_point(field_get:caffe.BBoxToLabelmapParameter.h_stride)
+inline ::google::protobuf::int32 BBoxAnnoMapParameter::h_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.h_stride)
   return h_stride_;
 }
-inline void BBoxToLabelmapParameter::set_h_stride(::google::protobuf::int32 value) {
+inline void BBoxAnnoMapParameter::set_h_stride(::google::protobuf::int32 value) {
   set_has_h_stride();
   h_stride_ = value;
-  // @@protoc_insertion_point(field_set:caffe.BBoxToLabelmapParameter.h_stride)
+  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.h_stride)
 }
 
-// required int32 v_stride = 4;
-inline bool BBoxToLabelmapParameter::has_v_stride() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+// required int32 v_stride = 6;
+inline bool BBoxAnnoMapParameter::has_v_stride() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
 }
-inline void BBoxToLabelmapParameter::set_has_v_stride() {
-  _has_bits_[0] |= 0x00000008u;
+inline void BBoxAnnoMapParameter::set_has_v_stride() {
+  _has_bits_[0] |= 0x00000020u;
 }
-inline void BBoxToLabelmapParameter::clear_has_v_stride() {
-  _has_bits_[0] &= ~0x00000008u;
+inline void BBoxAnnoMapParameter::clear_has_v_stride() {
+  _has_bits_[0] &= ~0x00000020u;
 }
-inline void BBoxToLabelmapParameter::clear_v_stride() {
+inline void BBoxAnnoMapParameter::clear_v_stride() {
   v_stride_ = 0;
   clear_has_v_stride();
 }
-inline ::google::protobuf::int32 BBoxToLabelmapParameter::v_stride() const {
-  // @@protoc_insertion_point(field_get:caffe.BBoxToLabelmapParameter.v_stride)
+inline ::google::protobuf::int32 BBoxAnnoMapParameter::v_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.v_stride)
   return v_stride_;
 }
-inline void BBoxToLabelmapParameter::set_v_stride(::google::protobuf::int32 value) {
+inline void BBoxAnnoMapParameter::set_v_stride(::google::protobuf::int32 value) {
   set_has_v_stride();
   v_stride_ = value;
-  // @@protoc_insertion_point(field_set:caffe.BBoxToLabelmapParameter.v_stride)
+  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.v_stride)
 }
 
-inline const BBoxToLabelmapParameter* BBoxToLabelmapParameter::internal_default_instance() {
-  return &BBoxToLabelmapParameter_default_instance_.get();
+inline const BBoxAnnoMapParameter* BBoxAnnoMapParameter::internal_default_instance() {
+  return &BBoxAnnoMapParameter_default_instance_.get();
 }
 // -------------------------------------------------------------------
 
@@ -18335,49 +18403,49 @@ inline void LayerParameter::set_allocated_heatmap_concat_param(::caffe::HeatmapC
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.heatmap_concat_param)
 }
 
-// optional .caffe.BBoxToLabelmapParameter bbox_to_labelmap_param = 1003;
-inline bool LayerParameter::has_bbox_to_labelmap_param() const {
+// optional .caffe.BBoxAnnoMapParameter bbox_anno_map_param = 1003;
+inline bool LayerParameter::has_bbox_anno_map_param() const {
   return (_has_bits_[1] & 0x10000000u) != 0;
 }
-inline void LayerParameter::set_has_bbox_to_labelmap_param() {
+inline void LayerParameter::set_has_bbox_anno_map_param() {
   _has_bits_[1] |= 0x10000000u;
 }
-inline void LayerParameter::clear_has_bbox_to_labelmap_param() {
+inline void LayerParameter::clear_has_bbox_anno_map_param() {
   _has_bits_[1] &= ~0x10000000u;
 }
-inline void LayerParameter::clear_bbox_to_labelmap_param() {
-  if (bbox_to_labelmap_param_ != NULL) bbox_to_labelmap_param_->::caffe::BBoxToLabelmapParameter::Clear();
-  clear_has_bbox_to_labelmap_param();
+inline void LayerParameter::clear_bbox_anno_map_param() {
+  if (bbox_anno_map_param_ != NULL) bbox_anno_map_param_->::caffe::BBoxAnnoMapParameter::Clear();
+  clear_has_bbox_anno_map_param();
 }
-inline const ::caffe::BBoxToLabelmapParameter& LayerParameter::bbox_to_labelmap_param() const {
-  // @@protoc_insertion_point(field_get:caffe.LayerParameter.bbox_to_labelmap_param)
-  return bbox_to_labelmap_param_ != NULL ? *bbox_to_labelmap_param_
-                         : *::caffe::BBoxToLabelmapParameter::internal_default_instance();
+inline const ::caffe::BBoxAnnoMapParameter& LayerParameter::bbox_anno_map_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.bbox_anno_map_param)
+  return bbox_anno_map_param_ != NULL ? *bbox_anno_map_param_
+                         : *::caffe::BBoxAnnoMapParameter::internal_default_instance();
 }
-inline ::caffe::BBoxToLabelmapParameter* LayerParameter::mutable_bbox_to_labelmap_param() {
-  set_has_bbox_to_labelmap_param();
-  if (bbox_to_labelmap_param_ == NULL) {
-    bbox_to_labelmap_param_ = new ::caffe::BBoxToLabelmapParameter;
+inline ::caffe::BBoxAnnoMapParameter* LayerParameter::mutable_bbox_anno_map_param() {
+  set_has_bbox_anno_map_param();
+  if (bbox_anno_map_param_ == NULL) {
+    bbox_anno_map_param_ = new ::caffe::BBoxAnnoMapParameter;
   }
-  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.bbox_to_labelmap_param)
-  return bbox_to_labelmap_param_;
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.bbox_anno_map_param)
+  return bbox_anno_map_param_;
 }
-inline ::caffe::BBoxToLabelmapParameter* LayerParameter::release_bbox_to_labelmap_param() {
-  // @@protoc_insertion_point(field_release:caffe.LayerParameter.bbox_to_labelmap_param)
-  clear_has_bbox_to_labelmap_param();
-  ::caffe::BBoxToLabelmapParameter* temp = bbox_to_labelmap_param_;
-  bbox_to_labelmap_param_ = NULL;
+inline ::caffe::BBoxAnnoMapParameter* LayerParameter::release_bbox_anno_map_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.bbox_anno_map_param)
+  clear_has_bbox_anno_map_param();
+  ::caffe::BBoxAnnoMapParameter* temp = bbox_anno_map_param_;
+  bbox_anno_map_param_ = NULL;
   return temp;
 }
-inline void LayerParameter::set_allocated_bbox_to_labelmap_param(::caffe::BBoxToLabelmapParameter* bbox_to_labelmap_param) {
-  delete bbox_to_labelmap_param_;
-  bbox_to_labelmap_param_ = bbox_to_labelmap_param;
-  if (bbox_to_labelmap_param) {
-    set_has_bbox_to_labelmap_param();
+inline void LayerParameter::set_allocated_bbox_anno_map_param(::caffe::BBoxAnnoMapParameter* bbox_anno_map_param) {
+  delete bbox_anno_map_param_;
+  bbox_anno_map_param_ = bbox_anno_map_param;
+  if (bbox_anno_map_param) {
+    set_has_bbox_anno_map_param();
   } else {
-    clear_has_bbox_to_labelmap_param();
+    clear_has_bbox_anno_map_param();
   }
-  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.bbox_to_labelmap_param)
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.bbox_anno_map_param)
 }
 
 // optional .caffe.LabelParameter label_param = 1004;
