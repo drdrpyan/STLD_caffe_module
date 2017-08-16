@@ -897,6 +897,13 @@ class ImgBBoxAnnoParameter : public ::google::protobuf::Message /* @@protoc_inse
   ::google::protobuf::int32 max_bbox_per_img() const;
   void set_max_bbox_per_img(::google::protobuf::int32 value);
 
+  // optional bool colored = 4 [default = true];
+  bool has_colored() const;
+  void clear_colored();
+  static const int kColoredFieldNumber = 4;
+  bool colored() const;
+  void set_colored(bool value);
+
   // @@protoc_insertion_point(class_scope:caffe.ImgBBoxAnnoParameter)
  private:
   inline void set_has_img_height();
@@ -905,6 +912,8 @@ class ImgBBoxAnnoParameter : public ::google::protobuf::Message /* @@protoc_inse
   inline void clear_has_img_width();
   inline void set_has_max_bbox_per_img();
   inline void clear_has_max_bbox_per_img();
+  inline void set_has_colored();
+  inline void clear_has_colored();
 
   // helper for ByteSizeLong()
   size_t RequiredFieldsByteSizeFallback() const;
@@ -915,6 +924,7 @@ class ImgBBoxAnnoParameter : public ::google::protobuf::Message /* @@protoc_inse
   ::google::protobuf::int32 img_height_;
   ::google::protobuf::int32 img_width_;
   ::google::protobuf::int32 max_bbox_per_img_;
+  bool colored_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_2eproto_impl();
   friend void protobuf_AssignDesc_caffe_2eproto();
@@ -12338,6 +12348,30 @@ inline void ImgBBoxAnnoParameter::set_max_bbox_per_img(::google::protobuf::int32
   set_has_max_bbox_per_img();
   max_bbox_per_img_ = value;
   // @@protoc_insertion_point(field_set:caffe.ImgBBoxAnnoParameter.max_bbox_per_img)
+}
+
+// optional bool colored = 4 [default = true];
+inline bool ImgBBoxAnnoParameter::has_colored() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void ImgBBoxAnnoParameter::set_has_colored() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void ImgBBoxAnnoParameter::clear_has_colored() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void ImgBBoxAnnoParameter::clear_colored() {
+  colored_ = true;
+  clear_has_colored();
+}
+inline bool ImgBBoxAnnoParameter::colored() const {
+  // @@protoc_insertion_point(field_get:caffe.ImgBBoxAnnoParameter.colored)
+  return colored_;
+}
+inline void ImgBBoxAnnoParameter::set_colored(bool value) {
+  set_has_colored();
+  colored_ = value;
+  // @@protoc_insertion_point(field_set:caffe.ImgBBoxAnnoParameter.colored)
 }
 
 inline const ImgBBoxAnnoParameter* ImgBBoxAnnoParameter::internal_default_instance() {
