@@ -40,6 +40,7 @@ void protobuf_ShutdownFile_caffe_2eproto();
 
 class AccuracyParameter;
 class ArgMaxParameter;
+class BBoxToLabelmapParameter;
 class BatchNormParameter;
 class BiasParameter;
 class BlobProto;
@@ -61,8 +62,11 @@ class FillerParameter;
 class FlattenParameter;
 class HDF5DataParameter;
 class HDF5OutputParameter;
+class HeatmapConcatParameter;
 class HingeLossParameter;
 class ImageDataParameter;
+class ImgBBoxAnnoDatum;
+class ImgBBoxAnnoParameter;
 class InfogainLossParameter;
 class InnerProductParameter;
 class InputParameter;
@@ -635,6 +639,526 @@ inline bool Phase_Parse(
     Phase_descriptor(), name, value);
 }
 // ===================================================================
+
+class ImgBBoxAnnoDatum : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.ImgBBoxAnnoDatum) */ {
+ public:
+  ImgBBoxAnnoDatum();
+  virtual ~ImgBBoxAnnoDatum();
+
+  ImgBBoxAnnoDatum(const ImgBBoxAnnoDatum& from);
+
+  inline ImgBBoxAnnoDatum& operator=(const ImgBBoxAnnoDatum& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ImgBBoxAnnoDatum& default_instance();
+
+  static const ImgBBoxAnnoDatum* internal_default_instance();
+
+  void Swap(ImgBBoxAnnoDatum* other);
+
+  // implements Message ----------------------------------------------
+
+  inline ImgBBoxAnnoDatum* New() const { return New(NULL); }
+
+  ImgBBoxAnnoDatum* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ImgBBoxAnnoDatum& from);
+  void MergeFrom(const ImgBBoxAnnoDatum& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ImgBBoxAnnoDatum* other);
+  void UnsafeMergeFrom(const ImgBBoxAnnoDatum& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .caffe.Datum img_datum = 1;
+  bool has_img_datum() const;
+  void clear_img_datum();
+  static const int kImgDatumFieldNumber = 1;
+  const ::caffe::Datum& img_datum() const;
+  ::caffe::Datum* mutable_img_datum();
+  ::caffe::Datum* release_img_datum();
+  void set_allocated_img_datum(::caffe::Datum* img_datum);
+
+  // repeated int32 label = 2;
+  int label_size() const;
+  void clear_label();
+  static const int kLabelFieldNumber = 2;
+  ::google::protobuf::int32 label(int index) const;
+  void set_label(int index, ::google::protobuf::int32 value);
+  void add_label(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      label() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_label();
+
+  // repeated float x_min = 3;
+  int x_min_size() const;
+  void clear_x_min();
+  static const int kXMinFieldNumber = 3;
+  float x_min(int index) const;
+  void set_x_min(int index, float value);
+  void add_x_min(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      x_min() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_x_min();
+
+  // repeated float y_min = 4;
+  int y_min_size() const;
+  void clear_y_min();
+  static const int kYMinFieldNumber = 4;
+  float y_min(int index) const;
+  void set_y_min(int index, float value);
+  void add_y_min(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      y_min() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_y_min();
+
+  // repeated float x_max = 5;
+  int x_max_size() const;
+  void clear_x_max();
+  static const int kXMaxFieldNumber = 5;
+  float x_max(int index) const;
+  void set_x_max(int index, float value);
+  void add_x_max(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      x_max() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_x_max();
+
+  // repeated float y_max = 6;
+  int y_max_size() const;
+  void clear_y_max();
+  static const int kYMaxFieldNumber = 6;
+  float y_max(int index) const;
+  void set_y_max(int index, float value);
+  void add_y_max(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      y_max() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_y_max();
+
+  // @@protoc_insertion_point(class_scope:caffe.ImgBBoxAnnoDatum)
+ private:
+  inline void set_has_img_datum();
+  inline void clear_has_img_datum();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > label_;
+  ::google::protobuf::RepeatedField< float > x_min_;
+  ::google::protobuf::RepeatedField< float > y_min_;
+  ::google::protobuf::RepeatedField< float > x_max_;
+  ::google::protobuf::RepeatedField< float > y_max_;
+  ::caffe::Datum* img_datum_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<ImgBBoxAnnoDatum> ImgBBoxAnnoDatum_default_instance_;
+
+// -------------------------------------------------------------------
+
+class ImgBBoxAnnoParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.ImgBBoxAnnoParameter) */ {
+ public:
+  ImgBBoxAnnoParameter();
+  virtual ~ImgBBoxAnnoParameter();
+
+  ImgBBoxAnnoParameter(const ImgBBoxAnnoParameter& from);
+
+  inline ImgBBoxAnnoParameter& operator=(const ImgBBoxAnnoParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ImgBBoxAnnoParameter& default_instance();
+
+  static const ImgBBoxAnnoParameter* internal_default_instance();
+
+  void Swap(ImgBBoxAnnoParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline ImgBBoxAnnoParameter* New() const { return New(NULL); }
+
+  ImgBBoxAnnoParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ImgBBoxAnnoParameter& from);
+  void MergeFrom(const ImgBBoxAnnoParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ImgBBoxAnnoParameter* other);
+  void UnsafeMergeFrom(const ImgBBoxAnnoParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 img_height = 1;
+  bool has_img_height() const;
+  void clear_img_height();
+  static const int kImgHeightFieldNumber = 1;
+  ::google::protobuf::int32 img_height() const;
+  void set_img_height(::google::protobuf::int32 value);
+
+  // required int32 img_width = 2;
+  bool has_img_width() const;
+  void clear_img_width();
+  static const int kImgWidthFieldNumber = 2;
+  ::google::protobuf::int32 img_width() const;
+  void set_img_width(::google::protobuf::int32 value);
+
+  // required int32 max_bbox_per_img = 3;
+  bool has_max_bbox_per_img() const;
+  void clear_max_bbox_per_img();
+  static const int kMaxBboxPerImgFieldNumber = 3;
+  ::google::protobuf::int32 max_bbox_per_img() const;
+  void set_max_bbox_per_img(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:caffe.ImgBBoxAnnoParameter)
+ private:
+  inline void set_has_img_height();
+  inline void clear_has_img_height();
+  inline void set_has_img_width();
+  inline void clear_has_img_width();
+  inline void set_has_max_bbox_per_img();
+  inline void clear_has_max_bbox_per_img();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::int32 img_height_;
+  ::google::protobuf::int32 img_width_;
+  ::google::protobuf::int32 max_bbox_per_img_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<ImgBBoxAnnoParameter> ImgBBoxAnnoParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class HeatmapConcatParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.HeatmapConcatParameter) */ {
+ public:
+  HeatmapConcatParameter();
+  virtual ~HeatmapConcatParameter();
+
+  HeatmapConcatParameter(const HeatmapConcatParameter& from);
+
+  inline HeatmapConcatParameter& operator=(const HeatmapConcatParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const HeatmapConcatParameter& default_instance();
+
+  static const HeatmapConcatParameter* internal_default_instance();
+
+  void Swap(HeatmapConcatParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline HeatmapConcatParameter* New() const { return New(NULL); }
+
+  HeatmapConcatParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const HeatmapConcatParameter& from);
+  void MergeFrom(const HeatmapConcatParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(HeatmapConcatParameter* other);
+  void UnsafeMergeFrom(const HeatmapConcatParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required string heatmap_file = 1;
+  bool has_heatmap_file() const;
+  void clear_heatmap_file();
+  static const int kHeatmapFileFieldNumber = 1;
+  const ::std::string& heatmap_file() const;
+  void set_heatmap_file(const ::std::string& value);
+  void set_heatmap_file(const char* value);
+  void set_heatmap_file(const char* value, size_t size);
+  ::std::string* mutable_heatmap_file();
+  ::std::string* release_heatmap_file();
+  void set_allocated_heatmap_file(::std::string* heatmap_file);
+
+  // @@protoc_insertion_point(class_scope:caffe.HeatmapConcatParameter)
+ private:
+  inline void set_has_heatmap_file();
+  inline void clear_has_heatmap_file();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::internal::ArenaStringPtr heatmap_file_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<HeatmapConcatParameter> HeatmapConcatParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class BBoxToLabelmapParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.BBoxToLabelmapParameter) */ {
+ public:
+  BBoxToLabelmapParameter();
+  virtual ~BBoxToLabelmapParameter();
+
+  BBoxToLabelmapParameter(const BBoxToLabelmapParameter& from);
+
+  inline BBoxToLabelmapParameter& operator=(const BBoxToLabelmapParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const BBoxToLabelmapParameter& default_instance();
+
+  static const BBoxToLabelmapParameter* internal_default_instance();
+
+  void Swap(BBoxToLabelmapParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline BBoxToLabelmapParameter* New() const { return New(NULL); }
+
+  BBoxToLabelmapParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const BBoxToLabelmapParameter& from);
+  void MergeFrom(const BBoxToLabelmapParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(BBoxToLabelmapParameter* other);
+  void UnsafeMergeFrom(const BBoxToLabelmapParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 img_height = 1;
+  bool has_img_height() const;
+  void clear_img_height();
+  static const int kImgHeightFieldNumber = 1;
+  ::google::protobuf::int32 img_height() const;
+  void set_img_height(::google::protobuf::int32 value);
+
+  // required int32 img_width = 2;
+  bool has_img_width() const;
+  void clear_img_width();
+  static const int kImgWidthFieldNumber = 2;
+  ::google::protobuf::int32 img_width() const;
+  void set_img_width(::google::protobuf::int32 value);
+
+  // required int32 h_stride = 3;
+  bool has_h_stride() const;
+  void clear_h_stride();
+  static const int kHStrideFieldNumber = 3;
+  ::google::protobuf::int32 h_stride() const;
+  void set_h_stride(::google::protobuf::int32 value);
+
+  // required int32 v_stride = 4;
+  bool has_v_stride() const;
+  void clear_v_stride();
+  static const int kVStrideFieldNumber = 4;
+  ::google::protobuf::int32 v_stride() const;
+  void set_v_stride(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:caffe.BBoxToLabelmapParameter)
+ private:
+  inline void set_has_img_height();
+  inline void clear_has_img_height();
+  inline void set_has_img_width();
+  inline void clear_has_img_width();
+  inline void set_has_h_stride();
+  inline void clear_has_h_stride();
+  inline void set_has_v_stride();
+  inline void clear_has_v_stride();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::int32 img_height_;
+  ::google::protobuf::int32 img_width_;
+  ::google::protobuf::int32 h_stride_;
+  ::google::protobuf::int32 v_stride_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<BBoxToLabelmapParameter> BBoxToLabelmapParameter_default_instance_;
+
+// -------------------------------------------------------------------
 
 class BlobShape : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.BlobShape) */ {
  public:
@@ -2067,7 +2591,7 @@ class SolverParameter : public ::google::protobuf::Message /* @@protoc_insertion
   ::std::string* release_type();
   void set_allocated_type(::std::string* type);
 
-  // optional float delta = 31 [default = 1e-08];
+  // optional float delta = 31 [default = 1e-008];
   bool has_delta() const;
   void clear_delta();
   static const int kDeltaFieldNumber = 31;
@@ -3449,6 +3973,33 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::WindowDataParameter* release_window_data_param();
   void set_allocated_window_data_param(::caffe::WindowDataParameter* window_data_param);
 
+  // optional .caffe.ImgBBoxAnnoParameter img_bbox_anno_param = 1001;
+  bool has_img_bbox_anno_param() const;
+  void clear_img_bbox_anno_param();
+  static const int kImgBboxAnnoParamFieldNumber = 1001;
+  const ::caffe::ImgBBoxAnnoParameter& img_bbox_anno_param() const;
+  ::caffe::ImgBBoxAnnoParameter* mutable_img_bbox_anno_param();
+  ::caffe::ImgBBoxAnnoParameter* release_img_bbox_anno_param();
+  void set_allocated_img_bbox_anno_param(::caffe::ImgBBoxAnnoParameter* img_bbox_anno_param);
+
+  // optional .caffe.HeatmapConcatParameter heatmap_concat_param = 1002;
+  bool has_heatmap_concat_param() const;
+  void clear_heatmap_concat_param();
+  static const int kHeatmapConcatParamFieldNumber = 1002;
+  const ::caffe::HeatmapConcatParameter& heatmap_concat_param() const;
+  ::caffe::HeatmapConcatParameter* mutable_heatmap_concat_param();
+  ::caffe::HeatmapConcatParameter* release_heatmap_concat_param();
+  void set_allocated_heatmap_concat_param(::caffe::HeatmapConcatParameter* heatmap_concat_param);
+
+  // optional .caffe.BBoxToLabelmapParameter bbox_to_labelmap_param = 1003;
+  bool has_bbox_to_labelmap_param() const;
+  void clear_bbox_to_labelmap_param();
+  static const int kBboxToLabelmapParamFieldNumber = 1003;
+  const ::caffe::BBoxToLabelmapParameter& bbox_to_labelmap_param() const;
+  ::caffe::BBoxToLabelmapParameter* mutable_bbox_to_labelmap_param();
+  ::caffe::BBoxToLabelmapParameter* release_bbox_to_labelmap_param();
+  void set_allocated_bbox_to_labelmap_param(::caffe::BBoxToLabelmapParameter* bbox_to_labelmap_param);
+
   // @@protoc_insertion_point(class_scope:caffe.LayerParameter)
  private:
   inline void set_has_name();
@@ -3551,6 +4102,12 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_tile_param();
   inline void set_has_window_data_param();
   inline void clear_has_window_data_param();
+  inline void set_has_img_bbox_anno_param();
+  inline void clear_has_img_bbox_anno_param();
+  inline void set_has_heatmap_concat_param();
+  inline void clear_has_heatmap_concat_param();
+  inline void set_has_bbox_to_labelmap_param();
+  inline void clear_has_bbox_to_labelmap_param();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<2> _has_bits_;
@@ -3611,6 +4168,9 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::ThresholdParameter* threshold_param_;
   ::caffe::TileParameter* tile_param_;
   ::caffe::WindowDataParameter* window_data_param_;
+  ::caffe::ImgBBoxAnnoParameter* img_bbox_anno_param_;
+  ::caffe::HeatmapConcatParameter* heatmap_concat_param_;
+  ::caffe::BBoxToLabelmapParameter* bbox_to_labelmap_param_;
   int phase_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
@@ -4367,7 +4927,7 @@ class BatchNormParameter : public ::google::protobuf::Message /* @@protoc_insert
   float moving_average_fraction() const;
   void set_moving_average_fraction(float value);
 
-  // optional float eps = 3 [default = 1e-05];
+  // optional float eps = 3 [default = 1e-005];
   bool has_eps() const;
   void clear_eps();
   static const int kEpsFieldNumber = 3;
@@ -7626,7 +8186,7 @@ class MVNParameter : public ::google::protobuf::Message /* @@protoc_insertion_po
   bool across_channels() const;
   void set_across_channels(bool value);
 
-  // optional float eps = 3 [default = 1e-09];
+  // optional float eps = 3 [default = 1e-009];
   bool has_eps() const;
   void clear_eps();
   static const int kEpsFieldNumber = 3;
@@ -11504,6 +12064,451 @@ extern ::google::protobuf::internal::ExplicitlyConstructed<PReLUParameter> PReLU
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
+// ImgBBoxAnnoDatum
+
+// required .caffe.Datum img_datum = 1;
+inline bool ImgBBoxAnnoDatum::has_img_datum() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ImgBBoxAnnoDatum::set_has_img_datum() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ImgBBoxAnnoDatum::clear_has_img_datum() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ImgBBoxAnnoDatum::clear_img_datum() {
+  if (img_datum_ != NULL) img_datum_->::caffe::Datum::Clear();
+  clear_has_img_datum();
+}
+inline const ::caffe::Datum& ImgBBoxAnnoDatum::img_datum() const {
+  // @@protoc_insertion_point(field_get:caffe.ImgBBoxAnnoDatum.img_datum)
+  return img_datum_ != NULL ? *img_datum_
+                         : *::caffe::Datum::internal_default_instance();
+}
+inline ::caffe::Datum* ImgBBoxAnnoDatum::mutable_img_datum() {
+  set_has_img_datum();
+  if (img_datum_ == NULL) {
+    img_datum_ = new ::caffe::Datum;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.ImgBBoxAnnoDatum.img_datum)
+  return img_datum_;
+}
+inline ::caffe::Datum* ImgBBoxAnnoDatum::release_img_datum() {
+  // @@protoc_insertion_point(field_release:caffe.ImgBBoxAnnoDatum.img_datum)
+  clear_has_img_datum();
+  ::caffe::Datum* temp = img_datum_;
+  img_datum_ = NULL;
+  return temp;
+}
+inline void ImgBBoxAnnoDatum::set_allocated_img_datum(::caffe::Datum* img_datum) {
+  delete img_datum_;
+  img_datum_ = img_datum;
+  if (img_datum) {
+    set_has_img_datum();
+  } else {
+    clear_has_img_datum();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.ImgBBoxAnnoDatum.img_datum)
+}
+
+// repeated int32 label = 2;
+inline int ImgBBoxAnnoDatum::label_size() const {
+  return label_.size();
+}
+inline void ImgBBoxAnnoDatum::clear_label() {
+  label_.Clear();
+}
+inline ::google::protobuf::int32 ImgBBoxAnnoDatum::label(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.ImgBBoxAnnoDatum.label)
+  return label_.Get(index);
+}
+inline void ImgBBoxAnnoDatum::set_label(int index, ::google::protobuf::int32 value) {
+  label_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.ImgBBoxAnnoDatum.label)
+}
+inline void ImgBBoxAnnoDatum::add_label(::google::protobuf::int32 value) {
+  label_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.ImgBBoxAnnoDatum.label)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+ImgBBoxAnnoDatum::label() const {
+  // @@protoc_insertion_point(field_list:caffe.ImgBBoxAnnoDatum.label)
+  return label_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+ImgBBoxAnnoDatum::mutable_label() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.ImgBBoxAnnoDatum.label)
+  return &label_;
+}
+
+// repeated float x_min = 3;
+inline int ImgBBoxAnnoDatum::x_min_size() const {
+  return x_min_.size();
+}
+inline void ImgBBoxAnnoDatum::clear_x_min() {
+  x_min_.Clear();
+}
+inline float ImgBBoxAnnoDatum::x_min(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.ImgBBoxAnnoDatum.x_min)
+  return x_min_.Get(index);
+}
+inline void ImgBBoxAnnoDatum::set_x_min(int index, float value) {
+  x_min_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.ImgBBoxAnnoDatum.x_min)
+}
+inline void ImgBBoxAnnoDatum::add_x_min(float value) {
+  x_min_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.ImgBBoxAnnoDatum.x_min)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::x_min() const {
+  // @@protoc_insertion_point(field_list:caffe.ImgBBoxAnnoDatum.x_min)
+  return x_min_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_x_min() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.ImgBBoxAnnoDatum.x_min)
+  return &x_min_;
+}
+
+// repeated float y_min = 4;
+inline int ImgBBoxAnnoDatum::y_min_size() const {
+  return y_min_.size();
+}
+inline void ImgBBoxAnnoDatum::clear_y_min() {
+  y_min_.Clear();
+}
+inline float ImgBBoxAnnoDatum::y_min(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.ImgBBoxAnnoDatum.y_min)
+  return y_min_.Get(index);
+}
+inline void ImgBBoxAnnoDatum::set_y_min(int index, float value) {
+  y_min_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.ImgBBoxAnnoDatum.y_min)
+}
+inline void ImgBBoxAnnoDatum::add_y_min(float value) {
+  y_min_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.ImgBBoxAnnoDatum.y_min)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::y_min() const {
+  // @@protoc_insertion_point(field_list:caffe.ImgBBoxAnnoDatum.y_min)
+  return y_min_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_y_min() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.ImgBBoxAnnoDatum.y_min)
+  return &y_min_;
+}
+
+// repeated float x_max = 5;
+inline int ImgBBoxAnnoDatum::x_max_size() const {
+  return x_max_.size();
+}
+inline void ImgBBoxAnnoDatum::clear_x_max() {
+  x_max_.Clear();
+}
+inline float ImgBBoxAnnoDatum::x_max(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.ImgBBoxAnnoDatum.x_max)
+  return x_max_.Get(index);
+}
+inline void ImgBBoxAnnoDatum::set_x_max(int index, float value) {
+  x_max_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.ImgBBoxAnnoDatum.x_max)
+}
+inline void ImgBBoxAnnoDatum::add_x_max(float value) {
+  x_max_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.ImgBBoxAnnoDatum.x_max)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::x_max() const {
+  // @@protoc_insertion_point(field_list:caffe.ImgBBoxAnnoDatum.x_max)
+  return x_max_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_x_max() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.ImgBBoxAnnoDatum.x_max)
+  return &x_max_;
+}
+
+// repeated float y_max = 6;
+inline int ImgBBoxAnnoDatum::y_max_size() const {
+  return y_max_.size();
+}
+inline void ImgBBoxAnnoDatum::clear_y_max() {
+  y_max_.Clear();
+}
+inline float ImgBBoxAnnoDatum::y_max(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.ImgBBoxAnnoDatum.y_max)
+  return y_max_.Get(index);
+}
+inline void ImgBBoxAnnoDatum::set_y_max(int index, float value) {
+  y_max_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.ImgBBoxAnnoDatum.y_max)
+}
+inline void ImgBBoxAnnoDatum::add_y_max(float value) {
+  y_max_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.ImgBBoxAnnoDatum.y_max)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+ImgBBoxAnnoDatum::y_max() const {
+  // @@protoc_insertion_point(field_list:caffe.ImgBBoxAnnoDatum.y_max)
+  return y_max_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+ImgBBoxAnnoDatum::mutable_y_max() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.ImgBBoxAnnoDatum.y_max)
+  return &y_max_;
+}
+
+inline const ImgBBoxAnnoDatum* ImgBBoxAnnoDatum::internal_default_instance() {
+  return &ImgBBoxAnnoDatum_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// ImgBBoxAnnoParameter
+
+// required int32 img_height = 1;
+inline bool ImgBBoxAnnoParameter::has_img_height() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ImgBBoxAnnoParameter::set_has_img_height() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ImgBBoxAnnoParameter::clear_has_img_height() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ImgBBoxAnnoParameter::clear_img_height() {
+  img_height_ = 0;
+  clear_has_img_height();
+}
+inline ::google::protobuf::int32 ImgBBoxAnnoParameter::img_height() const {
+  // @@protoc_insertion_point(field_get:caffe.ImgBBoxAnnoParameter.img_height)
+  return img_height_;
+}
+inline void ImgBBoxAnnoParameter::set_img_height(::google::protobuf::int32 value) {
+  set_has_img_height();
+  img_height_ = value;
+  // @@protoc_insertion_point(field_set:caffe.ImgBBoxAnnoParameter.img_height)
+}
+
+// required int32 img_width = 2;
+inline bool ImgBBoxAnnoParameter::has_img_width() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void ImgBBoxAnnoParameter::set_has_img_width() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void ImgBBoxAnnoParameter::clear_has_img_width() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void ImgBBoxAnnoParameter::clear_img_width() {
+  img_width_ = 0;
+  clear_has_img_width();
+}
+inline ::google::protobuf::int32 ImgBBoxAnnoParameter::img_width() const {
+  // @@protoc_insertion_point(field_get:caffe.ImgBBoxAnnoParameter.img_width)
+  return img_width_;
+}
+inline void ImgBBoxAnnoParameter::set_img_width(::google::protobuf::int32 value) {
+  set_has_img_width();
+  img_width_ = value;
+  // @@protoc_insertion_point(field_set:caffe.ImgBBoxAnnoParameter.img_width)
+}
+
+// required int32 max_bbox_per_img = 3;
+inline bool ImgBBoxAnnoParameter::has_max_bbox_per_img() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void ImgBBoxAnnoParameter::set_has_max_bbox_per_img() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void ImgBBoxAnnoParameter::clear_has_max_bbox_per_img() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void ImgBBoxAnnoParameter::clear_max_bbox_per_img() {
+  max_bbox_per_img_ = 0;
+  clear_has_max_bbox_per_img();
+}
+inline ::google::protobuf::int32 ImgBBoxAnnoParameter::max_bbox_per_img() const {
+  // @@protoc_insertion_point(field_get:caffe.ImgBBoxAnnoParameter.max_bbox_per_img)
+  return max_bbox_per_img_;
+}
+inline void ImgBBoxAnnoParameter::set_max_bbox_per_img(::google::protobuf::int32 value) {
+  set_has_max_bbox_per_img();
+  max_bbox_per_img_ = value;
+  // @@protoc_insertion_point(field_set:caffe.ImgBBoxAnnoParameter.max_bbox_per_img)
+}
+
+inline const ImgBBoxAnnoParameter* ImgBBoxAnnoParameter::internal_default_instance() {
+  return &ImgBBoxAnnoParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// HeatmapConcatParameter
+
+// required string heatmap_file = 1;
+inline bool HeatmapConcatParameter::has_heatmap_file() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void HeatmapConcatParameter::set_has_heatmap_file() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void HeatmapConcatParameter::clear_has_heatmap_file() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void HeatmapConcatParameter::clear_heatmap_file() {
+  heatmap_file_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_heatmap_file();
+}
+inline const ::std::string& HeatmapConcatParameter::heatmap_file() const {
+  // @@protoc_insertion_point(field_get:caffe.HeatmapConcatParameter.heatmap_file)
+  return heatmap_file_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void HeatmapConcatParameter::set_heatmap_file(const ::std::string& value) {
+  set_has_heatmap_file();
+  heatmap_file_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:caffe.HeatmapConcatParameter.heatmap_file)
+}
+inline void HeatmapConcatParameter::set_heatmap_file(const char* value) {
+  set_has_heatmap_file();
+  heatmap_file_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:caffe.HeatmapConcatParameter.heatmap_file)
+}
+inline void HeatmapConcatParameter::set_heatmap_file(const char* value, size_t size) {
+  set_has_heatmap_file();
+  heatmap_file_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:caffe.HeatmapConcatParameter.heatmap_file)
+}
+inline ::std::string* HeatmapConcatParameter::mutable_heatmap_file() {
+  set_has_heatmap_file();
+  // @@protoc_insertion_point(field_mutable:caffe.HeatmapConcatParameter.heatmap_file)
+  return heatmap_file_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* HeatmapConcatParameter::release_heatmap_file() {
+  // @@protoc_insertion_point(field_release:caffe.HeatmapConcatParameter.heatmap_file)
+  clear_has_heatmap_file();
+  return heatmap_file_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void HeatmapConcatParameter::set_allocated_heatmap_file(::std::string* heatmap_file) {
+  if (heatmap_file != NULL) {
+    set_has_heatmap_file();
+  } else {
+    clear_has_heatmap_file();
+  }
+  heatmap_file_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), heatmap_file);
+  // @@protoc_insertion_point(field_set_allocated:caffe.HeatmapConcatParameter.heatmap_file)
+}
+
+inline const HeatmapConcatParameter* HeatmapConcatParameter::internal_default_instance() {
+  return &HeatmapConcatParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// BBoxToLabelmapParameter
+
+// required int32 img_height = 1;
+inline bool BBoxToLabelmapParameter::has_img_height() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void BBoxToLabelmapParameter::set_has_img_height() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void BBoxToLabelmapParameter::clear_has_img_height() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void BBoxToLabelmapParameter::clear_img_height() {
+  img_height_ = 0;
+  clear_has_img_height();
+}
+inline ::google::protobuf::int32 BBoxToLabelmapParameter::img_height() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxToLabelmapParameter.img_height)
+  return img_height_;
+}
+inline void BBoxToLabelmapParameter::set_img_height(::google::protobuf::int32 value) {
+  set_has_img_height();
+  img_height_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxToLabelmapParameter.img_height)
+}
+
+// required int32 img_width = 2;
+inline bool BBoxToLabelmapParameter::has_img_width() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void BBoxToLabelmapParameter::set_has_img_width() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void BBoxToLabelmapParameter::clear_has_img_width() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void BBoxToLabelmapParameter::clear_img_width() {
+  img_width_ = 0;
+  clear_has_img_width();
+}
+inline ::google::protobuf::int32 BBoxToLabelmapParameter::img_width() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxToLabelmapParameter.img_width)
+  return img_width_;
+}
+inline void BBoxToLabelmapParameter::set_img_width(::google::protobuf::int32 value) {
+  set_has_img_width();
+  img_width_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxToLabelmapParameter.img_width)
+}
+
+// required int32 h_stride = 3;
+inline bool BBoxToLabelmapParameter::has_h_stride() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void BBoxToLabelmapParameter::set_has_h_stride() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void BBoxToLabelmapParameter::clear_has_h_stride() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void BBoxToLabelmapParameter::clear_h_stride() {
+  h_stride_ = 0;
+  clear_has_h_stride();
+}
+inline ::google::protobuf::int32 BBoxToLabelmapParameter::h_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxToLabelmapParameter.h_stride)
+  return h_stride_;
+}
+inline void BBoxToLabelmapParameter::set_h_stride(::google::protobuf::int32 value) {
+  set_has_h_stride();
+  h_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxToLabelmapParameter.h_stride)
+}
+
+// required int32 v_stride = 4;
+inline bool BBoxToLabelmapParameter::has_v_stride() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void BBoxToLabelmapParameter::set_has_v_stride() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void BBoxToLabelmapParameter::clear_has_v_stride() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void BBoxToLabelmapParameter::clear_v_stride() {
+  v_stride_ = 0;
+  clear_has_v_stride();
+}
+inline ::google::protobuf::int32 BBoxToLabelmapParameter::v_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxToLabelmapParameter.v_stride)
+  return v_stride_;
+}
+inline void BBoxToLabelmapParameter::set_v_stride(::google::protobuf::int32 value) {
+  set_has_v_stride();
+  v_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxToLabelmapParameter.v_stride)
+}
+
+inline const BBoxToLabelmapParameter* BBoxToLabelmapParameter::internal_default_instance() {
+  return &BBoxToLabelmapParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
 // BlobShape
 
 // repeated int64 dim = 1 [packed = true];
@@ -13734,7 +14739,7 @@ inline void SolverParameter::set_allocated_type(::std::string* type) {
   // @@protoc_insertion_point(field_set_allocated:caffe.SolverParameter.type)
 }
 
-// optional float delta = 31 [default = 1e-08];
+// optional float delta = 31 [default = 1e-008];
 inline bool SolverParameter::has_delta() const {
   return (_has_bits_[1] & 0x00000004u) != 0;
 }
@@ -13745,7 +14750,7 @@ inline void SolverParameter::clear_has_delta() {
   _has_bits_[1] &= ~0x00000004u;
 }
 inline void SolverParameter::clear_delta() {
-  delta_ = 1e-08f;
+  delta_ = 1e-008f;
   clear_has_delta();
 }
 inline float SolverParameter::delta() const {
@@ -17022,6 +18027,141 @@ inline void LayerParameter::set_allocated_window_data_param(::caffe::WindowDataP
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.window_data_param)
 }
 
+// optional .caffe.ImgBBoxAnnoParameter img_bbox_anno_param = 1001;
+inline bool LayerParameter::has_img_bbox_anno_param() const {
+  return (_has_bits_[1] & 0x04000000u) != 0;
+}
+inline void LayerParameter::set_has_img_bbox_anno_param() {
+  _has_bits_[1] |= 0x04000000u;
+}
+inline void LayerParameter::clear_has_img_bbox_anno_param() {
+  _has_bits_[1] &= ~0x04000000u;
+}
+inline void LayerParameter::clear_img_bbox_anno_param() {
+  if (img_bbox_anno_param_ != NULL) img_bbox_anno_param_->::caffe::ImgBBoxAnnoParameter::Clear();
+  clear_has_img_bbox_anno_param();
+}
+inline const ::caffe::ImgBBoxAnnoParameter& LayerParameter::img_bbox_anno_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.img_bbox_anno_param)
+  return img_bbox_anno_param_ != NULL ? *img_bbox_anno_param_
+                         : *::caffe::ImgBBoxAnnoParameter::internal_default_instance();
+}
+inline ::caffe::ImgBBoxAnnoParameter* LayerParameter::mutable_img_bbox_anno_param() {
+  set_has_img_bbox_anno_param();
+  if (img_bbox_anno_param_ == NULL) {
+    img_bbox_anno_param_ = new ::caffe::ImgBBoxAnnoParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.img_bbox_anno_param)
+  return img_bbox_anno_param_;
+}
+inline ::caffe::ImgBBoxAnnoParameter* LayerParameter::release_img_bbox_anno_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.img_bbox_anno_param)
+  clear_has_img_bbox_anno_param();
+  ::caffe::ImgBBoxAnnoParameter* temp = img_bbox_anno_param_;
+  img_bbox_anno_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_img_bbox_anno_param(::caffe::ImgBBoxAnnoParameter* img_bbox_anno_param) {
+  delete img_bbox_anno_param_;
+  img_bbox_anno_param_ = img_bbox_anno_param;
+  if (img_bbox_anno_param) {
+    set_has_img_bbox_anno_param();
+  } else {
+    clear_has_img_bbox_anno_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.img_bbox_anno_param)
+}
+
+// optional .caffe.HeatmapConcatParameter heatmap_concat_param = 1002;
+inline bool LayerParameter::has_heatmap_concat_param() const {
+  return (_has_bits_[1] & 0x08000000u) != 0;
+}
+inline void LayerParameter::set_has_heatmap_concat_param() {
+  _has_bits_[1] |= 0x08000000u;
+}
+inline void LayerParameter::clear_has_heatmap_concat_param() {
+  _has_bits_[1] &= ~0x08000000u;
+}
+inline void LayerParameter::clear_heatmap_concat_param() {
+  if (heatmap_concat_param_ != NULL) heatmap_concat_param_->::caffe::HeatmapConcatParameter::Clear();
+  clear_has_heatmap_concat_param();
+}
+inline const ::caffe::HeatmapConcatParameter& LayerParameter::heatmap_concat_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.heatmap_concat_param)
+  return heatmap_concat_param_ != NULL ? *heatmap_concat_param_
+                         : *::caffe::HeatmapConcatParameter::internal_default_instance();
+}
+inline ::caffe::HeatmapConcatParameter* LayerParameter::mutable_heatmap_concat_param() {
+  set_has_heatmap_concat_param();
+  if (heatmap_concat_param_ == NULL) {
+    heatmap_concat_param_ = new ::caffe::HeatmapConcatParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.heatmap_concat_param)
+  return heatmap_concat_param_;
+}
+inline ::caffe::HeatmapConcatParameter* LayerParameter::release_heatmap_concat_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.heatmap_concat_param)
+  clear_has_heatmap_concat_param();
+  ::caffe::HeatmapConcatParameter* temp = heatmap_concat_param_;
+  heatmap_concat_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_heatmap_concat_param(::caffe::HeatmapConcatParameter* heatmap_concat_param) {
+  delete heatmap_concat_param_;
+  heatmap_concat_param_ = heatmap_concat_param;
+  if (heatmap_concat_param) {
+    set_has_heatmap_concat_param();
+  } else {
+    clear_has_heatmap_concat_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.heatmap_concat_param)
+}
+
+// optional .caffe.BBoxToLabelmapParameter bbox_to_labelmap_param = 1003;
+inline bool LayerParameter::has_bbox_to_labelmap_param() const {
+  return (_has_bits_[1] & 0x10000000u) != 0;
+}
+inline void LayerParameter::set_has_bbox_to_labelmap_param() {
+  _has_bits_[1] |= 0x10000000u;
+}
+inline void LayerParameter::clear_has_bbox_to_labelmap_param() {
+  _has_bits_[1] &= ~0x10000000u;
+}
+inline void LayerParameter::clear_bbox_to_labelmap_param() {
+  if (bbox_to_labelmap_param_ != NULL) bbox_to_labelmap_param_->::caffe::BBoxToLabelmapParameter::Clear();
+  clear_has_bbox_to_labelmap_param();
+}
+inline const ::caffe::BBoxToLabelmapParameter& LayerParameter::bbox_to_labelmap_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.bbox_to_labelmap_param)
+  return bbox_to_labelmap_param_ != NULL ? *bbox_to_labelmap_param_
+                         : *::caffe::BBoxToLabelmapParameter::internal_default_instance();
+}
+inline ::caffe::BBoxToLabelmapParameter* LayerParameter::mutable_bbox_to_labelmap_param() {
+  set_has_bbox_to_labelmap_param();
+  if (bbox_to_labelmap_param_ == NULL) {
+    bbox_to_labelmap_param_ = new ::caffe::BBoxToLabelmapParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.bbox_to_labelmap_param)
+  return bbox_to_labelmap_param_;
+}
+inline ::caffe::BBoxToLabelmapParameter* LayerParameter::release_bbox_to_labelmap_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.bbox_to_labelmap_param)
+  clear_has_bbox_to_labelmap_param();
+  ::caffe::BBoxToLabelmapParameter* temp = bbox_to_labelmap_param_;
+  bbox_to_labelmap_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_bbox_to_labelmap_param(::caffe::BBoxToLabelmapParameter* bbox_to_labelmap_param) {
+  delete bbox_to_labelmap_param_;
+  bbox_to_labelmap_param_ = bbox_to_labelmap_param;
+  if (bbox_to_labelmap_param) {
+    set_has_bbox_to_labelmap_param();
+  } else {
+    clear_has_bbox_to_labelmap_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.bbox_to_labelmap_param)
+}
+
 inline const LayerParameter* LayerParameter::internal_default_instance() {
   return &LayerParameter_default_instance_.get();
 }
@@ -17581,7 +18721,7 @@ inline void BatchNormParameter::set_moving_average_fraction(float value) {
   // @@protoc_insertion_point(field_set:caffe.BatchNormParameter.moving_average_fraction)
 }
 
-// optional float eps = 3 [default = 1e-05];
+// optional float eps = 3 [default = 1e-005];
 inline bool BatchNormParameter::has_eps() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -17592,7 +18732,7 @@ inline void BatchNormParameter::clear_has_eps() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void BatchNormParameter::clear_eps() {
-  eps_ = 1e-05f;
+  eps_ = 1e-005f;
   clear_has_eps();
 }
 inline float BatchNormParameter::eps() const {
@@ -20565,7 +21705,7 @@ inline void MVNParameter::set_across_channels(bool value) {
   // @@protoc_insertion_point(field_set:caffe.MVNParameter.across_channels)
 }
 
-// optional float eps = 3 [default = 1e-09];
+// optional float eps = 3 [default = 1e-009];
 inline bool MVNParameter::has_eps() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -20576,7 +21716,7 @@ inline void MVNParameter::clear_has_eps() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void MVNParameter::clear_eps() {
-  eps_ = 1e-09f;
+  eps_ = 1e-009f;
   clear_has_eps();
 }
 inline float MVNParameter::eps() const {
@@ -25684,6 +26824,14 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
   return &PReLUParameter_default_instance_.get();
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

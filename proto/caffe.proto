@@ -1,6 +1,36 @@
+// TLR features added
+
 syntax = "proto2";
 
 package caffe;
+
+message ImgBBoxAnnoDatum {
+  required Datum img_datum = 1;
+  repeated int32 label = 2;
+  //repeated BBox bboxes = 3;
+  repeated float x_min = 3;
+  repeated float y_min = 4;
+  repeated float x_max = 5;
+  repeated float y_max = 6;
+}
+
+message ImgBBoxAnnoParameter {
+  required int32 img_height = 1;
+  required int32 img_width = 2;
+  required int32 max_bbox_per_img = 3;
+}
+
+message HeatmapConcatParameter {
+  required string heatmap_file = 1;
+}
+
+message BBoxToLabelmapParameter {
+  required int32 img_height = 1;
+  required int32 img_width = 2;
+  required int32 h_stride = 3;
+  required int32 v_stride = 4;
+}
+
 
 // Specifies the shape (dimensions) of a Blob.
 message BlobShape {
@@ -405,6 +435,9 @@ message LayerParameter {
   optional ThresholdParameter threshold_param = 128;
   optional TileParameter tile_param = 138;
   optional WindowDataParameter window_data_param = 129;
+  optional ImgBBoxAnnoParameter img_bbox_anno_param = 1001;
+  optional HeatmapConcatParameter heatmap_concat_param = 1002;
+  optional BBoxToLabelmapParameter bbox_to_labelmap_param = 1003; 
 }
 
 // Message that stores parameters used to apply transformation
