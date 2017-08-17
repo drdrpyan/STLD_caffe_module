@@ -28,10 +28,10 @@ class BBox
     void Shift(const Dtype& shift_x, const Dtype& shift_y);
     void ShiftX(const Dtype& shift_dist);
     void ShiftY(const Dtype& shift_dist);
-    const Scale(const Dtype& scale_x, const Dtype& scale_y,
-                ScalePivot pivot);
-    const ScaleX(const Dtype& scale_x, ScalePivot pivot);
-    const ScaleY(const Dtype& scale_y, ScalePivot pivot);
+    void Scale(const Dtype& scale_x, const Dtype& scale_y,
+               ScalePivot pivot);
+    void ScaleX(const Dtype& scale_x, ScalePivot pivot);
+    void ScaleY(const Dtype& scale_y, ScalePivot pivot);
 
     const Dtype* Get() const;
     void Get(std::vector<Dtype>* vec) const;
@@ -101,22 +101,22 @@ inline void BBox<Dtype>::ShiftY(const Dtype& shift_dist) {
 }
 
 template <typename Dtype>
-inline const BBox<Dtype>::Scale(const Dtype& scale_x,
-                                const Dtype& scale_y,
-                                ScalePivot pivot) {
+inline void BBox<Dtype>::Scale(const Dtype& scale_x,
+                               const Dtype& scale_y,
+                               ScalePivot pivot) {
   ScaleX(scale_x, pivot);
   ScaleY(scale_y, pivot);
 }
 
 template <typename Dtype>
-inline const BBox<Dtype>::ScaleX(const Dtype& scale_x, 
-                                 ScalePivot pivot) {
+inline void BBox<Dtype>::ScaleX(const Dtype& scale_x, 
+                                ScalePivot pivot) {
   Scale(scale_x, pivot, bbox_ + X_MIN, bbox_ + X_MAX);
 }
 
 template <typename Dtype>
-inline const BBox<Dtype>::ScaleY(const Dtype& scale_y, 
-                                 ScalePivot pivot) {
+inline void BBox<Dtype>::ScaleY(const Dtype& scale_y, 
+                                ScalePivot pivot) {
   Scale(scale_y, pivot, bbox_ + Y_MIN, bbox_ + Y_MAX);
 }
 

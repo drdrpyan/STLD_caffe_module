@@ -155,7 +155,6 @@ void ImgBBoxAnnoLayer<Dtype>::CopyImage(
   Dtype* top_data = batch_data->mutable_cpu_data();
   const int OFFSET= batch_data->offset(item_id);
 
-  //datum.img_datum().data().be
   std::copy(datum.img_datum().data().begin(), 
             datum.img_datum().data().end(), 
             top_data + OFFSET);

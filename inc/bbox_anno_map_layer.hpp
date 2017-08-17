@@ -85,10 +85,10 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
     return its index or -1 for failure.
     */
     int FindBestBBoxAnno(
-        const BBox& receptive_field,
+        const bgm::BBox<Dtype>& receptive_field,
         const vector<BBoxAnno>& candidates) const;
-    void InitMapShape(const BBoxAnnoMapParameter& param);
-    bool IsValidParam(const BBoxAnnoMapParameter& param) const;
+    //void InitMapShape(const BBoxAnnoMapParameter& param);
+    //bool IsValidParam(const BBoxAnnoMapParameter& param) const;
     bool IsValidInputBlob(const Blob<Dtype>& input_blob) const;
     void ParseInputBlob(
         const Blob<Dtype>& input_blob,
@@ -97,13 +97,13 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
                   int map_height, int map_width,
                   Dtype* label_map,
                   Dtype* bbox_map) const;
-    bool IsBBoxInReceptiveField(const bgm::BBox& receptive_field,
-                                const bgm::BBox& obj_bbox) const;
-    float ComputeCenterDistance(const bgm::BBox& bbox1,
-                                const bgm::BBox& bbox2) const;
+    bool IsBBoxInReceptiveField(const bgm::BBox<Dtype>& receptive_field,
+                                const bgm::BBox<Dtype>& obj_bbox) const;
+    float ComputeCenterDistance(const bgm::BBox<Dtype>& bbox1,
+                                const bgm::BBox<Dtype>& bbox2) const;
 
-    vector<int> label_map_shape_;
-    vector<int> bbox_map_shape_;
+    //vector<int> label_map_shape_;
+    //vector<int> bbox_map_shape_;
 
     int reception_field_height_;
     int reception_field_width_;
@@ -113,18 +113,18 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
 };
 
 // inline functions
-template <typename Dtype>
-inline BBoxAnno<Dtype>::BBoxAnno() 
-  : label(LabelParameter::DUMMY_LABEL) { }
-
-template <typename Dtype>
-inline BBoxAnno<Dtype>::BBoxAnno(Dtype label, 
-                                 Dtype x_min, Dtype y_min,
-                                 Dtype x_max, Dtype y_max) 
-  : label(label), x_min(x_min), y_min(y_min),
-    x_max(x_max), y_max(y_max) { 
-  CHECK(label >= 0);
-}
+//template <typename Dtype>
+//inline BBoxAnno<Dtype>::BBoxAnno() 
+//  : label(LabelParameter::DUMMY_LABEL) { }
+//
+//template <typename Dtype>
+//inline BBoxAnno<Dtype>::BBoxAnno(Dtype label, 
+//                                 Dtype x_min, Dtype y_min,
+//                                 Dtype x_max, Dtype y_max) 
+//  : label(label), x_min(x_min), y_min(y_min),
+//    x_max(x_max), y_max(y_max) { 
+//  CHECK(label >= 0);
+//}
 
 template <typename Dtype>
 inline const char* BBoxAnnoMapLayer<Dtype>::type() const {

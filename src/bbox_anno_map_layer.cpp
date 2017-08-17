@@ -57,24 +57,24 @@ void BBoxAnnoMapLayer<Dtype>::Reshape(
   output_bboxmap.Reshape(bboxmap_shape);
 }
 
-template <typename Dtype>
-void BBoxAnnoMapLayer<Dtype>::InitMapShape(
-    const BBoxAnnoMapParameter& param, int num_label) {
-  CHECK(IsValidParam(param));
-  CHECK(num_label > 0);
-
-  int height = 
-    ((param.img_height() - param.reception_field_hight()) / 
-      param.h_stride())
-    + 1;
-  int width = 
-    ((param.img_width() - param.reception_field_w()) / 
-      param.w_stride())
-    + 1;
-
-  label_map_shape_.resize(4);
-  label_map_shape_
-}
+//template <typename Dtype>
+//void BBoxAnnoMapLayer<Dtype>::InitMapShape(
+//    const BBoxAnnoMapParameter& param, int num_label) {
+//  CHECK(IsValidParam(param));
+//  CHECK(num_label > 0);
+//
+//  int height = 
+//    ((param.img_height() - param.reception_field_hight()) / 
+//      param.h_stride())
+//    + 1;
+//  int width = 
+//    ((param.img_width() - param.reception_field_w()) / 
+//      param.w_stride())
+//    + 1;
+//
+//  label_map_shape_.resize(4);
+//  label_map_shape_
+//}
 
 template <typename Dtype>
 void BBoxAnnoMapLayer<Dtype>::Forward_cpu(
@@ -133,7 +133,7 @@ void BBoxAnnoMapLayer<Dtype>::ComputeOutputHW(
 
 template <typename Dtype>
 int BBoxAnnoMapLayer<Dtype>::FindBestBBoxAnno(
-    const BBox& receptive_field,
+    const bgm::BBox<Dtype>& receptive_field,
     const vector<BBoxAnno>& candidates) const {
   int index = -1;
   float distance = std::numeric_limits<float>::max();
@@ -194,7 +194,7 @@ void BBoxAnnoMapLayer<Dtype>::ParseInputBlob(
         bbox_anno_vec_iter->push_back(
             BBoxAnno(label, 
                      bgm::BBox<Dtype>(x_min, y_min, 
-                                      x_max, y_max));
+                                      x_max, y_max)));
       }
       else {
         input_blob_data += 4;
@@ -236,7 +236,7 @@ void BBoxAnnoMapLayer<Dtype>::MakeMaps(
         *bbox_y_max_iter++ = best.second.y_max();
       }
       else {
-        *label_iter++ = -1;
+        *label_iter++ = LabelParameter::NONE;
         *bbox_x_min_iter++ = -1;
         *bbox_y_min_iter++ = -1;
         *bbox_x_max_iter++ = -1;
