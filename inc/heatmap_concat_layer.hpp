@@ -42,17 +42,29 @@ class HeatmapConcatLayer : public Layer<Dtype>
         const vector<Blob<Dtype>*>& bottom) override;
   
   private:
-    void LoadHeatmap();
+    void LoadHeatmap(const std::string& heatmap_file);
+    //void Concat(input)
 
     Blob<Dtype> heatmap_;
 
 }; // class HeatmapConcatLayer
 
+// inline functions
+template <typename Dtype>
+inline void HeatmapConcatLayer<Dtype>::LayerSetUp(
+    const vector<Blob<Dtype>*>& bottom,
+    const vector<Blob<Dtype>*>& top) {
+  HeatmapConcatParameter param = 
+    this->layer_param_.heatmap_concat_param();
+  std::string heatmap_file = param.heatmap_file();
+  LoadHeatmap(heatmap_file);
+}
+
 template <typename Dtype>
 inline const char* HeatmapConcatLayer<Dtype>::type() const {
   return "HeatmapConcat";
 }
-// inline functions
+
 template <typename Dtype>
 inline void HeatmapConcatLayer<Dtype>::Backward_cpu(
     const vector<Blob<Dtype>*>& top,
