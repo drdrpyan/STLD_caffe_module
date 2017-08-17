@@ -37,6 +37,7 @@ message BBoxAnnoMapParameter {
 message LabelParameter{
   enum LabelParamConstant {
     DUMMY_LABEL = -1;
+    NONE = 0;
   };
 
   required int32 num_label = 2;

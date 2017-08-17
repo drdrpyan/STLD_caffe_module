@@ -106,11 +106,12 @@ class V1LayerParameter;
 class WindowDataParameter;
 
 enum LabelParameter_LabelParamConstant {
-  LabelParameter_LabelParamConstant_DUMMY_LABEL = -1
+  LabelParameter_LabelParamConstant_DUMMY_LABEL = -1,
+  LabelParameter_LabelParamConstant_NONE = 0
 };
 bool LabelParameter_LabelParamConstant_IsValid(int value);
 const LabelParameter_LabelParamConstant LabelParameter_LabelParamConstant_LabelParamConstant_MIN = LabelParameter_LabelParamConstant_DUMMY_LABEL;
-const LabelParameter_LabelParamConstant LabelParameter_LabelParamConstant_LabelParamConstant_MAX = LabelParameter_LabelParamConstant_DUMMY_LABEL;
+const LabelParameter_LabelParamConstant LabelParameter_LabelParamConstant_LabelParamConstant_MAX = LabelParameter_LabelParamConstant_NONE;
 const int LabelParameter_LabelParamConstant_LabelParamConstant_ARRAYSIZE = LabelParameter_LabelParamConstant_LabelParamConstant_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* LabelParameter_LabelParamConstant_descriptor();
@@ -1281,6 +1282,8 @@ class LabelParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   typedef LabelParameter_LabelParamConstant LabelParamConstant;
   static const LabelParamConstant DUMMY_LABEL =
     LabelParameter_LabelParamConstant_DUMMY_LABEL;
+  static const LabelParamConstant NONE =
+    LabelParameter_LabelParamConstant_NONE;
   static inline bool LabelParamConstant_IsValid(int value) {
     return LabelParameter_LabelParamConstant_IsValid(value);
   }
