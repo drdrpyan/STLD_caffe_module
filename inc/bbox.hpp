@@ -70,15 +70,19 @@ inline BBox<Dtype>::BBox(const Dtype& x_min,
                          const Dtype& y_min,
                          const Dtype& x_max,
                          const Dtype& y_max) 
-  : bbox_({x_min, y_min, x_max, y_max}) {
+  /*: bbox_({x_min, y_min, x_max, y_max})*/ {
+  bbox_[X_MIN] = x_min;
+  bbox_[Y_MIN] = y_min;
+  bbox_[X_MAX] = x_max;
+  bbox_[Y_MAX] = y_max;
 }
 
 template <typename Dtype>
 inline BBox<Dtype>::~BBox() {
-  delete bbox_[0];
-  delete bbox_[1];
-  delete bbox_[2];
-  delete bbox_[3];
+  //delete bbox_[0];
+  //delete bbox_[1];
+  //delete bbox_[2];
+  //delete bbox_[3];
 }
 
 template <typename Dtype>
