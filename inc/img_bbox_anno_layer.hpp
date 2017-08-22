@@ -11,7 +11,7 @@ template <typename Dtype>
 class ImgBBoxAnnoLayer : public caffe::DataLayer<Dtype>
 {
   public:
-    ImgBBoxAnnoLayer(const caffe::LayerParameter& param);
+    explicit ImgBBoxAnnoLayer(const caffe::LayerParameter& param);
     virtual void DataLayerSetUp(
         const vector<Blob<Dtype>*>& bottom,
         const vector<Blob<Dtype>*>& top) override;
@@ -68,5 +68,5 @@ inline const char* ImgBBoxAnnoLayer<Dtype>::type() const {
   return "ImgBBoxAnno"; 
 }
 
-} // namespace bgm
+} // namespace caffe
 #endif // !TLR_IMG_BBOX_ANNO_LAYER_HPP_

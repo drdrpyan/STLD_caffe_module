@@ -3,6 +3,7 @@
 //#include "caffe_extend.pb.h"
 
 #include "caffe/data_transformer.hpp"
+#include "caffe/layer_factory.hpp"
 #include "caffe/util/benchmark.hpp"
 
 #include <vector>
@@ -31,7 +32,7 @@ ImgBBoxAnnoLayer<Dtype>::ImgBBoxAnnoLayer(
     IMG_HEIGHT_(param.img_bbox_anno_param().img_height()),
     IMG_WIDTH_(param.img_bbox_anno_param().img_width()),
     MAX_NUM_BBOX_(
-      param.img_bbox_anno_param().max_bbox_per_img()){
+      param.img_bbox_anno_param().max_bbox_per_img()) {
   CHECK(BATCH_SIZE_ > 0);
   CHECK(IMG_HEIGHT_ > 0);
   CHECK(IMG_WIDTH_ > 0);
