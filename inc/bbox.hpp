@@ -46,10 +46,10 @@ class BBox
     const Dtype& y_min() const;
     const Dtype& x_max() const;
     const Dtype& y_max() const;
-    void set_x_min(const Dtype& value) const;
-    void set_y_min(const Dtype& value) const;
-    void set_x_max(const Dtype& value) const;
-    void set_y_max(const Dtype& value) const;
+    void set_x_min(const Dtype& value);
+    void set_y_min(const Dtype& value);
+    void set_x_max(const Dtype& value);
+    void set_y_max(const Dtype& value);
 
   private:
     void Scale(const Dtype& scale_factor,
@@ -178,22 +178,22 @@ inline const Dtype& BBox<Dtype>::y_max() const {
 }
 
 template <typename Dtype>
-inline void BBox<Dtype>::set_x_min(const Dtype& value) const {
+inline void BBox<Dtype>::set_x_min(const Dtype& value) {
   bbox_[X_MIN] = value;
 }
 
 template <typename Dtype>
-inline void BBox<Dtype>::set_y_min(const Dtype& value) const{
+inline void BBox<Dtype>::set_y_min(const Dtype& value) {
   bbox_[Y_MIN] = value;
 }
 
 template <typename Dtype>
-inline void BBox<Dtype>::set_x_max(const Dtype& value) const{
+inline void BBox<Dtype>::set_x_max(const Dtype& value) {
   bbox_[X_MAX] = value;
 }
 
 template <typename Dtype>
-inline void BBox<Dtype>::set_y_max(const Dtype& value) const {
+inline void BBox<Dtype>::set_y_max(const Dtype& value) {
   bbox_[Y_MAX] = value;
 }
 
