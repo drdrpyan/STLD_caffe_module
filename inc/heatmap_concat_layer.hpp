@@ -10,6 +10,7 @@ template <typename Dtype>
 class HeatmapConcatLayer : public Layer<Dtype>
 {
   public:
+    explicit HeatmapConcatLayer(const LayerParameter& param);
     virtual void LayerSetUp(
         const vector<Blob<Dtype>*>& bottom,
         const vector<Blob<Dtype>*>& top) override;
@@ -50,6 +51,13 @@ class HeatmapConcatLayer : public Layer<Dtype>
 }; // class HeatmapConcatLayer
 
 // inline functions
+template <typename Dtype>
+inline HeatmapConcatLayer<Dtype>::HeatmapConcatLayer(
+    const LayerParameter& param) 
+  : Layer<Dtype>(param) {
+
+}
+
 template <typename Dtype>
 inline void HeatmapConcatLayer<Dtype>::LayerSetUp(
     const vector<Blob<Dtype>*>& bottom,

@@ -29,6 +29,7 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
   typedef std::pair<Dtype, bgm::BBox<Dtype> > BBoxAnno;
 
   public:
+    explicit BBoxAnnoMapLayer(const LayerParameter& param);
     virtual void LayerSetUp(
         const vector<Blob<Dtype>*>& bottom,
         const vector<Blob<Dtype>*>& top) override;
@@ -105,8 +106,8 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
     //vector<int> label_map_shape_;
     //vector<int> bbox_map_shape_;
 
-    int reception_field_height_;
-    int reception_field_width_;
+    int receptive_field_height_;
+    int receptive_field_width_;
     int horizontal_stride_;
     int vertical_stride_;
     int num_label_;
@@ -125,6 +126,13 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
 //    x_max(x_max), y_max(y_max) { 
 //  CHECK(label >= 0);
 //}
+
+template <typename Dtype>
+inline BBoxAnnoMapLayer<Dtype>::BBoxAnnoMapLayer(
+    const LayerParameter& param) 
+  : Layer<Dtype>(param) {
+
+}
 
 template <typename Dtype>
 inline const char* BBoxAnnoMapLayer<Dtype>::type() const {

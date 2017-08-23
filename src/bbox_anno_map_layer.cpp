@@ -11,16 +11,16 @@ void BBoxAnnoMapLayer<Dtype>::LayerSetUp(
     const vector<Blob<Dtype>*>& top) {
   BBoxAnnoMapParameter param = 
       this->layer_param_.bbox_anno_map_param();
-  reception_field_height_ = param.receptive_field_hight();
-  reception_field_width_ = param.receptive_field_width();
+  receptive_field_height_ = param.receptive_field_hight();
+  receptive_field_width_ = param.receptive_field_width();
   horizontal_stride_ = param.horizontal_stride();
   vertical_stride_ = param.vertical_stride();
 
   num_label_ = this->layer_param_.label_param().num_label();
 
-  CHECK(reception_field_height_ > 0 && reception_field_width_ > 0) <<
+  CHECK(receptive_field_height_ > 0 && receptive_field_width_ > 0) <<
     "Invalid reception_field_size. (h, w) = (" <<
-    reception_field_height_ << ", " << reception_field_width_ << ")";
+    receptive_field_height_ << ", " << receptive_field_width_ << ")";
   CHECK_GT(horizontal_stride_, 0) << 
     "Horizontal stride is lessor or equal than 0";
   CHECK_GT(vertical_stride_, 0) << 
@@ -116,17 +116,17 @@ void BBoxAnnoMapLayer<Dtype>::ComputeOutputHW(
     int* output_h, int* output_w) const {
   CHECK(output_h && output_w);
 
-  CHECK_GE(input_h, reception_field_height_) <<
+  CHECK_GE(input_h, receptive_field_height_) <<
     "Input is smaller than reception field : " <<
     "input width = " << input_h <<
     ", reception field width = " << input_w;
-  CHECK_GE(input_w, reception_field_width_) <<
+  CHECK_GE(input_w, receptive_field_width_) <<
     "Input is smaller than reception field : " <<
     "input height = " << input_h <<
     ", reception field height = " << input_w;
 
-  int rest_h = input_h - reception_field_height_;
-  int rest_w = input_w - reception_field_width_;
+  int rest_h = input_h - receptive_field_height_;
+  int rest_w = input_w - receptive_field_width_;
   *output_h = rest_h / vertical_stride_ + 1;
   *output_w = rest_w / horizontal_stride_ + 1;
 }
@@ -146,7 +146,7 @@ int BBoxAnnoMapLayer<Dtype>::FindBestBBoxAnno(
                               candidates[i].second);
       if (new_distance < distance) {
         index = i;
-        distance = new_distnace;
+        distance = new_distance;
       }
     }
   }
@@ -163,7 +163,7 @@ bool BBoxAnnoMapLayer<Dtype>::IsValidInputBlob(
     return false;
   if (input_blob.height() < 0)
     return false;
-  if (input_blob.width != 5)
+  if (input_blob.width() != 5)
     return false;
 
   return true;
@@ -180,7 +180,7 @@ void BBoxAnnoMapLayer<Dtype>::ParseInputBlob(
   Dtype const * input_blob_data = input_blob.cpu_data();
   //vector<vector<BBoxAnno<Dtype> > >::iterator bbox_anno_vec_iter = 
   //    bbox_anno->back();
-  auto bbox_anno_vec_iter = bbox_anno->back();
+  auto bbox_anno_vec_iter = bbox_anno->begin();
   for (int n = input_blob.num(); n--; ) {
     bbox_anno_vec_iter->clear();
     for (int h = input_blob.height(); h--; ) {
@@ -276,5 +276,8 @@ float BBoxAnnoMapLayer<Dtype>::ComputeCenterDistance(
   float dist = std::sqrtf(term1 + term2);
   return dist;
 }
+
+INSTANTIATE_CLASS(BBoxAnnoMapLayer);
+REGISTER_LAYER_CLASS(BBoxAnnoMap);
 
 } // namespace caffe
