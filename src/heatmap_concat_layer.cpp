@@ -2,6 +2,8 @@
 
 #include "caffe/proto/caffe.pb.h"
 
+#include "caffe/util/benchmark.hpp"
+
 #include <fstream>
 #include <vector>
 
@@ -62,13 +64,25 @@ void HeatmapConcatLayer<Dtype>::Forward_gpu(
 template <typename Dtype>
 void HeatmapConcatLayer<Dtype>::LoadHeatmap(
     const std::string& heatmap_file) {
+  LOG(INFO) << "Load heatmap file : " << heatmap_file << " ...";
+
+  CPUTimer timer;
+  timer.Start();
+
   std::ifstream ifs(heatmap_file, std::ios::binary);
   CHECK(ifs.is_open()) << "There is no file : " << heatmap_file;
 
   // read shape
+  long int32_buffer;
   std::vector<int> heatmap_shape(4);
   heatmap_shape[0] = 1;
-  ifs >> heatmap_shape[1] >> heatmap_shape[2] >> heatmap_shape[3];
+  ifs.read(reinterpret_cast<char*>(&int32_buffer), sizeof(long));
+  heatmap_shape[1] = int32_buffer;
+  ifs.read(reinterpret_cast<char*>(&int32_buffer), sizeof(long));
+  heatmap_shape[2] = int32_buffer;
+  ifs.read(reinterpret_cast<char*>(&int32_buffer), sizeof(long));
+  heatmap_shape[3] = int32_buffer;
+  //ifs >> heatmap_shape[1] >> heatmap_shape[2] >> heatmap_shape[3];
   heatmap_.Reshape(heatmap_shape);
 
   // read heatmap to buffer
@@ -84,6 +98,12 @@ void HeatmapConcatLayer<Dtype>::LoadHeatmap(
 
   //ifs.read(static_cast<char*>(heatmap_.mutable_cpu_data()),
   //         heatmap_.data()->size());
+
+  timer.Stop();
+  LOG(INFO) << "done.";
+  LOG(INFO) << "Heatmap shape : channel=" << heatmap_shape[1] <<
+      ", height=" << heatmap_shape[2] << ", width=" << heatmap_shape[3];
+  LOG(INFO) << "Read time : " << timer.MilliSeconds() << " ms.";
 }
 
 INSTANTIATE_CLASS(HeatmapConcatLayer);
