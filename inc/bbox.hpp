@@ -23,6 +23,7 @@ class BBox
          const Dtype& y_min,
          const Dtype& x_max,
          const Dtype& y_max);
+    BBox(const BBox& ref);
     ~BBox();
 
     void Shift(const Dtype& shift_x, const Dtype& shift_y);
@@ -51,6 +52,8 @@ class BBox
     void set_x_max(const Dtype& value);
     void set_y_max(const Dtype& value);
 
+    BBox& operator=(const BBox& rhs);
+
   private:
     void Scale(const Dtype& scale_factor,
                ScalePivot pivot,
@@ -75,6 +78,11 @@ inline BBox<Dtype>::BBox(const Dtype& x_min,
   bbox_[Y_MIN] = y_min;
   bbox_[X_MAX] = x_max;
   bbox_[Y_MAX] = y_max;
+}
+
+template <typename Dtype>
+inline BBox<Dtype>::BBox(const BBox& ref) {
+  std::copy(ref.bbox_, ref.bbox_ + sizeof(Dtype) * 4, bbox_);
 }
 
 template <typename Dtype>
@@ -197,7 +205,38 @@ inline void BBox<Dtype>::set_y_max(const Dtype& value) {
   bbox_[Y_MAX] = value;
 }
 
+template <typename Dtype>
+inline BBox<Dtype>& BBox<Dtype>::operator=(const BBox<Dtype>& rhs) {
+  std::copy(rhs.bbox_, rhs.bbox_ + sizeof(Dtype) * 4, bbox_);
+  return *this;
+}
 
+template <typename Dtype>
+void BBox<Dtype>::Scale(const Dtype& scale_factor,
+                        ScalePivot pivot,
+                        Dtype* min, Dtype* max) {
+  assert(min && max);
+
+  switch (pivot) {
+    case SCENE_TOPLEFT:
+      (*min) *= scale_factor;
+      (*max) *= scale_factor;
+      break;
+    case BBOX_TOPLEFT:
+      (*max) *= scale_factor;
+      break;
+    case BBOX_CENTER:
+      {
+        Dtype mid = ((*min) + (*max)) / static_cast<Dtype>(2);
+        *min = ((*min) - mid) * scale_factor + mid;
+        *max = ((*max) - mid) * scale_factor + mid;
+      }
+      break;
+    default:
+      assert(false);
+      break;
+  }
+}
 } // namespace bgm
 
 #endif // !TLR_BBOX_HPP_
