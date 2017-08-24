@@ -2,9 +2,12 @@
 
 //#include "caffe_extend.pb.h"
 
+#include <opencv2/core.hpp>
+
 #include "caffe/data_transformer.hpp"
 #include "caffe/layer_factory.hpp"
 #include "caffe/util/benchmark.hpp"
+#include "caffe/util/io.hpp"
 
 #include <vector>
 
@@ -92,7 +95,7 @@ void ImgBBoxAnnoLayer<Dtype>::load_batch(Batch<Dtype>* batch) {
   double trans_time = 0;
   CPUTimer timer;
   CHECK(batch->data_.count());
-  CHECK(this->transformed_data_.count());
+  //CHECK(this->transformed_data_.count());
   //const int batch_size = this->layer_param_.data_param().batch_size();
 
   ReshpaeBatch(batch);
@@ -131,6 +134,7 @@ void ImgBBoxAnnoLayer<Dtype>::ReshpaeBatch(
   //batch_data_shape[3] = IMG_WIDTH_;
   //batch->data_.Reshape(batch_data_shape);
   ComputeDataShape(&batch_data_shape);
+  batch->data_.Reshape(batch_data_shape);
 
   if (this->output_labels_) {
     vector<int> batch_label_shape(4);
@@ -140,6 +144,7 @@ void ImgBBoxAnnoLayer<Dtype>::ReshpaeBatch(
     //batch_label_shape[0] = 5; // label, min_x, min_y, max_x, max_y
     //batch->label_.Reshape(batch_label_shape);
     ComputeLabelShape(&batch_label_shape);
+    batch->label_.Reshape(batch_label_shape);
   }
 }
 
@@ -156,8 +161,13 @@ void ImgBBoxAnnoLayer<Dtype>::CopyImage(
   Dtype* top_data = batch_data->mutable_cpu_data();
   const int OFFSET= batch_data->offset(item_id);
 
-  std::copy(datum.img_datum().data().begin(), 
-            datum.img_datum().data().end(), 
+  //cv::Mat decoded_mat = DecodeDatumToCVMatNative(datum.img_datum());
+  Datum decoded_datum;
+  decoded_datum.CopyFrom(datum.img_datum());
+  DecodeDatumNative(&decoded_datum);
+
+  std::copy(decoded_datum.data().begin(), 
+            decoded_datum.data().end(), 
             top_data + OFFSET);
 }
 
