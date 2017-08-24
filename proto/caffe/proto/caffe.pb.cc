@@ -307,8 +307,10 @@ void protobuf_AssignDesc_caffe_2eproto() {
       sizeof(HeatmapConcatParameter),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HeatmapConcatParameter, _internal_metadata_));
   BBoxAnnoMapParameter_descriptor_ = file->message_type(3);
-  static const int BBoxAnnoMapParameter_offsets_[4] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxAnnoMapParameter, receptive_field_hight_),
+  static const int BBoxAnnoMapParameter_offsets_[6] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxAnnoMapParameter, img_height_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxAnnoMapParameter, img_width_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxAnnoMapParameter, receptive_field_height_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxAnnoMapParameter, receptive_field_width_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxAnnoMapParameter, horizontal_stride_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BBoxAnnoMapParameter, vertical_stride_),
@@ -2049,11 +2051,12 @@ void protobuf_AddDesc_caffe_2eproto_impl() {
     "nnoParameter\022\022\n\nimg_height\030\001 \002(\005\022\021\n\timg_"
     "width\030\002 \002(\005\022\030\n\020max_bbox_per_img\030\003 \002(\005\022\025\n"
     "\007colored\030\004 \001(\010:\004true\".\n\026HeatmapConcatPar"
-    "ameter\022\024\n\014heatmap_file\030\001 \002(\t\"\210\001\n\024BBoxAnn"
-    "oMapParameter\022\035\n\025receptive_field_hight\030\001"
-    " \002(\005\022\035\n\025receptive_field_width\030\002 \002(\005\022\031\n\021h"
-    "orizontal_stride\030\003 \002(\005\022\027\n\017vertical_strid"
-    "e\030\004 \002(\005\"]\n\016LabelParameter\022\021\n\tnum_label\030\002"
+    "ameter\022\024\n\014heatmap_file\030\001 \002(\t\"\260\001\n\024BBoxAnn"
+    "oMapParameter\022\022\n\nimg_height\030\001 \002(\005\022\021\n\timg"
+    "_width\030\002 \002(\005\022\036\n\026receptive_field_height\030\003"
+    " \002(\005\022\035\n\025receptive_field_width\030\004 \002(\005\022\031\n\021h"
+    "orizontal_stride\030\005 \002(\005\022\027\n\017vertical_strid"
+    "e\030\006 \002(\005\"]\n\016LabelParameter\022\021\n\tnum_label\030\002"
     " \002(\005\"8\n\022LabelParamConstant\022\030\n\013DUMMY_LABE"
     "L\020\377\377\377\377\377\377\377\377\377\001\022\010\n\004NONE\020\000\"\034\n\tBlobShape\022\017\n\003d"
     "im\030\001 \003(\003B\002\020\001\"\314\001\n\tBlobProto\022\037\n\005shape\030\007 \001("
@@ -2446,7 +2449,7 @@ void protobuf_AddDesc_caffe_2eproto_impl() {
     "\003AVE\020\001\022\016\n\nSTOCHASTIC\020\002\"W\n\016PReLUParameter"
     "\022&\n\006filler\030\001 \001(\0132\026.caffe.FillerParameter"
     "\022\035\n\016channel_shared\030\002 \001(\010:\005false*\034\n\005Phase"
-    "\022\t\n\005TRAIN\020\000\022\010\n\004TEST\020\001", 16181);
+    "\022\t\n\005TRAIN\020\000\022\010\n\004TEST\020\001", 16221);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "caffe.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_caffe_2eproto);
@@ -4014,7 +4017,9 @@ inline const HeatmapConcatParameter* HeatmapConcatParameter::internal_default_in
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int BBoxAnnoMapParameter::kReceptiveFieldHightFieldNumber;
+const int BBoxAnnoMapParameter::kImgHeightFieldNumber;
+const int BBoxAnnoMapParameter::kImgWidthFieldNumber;
+const int BBoxAnnoMapParameter::kReceptiveFieldHeightFieldNumber;
 const int BBoxAnnoMapParameter::kReceptiveFieldWidthFieldNumber;
 const int BBoxAnnoMapParameter::kHorizontalStrideFieldNumber;
 const int BBoxAnnoMapParameter::kVerticalStrideFieldNumber;
@@ -4040,8 +4045,8 @@ BBoxAnnoMapParameter::BBoxAnnoMapParameter(const BBoxAnnoMapParameter& from)
 
 void BBoxAnnoMapParameter::SharedCtor() {
   _cached_size_ = 0;
-  ::memset(&receptive_field_hight_, 0, reinterpret_cast<char*>(&vertical_stride_) -
-    reinterpret_cast<char*>(&receptive_field_hight_) + sizeof(vertical_stride_));
+  ::memset(&img_height_, 0, reinterpret_cast<char*>(&vertical_stride_) -
+    reinterpret_cast<char*>(&img_height_) + sizeof(vertical_stride_));
 }
 
 BBoxAnnoMapParameter::~BBoxAnnoMapParameter() {
@@ -4095,7 +4100,7 @@ void BBoxAnnoMapParameter::Clear() {
            ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
 } while (0)
 
-  ZR_(receptive_field_hight_, vertical_stride_);
+  ZR_(img_height_, vertical_stride_);
 
 #undef ZR_HELPER_
 #undef ZR_
@@ -4116,23 +4121,53 @@ bool BBoxAnnoMapParameter::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int32 receptive_field_hight = 1;
+      // required int32 img_height = 1;
       case 1: {
         if (tag == 8) {
-          set_has_receptive_field_hight();
+          set_has_img_height();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &receptive_field_hight_)));
+                 input, &img_height_)));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(16)) goto parse_receptive_field_width;
+        if (input->ExpectTag(16)) goto parse_img_width;
         break;
       }
 
-      // required int32 receptive_field_width = 2;
+      // required int32 img_width = 2;
       case 2: {
         if (tag == 16) {
+         parse_img_width:
+          set_has_img_width();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &img_width_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(24)) goto parse_receptive_field_height;
+        break;
+      }
+
+      // required int32 receptive_field_height = 3;
+      case 3: {
+        if (tag == 24) {
+         parse_receptive_field_height:
+          set_has_receptive_field_height();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &receptive_field_height_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(32)) goto parse_receptive_field_width;
+        break;
+      }
+
+      // required int32 receptive_field_width = 4;
+      case 4: {
+        if (tag == 32) {
          parse_receptive_field_width:
           set_has_receptive_field_width();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -4141,13 +4176,13 @@ bool BBoxAnnoMapParameter::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(24)) goto parse_horizontal_stride;
+        if (input->ExpectTag(40)) goto parse_horizontal_stride;
         break;
       }
 
-      // required int32 horizontal_stride = 3;
-      case 3: {
-        if (tag == 24) {
+      // required int32 horizontal_stride = 5;
+      case 5: {
+        if (tag == 40) {
          parse_horizontal_stride:
           set_has_horizontal_stride();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -4156,13 +4191,13 @@ bool BBoxAnnoMapParameter::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(32)) goto parse_vertical_stride;
+        if (input->ExpectTag(48)) goto parse_vertical_stride;
         break;
       }
 
-      // required int32 vertical_stride = 4;
-      case 4: {
-        if (tag == 32) {
+      // required int32 vertical_stride = 6;
+      case 6: {
+        if (tag == 48) {
          parse_vertical_stride:
           set_has_vertical_stride();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -4200,24 +4235,34 @@ failure:
 void BBoxAnnoMapParameter::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:caffe.BBoxAnnoMapParameter)
-  // required int32 receptive_field_hight = 1;
-  if (has_receptive_field_hight()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->receptive_field_hight(), output);
+  // required int32 img_height = 1;
+  if (has_img_height()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->img_height(), output);
   }
 
-  // required int32 receptive_field_width = 2;
+  // required int32 img_width = 2;
+  if (has_img_width()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->img_width(), output);
+  }
+
+  // required int32 receptive_field_height = 3;
+  if (has_receptive_field_height()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->receptive_field_height(), output);
+  }
+
+  // required int32 receptive_field_width = 4;
   if (has_receptive_field_width()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->receptive_field_width(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->receptive_field_width(), output);
   }
 
-  // required int32 horizontal_stride = 3;
+  // required int32 horizontal_stride = 5;
   if (has_horizontal_stride()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->horizontal_stride(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->horizontal_stride(), output);
   }
 
-  // required int32 vertical_stride = 4;
+  // required int32 vertical_stride = 6;
   if (has_vertical_stride()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->vertical_stride(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->vertical_stride(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -4231,24 +4276,34 @@ void BBoxAnnoMapParameter::SerializeWithCachedSizes(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:caffe.BBoxAnnoMapParameter)
-  // required int32 receptive_field_hight = 1;
-  if (has_receptive_field_hight()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->receptive_field_hight(), target);
+  // required int32 img_height = 1;
+  if (has_img_height()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->img_height(), target);
   }
 
-  // required int32 receptive_field_width = 2;
+  // required int32 img_width = 2;
+  if (has_img_width()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->img_width(), target);
+  }
+
+  // required int32 receptive_field_height = 3;
+  if (has_receptive_field_height()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->receptive_field_height(), target);
+  }
+
+  // required int32 receptive_field_width = 4;
   if (has_receptive_field_width()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->receptive_field_width(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->receptive_field_width(), target);
   }
 
-  // required int32 horizontal_stride = 3;
+  // required int32 horizontal_stride = 5;
   if (has_horizontal_stride()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->horizontal_stride(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->horizontal_stride(), target);
   }
 
-  // required int32 vertical_stride = 4;
+  // required int32 vertical_stride = 6;
   if (has_vertical_stride()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->vertical_stride(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->vertical_stride(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -4263,29 +4318,43 @@ size_t BBoxAnnoMapParameter::RequiredFieldsByteSizeFallback() const {
 // @@protoc_insertion_point(required_fields_byte_size_fallback_start:caffe.BBoxAnnoMapParameter)
   size_t total_size = 0;
 
-  if (has_receptive_field_hight()) {
-    // required int32 receptive_field_hight = 1;
+  if (has_img_height()) {
+    // required int32 img_height = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->receptive_field_hight());
+        this->img_height());
+  }
+
+  if (has_img_width()) {
+    // required int32 img_width = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->img_width());
+  }
+
+  if (has_receptive_field_height()) {
+    // required int32 receptive_field_height = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->receptive_field_height());
   }
 
   if (has_receptive_field_width()) {
-    // required int32 receptive_field_width = 2;
+    // required int32 receptive_field_width = 4;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->receptive_field_width());
   }
 
   if (has_horizontal_stride()) {
-    // required int32 horizontal_stride = 3;
+    // required int32 horizontal_stride = 5;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->horizontal_stride());
   }
 
   if (has_vertical_stride()) {
-    // required int32 vertical_stride = 4;
+    // required int32 vertical_stride = 6;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->vertical_stride());
@@ -4297,23 +4366,33 @@ size_t BBoxAnnoMapParameter::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:caffe.BBoxAnnoMapParameter)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
-    // required int32 receptive_field_hight = 1;
+  if (((_has_bits_[0] & 0x0000003f) ^ 0x0000003f) == 0) {  // All required fields are present.
+    // required int32 img_height = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->receptive_field_hight());
+        this->img_height());
 
-    // required int32 receptive_field_width = 2;
+    // required int32 img_width = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->img_width());
+
+    // required int32 receptive_field_height = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->receptive_field_height());
+
+    // required int32 receptive_field_width = 4;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->receptive_field_width());
 
-    // required int32 horizontal_stride = 3;
+    // required int32 horizontal_stride = 5;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->horizontal_stride());
 
-    // required int32 vertical_stride = 4;
+    // required int32 vertical_stride = 6;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->vertical_stride());
@@ -4360,8 +4439,14 @@ void BBoxAnnoMapParameter::MergeFrom(const BBoxAnnoMapParameter& from) {
 void BBoxAnnoMapParameter::UnsafeMergeFrom(const BBoxAnnoMapParameter& from) {
   GOOGLE_DCHECK(&from != this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_receptive_field_hight()) {
-      set_receptive_field_hight(from.receptive_field_hight());
+    if (from.has_img_height()) {
+      set_img_height(from.img_height());
+    }
+    if (from.has_img_width()) {
+      set_img_width(from.img_width());
+    }
+    if (from.has_receptive_field_height()) {
+      set_receptive_field_height(from.receptive_field_height());
     }
     if (from.has_receptive_field_width()) {
       set_receptive_field_width(from.receptive_field_width());
@@ -4394,7 +4479,7 @@ void BBoxAnnoMapParameter::CopyFrom(const BBoxAnnoMapParameter& from) {
 }
 
 bool BBoxAnnoMapParameter::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+  if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
 
   return true;
 }
@@ -4404,7 +4489,9 @@ void BBoxAnnoMapParameter::Swap(BBoxAnnoMapParameter* other) {
   InternalSwap(other);
 }
 void BBoxAnnoMapParameter::InternalSwap(BBoxAnnoMapParameter* other) {
-  std::swap(receptive_field_hight_, other->receptive_field_hight_);
+  std::swap(img_height_, other->img_height_);
+  std::swap(img_width_, other->img_width_);
+  std::swap(receptive_field_height_, other->receptive_field_height_);
   std::swap(receptive_field_width_, other->receptive_field_width_);
   std::swap(horizontal_stride_, other->horizontal_stride_);
   std::swap(vertical_stride_, other->vertical_stride_);
@@ -4424,39 +4511,87 @@ void BBoxAnnoMapParameter::InternalSwap(BBoxAnnoMapParameter* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // BBoxAnnoMapParameter
 
-// required int32 receptive_field_hight = 1;
-bool BBoxAnnoMapParameter::has_receptive_field_hight() const {
+// required int32 img_height = 1;
+bool BBoxAnnoMapParameter::has_img_height() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-void BBoxAnnoMapParameter::set_has_receptive_field_hight() {
+void BBoxAnnoMapParameter::set_has_img_height() {
   _has_bits_[0] |= 0x00000001u;
 }
-void BBoxAnnoMapParameter::clear_has_receptive_field_hight() {
+void BBoxAnnoMapParameter::clear_has_img_height() {
   _has_bits_[0] &= ~0x00000001u;
 }
-void BBoxAnnoMapParameter::clear_receptive_field_hight() {
-  receptive_field_hight_ = 0;
-  clear_has_receptive_field_hight();
+void BBoxAnnoMapParameter::clear_img_height() {
+  img_height_ = 0;
+  clear_has_img_height();
 }
-::google::protobuf::int32 BBoxAnnoMapParameter::receptive_field_hight() const {
-  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.receptive_field_hight)
-  return receptive_field_hight_;
+::google::protobuf::int32 BBoxAnnoMapParameter::img_height() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.img_height)
+  return img_height_;
 }
-void BBoxAnnoMapParameter::set_receptive_field_hight(::google::protobuf::int32 value) {
-  set_has_receptive_field_hight();
-  receptive_field_hight_ = value;
-  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.receptive_field_hight)
+void BBoxAnnoMapParameter::set_img_height(::google::protobuf::int32 value) {
+  set_has_img_height();
+  img_height_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.img_height)
 }
 
-// required int32 receptive_field_width = 2;
-bool BBoxAnnoMapParameter::has_receptive_field_width() const {
+// required int32 img_width = 2;
+bool BBoxAnnoMapParameter::has_img_width() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-void BBoxAnnoMapParameter::set_has_receptive_field_width() {
+void BBoxAnnoMapParameter::set_has_img_width() {
   _has_bits_[0] |= 0x00000002u;
 }
-void BBoxAnnoMapParameter::clear_has_receptive_field_width() {
+void BBoxAnnoMapParameter::clear_has_img_width() {
   _has_bits_[0] &= ~0x00000002u;
+}
+void BBoxAnnoMapParameter::clear_img_width() {
+  img_width_ = 0;
+  clear_has_img_width();
+}
+::google::protobuf::int32 BBoxAnnoMapParameter::img_width() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.img_width)
+  return img_width_;
+}
+void BBoxAnnoMapParameter::set_img_width(::google::protobuf::int32 value) {
+  set_has_img_width();
+  img_width_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.img_width)
+}
+
+// required int32 receptive_field_height = 3;
+bool BBoxAnnoMapParameter::has_receptive_field_height() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void BBoxAnnoMapParameter::set_has_receptive_field_height() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void BBoxAnnoMapParameter::clear_has_receptive_field_height() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void BBoxAnnoMapParameter::clear_receptive_field_height() {
+  receptive_field_height_ = 0;
+  clear_has_receptive_field_height();
+}
+::google::protobuf::int32 BBoxAnnoMapParameter::receptive_field_height() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.receptive_field_height)
+  return receptive_field_height_;
+}
+void BBoxAnnoMapParameter::set_receptive_field_height(::google::protobuf::int32 value) {
+  set_has_receptive_field_height();
+  receptive_field_height_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.receptive_field_height)
+}
+
+// required int32 receptive_field_width = 4;
+bool BBoxAnnoMapParameter::has_receptive_field_width() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void BBoxAnnoMapParameter::set_has_receptive_field_width() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void BBoxAnnoMapParameter::clear_has_receptive_field_width() {
+  _has_bits_[0] &= ~0x00000008u;
 }
 void BBoxAnnoMapParameter::clear_receptive_field_width() {
   receptive_field_width_ = 0;
@@ -4472,15 +4607,15 @@ void BBoxAnnoMapParameter::set_receptive_field_width(::google::protobuf::int32 v
   // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.receptive_field_width)
 }
 
-// required int32 horizontal_stride = 3;
+// required int32 horizontal_stride = 5;
 bool BBoxAnnoMapParameter::has_horizontal_stride() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
 void BBoxAnnoMapParameter::set_has_horizontal_stride() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000010u;
 }
 void BBoxAnnoMapParameter::clear_has_horizontal_stride() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 void BBoxAnnoMapParameter::clear_horizontal_stride() {
   horizontal_stride_ = 0;
@@ -4496,15 +4631,15 @@ void BBoxAnnoMapParameter::set_horizontal_stride(::google::protobuf::int32 value
   // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.horizontal_stride)
 }
 
-// required int32 vertical_stride = 4;
+// required int32 vertical_stride = 6;
 bool BBoxAnnoMapParameter::has_vertical_stride() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000020u) != 0;
 }
 void BBoxAnnoMapParameter::set_has_vertical_stride() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000020u;
 }
 void BBoxAnnoMapParameter::clear_has_vertical_stride() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000020u;
 }
 void BBoxAnnoMapParameter::clear_vertical_stride() {
   vertical_stride_ = 0;
