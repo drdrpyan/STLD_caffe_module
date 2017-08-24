@@ -108,13 +108,19 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
     float ComputeCenterDistance(const bgm::BBox<Dtype>& bbox1,
                                 const bgm::BBox<Dtype>& bbox2) const;
 
-    int NUM_LABEL_;
-    int IMG_HEIGHT_;
-    int IMG_WIDTH_;
-    int RECEPTIVE_FIELD_HEIGHT_;
-    int RECEPTIVE_FIELD_WIDTH_;
-    int VERTICAL_STRIDE_;
-    int HORIZONTAL_STRIDE_;
+    void RelocateBBox(const bgm::BBox<Dtype>& receptive_field,
+                      const bgm::BBox<Dtype>& global_position,
+                      bgm::BBox<Dtype>* local_position) const;
+
+    const int NUM_LABEL_;
+    const int IMG_HEIGHT_;
+    const int IMG_WIDTH_;
+    const int RECEPTIVE_FIELD_HEIGHT_;
+    const int RECEPTIVE_FIELD_WIDTH_;
+    const int VERTICAL_STRIDE_;
+    const int HORIZONTAL_STRIDE_;
+    const bool NORMALIZED_POSITION_IN_;
+    const bool NORMALIZED_POSITION_OUT_;
 
     vector<int> labelmap_shape_;
     vector<int> bboxmap_shape_;

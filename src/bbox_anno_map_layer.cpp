@@ -15,7 +15,8 @@ inline BBoxAnnoMapLayer<Dtype>::BBoxAnnoMapLayer(
     RECEPTIVE_FIELD_HEIGHT_(param.bbox_anno_map_param().receptive_field_height()),
     RECEPTIVE_FIELD_WIDTH_(param.bbox_anno_map_param().receptive_field_width()),
     VERTICAL_STRIDE_(param.bbox_anno_map_param().vertical_stride()),
-    HORIZONTAL_STRIDE_(param.bbox_anno_map_param().horizontal_stride()){
+    HORIZONTAL_STRIDE_(param.bbox_anno_map_param().horizontal_stride()),
+    NORMALIZED_POSITION_IN_(false), NORMALIZED_POSITION_OUT_(true) {
   CHECK_GT(NUM_LABEL_, 0) << "Invalid the number of labels";
   CHECK_GT(IMG_HEIGHT_, 0) << "Invalid parameter : image height";
   CHECK_GT(IMG_WIDTH_, 0) << "Ivalid parameter : image width";
@@ -127,11 +128,13 @@ void BBoxAnnoMapLayer<Dtype>::MakeMaps(
                                       bbox_anno);
       if (best_idx != -1) {
         const BBoxAnno& best = bbox_anno[best_idx];
+        bgm::BBox<Dtype> relocated_bbox;
+        RelocateBBox(receptive_field, best.second, &relocated_bbox);
         *label_iter++ = best.first;
-        *bbox_x_min_iter++ = best.second.x_min();
-        *bbox_y_min_iter++ = best.second.y_min();
-        *bbox_x_max_iter++ = best.second.x_max();
-        *bbox_y_max_iter++ = best.second.y_max();
+        *bbox_x_min_iter++ = relocated_bbox.x_min();
+        *bbox_y_min_iter++ = relocated_bbox.y_min();
+        *bbox_x_max_iter++ = relocated_bbox.x_max();
+        *bbox_y_max_iter++ = relocated_bbox.y_max();
       }
       else {
         *label_iter++ = LabelParameter::NONE;
@@ -215,8 +218,6 @@ void BBoxAnnoMapLayer<Dtype>::ParseInputBlob(
   }
 }
 
-
-
 template <typename Dtype>
 bool BBoxAnnoMapLayer<Dtype>::IsBBoxInReceptiveField(
     const bgm::BBox<Dtype>& receptive_field,
@@ -240,6 +241,27 @@ float BBoxAnnoMapLayer<Dtype>::ComputeCenterDistance(
   float term2 = std::powf(bbox1_y_mid - bbox2_y_mid, 2.0f);
   float dist = std::sqrtf(term1 + term2);
   return dist;
+}
+
+template <typename Dtype>
+void BBoxAnnoMapLayer<Dtype>::RelocateBBox(
+    const bgm::BBox<Dtype>& receptive_field,
+    const bgm::BBox<Dtype>& global_position,
+    bgm::BBox<Dtype>* local_position) const {
+  CHECK(local_position);
+  
+  *local_position = global_position;
+  if (!NORMALIZED_POSITION_IN_)
+    local_position->Scale(IMG_WIDTH_, IMG_HEIGHT_,
+                          bgm::BBox<Dtype>::ScalePivot::SCENE_TOPLEFT);
+
+  local_position->Shift(receptive_field.x_min(),
+                        receptive_field.y_min());
+
+  if (NORMALIZED_POSITION_OUT_)
+    local_position->Scale(static_cast<Dtype>(1) / IMG_WIDTH_,
+                          static_cast<Dtype>(1) / IMG_HEIGHT_,
+                          bgm::BBox<Dtype>::ScalePivot::SCENE_TOPLEFT);
 }
 
 INSTANTIATE_CLASS(BBoxAnnoMapLayer);
