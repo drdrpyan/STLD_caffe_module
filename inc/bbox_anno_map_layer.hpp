@@ -76,10 +76,20 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
 
   private:
     /**
+    Initialize output shapes
+    */
+    void InitMapShape(const LabelParameter& label_param,
+                      const BBoxAnnoMapParameter& bbox_anno_map_param);
+
+    /**
     compute output's height and width
     */
-    void ComputeOutputHW(int input_h, int input_w,
-                         int* output_h, int* output_w) const;
+    void ComputeMapHW(int *map_height, int *map_width) const;
+
+    void MakeMaps(const vector<BBoxAnno>& bbox_anno,
+                  int map_height, int map_width,
+                  Dtype* label_map,
+                  Dtype* bbox_map) const;
 
     /**
     find best BBoxAnno for given feceptive_field.
@@ -88,29 +98,26 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
     int FindBestBBoxAnno(
         const bgm::BBox<Dtype>& receptive_field,
         const vector<BBoxAnno>& candidates) const;
-    //void InitMapShape(const BBoxAnnoMapParameter& param);
-    //bool IsValidParam(const BBoxAnnoMapParameter& param) const;
-    bool IsValidInputBlob(const Blob<Dtype>& input_blob) const;
+
     void ParseInputBlob(
         const Blob<Dtype>& input_blob,
         vector<vector<BBoxAnno > >* bbox_anno) const;
-    void MakeMaps(const vector<BBoxAnno>& bbox_anno,
-                  int map_height, int map_width,
-                  Dtype* label_map,
-                  Dtype* bbox_map) const;
+    
     bool IsBBoxInReceptiveField(const bgm::BBox<Dtype>& receptive_field,
                                 const bgm::BBox<Dtype>& obj_bbox) const;
     float ComputeCenterDistance(const bgm::BBox<Dtype>& bbox1,
                                 const bgm::BBox<Dtype>& bbox2) const;
 
-    //vector<int> label_map_shape_;
-    //vector<int> bbox_map_shape_;
+    int NUM_LABEL_;
+    int IMG_HEIGHT_;
+    int IMG_WIDTH_;
+    int RECEPTIVE_FIELD_HEIGHT_;
+    int RECEPTIVE_FIELD_WIDTH_;
+    int VERTICAL_STRIDE_;
+    int HORIZONTAL_STRIDE_;
 
-    int receptive_field_height_;
-    int receptive_field_width_;
-    int horizontal_stride_;
-    int vertical_stride_;
-    int num_label_;
+    vector<int> labelmap_shape_;
+    vector<int> bboxmap_shape_;
 };
 
 // inline functions
@@ -128,10 +135,12 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
 //}
 
 template <typename Dtype>
-inline BBoxAnnoMapLayer<Dtype>::BBoxAnnoMapLayer(
-    const LayerParameter& param) 
-  : Layer<Dtype>(param) {
+inline void BBoxAnnoMapLayer<Dtype>::LayerSetUp(
+    const vector<Blob<Dtype>*>& bottom,
+    const vector<Blob<Dtype>*>& top) {
 
+  InitMapShape(this->layer_param().label_param(),
+               this->layer_param().bbox_anno_map_param());
 }
 
 template <typename Dtype>
@@ -164,7 +173,6 @@ inline void BBoxAnnoMapLayer<Dtype>::Backward_gpu(
     const vector<Blob<Dtype>*>& bottom) {
   // do nothing
 }
-
 
 } // namespace caffe
 
