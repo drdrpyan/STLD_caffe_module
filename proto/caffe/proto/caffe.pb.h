@@ -46,6 +46,7 @@ class BiasParameter;
 class BlobProto;
 class BlobProtoVector;
 class BlobShape;
+class ChannelTilingParameter;
 class ConcatParameter;
 class ContrastiveLossParameter;
 class ConvolutionParameter;
@@ -1158,19 +1159,19 @@ class BBoxAnnoMapParameter : public ::google::protobuf::Message /* @@protoc_inse
   ::google::protobuf::int32 receptive_field_width() const;
   void set_receptive_field_width(::google::protobuf::int32 value);
 
-  // required int32 horizontal_stride = 5;
-  bool has_horizontal_stride() const;
-  void clear_horizontal_stride();
-  static const int kHorizontalStrideFieldNumber = 5;
-  ::google::protobuf::int32 horizontal_stride() const;
-  void set_horizontal_stride(::google::protobuf::int32 value);
-
-  // required int32 vertical_stride = 6;
+  // required int32 vertical_stride = 5;
   bool has_vertical_stride() const;
   void clear_vertical_stride();
-  static const int kVerticalStrideFieldNumber = 6;
+  static const int kVerticalStrideFieldNumber = 5;
   ::google::protobuf::int32 vertical_stride() const;
   void set_vertical_stride(::google::protobuf::int32 value);
+
+  // required int32 horizontal_stride = 6;
+  bool has_horizontal_stride() const;
+  void clear_horizontal_stride();
+  static const int kHorizontalStrideFieldNumber = 6;
+  ::google::protobuf::int32 horizontal_stride() const;
+  void set_horizontal_stride(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:caffe.BBoxAnnoMapParameter)
  private:
@@ -1182,10 +1183,10 @@ class BBoxAnnoMapParameter : public ::google::protobuf::Message /* @@protoc_inse
   inline void clear_has_receptive_field_height();
   inline void set_has_receptive_field_width();
   inline void clear_has_receptive_field_width();
-  inline void set_has_horizontal_stride();
-  inline void clear_has_horizontal_stride();
   inline void set_has_vertical_stride();
   inline void clear_has_vertical_stride();
+  inline void set_has_horizontal_stride();
+  inline void clear_has_horizontal_stride();
 
   // helper for ByteSizeLong()
   size_t RequiredFieldsByteSizeFallback() const;
@@ -1197,8 +1198,8 @@ class BBoxAnnoMapParameter : public ::google::protobuf::Message /* @@protoc_inse
   ::google::protobuf::int32 img_width_;
   ::google::protobuf::int32 receptive_field_height_;
   ::google::protobuf::int32 receptive_field_width_;
-  ::google::protobuf::int32 horizontal_stride_;
   ::google::protobuf::int32 vertical_stride_;
+  ::google::protobuf::int32 horizontal_stride_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_2eproto_impl();
   friend void protobuf_AssignDesc_caffe_2eproto();
@@ -1331,6 +1332,134 @@ class LabelParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   void InitAsDefaultInstance();
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<LabelParameter> LabelParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class ChannelTilingParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.ChannelTilingParameter) */ {
+ public:
+  ChannelTilingParameter();
+  virtual ~ChannelTilingParameter();
+
+  ChannelTilingParameter(const ChannelTilingParameter& from);
+
+  inline ChannelTilingParameter& operator=(const ChannelTilingParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ChannelTilingParameter& default_instance();
+
+  static const ChannelTilingParameter* internal_default_instance();
+
+  void Swap(ChannelTilingParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline ChannelTilingParameter* New() const { return New(NULL); }
+
+  ChannelTilingParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ChannelTilingParameter& from);
+  void MergeFrom(const ChannelTilingParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ChannelTilingParameter* other);
+  void UnsafeMergeFrom(const ChannelTilingParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional int32 tile_height = 1 [default = 1];
+  bool has_tile_height() const;
+  void clear_tile_height();
+  static const int kTileHeightFieldNumber = 1;
+  ::google::protobuf::int32 tile_height() const;
+  void set_tile_height(::google::protobuf::int32 value);
+
+  // optional int32 tile_width = 2 [default = 1];
+  bool has_tile_width() const;
+  void clear_tile_width();
+  static const int kTileWidthFieldNumber = 2;
+  ::google::protobuf::int32 tile_width() const;
+  void set_tile_width(::google::protobuf::int32 value);
+
+  // optional int32 vertical_stride = 3 [default = 1];
+  bool has_vertical_stride() const;
+  void clear_vertical_stride();
+  static const int kVerticalStrideFieldNumber = 3;
+  ::google::protobuf::int32 vertical_stride() const;
+  void set_vertical_stride(::google::protobuf::int32 value);
+
+  // optional int32 horizontal_stride = 4 [default = 1];
+  bool has_horizontal_stride() const;
+  void clear_horizontal_stride();
+  static const int kHorizontalStrideFieldNumber = 4;
+  ::google::protobuf::int32 horizontal_stride() const;
+  void set_horizontal_stride(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:caffe.ChannelTilingParameter)
+ private:
+  inline void set_has_tile_height();
+  inline void clear_has_tile_height();
+  inline void set_has_tile_width();
+  inline void clear_has_tile_width();
+  inline void set_has_vertical_stride();
+  inline void clear_has_vertical_stride();
+  inline void set_has_horizontal_stride();
+  inline void clear_has_horizontal_stride();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::int32 tile_height_;
+  ::google::protobuf::int32 tile_width_;
+  ::google::protobuf::int32 vertical_stride_;
+  ::google::protobuf::int32 horizontal_stride_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<ChannelTilingParameter> ChannelTilingParameter_default_instance_;
 
 // -------------------------------------------------------------------
 
@@ -4183,6 +4312,15 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::LabelParameter* release_label_param();
   void set_allocated_label_param(::caffe::LabelParameter* label_param);
 
+  // optional .caffe.ChannelTilingParameter channel_tiling_param = 1005;
+  bool has_channel_tiling_param() const;
+  void clear_channel_tiling_param();
+  static const int kChannelTilingParamFieldNumber = 1005;
+  const ::caffe::ChannelTilingParameter& channel_tiling_param() const;
+  ::caffe::ChannelTilingParameter* mutable_channel_tiling_param();
+  ::caffe::ChannelTilingParameter* release_channel_tiling_param();
+  void set_allocated_channel_tiling_param(::caffe::ChannelTilingParameter* channel_tiling_param);
+
   // @@protoc_insertion_point(class_scope:caffe.LayerParameter)
  private:
   inline void set_has_name();
@@ -4293,6 +4431,8 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_bbox_anno_map_param();
   inline void set_has_label_param();
   inline void clear_has_label_param();
+  inline void set_has_channel_tiling_param();
+  inline void clear_has_channel_tiling_param();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<2> _has_bits_;
@@ -4357,6 +4497,7 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::HeatmapConcatParameter* heatmap_concat_param_;
   ::caffe::BBoxAnnoMapParameter* bbox_anno_map_param_;
   ::caffe::LabelParameter* label_param_;
+  ::caffe::ChannelTilingParameter* channel_tiling_param_;
   int phase_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
@@ -12714,39 +12855,15 @@ inline void BBoxAnnoMapParameter::set_receptive_field_width(::google::protobuf::
   // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.receptive_field_width)
 }
 
-// required int32 horizontal_stride = 5;
-inline bool BBoxAnnoMapParameter::has_horizontal_stride() const {
+// required int32 vertical_stride = 5;
+inline bool BBoxAnnoMapParameter::has_vertical_stride() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void BBoxAnnoMapParameter::set_has_horizontal_stride() {
+inline void BBoxAnnoMapParameter::set_has_vertical_stride() {
   _has_bits_[0] |= 0x00000010u;
 }
-inline void BBoxAnnoMapParameter::clear_has_horizontal_stride() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-inline void BBoxAnnoMapParameter::clear_horizontal_stride() {
-  horizontal_stride_ = 0;
-  clear_has_horizontal_stride();
-}
-inline ::google::protobuf::int32 BBoxAnnoMapParameter::horizontal_stride() const {
-  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.horizontal_stride)
-  return horizontal_stride_;
-}
-inline void BBoxAnnoMapParameter::set_horizontal_stride(::google::protobuf::int32 value) {
-  set_has_horizontal_stride();
-  horizontal_stride_ = value;
-  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.horizontal_stride)
-}
-
-// required int32 vertical_stride = 6;
-inline bool BBoxAnnoMapParameter::has_vertical_stride() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-inline void BBoxAnnoMapParameter::set_has_vertical_stride() {
-  _has_bits_[0] |= 0x00000020u;
-}
 inline void BBoxAnnoMapParameter::clear_has_vertical_stride() {
-  _has_bits_[0] &= ~0x00000020u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline void BBoxAnnoMapParameter::clear_vertical_stride() {
   vertical_stride_ = 0;
@@ -12760,6 +12877,30 @@ inline void BBoxAnnoMapParameter::set_vertical_stride(::google::protobuf::int32 
   set_has_vertical_stride();
   vertical_stride_ = value;
   // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.vertical_stride)
+}
+
+// required int32 horizontal_stride = 6;
+inline bool BBoxAnnoMapParameter::has_horizontal_stride() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void BBoxAnnoMapParameter::set_has_horizontal_stride() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void BBoxAnnoMapParameter::clear_has_horizontal_stride() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void BBoxAnnoMapParameter::clear_horizontal_stride() {
+  horizontal_stride_ = 0;
+  clear_has_horizontal_stride();
+}
+inline ::google::protobuf::int32 BBoxAnnoMapParameter::horizontal_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxAnnoMapParameter.horizontal_stride)
+  return horizontal_stride_;
+}
+inline void BBoxAnnoMapParameter::set_horizontal_stride(::google::protobuf::int32 value) {
+  set_has_horizontal_stride();
+  horizontal_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxAnnoMapParameter.horizontal_stride)
 }
 
 inline const BBoxAnnoMapParameter* BBoxAnnoMapParameter::internal_default_instance() {
@@ -12795,6 +12936,109 @@ inline void LabelParameter::set_num_label(::google::protobuf::int32 value) {
 
 inline const LabelParameter* LabelParameter::internal_default_instance() {
   return &LabelParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// ChannelTilingParameter
+
+// optional int32 tile_height = 1 [default = 1];
+inline bool ChannelTilingParameter::has_tile_height() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ChannelTilingParameter::set_has_tile_height() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ChannelTilingParameter::clear_has_tile_height() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ChannelTilingParameter::clear_tile_height() {
+  tile_height_ = 1;
+  clear_has_tile_height();
+}
+inline ::google::protobuf::int32 ChannelTilingParameter::tile_height() const {
+  // @@protoc_insertion_point(field_get:caffe.ChannelTilingParameter.tile_height)
+  return tile_height_;
+}
+inline void ChannelTilingParameter::set_tile_height(::google::protobuf::int32 value) {
+  set_has_tile_height();
+  tile_height_ = value;
+  // @@protoc_insertion_point(field_set:caffe.ChannelTilingParameter.tile_height)
+}
+
+// optional int32 tile_width = 2 [default = 1];
+inline bool ChannelTilingParameter::has_tile_width() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void ChannelTilingParameter::set_has_tile_width() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void ChannelTilingParameter::clear_has_tile_width() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void ChannelTilingParameter::clear_tile_width() {
+  tile_width_ = 1;
+  clear_has_tile_width();
+}
+inline ::google::protobuf::int32 ChannelTilingParameter::tile_width() const {
+  // @@protoc_insertion_point(field_get:caffe.ChannelTilingParameter.tile_width)
+  return tile_width_;
+}
+inline void ChannelTilingParameter::set_tile_width(::google::protobuf::int32 value) {
+  set_has_tile_width();
+  tile_width_ = value;
+  // @@protoc_insertion_point(field_set:caffe.ChannelTilingParameter.tile_width)
+}
+
+// optional int32 vertical_stride = 3 [default = 1];
+inline bool ChannelTilingParameter::has_vertical_stride() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void ChannelTilingParameter::set_has_vertical_stride() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void ChannelTilingParameter::clear_has_vertical_stride() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void ChannelTilingParameter::clear_vertical_stride() {
+  vertical_stride_ = 1;
+  clear_has_vertical_stride();
+}
+inline ::google::protobuf::int32 ChannelTilingParameter::vertical_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.ChannelTilingParameter.vertical_stride)
+  return vertical_stride_;
+}
+inline void ChannelTilingParameter::set_vertical_stride(::google::protobuf::int32 value) {
+  set_has_vertical_stride();
+  vertical_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.ChannelTilingParameter.vertical_stride)
+}
+
+// optional int32 horizontal_stride = 4 [default = 1];
+inline bool ChannelTilingParameter::has_horizontal_stride() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void ChannelTilingParameter::set_has_horizontal_stride() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void ChannelTilingParameter::clear_has_horizontal_stride() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void ChannelTilingParameter::clear_horizontal_stride() {
+  horizontal_stride_ = 1;
+  clear_has_horizontal_stride();
+}
+inline ::google::protobuf::int32 ChannelTilingParameter::horizontal_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.ChannelTilingParameter.horizontal_stride)
+  return horizontal_stride_;
+}
+inline void ChannelTilingParameter::set_horizontal_stride(::google::protobuf::int32 value) {
+  set_has_horizontal_stride();
+  horizontal_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.ChannelTilingParameter.horizontal_stride)
+}
+
+inline const ChannelTilingParameter* ChannelTilingParameter::internal_default_instance() {
+  return &ChannelTilingParameter_default_instance_.get();
 }
 // -------------------------------------------------------------------
 
@@ -18494,6 +18738,51 @@ inline void LayerParameter::set_allocated_label_param(::caffe::LabelParameter* l
     clear_has_label_param();
   }
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.label_param)
+}
+
+// optional .caffe.ChannelTilingParameter channel_tiling_param = 1005;
+inline bool LayerParameter::has_channel_tiling_param() const {
+  return (_has_bits_[1] & 0x40000000u) != 0;
+}
+inline void LayerParameter::set_has_channel_tiling_param() {
+  _has_bits_[1] |= 0x40000000u;
+}
+inline void LayerParameter::clear_has_channel_tiling_param() {
+  _has_bits_[1] &= ~0x40000000u;
+}
+inline void LayerParameter::clear_channel_tiling_param() {
+  if (channel_tiling_param_ != NULL) channel_tiling_param_->::caffe::ChannelTilingParameter::Clear();
+  clear_has_channel_tiling_param();
+}
+inline const ::caffe::ChannelTilingParameter& LayerParameter::channel_tiling_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.channel_tiling_param)
+  return channel_tiling_param_ != NULL ? *channel_tiling_param_
+                         : *::caffe::ChannelTilingParameter::internal_default_instance();
+}
+inline ::caffe::ChannelTilingParameter* LayerParameter::mutable_channel_tiling_param() {
+  set_has_channel_tiling_param();
+  if (channel_tiling_param_ == NULL) {
+    channel_tiling_param_ = new ::caffe::ChannelTilingParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.channel_tiling_param)
+  return channel_tiling_param_;
+}
+inline ::caffe::ChannelTilingParameter* LayerParameter::release_channel_tiling_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.channel_tiling_param)
+  clear_has_channel_tiling_param();
+  ::caffe::ChannelTilingParameter* temp = channel_tiling_param_;
+  channel_tiling_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_channel_tiling_param(::caffe::ChannelTilingParameter* channel_tiling_param) {
+  delete channel_tiling_param_;
+  channel_tiling_param_ = channel_tiling_param;
+  if (channel_tiling_param) {
+    set_has_channel_tiling_param();
+  } else {
+    clear_has_channel_tiling_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.channel_tiling_param)
 }
 
 inline const LayerParameter* LayerParameter::internal_default_instance() {
@@ -27158,6 +27447,8 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
   return &PReLUParameter_default_instance_.get();
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
