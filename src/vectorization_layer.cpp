@@ -4,20 +4,6 @@ namespace caffe
 {
 
 template <typename Dtype>
-VectorizationLayer<Dtype>::VectorizationLayer(
-    const LayerParameter& param) 
-  : Layer<Dtype>(param),
-    TILE_HEIGHT_(param.channel_tiling_param().tile_height()),
-    TILE_WIDTH_(param.channel_tiling_param().tile_width()),
-    VERTICAL_STRIDE_(param.channel_tiling_param().vertical_stride()),
-    HORIZONTAL_STRIDE_(param.channel_tiling_param().horizontal_stride()) {
-  CHECK_GT(TILE_HEIGHT_, 0);
-  CHECK_GT(TILE_WIDTH_, 0);
-  CHECK_GT(VERTICAL_STRIDE_, 0);
-  CHECK_GT(HORIZONTAL_STRIDE_, 0);
-}
-
-template <typename Dtype>
 void VectorizationLayer<Dtype>::Reshape(
     const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
@@ -29,21 +15,74 @@ void VectorizationLayer<Dtype>::Reshape(
 }
 
 template <typename Dtype>
-VectorizationLayer<Dtype>::ComputeTopShape(
+void VectorizationLayer<Dtype>::ComputeTopShape(
     const std::vector<int>& bottom_shape,
     std::vector<int>* top_shape) const {
   CHECK(top_shape);
 
-  int num_tile_rows = 
-      (bottom_shape[2] - TILE_HEIGHT_) / VERTICAL_STRIDE_ + 1;
-  int num_tile_cols = 
-      (bottom_shape[2] - TILE_WIDTH_) / HORIZONTAL_STRIDE_ + 1;
-
   top_shape->resize(4);
-  (*top_shape)[0] = bottom_shape[0] * num_tile_rows * num_tile_cols;
+  (*top_shape)[0] = bottom_shape[0] * bottom_shape[2] * bottom_shape[3];
   (*top_shape)[1] = bottom_shape[1];
-  (*top_shape)[2] = TILE_HEIGHT_;
-  (*top_shape)[2] = TILE_WIDTH_;
+  (*top_shape)[2] = 1;
+  (*top_shape)[4] = 1;
 }
 
+template <typename Dtype>
+void VectorizationLayer<Dtype>::Vectorize_cpu(
+    const Blob<Dtype>& bottom, Blob<Dtype>* top) const {
+  CHECK(top);
+
+  Dtype* top_iter = top->mutable_cpu_data();
+  for (int bot_n = 0; bot_n < bottom.num(); bot_n++) {
+    std::vector<const Dtype*> ch_iters;
+    GetDataChIters(bottom, bot_n, &ch_iters);
+
+    for (i = bottom.height() * bottom.width(); i--; )
+      for (j = 0; j < bottom.channels(); j++)
+        *top_iter++ = *(ch_iters[j]++);
+  }
+}
+
+template <typename Dtype>
+void VectorizationLayer<Dtype>::Devectorize_cpu(
+    const Blob<Dtype>& top, Blob <Dtype> *bottom) const {
+  CHECK(bottom);
+  
+  const Dtype* top_iter = top->cpu_data();
+  for (int bot_n = 0; bot_n < bottom->num(); bot_n++) {
+    std::vector<Dtype*> ch_iters;
+    GetDataChIters(bottom, bot_n, &ch_iters);
+    for (i = bottom.height() * bottom.width(); i--; )
+      for (j = 0; j < bottom.channels(); j++)
+        (*ch_iters[j]++) = *top_iter++;
+  }
+}
+
+template <typename Dtype>
+void VectorizationLayer<Dtype>::GetDataChIters(
+    const Blob<Dtype>& blob, int n,
+    std::vector<const Dtype*>* ch_iters) const {
+  CHECK(n >= 0 && n < blob.num());
+  CHECK(ch_iters);
+
+  ch_iters->resize(blob.channels());
+  (*ch_iters)[0] = blob.cpu_data() + blob.offset(n);
+  int hw = blob.height() * blob.width();
+  for (int i = 1; i < ch_iters->size(); i++)
+    (*ch_iters)[i] = (*ch_iters)[i - 1] + hw;
+}
+
+template <typename Dtype>
+void VectorizationLayer<Dtype>::GetDiffChIters(
+    const Blob<Dtype>& blob, int n,
+    std::vector<Dtype*>* ch_iters) const {
+    CHECK(n >= 0 && n < blob.num());
+  CHECK(ch_iters);
+  
+  ch_iters->resize(blob.channels());
+  (*ch_iters)[0] = blob.mutable_diff_data() + blob.offset(n);
+  int hw = blob.height() * blob.width();
+  for (int i = 1; i < ch_iters->size(); i++)
+    (*ch_iters)[i] = (*ch_iters)[i - 1] + hw;
+}
 } // namespace caffe
