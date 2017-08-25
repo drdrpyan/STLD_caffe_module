@@ -1,5 +1,5 @@
-#ifndef TLR_CHANNEL_TILING_LAYER_HPP_
-#define TLR_CHANNEL_TILING_LAYER_HPP_
+#ifndef TLR_VECTORIZATION_LAYER_HPP_
+#define TLR_VECTORIZATION_LAYER_HPP_
 
 #include "caffe/layer.hpp"
 
@@ -7,10 +7,10 @@ namespace caffe
 {
 
 template <typename Dtype>
-class ChannelTilingLayer : public Layer<Dtype>
+class VectorizationLayer : public Layer<Dtype>
 {
   public:
-    explicit ChannelTilingLayer(const LayerParameter& param);
+    explicit VectorizationLayer(const LayerParameter& param);
     virtual void LayerSetUp(const vector<Blob<Dtype>*>& bottom,
                             const vector<Blob<Dtype>*>& top) override;
     virtual void Reshape(const vector<Blob<Dtype>*>& bottom,
@@ -39,21 +39,26 @@ class ChannelTilingLayer : public Layer<Dtype>
         const vector<Blob<Dtype>*>& bottom) override;
 
   private:
-    const int TILE_HEIGHT_;
-    const int TILE_WIDTH_;
-    const int VERTICAL_STRIDE_;
-    const int HORIZONTAL_STRIDE_;
+    void ComputeTopShape(const std::vector<int>& bottom_shape,
+                         std::vector<int>* top_shape) const;
 }; // class ReshapingLayer
 
 // inline functions
 template <typename Dtype>
-const char* ChannelTilingLayer<Dtype>::type() const {
-  return "ChannelTiling";
+inline void VectorizationLayer<Dtype>::LayerSetUp(
+    const vector<Blob<Dtype>*>& bottom,
+    const vector<Blob<Dtype>*>& top) {
+
 }
 
 template <typename Dtype>
-bool ChannelTilingLayer<Dtype>::EqualNumBottomTopBlobs() const {
+inline const char* VectorizationLayer<Dtype>::type() const {
+  return "Vectorization";
+}
+
+template <typename Dtype>
+inline bool VectorizationLayer<Dtype>::EqualNumBottomTopBlobs() const {
   return true;
 }
 } // namespace caffe
-#endif // !TLR_CHANNEL_TILING_LAYER_HPP_
+#endif // !TLR_VECTORIZATION_LAYER_HPP_
