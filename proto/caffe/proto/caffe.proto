@@ -43,13 +43,6 @@ message LabelParameter{
   required int32 num_label = 2;
 }
 
-message ChannelTilingParameter{
-  optional int32 tile_height = 1 [default = 1];
-  optional int32 tile_width = 2 [default = 1];
-  optional int32 vertical_stride = 3 [default = 1];
-  optional int32 horizontal_stride = 4 [default = 1];
-}
-
 // Specifies the shape (dimensions) of a Blob.
 message BlobShape {
   repeated int64 dim = 1 [packed = true];
@@ -457,7 +450,6 @@ message LayerParameter {
   optional HeatmapConcatParameter heatmap_concat_param = 1002;
   optional BBoxAnnoMapParameter bbox_anno_map_param = 1003; 
   optional LabelParameter label_param = 1004;
-  optional ChannelTilingParameter channel_tiling_param = 1005;
 }
 
 // Message that stores parameters used to apply transformation
