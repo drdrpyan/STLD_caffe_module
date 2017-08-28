@@ -52,7 +52,7 @@ class VectorizationLayer : public Layer<Dtype>
     //                     Blob <Dtype> *bottom) const;
     void GetDataChIters(const Blob<Dtype>& blob, int n,
                         std::vector<const Dtype*>* ch_iters) const;
-    void GetDiffChIters(const Blob<Dtype>& blob, int n,
+    void GetDiffChIters(Blob<Dtype>& blob, int n,
                         std::vector<Dtype*>* ch_iters) const;
 }; // class ReshapingLayer
 
@@ -101,7 +101,7 @@ inline void VectorizationLayer<Dtype>::Backward_cpu(
     const vector<Blob<Dtype>*>& bottom) {
   for (int i = 0; i < top.size(); i++)
     if (propagate_down[i])
-      Devectorize_cpu(top[i], bottom[i]);
+      Devectorize_cpu(*(top[i]), bottom[i]);
 }
 
 template <typename Dtype>

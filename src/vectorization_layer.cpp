@@ -9,7 +9,7 @@ void VectorizationLayer<Dtype>::Reshape(
     const vector<Blob<Dtype>*>& top) {
   for (int i = 0; i < bottom.size(); i++) {
     std::vector<int> top_shape;
-    ComputeTopShape(*(bottom[i]), &top_shape);
+    ComputeTopShape(bottom[i]->shape(), &top_shape);
     top[i]->Reshape(top_shape);
   }
 }
@@ -24,7 +24,7 @@ void VectorizationLayer<Dtype>::ComputeTopShape(
   (*top_shape)[0] = bottom_shape[0] * bottom_shape[2] * bottom_shape[3];
   (*top_shape)[1] = bottom_shape[1];
   (*top_shape)[2] = 1;
-  (*top_shape)[4] = 1;
+  (*top_shape)[3] = 1;
 }
 
 template <typename Dtype>
@@ -37,8 +37,8 @@ void VectorizationLayer<Dtype>::Vectorize_cpu(
     std::vector<const Dtype*> ch_iters;
     GetDataChIters(bottom, bot_n, &ch_iters);
 
-    for (i = bottom.height() * bottom.width(); i--; )
-      for (j = 0; j < bottom.channels(); j++)
+    for (int i = bottom.height() * bottom.width(); i--; )
+      for (int j = 0; j < bottom.channels(); j++)
         *top_iter++ = *(ch_iters[j]++);
   }
 }
@@ -48,12 +48,12 @@ void VectorizationLayer<Dtype>::Devectorize_cpu(
     const Blob<Dtype>& top, Blob <Dtype> *bottom) const {
   CHECK(bottom);
   
-  const Dtype* top_iter = top->cpu_data();
+  const Dtype* top_iter = top.cpu_diff();
   for (int bot_n = 0; bot_n < bottom->num(); bot_n++) {
     std::vector<Dtype*> ch_iters;
-    GetDataChIters(bottom, bot_n, &ch_iters);
-    for (i = bottom.height() * bottom.width(); i--; )
-      for (j = 0; j < bottom.channels(); j++)
+    GetDiffChIters(*bottom, bot_n, &ch_iters);
+    for (int i = bottom->height() * bottom->width(); i--; )
+      for (int j = 0; j < bottom->channels(); j++)
         (*ch_iters[j]++) = *top_iter++;
   }
 }
@@ -74,15 +74,19 @@ void VectorizationLayer<Dtype>::GetDataChIters(
 
 template <typename Dtype>
 void VectorizationLayer<Dtype>::GetDiffChIters(
-    const Blob<Dtype>& blob, int n,
+    Blob<Dtype>& blob, int n,
     std::vector<Dtype*>* ch_iters) const {
-    CHECK(n >= 0 && n < blob.num());
+  CHECK(n >= 0 && n < blob.num());
   CHECK(ch_iters);
   
   ch_iters->resize(blob.channels());
-  (*ch_iters)[0] = blob.mutable_diff_data() + blob.offset(n);
+  (*ch_iters)[0] = blob.mutable_cpu_diff() + blob.offset(n);
   int hw = blob.height() * blob.width();
   for (int i = 1; i < ch_iters->size(); i++)
     (*ch_iters)[i] = (*ch_iters)[i - 1] + hw;
 }
+
+INSTANTIATE_CLASS(VectorizationLayer);
+REGISTER_LAYER_CLASS(Vectorization);
+
 } // namespace caffe

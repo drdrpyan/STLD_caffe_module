@@ -166,6 +166,9 @@ void ImgBBoxAnnoLayer<Dtype>::CopyImage(
   decoded_datum.CopyFrom(datum.img_datum());
   DecodeDatumNative(&decoded_datum);
 
+  LOG(INFO) << "decoded_datum size1 : " << decoded_datum.ByteSize();
+  LOG(INFO) << "decoded_datum size2 : " << decoded_datum.data().size();
+
   std::copy(decoded_datum.data().begin(), 
             decoded_datum.data().end(), 
             top_data + OFFSET);

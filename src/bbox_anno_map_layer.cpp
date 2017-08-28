@@ -83,7 +83,8 @@ void BBoxAnnoMapLayer<Dtype>::InitMapShape(
   ComputeMapHW(&map_height, &map_width);
 
   labelmap_shape_.resize(4);
-  labelmap_shape_[1] = NUM_LABEL_;
+  //labelmap_shape_[1] = NUM_LABEL_;
+  labelmap_shape_[1] = 1;
   labelmap_shape_[2] = map_height;
   labelmap_shape_[3] = map_width;
 
@@ -192,7 +193,9 @@ void BBoxAnnoMapLayer<Dtype>::ParseInputBlob(
     bbox_anno_vec_iter->clear();
     for (int h = input_blob.height(); h--; ) {
       Dtype label = *input_blob_data++;
-      CHECK(label > 0 && label <= NUM_LABEL_) << "Invalide label";
+      CHECK(label > 0 && label <= NUM_LABEL_) << 
+          "Invalide label: label=" << label << 
+          ", NUL_LABEL_=" << NUM_LABEL_;
 
       if (label != LabelParameter::DUMMY_LABEL) {
         Dtype x_min = *input_blob_data++;
