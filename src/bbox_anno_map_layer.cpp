@@ -33,6 +33,16 @@ void BBoxAnnoMapLayer<Dtype>::Reshape(
     const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
   const Blob<Dtype>& input = *(bottom[0]);
+  //Blob<Dtype>& output_labelmap = *(top[0]);
+  //labelmap_shape_[0] = input.num();
+  //output_labelmap.Reshape(labelmap_shape_);
+
+  //if (!labelmap_only_) {
+  //  Blob<Dtype>& output_bboxmap = *(top[1]);
+  //  bboxmap_shape_[0] = input.num();
+  //  output_bboxmap.Reshape(bboxmap_shape_);
+  //}
+
   Blob<Dtype>& output_labelmap = *(top[0]);
   Blob<Dtype>& output_bboxmap = *(top[1]);
 
@@ -152,6 +162,15 @@ void BBoxAnnoMapLayer<Dtype>::MakeMaps(
     receptive_field.set_x_max(RECEPTIVE_FIELD_WIDTH_ - 1);
     receptive_field.ShiftY(VERTICAL_STRIDE_);
   }
+
+  //// print label map (for debug)
+  //const Dtype* label_map_iter_d = label_map;
+  //for (int r = 0; r < map_height; r++) {
+  //  for (int c = 0; c < map_width; c++) {
+  //    std::cout << *label_map_iter_d++ << ' ';
+  //  }
+  //  std::cout << std::endl;
+  //}
 }
 
 template <typename Dtype>
@@ -193,9 +212,10 @@ void BBoxAnnoMapLayer<Dtype>::ParseInputBlob(
     bbox_anno_vec_iter->clear();
     for (int h = input_blob.height(); h--; ) {
       Dtype label = *input_blob_data++;
-      CHECK(label > 0 && label <= NUM_LABEL_) << 
+      CHECK((label > 0 && label <= NUM_LABEL_) || 
+            label == LabelParameter::DUMMY_LABEL) << 
           "Invalide label: label=" << label << 
-          ", NUL_LABEL_=" << NUM_LABEL_;
+          ", NUM_LABEL_=" << NUM_LABEL_;
 
       if (label != LabelParameter::DUMMY_LABEL) {
         Dtype x_min = *input_blob_data++;

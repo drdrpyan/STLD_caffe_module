@@ -15,7 +15,7 @@ class BBox
                      BBOX_TOPLEFT,
                      BBOX_CENTER};
   private:
-    enum Idx { X_MIN, Y_MIN, X_MAX, Y_MAX };
+    enum Idx { X_MIN = 0, Y_MIN, X_MAX, Y_MAX };
 
   public:
     BBox();
@@ -60,11 +60,12 @@ class BBox
                Dtype* min, Dtype* max);
 
     Dtype bbox_[4];
+    //std::vector<Dtype> bbox_;
 };
 
 // inline functions
 template <typename Dtype>
-inline BBox<Dtype>::BBox() {
+inline BBox<Dtype>::BBox() /*: bbox_(4)*/ {
   // do nothing
 }
 
@@ -72,7 +73,8 @@ template <typename Dtype>
 inline BBox<Dtype>::BBox(const Dtype& x_min,
                          const Dtype& y_min,
                          const Dtype& x_max,
-                         const Dtype& y_max) 
+                         const Dtype& y_max)
+  : BBox()
   /*: bbox_({x_min, y_min, x_max, y_max})*/ {
   bbox_[X_MIN] = x_min;
   bbox_[Y_MIN] = y_min;
@@ -82,7 +84,10 @@ inline BBox<Dtype>::BBox(const Dtype& x_min,
 
 template <typename Dtype>
 inline BBox<Dtype>::BBox(const BBox& ref) {
-  std::copy(ref.bbox_, ref.bbox_ + sizeof(Dtype) * 4, bbox_);
+  //std::copy(ref.bbox_, ref.bbox_ + sizeof(Dtype) * 4, bbox_);
+  std::copy(ref.bbox_, ref.bbox_ + 4, bbox_);
+
+  //bbox_.assign(ref.bbox_.cbegin(), ref.bbox_.cend());
 }
 
 template <typename Dtype>
@@ -158,12 +163,14 @@ template <typename Dtype>
 inline void BBox<Dtype>::Set(const Dtype* arr) {
   assert(arr);
   std::copy(arr, arr + 4, bbox_);
+  //std::copy(arr, arr + 4, bbox_.begin());
 }
 
 template <typename Dtype>
 inline void BBox<Dtype>::Set(const std::vector<Dtype>& vec) {
   assert(vec.size() == 4);
   std::copy(vec.cbegin(), vec.cend(), bbox_);
+  //std::copy(vec.cbegin(), vec.cend(), bbox_.begin());
 }
 template <typename Dtype>
 inline const Dtype& BBox<Dtype>::x_min() const {
@@ -207,7 +214,9 @@ inline void BBox<Dtype>::set_y_max(const Dtype& value) {
 
 template <typename Dtype>
 inline BBox<Dtype>& BBox<Dtype>::operator=(const BBox<Dtype>& rhs) {
-  std::copy(rhs.bbox_, rhs.bbox_ + sizeof(Dtype) * 4, bbox_);
+  //std::copy(rhs.bbox_, rhs.bbox_ + sizeof(Dtype) * 4, bbox_);
+  std::copy(rhs.bbox_, rhs.bbox_ + 4, bbox_);
+  //bbox_.assign(rhs.bbox_.cbegin(), rhs.bbox_.end());
   return *this;
 }
 

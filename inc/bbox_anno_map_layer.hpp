@@ -45,11 +45,13 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
     */
     virtual int ExactNumBottomBlobs() const override;
 
-    /**
-    There are two tops. label map and bbox map
-    return : 2
-    */
-    virtual int ExactNumTopBlobs() const override;
+    ///**
+    //There are two tops. label map and bbox map
+    //return : 2
+    //*/
+    //virtual int ExactNumTopBlobs() const override;
+
+    virtual int MaxTopBlobs() const override;
 
  protected:
     virtual void Forward_cpu(
@@ -121,6 +123,7 @@ class BBoxAnnoMapLayer : public Layer<Dtype>
     const int HORIZONTAL_STRIDE_;
     const bool NORMALIZED_POSITION_IN_;
     const bool NORMALIZED_POSITION_OUT_;
+    //bool labelmap_only_;
 
     vector<int> labelmap_shape_;
     vector<int> bboxmap_shape_;
@@ -144,7 +147,7 @@ template <typename Dtype>
 inline void BBoxAnnoMapLayer<Dtype>::LayerSetUp(
     const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
-
+  //labelmap_only_ = top.size() == 1 ? true : false;
   InitMapShape(this->layer_param().label_param(),
                this->layer_param().bbox_anno_map_param());
 }
@@ -159,8 +162,13 @@ inline int BBoxAnnoMapLayer<Dtype>::ExactNumBottomBlobs() const {
   return 1;
 }
 
+//template <typename Dtype>
+//inline int BBoxAnnoMapLayer<Dtype>::ExactNumTopBlobs() const {
+//  return 2;
+//}
+
 template <typename Dtype>
-inline int BBoxAnnoMapLayer<Dtype>::ExactNumTopBlobs() const {
+inline int BBoxAnnoMapLayer<Dtype>::MaxTopBlobs() const {
   return 2;
 }
 

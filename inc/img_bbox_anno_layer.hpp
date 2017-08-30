@@ -18,6 +18,10 @@ class ImgBBoxAnnoLayer : public caffe::DataLayer<Dtype>
     virtual inline const char* type() const override;
 
   protected:
+    virtual void Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+        const vector<Blob<Dtype>*>& top) override;
+    virtual void Forward_gpu(const vector<Blob<Dtype>*>& bottom,
+        const vector<Blob<Dtype>*>& top) override;
     ///**
     //top[0] : data (batch_size x channel x height x width)
     //top[1] : label (batch_size x 1 x 1 x 1)
@@ -40,9 +44,11 @@ class ImgBBoxAnnoLayer : public caffe::DataLayer<Dtype>
 
   private:
     void ReshpaeBatch(caffe::Batch<Dtype>* batch) const;
+    void PrepareCopy(const caffe::ImgBBoxAnnoDatum& datum,
+                     caffe::Batch<Dtype>* batch);
     void CopyImage(int item_id, 
                    const caffe::ImgBBoxAnnoDatum& datum,
-                   caffe::Blob<Dtype>* batch_data) const;
+                   caffe::Blob<Dtype>* batch_data);
     void CopyLabel(int item_id,
                    const caffe::ImgBBoxAnnoDatum& datum,
                    caffe::Blob<Dtype>* batch_label) const;
@@ -68,5 +74,11 @@ inline const char* ImgBBoxAnnoLayer<Dtype>::type() const {
   return "ImgBBoxAnno"; 
 }
 
+template <typename Dtype>
+void ImgBBoxAnnoLayer<Dtype>::Forward_gpu(
+    const vector<Blob<Dtype>*>& bottom,
+    const vector<Blob<Dtype>*>& top) {
+  Forward_cpu(bottom, top);
+}
 } // namespace caffe
 #endif // !TLR_IMG_BBOX_ANNO_LAYER_HPP_

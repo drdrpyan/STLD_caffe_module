@@ -40,16 +40,22 @@ void HeatmapConcatLayer<Dtype>::Forward_cpu(
     //Dtype *img_begin = input.mutable_cpu_data() + input.offset(n);
     //Dtype *img_end = img_begin + img_volume;
     //Dtype *img_dst = output.mutable_cpu_data() + output.offset(n);
-    const Dtype* img_begin = input.cpu_data() + input.offset(n);
-    const Dtype* img_end = img_begin + img_volume;
-    Dtype *img_dst = output.mutable_cpu_data() + output.offset(n);
-    std::copy(img_begin, img_end, img_dst);
+    //const Dtype* img_begin = input.cpu_data() + input.offset(n);
+    //const Dtype* img_end = img_begin + img_volume;
+    const Dtype* img_src = input.cpu_data() + input.offset(n);
+    Dtype* img_dst = output.mutable_cpu_data() + output.offset(n);
+    //std::copy(img_begin, img_end, img_dst);
+    caffe_copy(img_volume, img_src, img_dst);
+    //caffe_copy(input.count(), input.gpu_data(),
+    //           output.mutable_gpu_data() + output.offset(n));
 
-    const Dtype* heatmap_begin = input.cpu_data();
-    const Dtype* heatmap_end = heatmap_begin + heatmap_.count();
+
+    //const Dtype* heatmap_begin = input.cpu_data();
+    //const Dtype* heatmap_end = heatmap_begin + heatmap_.count();
     Dtype *heatmap_dst = output.mutable_cpu_data() + 
       output.offset(n, input.channels());
-    std::copy(heatmap_begin, heatmap_end, heatmap_dst);
+    //std::copy(heatmap_begin, heatmap_end, heatmap_dst);
+    caffe_copy(heatmap_.count(), heatmap_.cpu_data(), heatmap_dst);
   }
 }
 
