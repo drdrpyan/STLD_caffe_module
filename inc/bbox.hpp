@@ -53,6 +53,7 @@ class BBox
     void set_y_max(const Dtype& value);
 
     BBox& operator=(const BBox& rhs);
+    bool operator==(const BBox& rhs) const;
 
   private:
     void Scale(const Dtype& scale_factor,
@@ -218,6 +219,14 @@ inline BBox<Dtype>& BBox<Dtype>::operator=(const BBox<Dtype>& rhs) {
   std::copy(rhs.bbox_, rhs.bbox_ + 4, bbox_);
   //bbox_.assign(rhs.bbox_.cbegin(), rhs.bbox_.end());
   return *this;
+}
+
+template <typename Dtype>
+inline bool BBox<Dtype>::operator==(const BBox& rhs) const {
+  return (bbox_[X_MIN] == rhs.bbox_[X_MIN]) &&
+    (bbox_[Y_MIN] == rhs.bbox_[Y_MIN]) &&
+    (bbox_[X_MAX] == rhs.bbox_[X_MAX]) &&
+    (bbox_[Y_MAX] == rhs.bbox_[Y_MAX]);
 }
 
 template <typename Dtype>
