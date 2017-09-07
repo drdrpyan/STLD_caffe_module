@@ -43,6 +43,30 @@ message LabelParameter{
   required int32 num_label = 2;
 }
 
+message PatchDatum {
+  required Datum patch_img = 1;
+  optional int32 label = 2 [default = -1];
+  optional float bbox_xmin = 3;
+  optional float bbox_ymin = 4;
+  optional float bbox_xmax = 5;
+  optional float bbox_ymax = 6;
+  optional float whole_img_height = 7;
+  optional float whole_img_width = 8;
+  optional float patch_offset_xmin = 9;
+  optional float patch_offset_ymin = 10;
+}
+
+message PatchDataParameter {
+  optional bool positive_only = 1 [default = false];
+  optional bool relative_patch_offset = 2 [default = true];
+  optional bool relative_bbox = 3 [default = true];
+}
+
+message LabelRemapParameter {
+  repeated int32 src = 1;
+  repeated int32 dst = 2;
+}
+
 // Specifies the shape (dimensions) of a Blob.
 message BlobShape {
   repeated int64 dim = 1 [packed = true];
@@ -450,6 +474,8 @@ message LayerParameter {
   optional HeatmapConcatParameter heatmap_concat_param = 1002;
   optional BBoxAnnoMapParameter bbox_anno_map_param = 1003; 
   optional LabelParameter label_param = 1004;
+  optional PatchDataParameter patch_data_param = 1005;
+  optional LabelRemapParameter label_remap_param = 1006;
 }
 
 // Message that stores parameters used to apply transformation

@@ -72,6 +72,7 @@ class InnerProductParameter;
 class InputParameter;
 class LRNParameter;
 class LabelParameter;
+class LabelRemapParameter;
 class LayerParameter;
 class LogParameter;
 class LossParameter;
@@ -83,6 +84,8 @@ class NetStateRule;
 class PReLUParameter;
 class ParamSpec;
 class ParameterParameter;
+class PatchDataParameter;
+class PatchDatum;
 class PoolingParameter;
 class PowerParameter;
 class PythonParameter;
@@ -1331,6 +1334,428 @@ class LabelParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   void InitAsDefaultInstance();
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<LabelParameter> LabelParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class PatchDatum : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.PatchDatum) */ {
+ public:
+  PatchDatum();
+  virtual ~PatchDatum();
+
+  PatchDatum(const PatchDatum& from);
+
+  inline PatchDatum& operator=(const PatchDatum& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PatchDatum& default_instance();
+
+  static const PatchDatum* internal_default_instance();
+
+  void Swap(PatchDatum* other);
+
+  // implements Message ----------------------------------------------
+
+  inline PatchDatum* New() const { return New(NULL); }
+
+  PatchDatum* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PatchDatum& from);
+  void MergeFrom(const PatchDatum& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(PatchDatum* other);
+  void UnsafeMergeFrom(const PatchDatum& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .caffe.Datum patch_img = 1;
+  bool has_patch_img() const;
+  void clear_patch_img();
+  static const int kPatchImgFieldNumber = 1;
+  const ::caffe::Datum& patch_img() const;
+  ::caffe::Datum* mutable_patch_img();
+  ::caffe::Datum* release_patch_img();
+  void set_allocated_patch_img(::caffe::Datum* patch_img);
+
+  // optional int32 label = 2 [default = -1];
+  bool has_label() const;
+  void clear_label();
+  static const int kLabelFieldNumber = 2;
+  ::google::protobuf::int32 label() const;
+  void set_label(::google::protobuf::int32 value);
+
+  // optional float bbox_xmin = 3;
+  bool has_bbox_xmin() const;
+  void clear_bbox_xmin();
+  static const int kBboxXminFieldNumber = 3;
+  float bbox_xmin() const;
+  void set_bbox_xmin(float value);
+
+  // optional float bbox_ymin = 4;
+  bool has_bbox_ymin() const;
+  void clear_bbox_ymin();
+  static const int kBboxYminFieldNumber = 4;
+  float bbox_ymin() const;
+  void set_bbox_ymin(float value);
+
+  // optional float bbox_xmax = 5;
+  bool has_bbox_xmax() const;
+  void clear_bbox_xmax();
+  static const int kBboxXmaxFieldNumber = 5;
+  float bbox_xmax() const;
+  void set_bbox_xmax(float value);
+
+  // optional float bbox_ymax = 6;
+  bool has_bbox_ymax() const;
+  void clear_bbox_ymax();
+  static const int kBboxYmaxFieldNumber = 6;
+  float bbox_ymax() const;
+  void set_bbox_ymax(float value);
+
+  // optional float whole_img_height = 7;
+  bool has_whole_img_height() const;
+  void clear_whole_img_height();
+  static const int kWholeImgHeightFieldNumber = 7;
+  float whole_img_height() const;
+  void set_whole_img_height(float value);
+
+  // optional float whole_img_width = 8;
+  bool has_whole_img_width() const;
+  void clear_whole_img_width();
+  static const int kWholeImgWidthFieldNumber = 8;
+  float whole_img_width() const;
+  void set_whole_img_width(float value);
+
+  // optional float patch_offset_xmin = 9;
+  bool has_patch_offset_xmin() const;
+  void clear_patch_offset_xmin();
+  static const int kPatchOffsetXminFieldNumber = 9;
+  float patch_offset_xmin() const;
+  void set_patch_offset_xmin(float value);
+
+  // optional float patch_offset_ymin = 10;
+  bool has_patch_offset_ymin() const;
+  void clear_patch_offset_ymin();
+  static const int kPatchOffsetYminFieldNumber = 10;
+  float patch_offset_ymin() const;
+  void set_patch_offset_ymin(float value);
+
+  // @@protoc_insertion_point(class_scope:caffe.PatchDatum)
+ private:
+  inline void set_has_patch_img();
+  inline void clear_has_patch_img();
+  inline void set_has_label();
+  inline void clear_has_label();
+  inline void set_has_bbox_xmin();
+  inline void clear_has_bbox_xmin();
+  inline void set_has_bbox_ymin();
+  inline void clear_has_bbox_ymin();
+  inline void set_has_bbox_xmax();
+  inline void clear_has_bbox_xmax();
+  inline void set_has_bbox_ymax();
+  inline void clear_has_bbox_ymax();
+  inline void set_has_whole_img_height();
+  inline void clear_has_whole_img_height();
+  inline void set_has_whole_img_width();
+  inline void clear_has_whole_img_width();
+  inline void set_has_patch_offset_xmin();
+  inline void clear_has_patch_offset_xmin();
+  inline void set_has_patch_offset_ymin();
+  inline void clear_has_patch_offset_ymin();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::caffe::Datum* patch_img_;
+  float bbox_xmin_;
+  float bbox_ymin_;
+  float bbox_xmax_;
+  float bbox_ymax_;
+  float whole_img_height_;
+  float whole_img_width_;
+  float patch_offset_xmin_;
+  float patch_offset_ymin_;
+  ::google::protobuf::int32 label_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<PatchDatum> PatchDatum_default_instance_;
+
+// -------------------------------------------------------------------
+
+class PatchDataParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.PatchDataParameter) */ {
+ public:
+  PatchDataParameter();
+  virtual ~PatchDataParameter();
+
+  PatchDataParameter(const PatchDataParameter& from);
+
+  inline PatchDataParameter& operator=(const PatchDataParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PatchDataParameter& default_instance();
+
+  static const PatchDataParameter* internal_default_instance();
+
+  void Swap(PatchDataParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline PatchDataParameter* New() const { return New(NULL); }
+
+  PatchDataParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PatchDataParameter& from);
+  void MergeFrom(const PatchDataParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(PatchDataParameter* other);
+  void UnsafeMergeFrom(const PatchDataParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bool positive_only = 1 [default = false];
+  bool has_positive_only() const;
+  void clear_positive_only();
+  static const int kPositiveOnlyFieldNumber = 1;
+  bool positive_only() const;
+  void set_positive_only(bool value);
+
+  // optional bool relative_patch_offset = 2 [default = true];
+  bool has_relative_patch_offset() const;
+  void clear_relative_patch_offset();
+  static const int kRelativePatchOffsetFieldNumber = 2;
+  bool relative_patch_offset() const;
+  void set_relative_patch_offset(bool value);
+
+  // optional bool relative_bbox = 3 [default = true];
+  bool has_relative_bbox() const;
+  void clear_relative_bbox();
+  static const int kRelativeBboxFieldNumber = 3;
+  bool relative_bbox() const;
+  void set_relative_bbox(bool value);
+
+  // @@protoc_insertion_point(class_scope:caffe.PatchDataParameter)
+ private:
+  inline void set_has_positive_only();
+  inline void clear_has_positive_only();
+  inline void set_has_relative_patch_offset();
+  inline void clear_has_relative_patch_offset();
+  inline void set_has_relative_bbox();
+  inline void clear_has_relative_bbox();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  bool positive_only_;
+  bool relative_patch_offset_;
+  bool relative_bbox_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<PatchDataParameter> PatchDataParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class LabelRemapParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.LabelRemapParameter) */ {
+ public:
+  LabelRemapParameter();
+  virtual ~LabelRemapParameter();
+
+  LabelRemapParameter(const LabelRemapParameter& from);
+
+  inline LabelRemapParameter& operator=(const LabelRemapParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LabelRemapParameter& default_instance();
+
+  static const LabelRemapParameter* internal_default_instance();
+
+  void Swap(LabelRemapParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline LabelRemapParameter* New() const { return New(NULL); }
+
+  LabelRemapParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const LabelRemapParameter& from);
+  void MergeFrom(const LabelRemapParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(LabelRemapParameter* other);
+  void UnsafeMergeFrom(const LabelRemapParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated int32 src = 1;
+  int src_size() const;
+  void clear_src();
+  static const int kSrcFieldNumber = 1;
+  ::google::protobuf::int32 src(int index) const;
+  void set_src(int index, ::google::protobuf::int32 value);
+  void add_src(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      src() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_src();
+
+  // repeated int32 dst = 2;
+  int dst_size() const;
+  void clear_dst();
+  static const int kDstFieldNumber = 2;
+  ::google::protobuf::int32 dst(int index) const;
+  void set_dst(int index, ::google::protobuf::int32 value);
+  void add_dst(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      dst() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_dst();
+
+  // @@protoc_insertion_point(class_scope:caffe.LabelRemapParameter)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > src_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > dst_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<LabelRemapParameter> LabelRemapParameter_default_instance_;
 
 // -------------------------------------------------------------------
 
@@ -4183,6 +4608,24 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::LabelParameter* release_label_param();
   void set_allocated_label_param(::caffe::LabelParameter* label_param);
 
+  // optional .caffe.PatchDataParameter patch_data_param = 1005;
+  bool has_patch_data_param() const;
+  void clear_patch_data_param();
+  static const int kPatchDataParamFieldNumber = 1005;
+  const ::caffe::PatchDataParameter& patch_data_param() const;
+  ::caffe::PatchDataParameter* mutable_patch_data_param();
+  ::caffe::PatchDataParameter* release_patch_data_param();
+  void set_allocated_patch_data_param(::caffe::PatchDataParameter* patch_data_param);
+
+  // optional .caffe.LabelRemapParameter label_remap_param = 1006;
+  bool has_label_remap_param() const;
+  void clear_label_remap_param();
+  static const int kLabelRemapParamFieldNumber = 1006;
+  const ::caffe::LabelRemapParameter& label_remap_param() const;
+  ::caffe::LabelRemapParameter* mutable_label_remap_param();
+  ::caffe::LabelRemapParameter* release_label_remap_param();
+  void set_allocated_label_remap_param(::caffe::LabelRemapParameter* label_remap_param);
+
   // @@protoc_insertion_point(class_scope:caffe.LayerParameter)
  private:
   inline void set_has_name();
@@ -4293,6 +4736,10 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_bbox_anno_map_param();
   inline void set_has_label_param();
   inline void clear_has_label_param();
+  inline void set_has_patch_data_param();
+  inline void clear_has_patch_data_param();
+  inline void set_has_label_remap_param();
+  inline void clear_has_label_remap_param();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<2> _has_bits_;
@@ -4357,6 +4804,8 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::HeatmapConcatParameter* heatmap_concat_param_;
   ::caffe::BBoxAnnoMapParameter* bbox_anno_map_param_;
   ::caffe::LabelParameter* label_param_;
+  ::caffe::PatchDataParameter* patch_data_param_;
+  ::caffe::LabelRemapParameter* label_remap_param_;
   int phase_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
@@ -12798,6 +13247,420 @@ inline const LabelParameter* LabelParameter::internal_default_instance() {
 }
 // -------------------------------------------------------------------
 
+// PatchDatum
+
+// required .caffe.Datum patch_img = 1;
+inline bool PatchDatum::has_patch_img() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PatchDatum::set_has_patch_img() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PatchDatum::clear_has_patch_img() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PatchDatum::clear_patch_img() {
+  if (patch_img_ != NULL) patch_img_->::caffe::Datum::Clear();
+  clear_has_patch_img();
+}
+inline const ::caffe::Datum& PatchDatum::patch_img() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDatum.patch_img)
+  return patch_img_ != NULL ? *patch_img_
+                         : *::caffe::Datum::internal_default_instance();
+}
+inline ::caffe::Datum* PatchDatum::mutable_patch_img() {
+  set_has_patch_img();
+  if (patch_img_ == NULL) {
+    patch_img_ = new ::caffe::Datum;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.PatchDatum.patch_img)
+  return patch_img_;
+}
+inline ::caffe::Datum* PatchDatum::release_patch_img() {
+  // @@protoc_insertion_point(field_release:caffe.PatchDatum.patch_img)
+  clear_has_patch_img();
+  ::caffe::Datum* temp = patch_img_;
+  patch_img_ = NULL;
+  return temp;
+}
+inline void PatchDatum::set_allocated_patch_img(::caffe::Datum* patch_img) {
+  delete patch_img_;
+  patch_img_ = patch_img;
+  if (patch_img) {
+    set_has_patch_img();
+  } else {
+    clear_has_patch_img();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.PatchDatum.patch_img)
+}
+
+// optional int32 label = 2 [default = -1];
+inline bool PatchDatum::has_label() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PatchDatum::set_has_label() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PatchDatum::clear_has_label() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PatchDatum::clear_label() {
+  label_ = -1;
+  clear_has_label();
+}
+inline ::google::protobuf::int32 PatchDatum::label() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDatum.label)
+  return label_;
+}
+inline void PatchDatum::set_label(::google::protobuf::int32 value) {
+  set_has_label();
+  label_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDatum.label)
+}
+
+// optional float bbox_xmin = 3;
+inline bool PatchDatum::has_bbox_xmin() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PatchDatum::set_has_bbox_xmin() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PatchDatum::clear_has_bbox_xmin() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PatchDatum::clear_bbox_xmin() {
+  bbox_xmin_ = 0;
+  clear_has_bbox_xmin();
+}
+inline float PatchDatum::bbox_xmin() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDatum.bbox_xmin)
+  return bbox_xmin_;
+}
+inline void PatchDatum::set_bbox_xmin(float value) {
+  set_has_bbox_xmin();
+  bbox_xmin_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDatum.bbox_xmin)
+}
+
+// optional float bbox_ymin = 4;
+inline bool PatchDatum::has_bbox_ymin() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void PatchDatum::set_has_bbox_ymin() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void PatchDatum::clear_has_bbox_ymin() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void PatchDatum::clear_bbox_ymin() {
+  bbox_ymin_ = 0;
+  clear_has_bbox_ymin();
+}
+inline float PatchDatum::bbox_ymin() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDatum.bbox_ymin)
+  return bbox_ymin_;
+}
+inline void PatchDatum::set_bbox_ymin(float value) {
+  set_has_bbox_ymin();
+  bbox_ymin_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDatum.bbox_ymin)
+}
+
+// optional float bbox_xmax = 5;
+inline bool PatchDatum::has_bbox_xmax() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void PatchDatum::set_has_bbox_xmax() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void PatchDatum::clear_has_bbox_xmax() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void PatchDatum::clear_bbox_xmax() {
+  bbox_xmax_ = 0;
+  clear_has_bbox_xmax();
+}
+inline float PatchDatum::bbox_xmax() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDatum.bbox_xmax)
+  return bbox_xmax_;
+}
+inline void PatchDatum::set_bbox_xmax(float value) {
+  set_has_bbox_xmax();
+  bbox_xmax_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDatum.bbox_xmax)
+}
+
+// optional float bbox_ymax = 6;
+inline bool PatchDatum::has_bbox_ymax() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void PatchDatum::set_has_bbox_ymax() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void PatchDatum::clear_has_bbox_ymax() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void PatchDatum::clear_bbox_ymax() {
+  bbox_ymax_ = 0;
+  clear_has_bbox_ymax();
+}
+inline float PatchDatum::bbox_ymax() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDatum.bbox_ymax)
+  return bbox_ymax_;
+}
+inline void PatchDatum::set_bbox_ymax(float value) {
+  set_has_bbox_ymax();
+  bbox_ymax_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDatum.bbox_ymax)
+}
+
+// optional float whole_img_height = 7;
+inline bool PatchDatum::has_whole_img_height() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void PatchDatum::set_has_whole_img_height() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void PatchDatum::clear_has_whole_img_height() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void PatchDatum::clear_whole_img_height() {
+  whole_img_height_ = 0;
+  clear_has_whole_img_height();
+}
+inline float PatchDatum::whole_img_height() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDatum.whole_img_height)
+  return whole_img_height_;
+}
+inline void PatchDatum::set_whole_img_height(float value) {
+  set_has_whole_img_height();
+  whole_img_height_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDatum.whole_img_height)
+}
+
+// optional float whole_img_width = 8;
+inline bool PatchDatum::has_whole_img_width() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void PatchDatum::set_has_whole_img_width() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void PatchDatum::clear_has_whole_img_width() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void PatchDatum::clear_whole_img_width() {
+  whole_img_width_ = 0;
+  clear_has_whole_img_width();
+}
+inline float PatchDatum::whole_img_width() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDatum.whole_img_width)
+  return whole_img_width_;
+}
+inline void PatchDatum::set_whole_img_width(float value) {
+  set_has_whole_img_width();
+  whole_img_width_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDatum.whole_img_width)
+}
+
+// optional float patch_offset_xmin = 9;
+inline bool PatchDatum::has_patch_offset_xmin() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void PatchDatum::set_has_patch_offset_xmin() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void PatchDatum::clear_has_patch_offset_xmin() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void PatchDatum::clear_patch_offset_xmin() {
+  patch_offset_xmin_ = 0;
+  clear_has_patch_offset_xmin();
+}
+inline float PatchDatum::patch_offset_xmin() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDatum.patch_offset_xmin)
+  return patch_offset_xmin_;
+}
+inline void PatchDatum::set_patch_offset_xmin(float value) {
+  set_has_patch_offset_xmin();
+  patch_offset_xmin_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDatum.patch_offset_xmin)
+}
+
+// optional float patch_offset_ymin = 10;
+inline bool PatchDatum::has_patch_offset_ymin() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void PatchDatum::set_has_patch_offset_ymin() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void PatchDatum::clear_has_patch_offset_ymin() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void PatchDatum::clear_patch_offset_ymin() {
+  patch_offset_ymin_ = 0;
+  clear_has_patch_offset_ymin();
+}
+inline float PatchDatum::patch_offset_ymin() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDatum.patch_offset_ymin)
+  return patch_offset_ymin_;
+}
+inline void PatchDatum::set_patch_offset_ymin(float value) {
+  set_has_patch_offset_ymin();
+  patch_offset_ymin_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDatum.patch_offset_ymin)
+}
+
+inline const PatchDatum* PatchDatum::internal_default_instance() {
+  return &PatchDatum_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// PatchDataParameter
+
+// optional bool positive_only = 1 [default = false];
+inline bool PatchDataParameter::has_positive_only() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PatchDataParameter::set_has_positive_only() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PatchDataParameter::clear_has_positive_only() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PatchDataParameter::clear_positive_only() {
+  positive_only_ = false;
+  clear_has_positive_only();
+}
+inline bool PatchDataParameter::positive_only() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDataParameter.positive_only)
+  return positive_only_;
+}
+inline void PatchDataParameter::set_positive_only(bool value) {
+  set_has_positive_only();
+  positive_only_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDataParameter.positive_only)
+}
+
+// optional bool relative_patch_offset = 2 [default = true];
+inline bool PatchDataParameter::has_relative_patch_offset() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PatchDataParameter::set_has_relative_patch_offset() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PatchDataParameter::clear_has_relative_patch_offset() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PatchDataParameter::clear_relative_patch_offset() {
+  relative_patch_offset_ = true;
+  clear_has_relative_patch_offset();
+}
+inline bool PatchDataParameter::relative_patch_offset() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDataParameter.relative_patch_offset)
+  return relative_patch_offset_;
+}
+inline void PatchDataParameter::set_relative_patch_offset(bool value) {
+  set_has_relative_patch_offset();
+  relative_patch_offset_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDataParameter.relative_patch_offset)
+}
+
+// optional bool relative_bbox = 3 [default = true];
+inline bool PatchDataParameter::has_relative_bbox() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PatchDataParameter::set_has_relative_bbox() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PatchDataParameter::clear_has_relative_bbox() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PatchDataParameter::clear_relative_bbox() {
+  relative_bbox_ = true;
+  clear_has_relative_bbox();
+}
+inline bool PatchDataParameter::relative_bbox() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDataParameter.relative_bbox)
+  return relative_bbox_;
+}
+inline void PatchDataParameter::set_relative_bbox(bool value) {
+  set_has_relative_bbox();
+  relative_bbox_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDataParameter.relative_bbox)
+}
+
+inline const PatchDataParameter* PatchDataParameter::internal_default_instance() {
+  return &PatchDataParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// LabelRemapParameter
+
+// repeated int32 src = 1;
+inline int LabelRemapParameter::src_size() const {
+  return src_.size();
+}
+inline void LabelRemapParameter::clear_src() {
+  src_.Clear();
+}
+inline ::google::protobuf::int32 LabelRemapParameter::src(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.LabelRemapParameter.src)
+  return src_.Get(index);
+}
+inline void LabelRemapParameter::set_src(int index, ::google::protobuf::int32 value) {
+  src_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.LabelRemapParameter.src)
+}
+inline void LabelRemapParameter::add_src(::google::protobuf::int32 value) {
+  src_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.LabelRemapParameter.src)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+LabelRemapParameter::src() const {
+  // @@protoc_insertion_point(field_list:caffe.LabelRemapParameter.src)
+  return src_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+LabelRemapParameter::mutable_src() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.LabelRemapParameter.src)
+  return &src_;
+}
+
+// repeated int32 dst = 2;
+inline int LabelRemapParameter::dst_size() const {
+  return dst_.size();
+}
+inline void LabelRemapParameter::clear_dst() {
+  dst_.Clear();
+}
+inline ::google::protobuf::int32 LabelRemapParameter::dst(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.LabelRemapParameter.dst)
+  return dst_.Get(index);
+}
+inline void LabelRemapParameter::set_dst(int index, ::google::protobuf::int32 value) {
+  dst_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.LabelRemapParameter.dst)
+}
+inline void LabelRemapParameter::add_dst(::google::protobuf::int32 value) {
+  dst_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.LabelRemapParameter.dst)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+LabelRemapParameter::dst() const {
+  // @@protoc_insertion_point(field_list:caffe.LabelRemapParameter.dst)
+  return dst_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+LabelRemapParameter::mutable_dst() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.LabelRemapParameter.dst)
+  return &dst_;
+}
+
+inline const LabelRemapParameter* LabelRemapParameter::internal_default_instance() {
+  return &LabelRemapParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
 // BlobShape
 
 // repeated int64 dim = 1 [packed = true];
@@ -18494,6 +19357,96 @@ inline void LayerParameter::set_allocated_label_param(::caffe::LabelParameter* l
     clear_has_label_param();
   }
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.label_param)
+}
+
+// optional .caffe.PatchDataParameter patch_data_param = 1005;
+inline bool LayerParameter::has_patch_data_param() const {
+  return (_has_bits_[1] & 0x40000000u) != 0;
+}
+inline void LayerParameter::set_has_patch_data_param() {
+  _has_bits_[1] |= 0x40000000u;
+}
+inline void LayerParameter::clear_has_patch_data_param() {
+  _has_bits_[1] &= ~0x40000000u;
+}
+inline void LayerParameter::clear_patch_data_param() {
+  if (patch_data_param_ != NULL) patch_data_param_->::caffe::PatchDataParameter::Clear();
+  clear_has_patch_data_param();
+}
+inline const ::caffe::PatchDataParameter& LayerParameter::patch_data_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.patch_data_param)
+  return patch_data_param_ != NULL ? *patch_data_param_
+                         : *::caffe::PatchDataParameter::internal_default_instance();
+}
+inline ::caffe::PatchDataParameter* LayerParameter::mutable_patch_data_param() {
+  set_has_patch_data_param();
+  if (patch_data_param_ == NULL) {
+    patch_data_param_ = new ::caffe::PatchDataParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.patch_data_param)
+  return patch_data_param_;
+}
+inline ::caffe::PatchDataParameter* LayerParameter::release_patch_data_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.patch_data_param)
+  clear_has_patch_data_param();
+  ::caffe::PatchDataParameter* temp = patch_data_param_;
+  patch_data_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_patch_data_param(::caffe::PatchDataParameter* patch_data_param) {
+  delete patch_data_param_;
+  patch_data_param_ = patch_data_param;
+  if (patch_data_param) {
+    set_has_patch_data_param();
+  } else {
+    clear_has_patch_data_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.patch_data_param)
+}
+
+// optional .caffe.LabelRemapParameter label_remap_param = 1006;
+inline bool LayerParameter::has_label_remap_param() const {
+  return (_has_bits_[1] & 0x80000000u) != 0;
+}
+inline void LayerParameter::set_has_label_remap_param() {
+  _has_bits_[1] |= 0x80000000u;
+}
+inline void LayerParameter::clear_has_label_remap_param() {
+  _has_bits_[1] &= ~0x80000000u;
+}
+inline void LayerParameter::clear_label_remap_param() {
+  if (label_remap_param_ != NULL) label_remap_param_->::caffe::LabelRemapParameter::Clear();
+  clear_has_label_remap_param();
+}
+inline const ::caffe::LabelRemapParameter& LayerParameter::label_remap_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.label_remap_param)
+  return label_remap_param_ != NULL ? *label_remap_param_
+                         : *::caffe::LabelRemapParameter::internal_default_instance();
+}
+inline ::caffe::LabelRemapParameter* LayerParameter::mutable_label_remap_param() {
+  set_has_label_remap_param();
+  if (label_remap_param_ == NULL) {
+    label_remap_param_ = new ::caffe::LabelRemapParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.label_remap_param)
+  return label_remap_param_;
+}
+inline ::caffe::LabelRemapParameter* LayerParameter::release_label_remap_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.label_remap_param)
+  clear_has_label_remap_param();
+  ::caffe::LabelRemapParameter* temp = label_remap_param_;
+  label_remap_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_label_remap_param(::caffe::LabelRemapParameter* label_remap_param) {
+  delete label_remap_param_;
+  label_remap_param_ = label_remap_param;
+  if (label_remap_param) {
+    set_has_label_remap_param();
+  } else {
+    clear_has_label_remap_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.label_remap_param)
 }
 
 inline const LayerParameter* LayerParameter::internal_default_instance() {
@@ -27158,6 +28111,12 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
   return &PReLUParameter_default_instance_.get();
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
