@@ -41,6 +41,8 @@ void protobuf_ShutdownFile_caffe_2eproto();
 class AccuracyParameter;
 class ArgMaxParameter;
 class BBoxAnnoMapParameter;
+class BBoxParameter;
+class BBoxTemplate;
 class BatchNormParameter;
 class BiasParameter;
 class BlobProto;
@@ -97,6 +99,7 @@ class SPPParameter;
 class ScaleParameter;
 class SigmoidParameter;
 class SliceParameter;
+class SlidingWindowInputParameter;
 class SoftmaxParameter;
 class SolverParameter;
 class SolverState;
@@ -126,6 +129,45 @@ inline bool LabelParameter_LabelParamConstant_Parse(
     const ::std::string& name, LabelParameter_LabelParamConstant* value) {
   return ::google::protobuf::internal::ParseNamedEnum<LabelParameter_LabelParamConstant>(
     LabelParameter_LabelParamConstant_descriptor(), name, value);
+}
+enum BBoxParameter_BBoxType {
+  BBoxParameter_BBoxType_FULL = 1,
+  BBoxParameter_BBoxType_VERTICAL = 2,
+  BBoxParameter_BBoxType_HORIZONTAL = 3,
+  BBoxParameter_BBoxType_TEMPLATE = 4
+};
+bool BBoxParameter_BBoxType_IsValid(int value);
+const BBoxParameter_BBoxType BBoxParameter_BBoxType_BBoxType_MIN = BBoxParameter_BBoxType_FULL;
+const BBoxParameter_BBoxType BBoxParameter_BBoxType_BBoxType_MAX = BBoxParameter_BBoxType_TEMPLATE;
+const int BBoxParameter_BBoxType_BBoxType_ARRAYSIZE = BBoxParameter_BBoxType_BBoxType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* BBoxParameter_BBoxType_descriptor();
+inline const ::std::string& BBoxParameter_BBoxType_Name(BBoxParameter_BBoxType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    BBoxParameter_BBoxType_descriptor(), value);
+}
+inline bool BBoxParameter_BBoxType_Parse(
+    const ::std::string& name, BBoxParameter_BBoxType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<BBoxParameter_BBoxType>(
+    BBoxParameter_BBoxType_descriptor(), name, value);
+}
+enum BBoxParameter_BBoxConstant {
+  BBoxParameter_BBoxConstant_DUMMY_VALUE = -1
+};
+bool BBoxParameter_BBoxConstant_IsValid(int value);
+const BBoxParameter_BBoxConstant BBoxParameter_BBoxConstant_BBoxConstant_MIN = BBoxParameter_BBoxConstant_DUMMY_VALUE;
+const BBoxParameter_BBoxConstant BBoxParameter_BBoxConstant_BBoxConstant_MAX = BBoxParameter_BBoxConstant_DUMMY_VALUE;
+const int BBoxParameter_BBoxConstant_BBoxConstant_ARRAYSIZE = BBoxParameter_BBoxConstant_BBoxConstant_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* BBoxParameter_BBoxConstant_descriptor();
+inline const ::std::string& BBoxParameter_BBoxConstant_Name(BBoxParameter_BBoxConstant value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    BBoxParameter_BBoxConstant_descriptor(), value);
+}
+inline bool BBoxParameter_BBoxConstant_Parse(
+    const ::std::string& name, BBoxParameter_BBoxConstant* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<BBoxParameter_BBoxConstant>(
+    BBoxParameter_BBoxConstant_descriptor(), name, value);
 }
 enum FillerParameter_VarianceNorm {
   FillerParameter_VarianceNorm_FAN_IN = 0,
@@ -1605,35 +1647,35 @@ class PatchDataParameter : public ::google::protobuf::Message /* @@protoc_insert
   bool positive_only() const;
   void set_positive_only(bool value);
 
-  // optional bool relative_patch_offset = 2 [default = true];
-  bool has_relative_patch_offset() const;
-  void clear_relative_patch_offset();
-  static const int kRelativePatchOffsetFieldNumber = 2;
-  bool relative_patch_offset() const;
-  void set_relative_patch_offset(bool value);
+  // optional bool patch_offset_normalization = 2 [default = true];
+  bool has_patch_offset_normalization() const;
+  void clear_patch_offset_normalization();
+  static const int kPatchOffsetNormalizationFieldNumber = 2;
+  bool patch_offset_normalization() const;
+  void set_patch_offset_normalization(bool value);
 
-  // optional bool relative_bbox = 3 [default = true];
-  bool has_relative_bbox() const;
-  void clear_relative_bbox();
-  static const int kRelativeBboxFieldNumber = 3;
-  bool relative_bbox() const;
-  void set_relative_bbox(bool value);
+  // optional bool bbox_normalization = 3 [default = true];
+  bool has_bbox_normalization() const;
+  void clear_bbox_normalization();
+  static const int kBboxNormalizationFieldNumber = 3;
+  bool bbox_normalization() const;
+  void set_bbox_normalization(bool value);
 
   // @@protoc_insertion_point(class_scope:caffe.PatchDataParameter)
  private:
   inline void set_has_positive_only();
   inline void clear_has_positive_only();
-  inline void set_has_relative_patch_offset();
-  inline void clear_has_relative_patch_offset();
-  inline void set_has_relative_bbox();
-  inline void clear_has_relative_bbox();
+  inline void set_has_patch_offset_normalization();
+  inline void clear_has_patch_offset_normalization();
+  inline void set_has_bbox_normalization();
+  inline void clear_has_bbox_normalization();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
   bool positive_only_;
-  bool relative_patch_offset_;
-  bool relative_bbox_;
+  bool patch_offset_normalization_;
+  bool bbox_normalization_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_2eproto_impl();
   friend void protobuf_AssignDesc_caffe_2eproto();
@@ -1756,6 +1798,423 @@ class LabelRemapParameter : public ::google::protobuf::Message /* @@protoc_inser
   void InitAsDefaultInstance();
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<LabelRemapParameter> LabelRemapParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class BBoxTemplate : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.BBoxTemplate) */ {
+ public:
+  BBoxTemplate();
+  virtual ~BBoxTemplate();
+
+  BBoxTemplate(const BBoxTemplate& from);
+
+  inline BBoxTemplate& operator=(const BBoxTemplate& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const BBoxTemplate& default_instance();
+
+  static const BBoxTemplate* internal_default_instance();
+
+  void Swap(BBoxTemplate* other);
+
+  // implements Message ----------------------------------------------
+
+  inline BBoxTemplate* New() const { return New(NULL); }
+
+  BBoxTemplate* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const BBoxTemplate& from);
+  void MergeFrom(const BBoxTemplate& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(BBoxTemplate* other);
+  void UnsafeMergeFrom(const BBoxTemplate& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required float height = 1;
+  bool has_height() const;
+  void clear_height();
+  static const int kHeightFieldNumber = 1;
+  float height() const;
+  void set_height(float value);
+
+  // required float width = 2;
+  bool has_width() const;
+  void clear_width();
+  static const int kWidthFieldNumber = 2;
+  float width() const;
+  void set_width(float value);
+
+  // @@protoc_insertion_point(class_scope:caffe.BBoxTemplate)
+ private:
+  inline void set_has_height();
+  inline void clear_has_height();
+  inline void set_has_width();
+  inline void clear_has_width();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  float height_;
+  float width_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<BBoxTemplate> BBoxTemplate_default_instance_;
+
+// -------------------------------------------------------------------
+
+class BBoxParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.BBoxParameter) */ {
+ public:
+  BBoxParameter();
+  virtual ~BBoxParameter();
+
+  BBoxParameter(const BBoxParameter& from);
+
+  inline BBoxParameter& operator=(const BBoxParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const BBoxParameter& default_instance();
+
+  static const BBoxParameter* internal_default_instance();
+
+  void Swap(BBoxParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline BBoxParameter* New() const { return New(NULL); }
+
+  BBoxParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const BBoxParameter& from);
+  void MergeFrom(const BBoxParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(BBoxParameter* other);
+  void UnsafeMergeFrom(const BBoxParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef BBoxParameter_BBoxType BBoxType;
+  static const BBoxType FULL =
+    BBoxParameter_BBoxType_FULL;
+  static const BBoxType VERTICAL =
+    BBoxParameter_BBoxType_VERTICAL;
+  static const BBoxType HORIZONTAL =
+    BBoxParameter_BBoxType_HORIZONTAL;
+  static const BBoxType TEMPLATE =
+    BBoxParameter_BBoxType_TEMPLATE;
+  static inline bool BBoxType_IsValid(int value) {
+    return BBoxParameter_BBoxType_IsValid(value);
+  }
+  static const BBoxType BBoxType_MIN =
+    BBoxParameter_BBoxType_BBoxType_MIN;
+  static const BBoxType BBoxType_MAX =
+    BBoxParameter_BBoxType_BBoxType_MAX;
+  static const int BBoxType_ARRAYSIZE =
+    BBoxParameter_BBoxType_BBoxType_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  BBoxType_descriptor() {
+    return BBoxParameter_BBoxType_descriptor();
+  }
+  static inline const ::std::string& BBoxType_Name(BBoxType value) {
+    return BBoxParameter_BBoxType_Name(value);
+  }
+  static inline bool BBoxType_Parse(const ::std::string& name,
+      BBoxType* value) {
+    return BBoxParameter_BBoxType_Parse(name, value);
+  }
+
+  typedef BBoxParameter_BBoxConstant BBoxConstant;
+  static const BBoxConstant DUMMY_VALUE =
+    BBoxParameter_BBoxConstant_DUMMY_VALUE;
+  static inline bool BBoxConstant_IsValid(int value) {
+    return BBoxParameter_BBoxConstant_IsValid(value);
+  }
+  static const BBoxConstant BBoxConstant_MIN =
+    BBoxParameter_BBoxConstant_BBoxConstant_MIN;
+  static const BBoxConstant BBoxConstant_MAX =
+    BBoxParameter_BBoxConstant_BBoxConstant_MAX;
+  static const int BBoxConstant_ARRAYSIZE =
+    BBoxParameter_BBoxConstant_BBoxConstant_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  BBoxConstant_descriptor() {
+    return BBoxParameter_BBoxConstant_descriptor();
+  }
+  static inline const ::std::string& BBoxConstant_Name(BBoxConstant value) {
+    return BBoxParameter_BBoxConstant_Name(value);
+  }
+  static inline bool BBoxConstant_Parse(const ::std::string& name,
+      BBoxConstant* value) {
+    return BBoxParameter_BBoxConstant_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // optional .caffe.BBoxParameter.BBoxType bbox_type = 1;
+  bool has_bbox_type() const;
+  void clear_bbox_type();
+  static const int kBboxTypeFieldNumber = 1;
+  ::caffe::BBoxParameter_BBoxType bbox_type() const;
+  void set_bbox_type(::caffe::BBoxParameter_BBoxType value);
+
+  // repeated .caffe.BBoxTemplate bbox_template = 2;
+  int bbox_template_size() const;
+  void clear_bbox_template();
+  static const int kBboxTemplateFieldNumber = 2;
+  const ::caffe::BBoxTemplate& bbox_template(int index) const;
+  ::caffe::BBoxTemplate* mutable_bbox_template(int index);
+  ::caffe::BBoxTemplate* add_bbox_template();
+  ::google::protobuf::RepeatedPtrField< ::caffe::BBoxTemplate >*
+      mutable_bbox_template();
+  const ::google::protobuf::RepeatedPtrField< ::caffe::BBoxTemplate >&
+      bbox_template() const;
+
+  // @@protoc_insertion_point(class_scope:caffe.BBoxParameter)
+ private:
+  inline void set_has_bbox_type();
+  inline void clear_has_bbox_type();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::caffe::BBoxTemplate > bbox_template_;
+  int bbox_type_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<BBoxParameter> BBoxParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class SlidingWindowInputParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.SlidingWindowInputParameter) */ {
+ public:
+  SlidingWindowInputParameter();
+  virtual ~SlidingWindowInputParameter();
+
+  SlidingWindowInputParameter(const SlidingWindowInputParameter& from);
+
+  inline SlidingWindowInputParameter& operator=(const SlidingWindowInputParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SlidingWindowInputParameter& default_instance();
+
+  static const SlidingWindowInputParameter* internal_default_instance();
+
+  void Swap(SlidingWindowInputParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline SlidingWindowInputParameter* New() const { return New(NULL); }
+
+  SlidingWindowInputParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const SlidingWindowInputParameter& from);
+  void MergeFrom(const SlidingWindowInputParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(SlidingWindowInputParameter* other);
+  void UnsafeMergeFrom(const SlidingWindowInputParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 window_width = 1;
+  bool has_window_width() const;
+  void clear_window_width();
+  static const int kWindowWidthFieldNumber = 1;
+  ::google::protobuf::int32 window_width() const;
+  void set_window_width(::google::protobuf::int32 value);
+
+  // required int32 window_height = 2;
+  bool has_window_height() const;
+  void clear_window_height();
+  static const int kWindowHeightFieldNumber = 2;
+  ::google::protobuf::int32 window_height() const;
+  void set_window_height(::google::protobuf::int32 value);
+
+  // required int32 horizontal_stride = 3;
+  bool has_horizontal_stride() const;
+  void clear_horizontal_stride();
+  static const int kHorizontalStrideFieldNumber = 3;
+  ::google::protobuf::int32 horizontal_stride() const;
+  void set_horizontal_stride(::google::protobuf::int32 value);
+
+  // required int32 vertical_stride = 4;
+  bool has_vertical_stride() const;
+  void clear_vertical_stride();
+  static const int kVerticalStrideFieldNumber = 4;
+  ::google::protobuf::int32 vertical_stride() const;
+  void set_vertical_stride(::google::protobuf::int32 value);
+
+  // optional bool window_normalization = 5 [default = true];
+  bool has_window_normalization() const;
+  void clear_window_normalization();
+  static const int kWindowNormalizationFieldNumber = 5;
+  bool window_normalization() const;
+  void set_window_normalization(bool value);
+
+  // @@protoc_insertion_point(class_scope:caffe.SlidingWindowInputParameter)
+ private:
+  inline void set_has_window_width();
+  inline void clear_has_window_width();
+  inline void set_has_window_height();
+  inline void clear_has_window_height();
+  inline void set_has_horizontal_stride();
+  inline void clear_has_horizontal_stride();
+  inline void set_has_vertical_stride();
+  inline void clear_has_vertical_stride();
+  inline void set_has_window_normalization();
+  inline void clear_has_window_normalization();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::int32 window_width_;
+  ::google::protobuf::int32 window_height_;
+  ::google::protobuf::int32 horizontal_stride_;
+  ::google::protobuf::int32 vertical_stride_;
+  bool window_normalization_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<SlidingWindowInputParameter> SlidingWindowInputParameter_default_instance_;
 
 // -------------------------------------------------------------------
 
@@ -4626,6 +5085,15 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::LabelRemapParameter* release_label_remap_param();
   void set_allocated_label_remap_param(::caffe::LabelRemapParameter* label_remap_param);
 
+  // optional .caffe.SlidingWindowInputParameter sliding_window_param = 1007;
+  bool has_sliding_window_param() const;
+  void clear_sliding_window_param();
+  static const int kSlidingWindowParamFieldNumber = 1007;
+  const ::caffe::SlidingWindowInputParameter& sliding_window_param() const;
+  ::caffe::SlidingWindowInputParameter* mutable_sliding_window_param();
+  ::caffe::SlidingWindowInputParameter* release_sliding_window_param();
+  void set_allocated_sliding_window_param(::caffe::SlidingWindowInputParameter* sliding_window_param);
+
   // @@protoc_insertion_point(class_scope:caffe.LayerParameter)
  private:
   inline void set_has_name();
@@ -4740,9 +5208,12 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_patch_data_param();
   inline void set_has_label_remap_param();
   inline void clear_has_label_remap_param();
+  inline void set_has_sliding_window_param();
+  inline void clear_has_sliding_window_param();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<2> _has_bits_;
+  ::google::protobuf::internal::HasBits<3> _has_bits_;
+  mutable int _cached_size_;
   ::google::protobuf::RepeatedPtrField< ::std::string> bottom_;
   ::google::protobuf::RepeatedPtrField< ::std::string> top_;
   ::google::protobuf::RepeatedField< float > loss_weight_;
@@ -4806,8 +5277,8 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::LabelParameter* label_param_;
   ::caffe::PatchDataParameter* patch_data_param_;
   ::caffe::LabelRemapParameter* label_remap_param_;
+  ::caffe::SlidingWindowInputParameter* sliding_window_param_;
   int phase_;
-  mutable int _cached_size_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_2eproto_impl();
   friend void protobuf_AssignDesc_caffe_2eproto();
@@ -13541,52 +14012,52 @@ inline void PatchDataParameter::set_positive_only(bool value) {
   // @@protoc_insertion_point(field_set:caffe.PatchDataParameter.positive_only)
 }
 
-// optional bool relative_patch_offset = 2 [default = true];
-inline bool PatchDataParameter::has_relative_patch_offset() const {
+// optional bool patch_offset_normalization = 2 [default = true];
+inline bool PatchDataParameter::has_patch_offset_normalization() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void PatchDataParameter::set_has_relative_patch_offset() {
+inline void PatchDataParameter::set_has_patch_offset_normalization() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void PatchDataParameter::clear_has_relative_patch_offset() {
+inline void PatchDataParameter::clear_has_patch_offset_normalization() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void PatchDataParameter::clear_relative_patch_offset() {
-  relative_patch_offset_ = true;
-  clear_has_relative_patch_offset();
+inline void PatchDataParameter::clear_patch_offset_normalization() {
+  patch_offset_normalization_ = true;
+  clear_has_patch_offset_normalization();
 }
-inline bool PatchDataParameter::relative_patch_offset() const {
-  // @@protoc_insertion_point(field_get:caffe.PatchDataParameter.relative_patch_offset)
-  return relative_patch_offset_;
+inline bool PatchDataParameter::patch_offset_normalization() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDataParameter.patch_offset_normalization)
+  return patch_offset_normalization_;
 }
-inline void PatchDataParameter::set_relative_patch_offset(bool value) {
-  set_has_relative_patch_offset();
-  relative_patch_offset_ = value;
-  // @@protoc_insertion_point(field_set:caffe.PatchDataParameter.relative_patch_offset)
+inline void PatchDataParameter::set_patch_offset_normalization(bool value) {
+  set_has_patch_offset_normalization();
+  patch_offset_normalization_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDataParameter.patch_offset_normalization)
 }
 
-// optional bool relative_bbox = 3 [default = true];
-inline bool PatchDataParameter::has_relative_bbox() const {
+// optional bool bbox_normalization = 3 [default = true];
+inline bool PatchDataParameter::has_bbox_normalization() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void PatchDataParameter::set_has_relative_bbox() {
+inline void PatchDataParameter::set_has_bbox_normalization() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void PatchDataParameter::clear_has_relative_bbox() {
+inline void PatchDataParameter::clear_has_bbox_normalization() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void PatchDataParameter::clear_relative_bbox() {
-  relative_bbox_ = true;
-  clear_has_relative_bbox();
+inline void PatchDataParameter::clear_bbox_normalization() {
+  bbox_normalization_ = true;
+  clear_has_bbox_normalization();
 }
-inline bool PatchDataParameter::relative_bbox() const {
-  // @@protoc_insertion_point(field_get:caffe.PatchDataParameter.relative_bbox)
-  return relative_bbox_;
+inline bool PatchDataParameter::bbox_normalization() const {
+  // @@protoc_insertion_point(field_get:caffe.PatchDataParameter.bbox_normalization)
+  return bbox_normalization_;
 }
-inline void PatchDataParameter::set_relative_bbox(bool value) {
-  set_has_relative_bbox();
-  relative_bbox_ = value;
-  // @@protoc_insertion_point(field_set:caffe.PatchDataParameter.relative_bbox)
+inline void PatchDataParameter::set_bbox_normalization(bool value) {
+  set_has_bbox_normalization();
+  bbox_normalization_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PatchDataParameter.bbox_normalization)
 }
 
 inline const PatchDataParameter* PatchDataParameter::internal_default_instance() {
@@ -13658,6 +14129,250 @@ LabelRemapParameter::mutable_dst() {
 
 inline const LabelRemapParameter* LabelRemapParameter::internal_default_instance() {
   return &LabelRemapParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// BBoxTemplate
+
+// required float height = 1;
+inline bool BBoxTemplate::has_height() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void BBoxTemplate::set_has_height() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void BBoxTemplate::clear_has_height() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void BBoxTemplate::clear_height() {
+  height_ = 0;
+  clear_has_height();
+}
+inline float BBoxTemplate::height() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxTemplate.height)
+  return height_;
+}
+inline void BBoxTemplate::set_height(float value) {
+  set_has_height();
+  height_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxTemplate.height)
+}
+
+// required float width = 2;
+inline bool BBoxTemplate::has_width() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void BBoxTemplate::set_has_width() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void BBoxTemplate::clear_has_width() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void BBoxTemplate::clear_width() {
+  width_ = 0;
+  clear_has_width();
+}
+inline float BBoxTemplate::width() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxTemplate.width)
+  return width_;
+}
+inline void BBoxTemplate::set_width(float value) {
+  set_has_width();
+  width_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxTemplate.width)
+}
+
+inline const BBoxTemplate* BBoxTemplate::internal_default_instance() {
+  return &BBoxTemplate_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// BBoxParameter
+
+// optional .caffe.BBoxParameter.BBoxType bbox_type = 1;
+inline bool BBoxParameter::has_bbox_type() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void BBoxParameter::set_has_bbox_type() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void BBoxParameter::clear_has_bbox_type() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void BBoxParameter::clear_bbox_type() {
+  bbox_type_ = 1;
+  clear_has_bbox_type();
+}
+inline ::caffe::BBoxParameter_BBoxType BBoxParameter::bbox_type() const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxParameter.bbox_type)
+  return static_cast< ::caffe::BBoxParameter_BBoxType >(bbox_type_);
+}
+inline void BBoxParameter::set_bbox_type(::caffe::BBoxParameter_BBoxType value) {
+  assert(::caffe::BBoxParameter_BBoxType_IsValid(value));
+  set_has_bbox_type();
+  bbox_type_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BBoxParameter.bbox_type)
+}
+
+// repeated .caffe.BBoxTemplate bbox_template = 2;
+inline int BBoxParameter::bbox_template_size() const {
+  return bbox_template_.size();
+}
+inline void BBoxParameter::clear_bbox_template() {
+  bbox_template_.Clear();
+}
+inline const ::caffe::BBoxTemplate& BBoxParameter::bbox_template(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.BBoxParameter.bbox_template)
+  return bbox_template_.Get(index);
+}
+inline ::caffe::BBoxTemplate* BBoxParameter::mutable_bbox_template(int index) {
+  // @@protoc_insertion_point(field_mutable:caffe.BBoxParameter.bbox_template)
+  return bbox_template_.Mutable(index);
+}
+inline ::caffe::BBoxTemplate* BBoxParameter::add_bbox_template() {
+  // @@protoc_insertion_point(field_add:caffe.BBoxParameter.bbox_template)
+  return bbox_template_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::caffe::BBoxTemplate >*
+BBoxParameter::mutable_bbox_template() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.BBoxParameter.bbox_template)
+  return &bbox_template_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::caffe::BBoxTemplate >&
+BBoxParameter::bbox_template() const {
+  // @@protoc_insertion_point(field_list:caffe.BBoxParameter.bbox_template)
+  return bbox_template_;
+}
+
+inline const BBoxParameter* BBoxParameter::internal_default_instance() {
+  return &BBoxParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// SlidingWindowInputParameter
+
+// required int32 window_width = 1;
+inline bool SlidingWindowInputParameter::has_window_width() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void SlidingWindowInputParameter::set_has_window_width() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void SlidingWindowInputParameter::clear_has_window_width() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void SlidingWindowInputParameter::clear_window_width() {
+  window_width_ = 0;
+  clear_has_window_width();
+}
+inline ::google::protobuf::int32 SlidingWindowInputParameter::window_width() const {
+  // @@protoc_insertion_point(field_get:caffe.SlidingWindowInputParameter.window_width)
+  return window_width_;
+}
+inline void SlidingWindowInputParameter::set_window_width(::google::protobuf::int32 value) {
+  set_has_window_width();
+  window_width_ = value;
+  // @@protoc_insertion_point(field_set:caffe.SlidingWindowInputParameter.window_width)
+}
+
+// required int32 window_height = 2;
+inline bool SlidingWindowInputParameter::has_window_height() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void SlidingWindowInputParameter::set_has_window_height() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void SlidingWindowInputParameter::clear_has_window_height() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void SlidingWindowInputParameter::clear_window_height() {
+  window_height_ = 0;
+  clear_has_window_height();
+}
+inline ::google::protobuf::int32 SlidingWindowInputParameter::window_height() const {
+  // @@protoc_insertion_point(field_get:caffe.SlidingWindowInputParameter.window_height)
+  return window_height_;
+}
+inline void SlidingWindowInputParameter::set_window_height(::google::protobuf::int32 value) {
+  set_has_window_height();
+  window_height_ = value;
+  // @@protoc_insertion_point(field_set:caffe.SlidingWindowInputParameter.window_height)
+}
+
+// required int32 horizontal_stride = 3;
+inline bool SlidingWindowInputParameter::has_horizontal_stride() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void SlidingWindowInputParameter::set_has_horizontal_stride() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void SlidingWindowInputParameter::clear_has_horizontal_stride() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void SlidingWindowInputParameter::clear_horizontal_stride() {
+  horizontal_stride_ = 0;
+  clear_has_horizontal_stride();
+}
+inline ::google::protobuf::int32 SlidingWindowInputParameter::horizontal_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.SlidingWindowInputParameter.horizontal_stride)
+  return horizontal_stride_;
+}
+inline void SlidingWindowInputParameter::set_horizontal_stride(::google::protobuf::int32 value) {
+  set_has_horizontal_stride();
+  horizontal_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.SlidingWindowInputParameter.horizontal_stride)
+}
+
+// required int32 vertical_stride = 4;
+inline bool SlidingWindowInputParameter::has_vertical_stride() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void SlidingWindowInputParameter::set_has_vertical_stride() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void SlidingWindowInputParameter::clear_has_vertical_stride() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void SlidingWindowInputParameter::clear_vertical_stride() {
+  vertical_stride_ = 0;
+  clear_has_vertical_stride();
+}
+inline ::google::protobuf::int32 SlidingWindowInputParameter::vertical_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.SlidingWindowInputParameter.vertical_stride)
+  return vertical_stride_;
+}
+inline void SlidingWindowInputParameter::set_vertical_stride(::google::protobuf::int32 value) {
+  set_has_vertical_stride();
+  vertical_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.SlidingWindowInputParameter.vertical_stride)
+}
+
+// optional bool window_normalization = 5 [default = true];
+inline bool SlidingWindowInputParameter::has_window_normalization() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void SlidingWindowInputParameter::set_has_window_normalization() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void SlidingWindowInputParameter::clear_has_window_normalization() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void SlidingWindowInputParameter::clear_window_normalization() {
+  window_normalization_ = true;
+  clear_has_window_normalization();
+}
+inline bool SlidingWindowInputParameter::window_normalization() const {
+  // @@protoc_insertion_point(field_get:caffe.SlidingWindowInputParameter.window_normalization)
+  return window_normalization_;
+}
+inline void SlidingWindowInputParameter::set_window_normalization(bool value) {
+  set_has_window_normalization();
+  window_normalization_ = value;
+  // @@protoc_insertion_point(field_set:caffe.SlidingWindowInputParameter.window_normalization)
+}
+
+inline const SlidingWindowInputParameter* SlidingWindowInputParameter::internal_default_instance() {
+  return &SlidingWindowInputParameter_default_instance_.get();
 }
 // -------------------------------------------------------------------
 
@@ -19447,6 +20162,51 @@ inline void LayerParameter::set_allocated_label_remap_param(::caffe::LabelRemapP
     clear_has_label_remap_param();
   }
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.label_remap_param)
+}
+
+// optional .caffe.SlidingWindowInputParameter sliding_window_param = 1007;
+inline bool LayerParameter::has_sliding_window_param() const {
+  return (_has_bits_[2] & 0x00000001u) != 0;
+}
+inline void LayerParameter::set_has_sliding_window_param() {
+  _has_bits_[2] |= 0x00000001u;
+}
+inline void LayerParameter::clear_has_sliding_window_param() {
+  _has_bits_[2] &= ~0x00000001u;
+}
+inline void LayerParameter::clear_sliding_window_param() {
+  if (sliding_window_param_ != NULL) sliding_window_param_->::caffe::SlidingWindowInputParameter::Clear();
+  clear_has_sliding_window_param();
+}
+inline const ::caffe::SlidingWindowInputParameter& LayerParameter::sliding_window_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.sliding_window_param)
+  return sliding_window_param_ != NULL ? *sliding_window_param_
+                         : *::caffe::SlidingWindowInputParameter::internal_default_instance();
+}
+inline ::caffe::SlidingWindowInputParameter* LayerParameter::mutable_sliding_window_param() {
+  set_has_sliding_window_param();
+  if (sliding_window_param_ == NULL) {
+    sliding_window_param_ = new ::caffe::SlidingWindowInputParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.sliding_window_param)
+  return sliding_window_param_;
+}
+inline ::caffe::SlidingWindowInputParameter* LayerParameter::release_sliding_window_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.sliding_window_param)
+  clear_has_sliding_window_param();
+  ::caffe::SlidingWindowInputParameter* temp = sliding_window_param_;
+  sliding_window_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_sliding_window_param(::caffe::SlidingWindowInputParameter* sliding_window_param) {
+  delete sliding_window_param_;
+  sliding_window_param_ = sliding_window_param;
+  if (sliding_window_param) {
+    set_has_sliding_window_param();
+  } else {
+    clear_has_sliding_window_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.sliding_window_param)
 }
 
 inline const LayerParameter* LayerParameter::internal_default_instance() {
@@ -28247,6 +29007,12 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -28260,6 +29026,16 @@ template <> struct is_proto_enum< ::caffe::LabelParameter_LabelParamConstant> : 
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::caffe::LabelParameter_LabelParamConstant>() {
   return ::caffe::LabelParameter_LabelParamConstant_descriptor();
+}
+template <> struct is_proto_enum< ::caffe::BBoxParameter_BBoxType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::caffe::BBoxParameter_BBoxType>() {
+  return ::caffe::BBoxParameter_BBoxType_descriptor();
+}
+template <> struct is_proto_enum< ::caffe::BBoxParameter_BBoxConstant> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::caffe::BBoxParameter_BBoxConstant>() {
+  return ::caffe::BBoxParameter_BBoxConstant_descriptor();
 }
 template <> struct is_proto_enum< ::caffe::FillerParameter_VarianceNorm> : ::google::protobuf::internal::true_type {};
 template <>

@@ -58,13 +58,42 @@ message PatchDatum {
 
 message PatchDataParameter {
   optional bool positive_only = 1 [default = false];
-  optional bool relative_patch_offset = 2 [default = true];
-  optional bool relative_bbox = 3 [default = true];
+  optional bool patch_offset_normalization = 2 [default = true];
+  optional bool bbox_normalization = 3 [default = true];
 }
 
 message LabelRemapParameter {
   repeated int32 src = 1;
   repeated int32 dst = 2;
+}
+
+message BBoxTemplate {
+  required float height = 1;
+  required float width = 2;
+}
+
+message BBoxParameter {
+  enum BBoxType {
+    FULL = 1;
+    VERTICAL = 2;
+    HORIZONTAL = 3;
+    TEMPLATE = 4;
+  };
+
+  enum BBoxConstant {
+    DUMMY_VALUE = -1;
+  };
+
+  optional BBoxType bbox_type = 1;
+  repeated BBoxTemplate bbox_template = 2;
+}
+
+message SlidingWindowInputParameter {
+  required int32 window_width = 1;
+  required int32 window_height = 2;
+  required int32 horizontal_stride = 3;
+  required int32 vertical_stride = 4;
+  optional bool window_normalization = 5 [default = true];
 }
 
 // Specifies the shape (dimensions) of a Blob.
@@ -476,6 +505,7 @@ message LayerParameter {
   optional LabelParameter label_param = 1004;
   optional PatchDataParameter patch_data_param = 1005;
   optional LabelRemapParameter label_remap_param = 1006;
+  optional SlidingWindowInputParameter sliding_window_param = 1007;
 }
 
 // Message that stores parameters used to apply transformation
