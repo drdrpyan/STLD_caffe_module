@@ -45,8 +45,8 @@ class PatchDataLayer : public DataLayer<Dtype>
     const int BATCH_SIZE_;
     const int NUM_LABEL_;
     const bool POSITIVE_ONLY_;
-    const bool RELATIVE_PATCH_OFFSET_;
-    const bool RELATIVE_BBOX_;
+    const bool PATCH_OFFSET_NORMALIZATION_;
+    const bool BBOX_NORMALIZATION_;
 
     Blob<Dtype> label_;
     Blob<Dtype> patch_offset_;

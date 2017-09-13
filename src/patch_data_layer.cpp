@@ -4,6 +4,8 @@
 #include "caffe/util/benchmark.hpp"
 #include "caffe/util/io.hpp"
 
+#include <opencv2/core.hpp>
+
 namespace caffe
 {
 
@@ -13,8 +15,8 @@ PatchDataLayer<Dtype>::PatchDataLayer(const LayerParameter& param)
     BATCH_SIZE_(param.data_param().batch_size()),
     NUM_LABEL_(param.label_param().num_label()),
     POSITIVE_ONLY_(param.patch_data_param().positive_only()),
-    RELATIVE_PATCH_OFFSET_(param.patch_data_param().relative_patch_offset()),
-    RELATIVE_BBOX_(param.patch_data_param().relative_bbox()) {
+    PATCH_OFFSET_NORMALIZATION_(param.patch_data_param().patch_offset_normalization()),
+    BBOX_NORMALIZATION_(param.patch_data_param().bbox_normalization()) {
   CHECK(BATCH_SIZE_ > 0);
 }
 
@@ -201,6 +203,8 @@ void PatchDataLayer<Dtype>::CopyImage(
   decoded_datum.CopyFrom(datum.patch_img());
   DecodeDatumNative(&decoded_datum);
 
+  //cv::Mat debug = DecodeDatumToCVMatNative(datum.patch_img());
+
   this->transformed_data_.set_cpu_data(data_ptr + OFFSET);
   this->data_transformer_->Transform(
       decoded_datum, &(this->transformed_data_));
@@ -243,7 +247,7 @@ void PatchDataLayer<Dtype>::GetPatchOffset(const PatchDatum& datum,
     double ymin = datum.patch_offset_ymin();
     double width = transformed_data_.width();
     double height = transformed_data_.height();
-    if (RELATIVE_PATCH_OFFSET_) {
+    if (PATCH_OFFSET_NORMALIZATION_) {
       xmin /= datum.whole_img_width();
       ymin /= datum.whole_img_height();
       width /= datum.whole_img_width();
@@ -260,17 +264,17 @@ template <typename Dtype>
 void PatchDataLayer<Dtype>::GetBBox(const PatchDatum& datum,
                                     Dtype* dst) const {
   if (datum.label() == caffe::LabelParameter::NONE) {
-    dst[0] = static_cast<Dtype>(-1);
-    dst[1] = static_cast<Dtype>(-1);
-    dst[2] = static_cast<Dtype>(-1);
-    dst[3] = static_cast<Dtype>(-1);
+    dst[0] = static_cast<Dtype>(BBoxParameter::DUMMY_VALUE);
+    dst[1] = static_cast<Dtype>(BBoxParameter::DUMMY_VALUE);
+    dst[2] = static_cast<Dtype>(BBoxParameter::DUMMY_VALUE);
+    dst[3] = static_cast<Dtype>(BBoxParameter::DUMMY_VALUE);
   }
   else {
     double xmin = datum.bbox_xmin() - datum.patch_offset_xmin();
     double ymin = datum.bbox_ymin() - datum.patch_offset_ymin();
     double width = datum.bbox_xmax() - datum.bbox_xmin() + 1;
     double height = datum.bbox_ymax() - datum.bbox_ymin() + 1;
-    if (RELATIVE_PATCH_OFFSET_) {
+    if (BBOX_NORMALIZATION_) {
       //xmin /= datum.whole_img_width();
       //ymin /= datum.whole_img_height();
       xmin /= transformed_data_.width();
