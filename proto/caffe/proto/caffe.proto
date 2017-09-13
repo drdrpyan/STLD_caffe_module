@@ -67,10 +67,10 @@ message LabelRemapParameter {
   repeated int32 dst = 2;
 }
 
-message BBoxTemplate {
-  required float height = 1;
-  required float width = 2;
-}
+//message BBoxTemplate {
+//  required float height = 1;
+//  required float width = 2;
+//}
 
 message BBoxParameter {
   enum BBoxType {
@@ -85,7 +85,7 @@ message BBoxParameter {
   };
 
   optional BBoxType bbox_type = 1;
-  repeated BBoxTemplate bbox_template = 2;
+  //repeated BBoxTemplate bbox_template = 2;
 }
 
 message SlidingWindowInputParameter {
@@ -94,6 +94,12 @@ message SlidingWindowInputParameter {
   required int32 horizontal_stride = 3;
   required int32 vertical_stride = 4;
   optional bool window_normalization = 5 [default = true];
+}
+
+message BBoxToGridAndSizeParameter {
+  repeated float x_grid = 1;
+  repeated float y_grid = 2;
+  repeated float size_grid = 3;
 }
 
 // Specifies the shape (dimensions) of a Blob.
@@ -505,7 +511,9 @@ message LayerParameter {
   optional LabelParameter label_param = 1004;
   optional PatchDataParameter patch_data_param = 1005;
   optional LabelRemapParameter label_remap_param = 1006;
-  optional SlidingWindowInputParameter sliding_window_param = 1007;
+  optional BBoxParameter bbox_param = 1007;
+  optional SlidingWindowInputParameter sliding_window_param = 1008;
+  optional BBoxToGridAndSizeParameter bbox_to_grid_and_size_param = 1009;
 }
 
 // Message that stores parameters used to apply transformation
