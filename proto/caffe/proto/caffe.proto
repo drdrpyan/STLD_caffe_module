@@ -102,6 +102,104 @@ message BBoxToGridAndSizeParameter {
   repeated float size_grid = 3;
 }
 
+message SizeUnitParameter{
+  required float unit = 1;
+}
+
+message PaddingParameter{
+  enum PaddingType {
+    ZERO = 0;
+    MIRROR = 1;
+  };
+
+  optional PaddingType type = 1 [default = ZERO];
+  optional uint32 pad_up = 2 [default = 0];
+  optional uint32 pad_down = 3 [default = 0];
+  optional uint32 pad_left = 4 [default = 0];
+  optional uint32 pad_right = 5 [default = 0];
+}
+
+message Point2i {
+  required int32 x = 1;
+  required int32 y = 2;
+}
+
+message Point2f {
+  required float x = 1;
+  required float y = 2;
+}
+
+message Size2i {
+  required uint32 width = 1;
+  required uint32 height = 2;
+}
+
+message Size2f {
+  required float width = 1;
+  required float height = 2;
+}
+message Rect2f{
+  required Point2f top_left = 1;
+  required Size2f size = 2;
+}
+
+message Rect2i{
+  required Point2i top_left = 1;
+  required Size2i size = 2;
+}
+
+message ActivationRegionParameter {
+  enum ActivationMethod {
+    WHOLE = 1;
+    ANY = 2;
+    CENTER = 3;
+  };
+
+  optional ActivationMethod method = 1 [default = WHOLE];
+  optional Rect2i region = 2;
+}
+
+message GTMapDataParameter {
+  required Size2i receptive_field = 1;
+  required uint32 horizontal_stride = 2;
+  required uint32 vertical_stride = 3;
+  optional ActivationRegionParameter activation_region_param = 4;
+  required bool patch_offset_normalization = 5;
+  required bool bbox_normalization = 6;
+}
+
+message LabelDiffIgnoreParameter{
+  repeated uint32 ignore_label = 1;
+  repeated float ignore_rate = 2;
+}
+
+message OffsetParameter {
+  enum Anchor {
+    TOP_LEFT = 1;
+    CENTER = 2;
+  };
+
+  optional Anchor origin = 1 [default = TOP_LEFT];
+  optional Anchor anchor = 2 [default = TOP_LEFT];
+  optional bool normalize = 3 [default = true];
+}
+
+message GTSubmapDataParameter {
+  required uint32 submap_batch_size = 1;
+  required Size2i receptive_field = 2;
+  required uint32 horizontal_stride = 3;
+  required uint32 vertical_stride = 4;
+  
+  optional ActivationRegionParameter activation_region_param = 5;
+
+  optional uint32 num_jitter = 6 [default = 0];
+
+  optional bool bbox_normalization = 7 [default = true];
+
+  required OffsetParameter offset_param = 8;
+  
+}
+
 // Specifies the shape (dimensions) of a Blob.
 message BlobShape {
   repeated int64 dim = 1 [packed = true];
@@ -514,6 +612,11 @@ message LayerParameter {
   optional BBoxParameter bbox_param = 1007;
   optional SlidingWindowInputParameter sliding_window_param = 1008;
   optional BBoxToGridAndSizeParameter bbox_to_grid_and_size_param = 1009;
+  optional SizeUnitParameter size_unit_param = 1010;
+  optional PaddingParameter padding_param = 1011;
+  optional GTMapDataParameter gt_map_data_param = 1012;
+  optional LabelDiffIgnoreParameter label_diff_ignore_param = 1013;
+  optional GTSubmapDataParameter gt_submap_data_param = 1014;
 }
 
 // Message that stores parameters used to apply transformation

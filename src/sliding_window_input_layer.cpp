@@ -62,17 +62,17 @@ void SlidingWindowInputLayer<Dtype>::ComputeOffsets() {
   offset_shape[1] = 4;
   //offset_shape[2] = input_height_ / WINDOW_HEIGHT_;
   //offset_shape[3] = input_width_ / WINDOW_WIDTH_;
-  offset_shape[2] = ((input_height_ - WINDOW_HEIGHT_) / HORIZONTAL_STRIDE_) + 1;
-  offset_shape[3] = ((input_width_ - WINDOW_WIDTH_) / VERTICAL_STRIDE_) + 1;
+  offset_shape[2] = ((input_height_ - WINDOW_HEIGHT_) / VERTICAL_STRIDE_) + 1;
+  offset_shape[3] = ((input_width_ - WINDOW_WIDTH_) / HORIZONTAL_STRIDE_) + 1;
   offsets_.Reshape(offset_shape);
 
-  const int& WIDTH = offset_shape[2];
-  const int& HEIGHT = offset_shape[3];
+  const int& HEIGHT = offset_shape[2];
+  const int& WIDTH = offset_shape[3];
 
   // offset x
   Dtype* offset_x_iter = offsets_.mutable_cpu_data();
   Dtype stride_x = 
-      WIN_NORMALIZATION_ ? WINDOW_WIDTH_ / static_cast<Dtype>(input_width_) : WINDOW_WIDTH_;
+      WIN_NORMALIZATION_ ? HORIZONTAL_STRIDE_ / static_cast<Dtype>(input_width_) : HORIZONTAL_STRIDE_;
   Dtype offset_x = 0;
   for (int i = 0; i < WIDTH; i++) {
     offset_x_iter[i] = offset_x;
@@ -85,7 +85,7 @@ void SlidingWindowInputLayer<Dtype>::ComputeOffsets() {
 
   // offset y
   Dtype* offset_y_iter = offsets_.mutable_cpu_data() + offsets_.offset(0, 1);
-  Dtype stride_y = WIN_NORMALIZATION_ ? WINDOW_HEIGHT_ / static_cast<Dtype>(input_height_) : WINDOW_HEIGHT_;
+  Dtype stride_y = WIN_NORMALIZATION_ ? VERTICAL_STRIDE_ / static_cast<Dtype>(input_height_) : VERTICAL_STRIDE_;
   Dtype offset_y = 0;
   for (int i = HEIGHT; i--; ) {
     caffe_set(WIDTH, offset_y, offset_y_iter);

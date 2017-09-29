@@ -39,6 +39,7 @@ void protobuf_AssignDesc_caffe_2eproto();
 void protobuf_ShutdownFile_caffe_2eproto();
 
 class AccuracyParameter;
+class ActivationRegionParameter;
 class ArgMaxParameter;
 class BBoxAnnoMapParameter;
 class BBoxParameter;
@@ -62,6 +63,8 @@ class EmbedParameter;
 class ExpParameter;
 class FillerParameter;
 class FlattenParameter;
+class GTMapDataParameter;
+class GTSubmapDataParameter;
 class HDF5DataParameter;
 class HDF5OutputParameter;
 class HeatmapConcatParameter;
@@ -73,6 +76,7 @@ class InfogainLossParameter;
 class InnerProductParameter;
 class InputParameter;
 class LRNParameter;
+class LabelDiffIgnoreParameter;
 class LabelParameter;
 class LabelRemapParameter;
 class LayerParameter;
@@ -83,21 +87,30 @@ class MemoryDataParameter;
 class NetParameter;
 class NetState;
 class NetStateRule;
+class OffsetParameter;
 class PReLUParameter;
+class PaddingParameter;
 class ParamSpec;
 class ParameterParameter;
 class PatchDataParameter;
 class PatchDatum;
+class Point2f;
+class Point2i;
 class PoolingParameter;
 class PowerParameter;
 class PythonParameter;
 class ReLUParameter;
+class Rect2f;
+class Rect2i;
 class RecurrentParameter;
 class ReductionParameter;
 class ReshapeParameter;
 class SPPParameter;
 class ScaleParameter;
 class SigmoidParameter;
+class Size2f;
+class Size2i;
+class SizeUnitParameter;
 class SliceParameter;
 class SlidingWindowInputParameter;
 class SoftmaxParameter;
@@ -168,6 +181,64 @@ inline bool BBoxParameter_BBoxConstant_Parse(
     const ::std::string& name, BBoxParameter_BBoxConstant* value) {
   return ::google::protobuf::internal::ParseNamedEnum<BBoxParameter_BBoxConstant>(
     BBoxParameter_BBoxConstant_descriptor(), name, value);
+}
+enum PaddingParameter_PaddingType {
+  PaddingParameter_PaddingType_ZERO = 0,
+  PaddingParameter_PaddingType_MIRROR = 1
+};
+bool PaddingParameter_PaddingType_IsValid(int value);
+const PaddingParameter_PaddingType PaddingParameter_PaddingType_PaddingType_MIN = PaddingParameter_PaddingType_ZERO;
+const PaddingParameter_PaddingType PaddingParameter_PaddingType_PaddingType_MAX = PaddingParameter_PaddingType_MIRROR;
+const int PaddingParameter_PaddingType_PaddingType_ARRAYSIZE = PaddingParameter_PaddingType_PaddingType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* PaddingParameter_PaddingType_descriptor();
+inline const ::std::string& PaddingParameter_PaddingType_Name(PaddingParameter_PaddingType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    PaddingParameter_PaddingType_descriptor(), value);
+}
+inline bool PaddingParameter_PaddingType_Parse(
+    const ::std::string& name, PaddingParameter_PaddingType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PaddingParameter_PaddingType>(
+    PaddingParameter_PaddingType_descriptor(), name, value);
+}
+enum ActivationRegionParameter_ActivationMethod {
+  ActivationRegionParameter_ActivationMethod_WHOLE = 1,
+  ActivationRegionParameter_ActivationMethod_ANY = 2,
+  ActivationRegionParameter_ActivationMethod_CENTER = 3
+};
+bool ActivationRegionParameter_ActivationMethod_IsValid(int value);
+const ActivationRegionParameter_ActivationMethod ActivationRegionParameter_ActivationMethod_ActivationMethod_MIN = ActivationRegionParameter_ActivationMethod_WHOLE;
+const ActivationRegionParameter_ActivationMethod ActivationRegionParameter_ActivationMethod_ActivationMethod_MAX = ActivationRegionParameter_ActivationMethod_CENTER;
+const int ActivationRegionParameter_ActivationMethod_ActivationMethod_ARRAYSIZE = ActivationRegionParameter_ActivationMethod_ActivationMethod_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* ActivationRegionParameter_ActivationMethod_descriptor();
+inline const ::std::string& ActivationRegionParameter_ActivationMethod_Name(ActivationRegionParameter_ActivationMethod value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    ActivationRegionParameter_ActivationMethod_descriptor(), value);
+}
+inline bool ActivationRegionParameter_ActivationMethod_Parse(
+    const ::std::string& name, ActivationRegionParameter_ActivationMethod* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ActivationRegionParameter_ActivationMethod>(
+    ActivationRegionParameter_ActivationMethod_descriptor(), name, value);
+}
+enum OffsetParameter_Anchor {
+  OffsetParameter_Anchor_TOP_LEFT = 1,
+  OffsetParameter_Anchor_CENTER = 2
+};
+bool OffsetParameter_Anchor_IsValid(int value);
+const OffsetParameter_Anchor OffsetParameter_Anchor_Anchor_MIN = OffsetParameter_Anchor_TOP_LEFT;
+const OffsetParameter_Anchor OffsetParameter_Anchor_Anchor_MAX = OffsetParameter_Anchor_CENTER;
+const int OffsetParameter_Anchor_Anchor_ARRAYSIZE = OffsetParameter_Anchor_Anchor_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* OffsetParameter_Anchor_descriptor();
+inline const ::std::string& OffsetParameter_Anchor_Name(OffsetParameter_Anchor value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    OffsetParameter_Anchor_descriptor(), value);
+}
+inline bool OffsetParameter_Anchor_Parse(
+    const ::std::string& name, OffsetParameter_Anchor* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<OffsetParameter_Anchor>(
+    OffsetParameter_Anchor_descriptor(), name, value);
 }
 enum FillerParameter_VarianceNorm {
   FillerParameter_VarianceNorm_FAN_IN = 0,
@@ -2218,6 +2289,1670 @@ class BBoxToGridAndSizeParameter : public ::google::protobuf::Message /* @@proto
   void InitAsDefaultInstance();
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<BBoxToGridAndSizeParameter> BBoxToGridAndSizeParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class SizeUnitParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.SizeUnitParameter) */ {
+ public:
+  SizeUnitParameter();
+  virtual ~SizeUnitParameter();
+
+  SizeUnitParameter(const SizeUnitParameter& from);
+
+  inline SizeUnitParameter& operator=(const SizeUnitParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SizeUnitParameter& default_instance();
+
+  static const SizeUnitParameter* internal_default_instance();
+
+  void Swap(SizeUnitParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline SizeUnitParameter* New() const { return New(NULL); }
+
+  SizeUnitParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const SizeUnitParameter& from);
+  void MergeFrom(const SizeUnitParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(SizeUnitParameter* other);
+  void UnsafeMergeFrom(const SizeUnitParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required float unit = 1;
+  bool has_unit() const;
+  void clear_unit();
+  static const int kUnitFieldNumber = 1;
+  float unit() const;
+  void set_unit(float value);
+
+  // @@protoc_insertion_point(class_scope:caffe.SizeUnitParameter)
+ private:
+  inline void set_has_unit();
+  inline void clear_has_unit();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  float unit_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<SizeUnitParameter> SizeUnitParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class PaddingParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.PaddingParameter) */ {
+ public:
+  PaddingParameter();
+  virtual ~PaddingParameter();
+
+  PaddingParameter(const PaddingParameter& from);
+
+  inline PaddingParameter& operator=(const PaddingParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PaddingParameter& default_instance();
+
+  static const PaddingParameter* internal_default_instance();
+
+  void Swap(PaddingParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline PaddingParameter* New() const { return New(NULL); }
+
+  PaddingParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PaddingParameter& from);
+  void MergeFrom(const PaddingParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(PaddingParameter* other);
+  void UnsafeMergeFrom(const PaddingParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef PaddingParameter_PaddingType PaddingType;
+  static const PaddingType ZERO =
+    PaddingParameter_PaddingType_ZERO;
+  static const PaddingType MIRROR =
+    PaddingParameter_PaddingType_MIRROR;
+  static inline bool PaddingType_IsValid(int value) {
+    return PaddingParameter_PaddingType_IsValid(value);
+  }
+  static const PaddingType PaddingType_MIN =
+    PaddingParameter_PaddingType_PaddingType_MIN;
+  static const PaddingType PaddingType_MAX =
+    PaddingParameter_PaddingType_PaddingType_MAX;
+  static const int PaddingType_ARRAYSIZE =
+    PaddingParameter_PaddingType_PaddingType_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  PaddingType_descriptor() {
+    return PaddingParameter_PaddingType_descriptor();
+  }
+  static inline const ::std::string& PaddingType_Name(PaddingType value) {
+    return PaddingParameter_PaddingType_Name(value);
+  }
+  static inline bool PaddingType_Parse(const ::std::string& name,
+      PaddingType* value) {
+    return PaddingParameter_PaddingType_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // optional .caffe.PaddingParameter.PaddingType type = 1 [default = ZERO];
+  bool has_type() const;
+  void clear_type();
+  static const int kTypeFieldNumber = 1;
+  ::caffe::PaddingParameter_PaddingType type() const;
+  void set_type(::caffe::PaddingParameter_PaddingType value);
+
+  // optional uint32 pad_up = 2 [default = 0];
+  bool has_pad_up() const;
+  void clear_pad_up();
+  static const int kPadUpFieldNumber = 2;
+  ::google::protobuf::uint32 pad_up() const;
+  void set_pad_up(::google::protobuf::uint32 value);
+
+  // optional uint32 pad_down = 3 [default = 0];
+  bool has_pad_down() const;
+  void clear_pad_down();
+  static const int kPadDownFieldNumber = 3;
+  ::google::protobuf::uint32 pad_down() const;
+  void set_pad_down(::google::protobuf::uint32 value);
+
+  // optional uint32 pad_left = 4 [default = 0];
+  bool has_pad_left() const;
+  void clear_pad_left();
+  static const int kPadLeftFieldNumber = 4;
+  ::google::protobuf::uint32 pad_left() const;
+  void set_pad_left(::google::protobuf::uint32 value);
+
+  // optional uint32 pad_right = 5 [default = 0];
+  bool has_pad_right() const;
+  void clear_pad_right();
+  static const int kPadRightFieldNumber = 5;
+  ::google::protobuf::uint32 pad_right() const;
+  void set_pad_right(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:caffe.PaddingParameter)
+ private:
+  inline void set_has_type();
+  inline void clear_has_type();
+  inline void set_has_pad_up();
+  inline void clear_has_pad_up();
+  inline void set_has_pad_down();
+  inline void clear_has_pad_down();
+  inline void set_has_pad_left();
+  inline void clear_has_pad_left();
+  inline void set_has_pad_right();
+  inline void clear_has_pad_right();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  int type_;
+  ::google::protobuf::uint32 pad_up_;
+  ::google::protobuf::uint32 pad_down_;
+  ::google::protobuf::uint32 pad_left_;
+  ::google::protobuf::uint32 pad_right_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<PaddingParameter> PaddingParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class Point2i : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.Point2i) */ {
+ public:
+  Point2i();
+  virtual ~Point2i();
+
+  Point2i(const Point2i& from);
+
+  inline Point2i& operator=(const Point2i& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Point2i& default_instance();
+
+  static const Point2i* internal_default_instance();
+
+  void Swap(Point2i* other);
+
+  // implements Message ----------------------------------------------
+
+  inline Point2i* New() const { return New(NULL); }
+
+  Point2i* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Point2i& from);
+  void MergeFrom(const Point2i& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(Point2i* other);
+  void UnsafeMergeFrom(const Point2i& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 x = 1;
+  bool has_x() const;
+  void clear_x();
+  static const int kXFieldNumber = 1;
+  ::google::protobuf::int32 x() const;
+  void set_x(::google::protobuf::int32 value);
+
+  // required int32 y = 2;
+  bool has_y() const;
+  void clear_y();
+  static const int kYFieldNumber = 2;
+  ::google::protobuf::int32 y() const;
+  void set_y(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:caffe.Point2i)
+ private:
+  inline void set_has_x();
+  inline void clear_has_x();
+  inline void set_has_y();
+  inline void clear_has_y();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::int32 x_;
+  ::google::protobuf::int32 y_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<Point2i> Point2i_default_instance_;
+
+// -------------------------------------------------------------------
+
+class Point2f : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.Point2f) */ {
+ public:
+  Point2f();
+  virtual ~Point2f();
+
+  Point2f(const Point2f& from);
+
+  inline Point2f& operator=(const Point2f& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Point2f& default_instance();
+
+  static const Point2f* internal_default_instance();
+
+  void Swap(Point2f* other);
+
+  // implements Message ----------------------------------------------
+
+  inline Point2f* New() const { return New(NULL); }
+
+  Point2f* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Point2f& from);
+  void MergeFrom(const Point2f& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(Point2f* other);
+  void UnsafeMergeFrom(const Point2f& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required float x = 1;
+  bool has_x() const;
+  void clear_x();
+  static const int kXFieldNumber = 1;
+  float x() const;
+  void set_x(float value);
+
+  // required float y = 2;
+  bool has_y() const;
+  void clear_y();
+  static const int kYFieldNumber = 2;
+  float y() const;
+  void set_y(float value);
+
+  // @@protoc_insertion_point(class_scope:caffe.Point2f)
+ private:
+  inline void set_has_x();
+  inline void clear_has_x();
+  inline void set_has_y();
+  inline void clear_has_y();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  float x_;
+  float y_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<Point2f> Point2f_default_instance_;
+
+// -------------------------------------------------------------------
+
+class Size2i : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.Size2i) */ {
+ public:
+  Size2i();
+  virtual ~Size2i();
+
+  Size2i(const Size2i& from);
+
+  inline Size2i& operator=(const Size2i& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Size2i& default_instance();
+
+  static const Size2i* internal_default_instance();
+
+  void Swap(Size2i* other);
+
+  // implements Message ----------------------------------------------
+
+  inline Size2i* New() const { return New(NULL); }
+
+  Size2i* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Size2i& from);
+  void MergeFrom(const Size2i& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(Size2i* other);
+  void UnsafeMergeFrom(const Size2i& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 width = 1;
+  bool has_width() const;
+  void clear_width();
+  static const int kWidthFieldNumber = 1;
+  ::google::protobuf::uint32 width() const;
+  void set_width(::google::protobuf::uint32 value);
+
+  // required uint32 height = 2;
+  bool has_height() const;
+  void clear_height();
+  static const int kHeightFieldNumber = 2;
+  ::google::protobuf::uint32 height() const;
+  void set_height(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:caffe.Size2i)
+ private:
+  inline void set_has_width();
+  inline void clear_has_width();
+  inline void set_has_height();
+  inline void clear_has_height();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 width_;
+  ::google::protobuf::uint32 height_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<Size2i> Size2i_default_instance_;
+
+// -------------------------------------------------------------------
+
+class Size2f : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.Size2f) */ {
+ public:
+  Size2f();
+  virtual ~Size2f();
+
+  Size2f(const Size2f& from);
+
+  inline Size2f& operator=(const Size2f& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Size2f& default_instance();
+
+  static const Size2f* internal_default_instance();
+
+  void Swap(Size2f* other);
+
+  // implements Message ----------------------------------------------
+
+  inline Size2f* New() const { return New(NULL); }
+
+  Size2f* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Size2f& from);
+  void MergeFrom(const Size2f& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(Size2f* other);
+  void UnsafeMergeFrom(const Size2f& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required float width = 1;
+  bool has_width() const;
+  void clear_width();
+  static const int kWidthFieldNumber = 1;
+  float width() const;
+  void set_width(float value);
+
+  // required float height = 2;
+  bool has_height() const;
+  void clear_height();
+  static const int kHeightFieldNumber = 2;
+  float height() const;
+  void set_height(float value);
+
+  // @@protoc_insertion_point(class_scope:caffe.Size2f)
+ private:
+  inline void set_has_width();
+  inline void clear_has_width();
+  inline void set_has_height();
+  inline void clear_has_height();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  float width_;
+  float height_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<Size2f> Size2f_default_instance_;
+
+// -------------------------------------------------------------------
+
+class Rect2f : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.Rect2f) */ {
+ public:
+  Rect2f();
+  virtual ~Rect2f();
+
+  Rect2f(const Rect2f& from);
+
+  inline Rect2f& operator=(const Rect2f& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Rect2f& default_instance();
+
+  static const Rect2f* internal_default_instance();
+
+  void Swap(Rect2f* other);
+
+  // implements Message ----------------------------------------------
+
+  inline Rect2f* New() const { return New(NULL); }
+
+  Rect2f* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Rect2f& from);
+  void MergeFrom(const Rect2f& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(Rect2f* other);
+  void UnsafeMergeFrom(const Rect2f& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .caffe.Point2f top_left = 1;
+  bool has_top_left() const;
+  void clear_top_left();
+  static const int kTopLeftFieldNumber = 1;
+  const ::caffe::Point2f& top_left() const;
+  ::caffe::Point2f* mutable_top_left();
+  ::caffe::Point2f* release_top_left();
+  void set_allocated_top_left(::caffe::Point2f* top_left);
+
+  // required .caffe.Size2f size = 2;
+  bool has_size() const;
+  void clear_size();
+  static const int kSizeFieldNumber = 2;
+  const ::caffe::Size2f& size() const;
+  ::caffe::Size2f* mutable_size();
+  ::caffe::Size2f* release_size();
+  void set_allocated_size(::caffe::Size2f* size);
+
+  // @@protoc_insertion_point(class_scope:caffe.Rect2f)
+ private:
+  inline void set_has_top_left();
+  inline void clear_has_top_left();
+  inline void set_has_size();
+  inline void clear_has_size();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::caffe::Point2f* top_left_;
+  ::caffe::Size2f* size_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<Rect2f> Rect2f_default_instance_;
+
+// -------------------------------------------------------------------
+
+class Rect2i : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.Rect2i) */ {
+ public:
+  Rect2i();
+  virtual ~Rect2i();
+
+  Rect2i(const Rect2i& from);
+
+  inline Rect2i& operator=(const Rect2i& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Rect2i& default_instance();
+
+  static const Rect2i* internal_default_instance();
+
+  void Swap(Rect2i* other);
+
+  // implements Message ----------------------------------------------
+
+  inline Rect2i* New() const { return New(NULL); }
+
+  Rect2i* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Rect2i& from);
+  void MergeFrom(const Rect2i& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(Rect2i* other);
+  void UnsafeMergeFrom(const Rect2i& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .caffe.Point2i top_left = 1;
+  bool has_top_left() const;
+  void clear_top_left();
+  static const int kTopLeftFieldNumber = 1;
+  const ::caffe::Point2i& top_left() const;
+  ::caffe::Point2i* mutable_top_left();
+  ::caffe::Point2i* release_top_left();
+  void set_allocated_top_left(::caffe::Point2i* top_left);
+
+  // required .caffe.Size2i size = 2;
+  bool has_size() const;
+  void clear_size();
+  static const int kSizeFieldNumber = 2;
+  const ::caffe::Size2i& size() const;
+  ::caffe::Size2i* mutable_size();
+  ::caffe::Size2i* release_size();
+  void set_allocated_size(::caffe::Size2i* size);
+
+  // @@protoc_insertion_point(class_scope:caffe.Rect2i)
+ private:
+  inline void set_has_top_left();
+  inline void clear_has_top_left();
+  inline void set_has_size();
+  inline void clear_has_size();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::caffe::Point2i* top_left_;
+  ::caffe::Size2i* size_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<Rect2i> Rect2i_default_instance_;
+
+// -------------------------------------------------------------------
+
+class ActivationRegionParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.ActivationRegionParameter) */ {
+ public:
+  ActivationRegionParameter();
+  virtual ~ActivationRegionParameter();
+
+  ActivationRegionParameter(const ActivationRegionParameter& from);
+
+  inline ActivationRegionParameter& operator=(const ActivationRegionParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ActivationRegionParameter& default_instance();
+
+  static const ActivationRegionParameter* internal_default_instance();
+
+  void Swap(ActivationRegionParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline ActivationRegionParameter* New() const { return New(NULL); }
+
+  ActivationRegionParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ActivationRegionParameter& from);
+  void MergeFrom(const ActivationRegionParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ActivationRegionParameter* other);
+  void UnsafeMergeFrom(const ActivationRegionParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef ActivationRegionParameter_ActivationMethod ActivationMethod;
+  static const ActivationMethod WHOLE =
+    ActivationRegionParameter_ActivationMethod_WHOLE;
+  static const ActivationMethod ANY =
+    ActivationRegionParameter_ActivationMethod_ANY;
+  static const ActivationMethod CENTER =
+    ActivationRegionParameter_ActivationMethod_CENTER;
+  static inline bool ActivationMethod_IsValid(int value) {
+    return ActivationRegionParameter_ActivationMethod_IsValid(value);
+  }
+  static const ActivationMethod ActivationMethod_MIN =
+    ActivationRegionParameter_ActivationMethod_ActivationMethod_MIN;
+  static const ActivationMethod ActivationMethod_MAX =
+    ActivationRegionParameter_ActivationMethod_ActivationMethod_MAX;
+  static const int ActivationMethod_ARRAYSIZE =
+    ActivationRegionParameter_ActivationMethod_ActivationMethod_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  ActivationMethod_descriptor() {
+    return ActivationRegionParameter_ActivationMethod_descriptor();
+  }
+  static inline const ::std::string& ActivationMethod_Name(ActivationMethod value) {
+    return ActivationRegionParameter_ActivationMethod_Name(value);
+  }
+  static inline bool ActivationMethod_Parse(const ::std::string& name,
+      ActivationMethod* value) {
+    return ActivationRegionParameter_ActivationMethod_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // optional .caffe.ActivationRegionParameter.ActivationMethod method = 1 [default = WHOLE];
+  bool has_method() const;
+  void clear_method();
+  static const int kMethodFieldNumber = 1;
+  ::caffe::ActivationRegionParameter_ActivationMethod method() const;
+  void set_method(::caffe::ActivationRegionParameter_ActivationMethod value);
+
+  // optional .caffe.Rect2i region = 2;
+  bool has_region() const;
+  void clear_region();
+  static const int kRegionFieldNumber = 2;
+  const ::caffe::Rect2i& region() const;
+  ::caffe::Rect2i* mutable_region();
+  ::caffe::Rect2i* release_region();
+  void set_allocated_region(::caffe::Rect2i* region);
+
+  // @@protoc_insertion_point(class_scope:caffe.ActivationRegionParameter)
+ private:
+  inline void set_has_method();
+  inline void clear_has_method();
+  inline void set_has_region();
+  inline void clear_has_region();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::caffe::Rect2i* region_;
+  int method_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<ActivationRegionParameter> ActivationRegionParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class GTMapDataParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.GTMapDataParameter) */ {
+ public:
+  GTMapDataParameter();
+  virtual ~GTMapDataParameter();
+
+  GTMapDataParameter(const GTMapDataParameter& from);
+
+  inline GTMapDataParameter& operator=(const GTMapDataParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GTMapDataParameter& default_instance();
+
+  static const GTMapDataParameter* internal_default_instance();
+
+  void Swap(GTMapDataParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline GTMapDataParameter* New() const { return New(NULL); }
+
+  GTMapDataParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const GTMapDataParameter& from);
+  void MergeFrom(const GTMapDataParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(GTMapDataParameter* other);
+  void UnsafeMergeFrom(const GTMapDataParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .caffe.Size2i receptive_field = 1;
+  bool has_receptive_field() const;
+  void clear_receptive_field();
+  static const int kReceptiveFieldFieldNumber = 1;
+  const ::caffe::Size2i& receptive_field() const;
+  ::caffe::Size2i* mutable_receptive_field();
+  ::caffe::Size2i* release_receptive_field();
+  void set_allocated_receptive_field(::caffe::Size2i* receptive_field);
+
+  // required uint32 horizontal_stride = 2;
+  bool has_horizontal_stride() const;
+  void clear_horizontal_stride();
+  static const int kHorizontalStrideFieldNumber = 2;
+  ::google::protobuf::uint32 horizontal_stride() const;
+  void set_horizontal_stride(::google::protobuf::uint32 value);
+
+  // required uint32 vertical_stride = 3;
+  bool has_vertical_stride() const;
+  void clear_vertical_stride();
+  static const int kVerticalStrideFieldNumber = 3;
+  ::google::protobuf::uint32 vertical_stride() const;
+  void set_vertical_stride(::google::protobuf::uint32 value);
+
+  // optional .caffe.ActivationRegionParameter activation_region_param = 4;
+  bool has_activation_region_param() const;
+  void clear_activation_region_param();
+  static const int kActivationRegionParamFieldNumber = 4;
+  const ::caffe::ActivationRegionParameter& activation_region_param() const;
+  ::caffe::ActivationRegionParameter* mutable_activation_region_param();
+  ::caffe::ActivationRegionParameter* release_activation_region_param();
+  void set_allocated_activation_region_param(::caffe::ActivationRegionParameter* activation_region_param);
+
+  // required bool patch_offset_normalization = 5;
+  bool has_patch_offset_normalization() const;
+  void clear_patch_offset_normalization();
+  static const int kPatchOffsetNormalizationFieldNumber = 5;
+  bool patch_offset_normalization() const;
+  void set_patch_offset_normalization(bool value);
+
+  // required bool bbox_normalization = 6;
+  bool has_bbox_normalization() const;
+  void clear_bbox_normalization();
+  static const int kBboxNormalizationFieldNumber = 6;
+  bool bbox_normalization() const;
+  void set_bbox_normalization(bool value);
+
+  // @@protoc_insertion_point(class_scope:caffe.GTMapDataParameter)
+ private:
+  inline void set_has_receptive_field();
+  inline void clear_has_receptive_field();
+  inline void set_has_horizontal_stride();
+  inline void clear_has_horizontal_stride();
+  inline void set_has_vertical_stride();
+  inline void clear_has_vertical_stride();
+  inline void set_has_activation_region_param();
+  inline void clear_has_activation_region_param();
+  inline void set_has_patch_offset_normalization();
+  inline void clear_has_patch_offset_normalization();
+  inline void set_has_bbox_normalization();
+  inline void clear_has_bbox_normalization();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::caffe::Size2i* receptive_field_;
+  ::caffe::ActivationRegionParameter* activation_region_param_;
+  ::google::protobuf::uint32 horizontal_stride_;
+  ::google::protobuf::uint32 vertical_stride_;
+  bool patch_offset_normalization_;
+  bool bbox_normalization_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<GTMapDataParameter> GTMapDataParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class LabelDiffIgnoreParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.LabelDiffIgnoreParameter) */ {
+ public:
+  LabelDiffIgnoreParameter();
+  virtual ~LabelDiffIgnoreParameter();
+
+  LabelDiffIgnoreParameter(const LabelDiffIgnoreParameter& from);
+
+  inline LabelDiffIgnoreParameter& operator=(const LabelDiffIgnoreParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LabelDiffIgnoreParameter& default_instance();
+
+  static const LabelDiffIgnoreParameter* internal_default_instance();
+
+  void Swap(LabelDiffIgnoreParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline LabelDiffIgnoreParameter* New() const { return New(NULL); }
+
+  LabelDiffIgnoreParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const LabelDiffIgnoreParameter& from);
+  void MergeFrom(const LabelDiffIgnoreParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(LabelDiffIgnoreParameter* other);
+  void UnsafeMergeFrom(const LabelDiffIgnoreParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated uint32 ignore_label = 1;
+  int ignore_label_size() const;
+  void clear_ignore_label();
+  static const int kIgnoreLabelFieldNumber = 1;
+  ::google::protobuf::uint32 ignore_label(int index) const;
+  void set_ignore_label(int index, ::google::protobuf::uint32 value);
+  void add_ignore_label(::google::protobuf::uint32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+      ignore_label() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+      mutable_ignore_label();
+
+  // repeated float ignore_rate = 2;
+  int ignore_rate_size() const;
+  void clear_ignore_rate();
+  static const int kIgnoreRateFieldNumber = 2;
+  float ignore_rate(int index) const;
+  void set_ignore_rate(int index, float value);
+  void add_ignore_rate(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      ignore_rate() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_ignore_rate();
+
+  // @@protoc_insertion_point(class_scope:caffe.LabelDiffIgnoreParameter)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > ignore_label_;
+  ::google::protobuf::RepeatedField< float > ignore_rate_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<LabelDiffIgnoreParameter> LabelDiffIgnoreParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class OffsetParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.OffsetParameter) */ {
+ public:
+  OffsetParameter();
+  virtual ~OffsetParameter();
+
+  OffsetParameter(const OffsetParameter& from);
+
+  inline OffsetParameter& operator=(const OffsetParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const OffsetParameter& default_instance();
+
+  static const OffsetParameter* internal_default_instance();
+
+  void Swap(OffsetParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline OffsetParameter* New() const { return New(NULL); }
+
+  OffsetParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const OffsetParameter& from);
+  void MergeFrom(const OffsetParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(OffsetParameter* other);
+  void UnsafeMergeFrom(const OffsetParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef OffsetParameter_Anchor Anchor;
+  static const Anchor TOP_LEFT =
+    OffsetParameter_Anchor_TOP_LEFT;
+  static const Anchor CENTER =
+    OffsetParameter_Anchor_CENTER;
+  static inline bool Anchor_IsValid(int value) {
+    return OffsetParameter_Anchor_IsValid(value);
+  }
+  static const Anchor Anchor_MIN =
+    OffsetParameter_Anchor_Anchor_MIN;
+  static const Anchor Anchor_MAX =
+    OffsetParameter_Anchor_Anchor_MAX;
+  static const int Anchor_ARRAYSIZE =
+    OffsetParameter_Anchor_Anchor_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Anchor_descriptor() {
+    return OffsetParameter_Anchor_descriptor();
+  }
+  static inline const ::std::string& Anchor_Name(Anchor value) {
+    return OffsetParameter_Anchor_Name(value);
+  }
+  static inline bool Anchor_Parse(const ::std::string& name,
+      Anchor* value) {
+    return OffsetParameter_Anchor_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // optional .caffe.OffsetParameter.Anchor origin = 1 [default = TOP_LEFT];
+  bool has_origin() const;
+  void clear_origin();
+  static const int kOriginFieldNumber = 1;
+  ::caffe::OffsetParameter_Anchor origin() const;
+  void set_origin(::caffe::OffsetParameter_Anchor value);
+
+  // optional .caffe.OffsetParameter.Anchor anchor = 2 [default = TOP_LEFT];
+  bool has_anchor() const;
+  void clear_anchor();
+  static const int kAnchorFieldNumber = 2;
+  ::caffe::OffsetParameter_Anchor anchor() const;
+  void set_anchor(::caffe::OffsetParameter_Anchor value);
+
+  // optional bool normalize = 3 [default = true];
+  bool has_normalize() const;
+  void clear_normalize();
+  static const int kNormalizeFieldNumber = 3;
+  bool normalize() const;
+  void set_normalize(bool value);
+
+  // @@protoc_insertion_point(class_scope:caffe.OffsetParameter)
+ private:
+  inline void set_has_origin();
+  inline void clear_has_origin();
+  inline void set_has_anchor();
+  inline void clear_has_anchor();
+  inline void set_has_normalize();
+  inline void clear_has_normalize();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  bool normalize_;
+  int origin_;
+  int anchor_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<OffsetParameter> OffsetParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class GTSubmapDataParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.GTSubmapDataParameter) */ {
+ public:
+  GTSubmapDataParameter();
+  virtual ~GTSubmapDataParameter();
+
+  GTSubmapDataParameter(const GTSubmapDataParameter& from);
+
+  inline GTSubmapDataParameter& operator=(const GTSubmapDataParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GTSubmapDataParameter& default_instance();
+
+  static const GTSubmapDataParameter* internal_default_instance();
+
+  void Swap(GTSubmapDataParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline GTSubmapDataParameter* New() const { return New(NULL); }
+
+  GTSubmapDataParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const GTSubmapDataParameter& from);
+  void MergeFrom(const GTSubmapDataParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(GTSubmapDataParameter* other);
+  void UnsafeMergeFrom(const GTSubmapDataParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 submap_batch_size = 1;
+  bool has_submap_batch_size() const;
+  void clear_submap_batch_size();
+  static const int kSubmapBatchSizeFieldNumber = 1;
+  ::google::protobuf::uint32 submap_batch_size() const;
+  void set_submap_batch_size(::google::protobuf::uint32 value);
+
+  // required .caffe.Size2i receptive_field = 2;
+  bool has_receptive_field() const;
+  void clear_receptive_field();
+  static const int kReceptiveFieldFieldNumber = 2;
+  const ::caffe::Size2i& receptive_field() const;
+  ::caffe::Size2i* mutable_receptive_field();
+  ::caffe::Size2i* release_receptive_field();
+  void set_allocated_receptive_field(::caffe::Size2i* receptive_field);
+
+  // required uint32 horizontal_stride = 3;
+  bool has_horizontal_stride() const;
+  void clear_horizontal_stride();
+  static const int kHorizontalStrideFieldNumber = 3;
+  ::google::protobuf::uint32 horizontal_stride() const;
+  void set_horizontal_stride(::google::protobuf::uint32 value);
+
+  // required uint32 vertical_stride = 4;
+  bool has_vertical_stride() const;
+  void clear_vertical_stride();
+  static const int kVerticalStrideFieldNumber = 4;
+  ::google::protobuf::uint32 vertical_stride() const;
+  void set_vertical_stride(::google::protobuf::uint32 value);
+
+  // optional .caffe.ActivationRegionParameter activation_region_param = 5;
+  bool has_activation_region_param() const;
+  void clear_activation_region_param();
+  static const int kActivationRegionParamFieldNumber = 5;
+  const ::caffe::ActivationRegionParameter& activation_region_param() const;
+  ::caffe::ActivationRegionParameter* mutable_activation_region_param();
+  ::caffe::ActivationRegionParameter* release_activation_region_param();
+  void set_allocated_activation_region_param(::caffe::ActivationRegionParameter* activation_region_param);
+
+  // optional uint32 num_jitter = 6 [default = 0];
+  bool has_num_jitter() const;
+  void clear_num_jitter();
+  static const int kNumJitterFieldNumber = 6;
+  ::google::protobuf::uint32 num_jitter() const;
+  void set_num_jitter(::google::protobuf::uint32 value);
+
+  // optional bool bbox_normalization = 7 [default = true];
+  bool has_bbox_normalization() const;
+  void clear_bbox_normalization();
+  static const int kBboxNormalizationFieldNumber = 7;
+  bool bbox_normalization() const;
+  void set_bbox_normalization(bool value);
+
+  // required .caffe.OffsetParameter offset_param = 8;
+  bool has_offset_param() const;
+  void clear_offset_param();
+  static const int kOffsetParamFieldNumber = 8;
+  const ::caffe::OffsetParameter& offset_param() const;
+  ::caffe::OffsetParameter* mutable_offset_param();
+  ::caffe::OffsetParameter* release_offset_param();
+  void set_allocated_offset_param(::caffe::OffsetParameter* offset_param);
+
+  // @@protoc_insertion_point(class_scope:caffe.GTSubmapDataParameter)
+ private:
+  inline void set_has_submap_batch_size();
+  inline void clear_has_submap_batch_size();
+  inline void set_has_receptive_field();
+  inline void clear_has_receptive_field();
+  inline void set_has_horizontal_stride();
+  inline void clear_has_horizontal_stride();
+  inline void set_has_vertical_stride();
+  inline void clear_has_vertical_stride();
+  inline void set_has_activation_region_param();
+  inline void clear_has_activation_region_param();
+  inline void set_has_num_jitter();
+  inline void clear_has_num_jitter();
+  inline void set_has_bbox_normalization();
+  inline void clear_has_bbox_normalization();
+  inline void set_has_offset_param();
+  inline void clear_has_offset_param();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::caffe::Size2i* receptive_field_;
+  ::caffe::ActivationRegionParameter* activation_region_param_;
+  ::caffe::OffsetParameter* offset_param_;
+  ::google::protobuf::uint32 submap_batch_size_;
+  ::google::protobuf::uint32 horizontal_stride_;
+  ::google::protobuf::uint32 vertical_stride_;
+  ::google::protobuf::uint32 num_jitter_;
+  bool bbox_normalization_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<GTSubmapDataParameter> GTSubmapDataParameter_default_instance_;
 
 // -------------------------------------------------------------------
 
@@ -5115,6 +6850,51 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::BBoxToGridAndSizeParameter* release_bbox_to_grid_and_size_param();
   void set_allocated_bbox_to_grid_and_size_param(::caffe::BBoxToGridAndSizeParameter* bbox_to_grid_and_size_param);
 
+  // optional .caffe.SizeUnitParameter size_unit_param = 1010;
+  bool has_size_unit_param() const;
+  void clear_size_unit_param();
+  static const int kSizeUnitParamFieldNumber = 1010;
+  const ::caffe::SizeUnitParameter& size_unit_param() const;
+  ::caffe::SizeUnitParameter* mutable_size_unit_param();
+  ::caffe::SizeUnitParameter* release_size_unit_param();
+  void set_allocated_size_unit_param(::caffe::SizeUnitParameter* size_unit_param);
+
+  // optional .caffe.PaddingParameter padding_param = 1011;
+  bool has_padding_param() const;
+  void clear_padding_param();
+  static const int kPaddingParamFieldNumber = 1011;
+  const ::caffe::PaddingParameter& padding_param() const;
+  ::caffe::PaddingParameter* mutable_padding_param();
+  ::caffe::PaddingParameter* release_padding_param();
+  void set_allocated_padding_param(::caffe::PaddingParameter* padding_param);
+
+  // optional .caffe.GTMapDataParameter gt_map_data_param = 1012;
+  bool has_gt_map_data_param() const;
+  void clear_gt_map_data_param();
+  static const int kGtMapDataParamFieldNumber = 1012;
+  const ::caffe::GTMapDataParameter& gt_map_data_param() const;
+  ::caffe::GTMapDataParameter* mutable_gt_map_data_param();
+  ::caffe::GTMapDataParameter* release_gt_map_data_param();
+  void set_allocated_gt_map_data_param(::caffe::GTMapDataParameter* gt_map_data_param);
+
+  // optional .caffe.LabelDiffIgnoreParameter label_diff_ignore_param = 1013;
+  bool has_label_diff_ignore_param() const;
+  void clear_label_diff_ignore_param();
+  static const int kLabelDiffIgnoreParamFieldNumber = 1013;
+  const ::caffe::LabelDiffIgnoreParameter& label_diff_ignore_param() const;
+  ::caffe::LabelDiffIgnoreParameter* mutable_label_diff_ignore_param();
+  ::caffe::LabelDiffIgnoreParameter* release_label_diff_ignore_param();
+  void set_allocated_label_diff_ignore_param(::caffe::LabelDiffIgnoreParameter* label_diff_ignore_param);
+
+  // optional .caffe.GTSubmapDataParameter gt_submap_data_param = 1014;
+  bool has_gt_submap_data_param() const;
+  void clear_gt_submap_data_param();
+  static const int kGtSubmapDataParamFieldNumber = 1014;
+  const ::caffe::GTSubmapDataParameter& gt_submap_data_param() const;
+  ::caffe::GTSubmapDataParameter* mutable_gt_submap_data_param();
+  ::caffe::GTSubmapDataParameter* release_gt_submap_data_param();
+  void set_allocated_gt_submap_data_param(::caffe::GTSubmapDataParameter* gt_submap_data_param);
+
   // @@protoc_insertion_point(class_scope:caffe.LayerParameter)
  private:
   inline void set_has_name();
@@ -5235,6 +7015,16 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_sliding_window_param();
   inline void set_has_bbox_to_grid_and_size_param();
   inline void clear_has_bbox_to_grid_and_size_param();
+  inline void set_has_size_unit_param();
+  inline void clear_has_size_unit_param();
+  inline void set_has_padding_param();
+  inline void clear_has_padding_param();
+  inline void set_has_gt_map_data_param();
+  inline void clear_has_gt_map_data_param();
+  inline void set_has_label_diff_ignore_param();
+  inline void clear_has_label_diff_ignore_param();
+  inline void set_has_gt_submap_data_param();
+  inline void clear_has_gt_submap_data_param();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<3> _has_bits_;
@@ -5305,6 +7095,11 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::BBoxParameter* bbox_param_;
   ::caffe::SlidingWindowInputParameter* sliding_window_param_;
   ::caffe::BBoxToGridAndSizeParameter* bbox_to_grid_and_size_param_;
+  ::caffe::SizeUnitParameter* size_unit_param_;
+  ::caffe::PaddingParameter* padding_param_;
+  ::caffe::GTMapDataParameter* gt_map_data_param_;
+  ::caffe::LabelDiffIgnoreParameter* label_diff_ignore_param_;
+  ::caffe::GTSubmapDataParameter* gt_submap_data_param_;
   int phase_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_2eproto_impl();
@@ -14415,6 +16210,1259 @@ inline const BBoxToGridAndSizeParameter* BBoxToGridAndSizeParameter::internal_de
 }
 // -------------------------------------------------------------------
 
+// SizeUnitParameter
+
+// required float unit = 1;
+inline bool SizeUnitParameter::has_unit() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void SizeUnitParameter::set_has_unit() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void SizeUnitParameter::clear_has_unit() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void SizeUnitParameter::clear_unit() {
+  unit_ = 0;
+  clear_has_unit();
+}
+inline float SizeUnitParameter::unit() const {
+  // @@protoc_insertion_point(field_get:caffe.SizeUnitParameter.unit)
+  return unit_;
+}
+inline void SizeUnitParameter::set_unit(float value) {
+  set_has_unit();
+  unit_ = value;
+  // @@protoc_insertion_point(field_set:caffe.SizeUnitParameter.unit)
+}
+
+inline const SizeUnitParameter* SizeUnitParameter::internal_default_instance() {
+  return &SizeUnitParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// PaddingParameter
+
+// optional .caffe.PaddingParameter.PaddingType type = 1 [default = ZERO];
+inline bool PaddingParameter::has_type() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PaddingParameter::set_has_type() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PaddingParameter::clear_has_type() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PaddingParameter::clear_type() {
+  type_ = 0;
+  clear_has_type();
+}
+inline ::caffe::PaddingParameter_PaddingType PaddingParameter::type() const {
+  // @@protoc_insertion_point(field_get:caffe.PaddingParameter.type)
+  return static_cast< ::caffe::PaddingParameter_PaddingType >(type_);
+}
+inline void PaddingParameter::set_type(::caffe::PaddingParameter_PaddingType value) {
+  assert(::caffe::PaddingParameter_PaddingType_IsValid(value));
+  set_has_type();
+  type_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PaddingParameter.type)
+}
+
+// optional uint32 pad_up = 2 [default = 0];
+inline bool PaddingParameter::has_pad_up() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PaddingParameter::set_has_pad_up() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PaddingParameter::clear_has_pad_up() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PaddingParameter::clear_pad_up() {
+  pad_up_ = 0u;
+  clear_has_pad_up();
+}
+inline ::google::protobuf::uint32 PaddingParameter::pad_up() const {
+  // @@protoc_insertion_point(field_get:caffe.PaddingParameter.pad_up)
+  return pad_up_;
+}
+inline void PaddingParameter::set_pad_up(::google::protobuf::uint32 value) {
+  set_has_pad_up();
+  pad_up_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PaddingParameter.pad_up)
+}
+
+// optional uint32 pad_down = 3 [default = 0];
+inline bool PaddingParameter::has_pad_down() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PaddingParameter::set_has_pad_down() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PaddingParameter::clear_has_pad_down() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PaddingParameter::clear_pad_down() {
+  pad_down_ = 0u;
+  clear_has_pad_down();
+}
+inline ::google::protobuf::uint32 PaddingParameter::pad_down() const {
+  // @@protoc_insertion_point(field_get:caffe.PaddingParameter.pad_down)
+  return pad_down_;
+}
+inline void PaddingParameter::set_pad_down(::google::protobuf::uint32 value) {
+  set_has_pad_down();
+  pad_down_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PaddingParameter.pad_down)
+}
+
+// optional uint32 pad_left = 4 [default = 0];
+inline bool PaddingParameter::has_pad_left() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void PaddingParameter::set_has_pad_left() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void PaddingParameter::clear_has_pad_left() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void PaddingParameter::clear_pad_left() {
+  pad_left_ = 0u;
+  clear_has_pad_left();
+}
+inline ::google::protobuf::uint32 PaddingParameter::pad_left() const {
+  // @@protoc_insertion_point(field_get:caffe.PaddingParameter.pad_left)
+  return pad_left_;
+}
+inline void PaddingParameter::set_pad_left(::google::protobuf::uint32 value) {
+  set_has_pad_left();
+  pad_left_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PaddingParameter.pad_left)
+}
+
+// optional uint32 pad_right = 5 [default = 0];
+inline bool PaddingParameter::has_pad_right() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void PaddingParameter::set_has_pad_right() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void PaddingParameter::clear_has_pad_right() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void PaddingParameter::clear_pad_right() {
+  pad_right_ = 0u;
+  clear_has_pad_right();
+}
+inline ::google::protobuf::uint32 PaddingParameter::pad_right() const {
+  // @@protoc_insertion_point(field_get:caffe.PaddingParameter.pad_right)
+  return pad_right_;
+}
+inline void PaddingParameter::set_pad_right(::google::protobuf::uint32 value) {
+  set_has_pad_right();
+  pad_right_ = value;
+  // @@protoc_insertion_point(field_set:caffe.PaddingParameter.pad_right)
+}
+
+inline const PaddingParameter* PaddingParameter::internal_default_instance() {
+  return &PaddingParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// Point2i
+
+// required int32 x = 1;
+inline bool Point2i::has_x() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Point2i::set_has_x() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Point2i::clear_has_x() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Point2i::clear_x() {
+  x_ = 0;
+  clear_has_x();
+}
+inline ::google::protobuf::int32 Point2i::x() const {
+  // @@protoc_insertion_point(field_get:caffe.Point2i.x)
+  return x_;
+}
+inline void Point2i::set_x(::google::protobuf::int32 value) {
+  set_has_x();
+  x_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Point2i.x)
+}
+
+// required int32 y = 2;
+inline bool Point2i::has_y() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Point2i::set_has_y() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Point2i::clear_has_y() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Point2i::clear_y() {
+  y_ = 0;
+  clear_has_y();
+}
+inline ::google::protobuf::int32 Point2i::y() const {
+  // @@protoc_insertion_point(field_get:caffe.Point2i.y)
+  return y_;
+}
+inline void Point2i::set_y(::google::protobuf::int32 value) {
+  set_has_y();
+  y_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Point2i.y)
+}
+
+inline const Point2i* Point2i::internal_default_instance() {
+  return &Point2i_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// Point2f
+
+// required float x = 1;
+inline bool Point2f::has_x() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Point2f::set_has_x() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Point2f::clear_has_x() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Point2f::clear_x() {
+  x_ = 0;
+  clear_has_x();
+}
+inline float Point2f::x() const {
+  // @@protoc_insertion_point(field_get:caffe.Point2f.x)
+  return x_;
+}
+inline void Point2f::set_x(float value) {
+  set_has_x();
+  x_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Point2f.x)
+}
+
+// required float y = 2;
+inline bool Point2f::has_y() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Point2f::set_has_y() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Point2f::clear_has_y() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Point2f::clear_y() {
+  y_ = 0;
+  clear_has_y();
+}
+inline float Point2f::y() const {
+  // @@protoc_insertion_point(field_get:caffe.Point2f.y)
+  return y_;
+}
+inline void Point2f::set_y(float value) {
+  set_has_y();
+  y_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Point2f.y)
+}
+
+inline const Point2f* Point2f::internal_default_instance() {
+  return &Point2f_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// Size2i
+
+// required uint32 width = 1;
+inline bool Size2i::has_width() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Size2i::set_has_width() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Size2i::clear_has_width() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Size2i::clear_width() {
+  width_ = 0u;
+  clear_has_width();
+}
+inline ::google::protobuf::uint32 Size2i::width() const {
+  // @@protoc_insertion_point(field_get:caffe.Size2i.width)
+  return width_;
+}
+inline void Size2i::set_width(::google::protobuf::uint32 value) {
+  set_has_width();
+  width_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Size2i.width)
+}
+
+// required uint32 height = 2;
+inline bool Size2i::has_height() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Size2i::set_has_height() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Size2i::clear_has_height() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Size2i::clear_height() {
+  height_ = 0u;
+  clear_has_height();
+}
+inline ::google::protobuf::uint32 Size2i::height() const {
+  // @@protoc_insertion_point(field_get:caffe.Size2i.height)
+  return height_;
+}
+inline void Size2i::set_height(::google::protobuf::uint32 value) {
+  set_has_height();
+  height_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Size2i.height)
+}
+
+inline const Size2i* Size2i::internal_default_instance() {
+  return &Size2i_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// Size2f
+
+// required float width = 1;
+inline bool Size2f::has_width() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Size2f::set_has_width() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Size2f::clear_has_width() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Size2f::clear_width() {
+  width_ = 0;
+  clear_has_width();
+}
+inline float Size2f::width() const {
+  // @@protoc_insertion_point(field_get:caffe.Size2f.width)
+  return width_;
+}
+inline void Size2f::set_width(float value) {
+  set_has_width();
+  width_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Size2f.width)
+}
+
+// required float height = 2;
+inline bool Size2f::has_height() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Size2f::set_has_height() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Size2f::clear_has_height() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Size2f::clear_height() {
+  height_ = 0;
+  clear_has_height();
+}
+inline float Size2f::height() const {
+  // @@protoc_insertion_point(field_get:caffe.Size2f.height)
+  return height_;
+}
+inline void Size2f::set_height(float value) {
+  set_has_height();
+  height_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Size2f.height)
+}
+
+inline const Size2f* Size2f::internal_default_instance() {
+  return &Size2f_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// Rect2f
+
+// required .caffe.Point2f top_left = 1;
+inline bool Rect2f::has_top_left() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Rect2f::set_has_top_left() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Rect2f::clear_has_top_left() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Rect2f::clear_top_left() {
+  if (top_left_ != NULL) top_left_->::caffe::Point2f::Clear();
+  clear_has_top_left();
+}
+inline const ::caffe::Point2f& Rect2f::top_left() const {
+  // @@protoc_insertion_point(field_get:caffe.Rect2f.top_left)
+  return top_left_ != NULL ? *top_left_
+                         : *::caffe::Point2f::internal_default_instance();
+}
+inline ::caffe::Point2f* Rect2f::mutable_top_left() {
+  set_has_top_left();
+  if (top_left_ == NULL) {
+    top_left_ = new ::caffe::Point2f;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.Rect2f.top_left)
+  return top_left_;
+}
+inline ::caffe::Point2f* Rect2f::release_top_left() {
+  // @@protoc_insertion_point(field_release:caffe.Rect2f.top_left)
+  clear_has_top_left();
+  ::caffe::Point2f* temp = top_left_;
+  top_left_ = NULL;
+  return temp;
+}
+inline void Rect2f::set_allocated_top_left(::caffe::Point2f* top_left) {
+  delete top_left_;
+  top_left_ = top_left;
+  if (top_left) {
+    set_has_top_left();
+  } else {
+    clear_has_top_left();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.Rect2f.top_left)
+}
+
+// required .caffe.Size2f size = 2;
+inline bool Rect2f::has_size() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Rect2f::set_has_size() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Rect2f::clear_has_size() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Rect2f::clear_size() {
+  if (size_ != NULL) size_->::caffe::Size2f::Clear();
+  clear_has_size();
+}
+inline const ::caffe::Size2f& Rect2f::size() const {
+  // @@protoc_insertion_point(field_get:caffe.Rect2f.size)
+  return size_ != NULL ? *size_
+                         : *::caffe::Size2f::internal_default_instance();
+}
+inline ::caffe::Size2f* Rect2f::mutable_size() {
+  set_has_size();
+  if (size_ == NULL) {
+    size_ = new ::caffe::Size2f;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.Rect2f.size)
+  return size_;
+}
+inline ::caffe::Size2f* Rect2f::release_size() {
+  // @@protoc_insertion_point(field_release:caffe.Rect2f.size)
+  clear_has_size();
+  ::caffe::Size2f* temp = size_;
+  size_ = NULL;
+  return temp;
+}
+inline void Rect2f::set_allocated_size(::caffe::Size2f* size) {
+  delete size_;
+  size_ = size;
+  if (size) {
+    set_has_size();
+  } else {
+    clear_has_size();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.Rect2f.size)
+}
+
+inline const Rect2f* Rect2f::internal_default_instance() {
+  return &Rect2f_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// Rect2i
+
+// required .caffe.Point2i top_left = 1;
+inline bool Rect2i::has_top_left() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Rect2i::set_has_top_left() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Rect2i::clear_has_top_left() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Rect2i::clear_top_left() {
+  if (top_left_ != NULL) top_left_->::caffe::Point2i::Clear();
+  clear_has_top_left();
+}
+inline const ::caffe::Point2i& Rect2i::top_left() const {
+  // @@protoc_insertion_point(field_get:caffe.Rect2i.top_left)
+  return top_left_ != NULL ? *top_left_
+                         : *::caffe::Point2i::internal_default_instance();
+}
+inline ::caffe::Point2i* Rect2i::mutable_top_left() {
+  set_has_top_left();
+  if (top_left_ == NULL) {
+    top_left_ = new ::caffe::Point2i;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.Rect2i.top_left)
+  return top_left_;
+}
+inline ::caffe::Point2i* Rect2i::release_top_left() {
+  // @@protoc_insertion_point(field_release:caffe.Rect2i.top_left)
+  clear_has_top_left();
+  ::caffe::Point2i* temp = top_left_;
+  top_left_ = NULL;
+  return temp;
+}
+inline void Rect2i::set_allocated_top_left(::caffe::Point2i* top_left) {
+  delete top_left_;
+  top_left_ = top_left;
+  if (top_left) {
+    set_has_top_left();
+  } else {
+    clear_has_top_left();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.Rect2i.top_left)
+}
+
+// required .caffe.Size2i size = 2;
+inline bool Rect2i::has_size() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Rect2i::set_has_size() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Rect2i::clear_has_size() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Rect2i::clear_size() {
+  if (size_ != NULL) size_->::caffe::Size2i::Clear();
+  clear_has_size();
+}
+inline const ::caffe::Size2i& Rect2i::size() const {
+  // @@protoc_insertion_point(field_get:caffe.Rect2i.size)
+  return size_ != NULL ? *size_
+                         : *::caffe::Size2i::internal_default_instance();
+}
+inline ::caffe::Size2i* Rect2i::mutable_size() {
+  set_has_size();
+  if (size_ == NULL) {
+    size_ = new ::caffe::Size2i;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.Rect2i.size)
+  return size_;
+}
+inline ::caffe::Size2i* Rect2i::release_size() {
+  // @@protoc_insertion_point(field_release:caffe.Rect2i.size)
+  clear_has_size();
+  ::caffe::Size2i* temp = size_;
+  size_ = NULL;
+  return temp;
+}
+inline void Rect2i::set_allocated_size(::caffe::Size2i* size) {
+  delete size_;
+  size_ = size;
+  if (size) {
+    set_has_size();
+  } else {
+    clear_has_size();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.Rect2i.size)
+}
+
+inline const Rect2i* Rect2i::internal_default_instance() {
+  return &Rect2i_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// ActivationRegionParameter
+
+// optional .caffe.ActivationRegionParameter.ActivationMethod method = 1 [default = WHOLE];
+inline bool ActivationRegionParameter::has_method() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ActivationRegionParameter::set_has_method() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ActivationRegionParameter::clear_has_method() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ActivationRegionParameter::clear_method() {
+  method_ = 1;
+  clear_has_method();
+}
+inline ::caffe::ActivationRegionParameter_ActivationMethod ActivationRegionParameter::method() const {
+  // @@protoc_insertion_point(field_get:caffe.ActivationRegionParameter.method)
+  return static_cast< ::caffe::ActivationRegionParameter_ActivationMethod >(method_);
+}
+inline void ActivationRegionParameter::set_method(::caffe::ActivationRegionParameter_ActivationMethod value) {
+  assert(::caffe::ActivationRegionParameter_ActivationMethod_IsValid(value));
+  set_has_method();
+  method_ = value;
+  // @@protoc_insertion_point(field_set:caffe.ActivationRegionParameter.method)
+}
+
+// optional .caffe.Rect2i region = 2;
+inline bool ActivationRegionParameter::has_region() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void ActivationRegionParameter::set_has_region() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void ActivationRegionParameter::clear_has_region() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void ActivationRegionParameter::clear_region() {
+  if (region_ != NULL) region_->::caffe::Rect2i::Clear();
+  clear_has_region();
+}
+inline const ::caffe::Rect2i& ActivationRegionParameter::region() const {
+  // @@protoc_insertion_point(field_get:caffe.ActivationRegionParameter.region)
+  return region_ != NULL ? *region_
+                         : *::caffe::Rect2i::internal_default_instance();
+}
+inline ::caffe::Rect2i* ActivationRegionParameter::mutable_region() {
+  set_has_region();
+  if (region_ == NULL) {
+    region_ = new ::caffe::Rect2i;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.ActivationRegionParameter.region)
+  return region_;
+}
+inline ::caffe::Rect2i* ActivationRegionParameter::release_region() {
+  // @@protoc_insertion_point(field_release:caffe.ActivationRegionParameter.region)
+  clear_has_region();
+  ::caffe::Rect2i* temp = region_;
+  region_ = NULL;
+  return temp;
+}
+inline void ActivationRegionParameter::set_allocated_region(::caffe::Rect2i* region) {
+  delete region_;
+  region_ = region;
+  if (region) {
+    set_has_region();
+  } else {
+    clear_has_region();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.ActivationRegionParameter.region)
+}
+
+inline const ActivationRegionParameter* ActivationRegionParameter::internal_default_instance() {
+  return &ActivationRegionParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// GTMapDataParameter
+
+// required .caffe.Size2i receptive_field = 1;
+inline bool GTMapDataParameter::has_receptive_field() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GTMapDataParameter::set_has_receptive_field() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GTMapDataParameter::clear_has_receptive_field() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GTMapDataParameter::clear_receptive_field() {
+  if (receptive_field_ != NULL) receptive_field_->::caffe::Size2i::Clear();
+  clear_has_receptive_field();
+}
+inline const ::caffe::Size2i& GTMapDataParameter::receptive_field() const {
+  // @@protoc_insertion_point(field_get:caffe.GTMapDataParameter.receptive_field)
+  return receptive_field_ != NULL ? *receptive_field_
+                         : *::caffe::Size2i::internal_default_instance();
+}
+inline ::caffe::Size2i* GTMapDataParameter::mutable_receptive_field() {
+  set_has_receptive_field();
+  if (receptive_field_ == NULL) {
+    receptive_field_ = new ::caffe::Size2i;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.GTMapDataParameter.receptive_field)
+  return receptive_field_;
+}
+inline ::caffe::Size2i* GTMapDataParameter::release_receptive_field() {
+  // @@protoc_insertion_point(field_release:caffe.GTMapDataParameter.receptive_field)
+  clear_has_receptive_field();
+  ::caffe::Size2i* temp = receptive_field_;
+  receptive_field_ = NULL;
+  return temp;
+}
+inline void GTMapDataParameter::set_allocated_receptive_field(::caffe::Size2i* receptive_field) {
+  delete receptive_field_;
+  receptive_field_ = receptive_field;
+  if (receptive_field) {
+    set_has_receptive_field();
+  } else {
+    clear_has_receptive_field();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.GTMapDataParameter.receptive_field)
+}
+
+// required uint32 horizontal_stride = 2;
+inline bool GTMapDataParameter::has_horizontal_stride() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GTMapDataParameter::set_has_horizontal_stride() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GTMapDataParameter::clear_has_horizontal_stride() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GTMapDataParameter::clear_horizontal_stride() {
+  horizontal_stride_ = 0u;
+  clear_has_horizontal_stride();
+}
+inline ::google::protobuf::uint32 GTMapDataParameter::horizontal_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.GTMapDataParameter.horizontal_stride)
+  return horizontal_stride_;
+}
+inline void GTMapDataParameter::set_horizontal_stride(::google::protobuf::uint32 value) {
+  set_has_horizontal_stride();
+  horizontal_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.GTMapDataParameter.horizontal_stride)
+}
+
+// required uint32 vertical_stride = 3;
+inline bool GTMapDataParameter::has_vertical_stride() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void GTMapDataParameter::set_has_vertical_stride() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void GTMapDataParameter::clear_has_vertical_stride() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void GTMapDataParameter::clear_vertical_stride() {
+  vertical_stride_ = 0u;
+  clear_has_vertical_stride();
+}
+inline ::google::protobuf::uint32 GTMapDataParameter::vertical_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.GTMapDataParameter.vertical_stride)
+  return vertical_stride_;
+}
+inline void GTMapDataParameter::set_vertical_stride(::google::protobuf::uint32 value) {
+  set_has_vertical_stride();
+  vertical_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.GTMapDataParameter.vertical_stride)
+}
+
+// optional .caffe.ActivationRegionParameter activation_region_param = 4;
+inline bool GTMapDataParameter::has_activation_region_param() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void GTMapDataParameter::set_has_activation_region_param() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void GTMapDataParameter::clear_has_activation_region_param() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void GTMapDataParameter::clear_activation_region_param() {
+  if (activation_region_param_ != NULL) activation_region_param_->::caffe::ActivationRegionParameter::Clear();
+  clear_has_activation_region_param();
+}
+inline const ::caffe::ActivationRegionParameter& GTMapDataParameter::activation_region_param() const {
+  // @@protoc_insertion_point(field_get:caffe.GTMapDataParameter.activation_region_param)
+  return activation_region_param_ != NULL ? *activation_region_param_
+                         : *::caffe::ActivationRegionParameter::internal_default_instance();
+}
+inline ::caffe::ActivationRegionParameter* GTMapDataParameter::mutable_activation_region_param() {
+  set_has_activation_region_param();
+  if (activation_region_param_ == NULL) {
+    activation_region_param_ = new ::caffe::ActivationRegionParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.GTMapDataParameter.activation_region_param)
+  return activation_region_param_;
+}
+inline ::caffe::ActivationRegionParameter* GTMapDataParameter::release_activation_region_param() {
+  // @@protoc_insertion_point(field_release:caffe.GTMapDataParameter.activation_region_param)
+  clear_has_activation_region_param();
+  ::caffe::ActivationRegionParameter* temp = activation_region_param_;
+  activation_region_param_ = NULL;
+  return temp;
+}
+inline void GTMapDataParameter::set_allocated_activation_region_param(::caffe::ActivationRegionParameter* activation_region_param) {
+  delete activation_region_param_;
+  activation_region_param_ = activation_region_param;
+  if (activation_region_param) {
+    set_has_activation_region_param();
+  } else {
+    clear_has_activation_region_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.GTMapDataParameter.activation_region_param)
+}
+
+// required bool patch_offset_normalization = 5;
+inline bool GTMapDataParameter::has_patch_offset_normalization() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void GTMapDataParameter::set_has_patch_offset_normalization() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void GTMapDataParameter::clear_has_patch_offset_normalization() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void GTMapDataParameter::clear_patch_offset_normalization() {
+  patch_offset_normalization_ = false;
+  clear_has_patch_offset_normalization();
+}
+inline bool GTMapDataParameter::patch_offset_normalization() const {
+  // @@protoc_insertion_point(field_get:caffe.GTMapDataParameter.patch_offset_normalization)
+  return patch_offset_normalization_;
+}
+inline void GTMapDataParameter::set_patch_offset_normalization(bool value) {
+  set_has_patch_offset_normalization();
+  patch_offset_normalization_ = value;
+  // @@protoc_insertion_point(field_set:caffe.GTMapDataParameter.patch_offset_normalization)
+}
+
+// required bool bbox_normalization = 6;
+inline bool GTMapDataParameter::has_bbox_normalization() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void GTMapDataParameter::set_has_bbox_normalization() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void GTMapDataParameter::clear_has_bbox_normalization() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void GTMapDataParameter::clear_bbox_normalization() {
+  bbox_normalization_ = false;
+  clear_has_bbox_normalization();
+}
+inline bool GTMapDataParameter::bbox_normalization() const {
+  // @@protoc_insertion_point(field_get:caffe.GTMapDataParameter.bbox_normalization)
+  return bbox_normalization_;
+}
+inline void GTMapDataParameter::set_bbox_normalization(bool value) {
+  set_has_bbox_normalization();
+  bbox_normalization_ = value;
+  // @@protoc_insertion_point(field_set:caffe.GTMapDataParameter.bbox_normalization)
+}
+
+inline const GTMapDataParameter* GTMapDataParameter::internal_default_instance() {
+  return &GTMapDataParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// LabelDiffIgnoreParameter
+
+// repeated uint32 ignore_label = 1;
+inline int LabelDiffIgnoreParameter::ignore_label_size() const {
+  return ignore_label_.size();
+}
+inline void LabelDiffIgnoreParameter::clear_ignore_label() {
+  ignore_label_.Clear();
+}
+inline ::google::protobuf::uint32 LabelDiffIgnoreParameter::ignore_label(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.LabelDiffIgnoreParameter.ignore_label)
+  return ignore_label_.Get(index);
+}
+inline void LabelDiffIgnoreParameter::set_ignore_label(int index, ::google::protobuf::uint32 value) {
+  ignore_label_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.LabelDiffIgnoreParameter.ignore_label)
+}
+inline void LabelDiffIgnoreParameter::add_ignore_label(::google::protobuf::uint32 value) {
+  ignore_label_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.LabelDiffIgnoreParameter.ignore_label)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+LabelDiffIgnoreParameter::ignore_label() const {
+  // @@protoc_insertion_point(field_list:caffe.LabelDiffIgnoreParameter.ignore_label)
+  return ignore_label_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+LabelDiffIgnoreParameter::mutable_ignore_label() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.LabelDiffIgnoreParameter.ignore_label)
+  return &ignore_label_;
+}
+
+// repeated float ignore_rate = 2;
+inline int LabelDiffIgnoreParameter::ignore_rate_size() const {
+  return ignore_rate_.size();
+}
+inline void LabelDiffIgnoreParameter::clear_ignore_rate() {
+  ignore_rate_.Clear();
+}
+inline float LabelDiffIgnoreParameter::ignore_rate(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.LabelDiffIgnoreParameter.ignore_rate)
+  return ignore_rate_.Get(index);
+}
+inline void LabelDiffIgnoreParameter::set_ignore_rate(int index, float value) {
+  ignore_rate_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.LabelDiffIgnoreParameter.ignore_rate)
+}
+inline void LabelDiffIgnoreParameter::add_ignore_rate(float value) {
+  ignore_rate_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.LabelDiffIgnoreParameter.ignore_rate)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+LabelDiffIgnoreParameter::ignore_rate() const {
+  // @@protoc_insertion_point(field_list:caffe.LabelDiffIgnoreParameter.ignore_rate)
+  return ignore_rate_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+LabelDiffIgnoreParameter::mutable_ignore_rate() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.LabelDiffIgnoreParameter.ignore_rate)
+  return &ignore_rate_;
+}
+
+inline const LabelDiffIgnoreParameter* LabelDiffIgnoreParameter::internal_default_instance() {
+  return &LabelDiffIgnoreParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// OffsetParameter
+
+// optional .caffe.OffsetParameter.Anchor origin = 1 [default = TOP_LEFT];
+inline bool OffsetParameter::has_origin() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void OffsetParameter::set_has_origin() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void OffsetParameter::clear_has_origin() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void OffsetParameter::clear_origin() {
+  origin_ = 1;
+  clear_has_origin();
+}
+inline ::caffe::OffsetParameter_Anchor OffsetParameter::origin() const {
+  // @@protoc_insertion_point(field_get:caffe.OffsetParameter.origin)
+  return static_cast< ::caffe::OffsetParameter_Anchor >(origin_);
+}
+inline void OffsetParameter::set_origin(::caffe::OffsetParameter_Anchor value) {
+  assert(::caffe::OffsetParameter_Anchor_IsValid(value));
+  set_has_origin();
+  origin_ = value;
+  // @@protoc_insertion_point(field_set:caffe.OffsetParameter.origin)
+}
+
+// optional .caffe.OffsetParameter.Anchor anchor = 2 [default = TOP_LEFT];
+inline bool OffsetParameter::has_anchor() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void OffsetParameter::set_has_anchor() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void OffsetParameter::clear_has_anchor() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void OffsetParameter::clear_anchor() {
+  anchor_ = 1;
+  clear_has_anchor();
+}
+inline ::caffe::OffsetParameter_Anchor OffsetParameter::anchor() const {
+  // @@protoc_insertion_point(field_get:caffe.OffsetParameter.anchor)
+  return static_cast< ::caffe::OffsetParameter_Anchor >(anchor_);
+}
+inline void OffsetParameter::set_anchor(::caffe::OffsetParameter_Anchor value) {
+  assert(::caffe::OffsetParameter_Anchor_IsValid(value));
+  set_has_anchor();
+  anchor_ = value;
+  // @@protoc_insertion_point(field_set:caffe.OffsetParameter.anchor)
+}
+
+// optional bool normalize = 3 [default = true];
+inline bool OffsetParameter::has_normalize() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void OffsetParameter::set_has_normalize() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void OffsetParameter::clear_has_normalize() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void OffsetParameter::clear_normalize() {
+  normalize_ = true;
+  clear_has_normalize();
+}
+inline bool OffsetParameter::normalize() const {
+  // @@protoc_insertion_point(field_get:caffe.OffsetParameter.normalize)
+  return normalize_;
+}
+inline void OffsetParameter::set_normalize(bool value) {
+  set_has_normalize();
+  normalize_ = value;
+  // @@protoc_insertion_point(field_set:caffe.OffsetParameter.normalize)
+}
+
+inline const OffsetParameter* OffsetParameter::internal_default_instance() {
+  return &OffsetParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// GTSubmapDataParameter
+
+// required uint32 submap_batch_size = 1;
+inline bool GTSubmapDataParameter::has_submap_batch_size() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GTSubmapDataParameter::set_has_submap_batch_size() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GTSubmapDataParameter::clear_has_submap_batch_size() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GTSubmapDataParameter::clear_submap_batch_size() {
+  submap_batch_size_ = 0u;
+  clear_has_submap_batch_size();
+}
+inline ::google::protobuf::uint32 GTSubmapDataParameter::submap_batch_size() const {
+  // @@protoc_insertion_point(field_get:caffe.GTSubmapDataParameter.submap_batch_size)
+  return submap_batch_size_;
+}
+inline void GTSubmapDataParameter::set_submap_batch_size(::google::protobuf::uint32 value) {
+  set_has_submap_batch_size();
+  submap_batch_size_ = value;
+  // @@protoc_insertion_point(field_set:caffe.GTSubmapDataParameter.submap_batch_size)
+}
+
+// required .caffe.Size2i receptive_field = 2;
+inline bool GTSubmapDataParameter::has_receptive_field() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GTSubmapDataParameter::set_has_receptive_field() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GTSubmapDataParameter::clear_has_receptive_field() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GTSubmapDataParameter::clear_receptive_field() {
+  if (receptive_field_ != NULL) receptive_field_->::caffe::Size2i::Clear();
+  clear_has_receptive_field();
+}
+inline const ::caffe::Size2i& GTSubmapDataParameter::receptive_field() const {
+  // @@protoc_insertion_point(field_get:caffe.GTSubmapDataParameter.receptive_field)
+  return receptive_field_ != NULL ? *receptive_field_
+                         : *::caffe::Size2i::internal_default_instance();
+}
+inline ::caffe::Size2i* GTSubmapDataParameter::mutable_receptive_field() {
+  set_has_receptive_field();
+  if (receptive_field_ == NULL) {
+    receptive_field_ = new ::caffe::Size2i;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.GTSubmapDataParameter.receptive_field)
+  return receptive_field_;
+}
+inline ::caffe::Size2i* GTSubmapDataParameter::release_receptive_field() {
+  // @@protoc_insertion_point(field_release:caffe.GTSubmapDataParameter.receptive_field)
+  clear_has_receptive_field();
+  ::caffe::Size2i* temp = receptive_field_;
+  receptive_field_ = NULL;
+  return temp;
+}
+inline void GTSubmapDataParameter::set_allocated_receptive_field(::caffe::Size2i* receptive_field) {
+  delete receptive_field_;
+  receptive_field_ = receptive_field;
+  if (receptive_field) {
+    set_has_receptive_field();
+  } else {
+    clear_has_receptive_field();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.GTSubmapDataParameter.receptive_field)
+}
+
+// required uint32 horizontal_stride = 3;
+inline bool GTSubmapDataParameter::has_horizontal_stride() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void GTSubmapDataParameter::set_has_horizontal_stride() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void GTSubmapDataParameter::clear_has_horizontal_stride() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void GTSubmapDataParameter::clear_horizontal_stride() {
+  horizontal_stride_ = 0u;
+  clear_has_horizontal_stride();
+}
+inline ::google::protobuf::uint32 GTSubmapDataParameter::horizontal_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.GTSubmapDataParameter.horizontal_stride)
+  return horizontal_stride_;
+}
+inline void GTSubmapDataParameter::set_horizontal_stride(::google::protobuf::uint32 value) {
+  set_has_horizontal_stride();
+  horizontal_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.GTSubmapDataParameter.horizontal_stride)
+}
+
+// required uint32 vertical_stride = 4;
+inline bool GTSubmapDataParameter::has_vertical_stride() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void GTSubmapDataParameter::set_has_vertical_stride() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void GTSubmapDataParameter::clear_has_vertical_stride() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void GTSubmapDataParameter::clear_vertical_stride() {
+  vertical_stride_ = 0u;
+  clear_has_vertical_stride();
+}
+inline ::google::protobuf::uint32 GTSubmapDataParameter::vertical_stride() const {
+  // @@protoc_insertion_point(field_get:caffe.GTSubmapDataParameter.vertical_stride)
+  return vertical_stride_;
+}
+inline void GTSubmapDataParameter::set_vertical_stride(::google::protobuf::uint32 value) {
+  set_has_vertical_stride();
+  vertical_stride_ = value;
+  // @@protoc_insertion_point(field_set:caffe.GTSubmapDataParameter.vertical_stride)
+}
+
+// optional .caffe.ActivationRegionParameter activation_region_param = 5;
+inline bool GTSubmapDataParameter::has_activation_region_param() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void GTSubmapDataParameter::set_has_activation_region_param() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void GTSubmapDataParameter::clear_has_activation_region_param() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void GTSubmapDataParameter::clear_activation_region_param() {
+  if (activation_region_param_ != NULL) activation_region_param_->::caffe::ActivationRegionParameter::Clear();
+  clear_has_activation_region_param();
+}
+inline const ::caffe::ActivationRegionParameter& GTSubmapDataParameter::activation_region_param() const {
+  // @@protoc_insertion_point(field_get:caffe.GTSubmapDataParameter.activation_region_param)
+  return activation_region_param_ != NULL ? *activation_region_param_
+                         : *::caffe::ActivationRegionParameter::internal_default_instance();
+}
+inline ::caffe::ActivationRegionParameter* GTSubmapDataParameter::mutable_activation_region_param() {
+  set_has_activation_region_param();
+  if (activation_region_param_ == NULL) {
+    activation_region_param_ = new ::caffe::ActivationRegionParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.GTSubmapDataParameter.activation_region_param)
+  return activation_region_param_;
+}
+inline ::caffe::ActivationRegionParameter* GTSubmapDataParameter::release_activation_region_param() {
+  // @@protoc_insertion_point(field_release:caffe.GTSubmapDataParameter.activation_region_param)
+  clear_has_activation_region_param();
+  ::caffe::ActivationRegionParameter* temp = activation_region_param_;
+  activation_region_param_ = NULL;
+  return temp;
+}
+inline void GTSubmapDataParameter::set_allocated_activation_region_param(::caffe::ActivationRegionParameter* activation_region_param) {
+  delete activation_region_param_;
+  activation_region_param_ = activation_region_param;
+  if (activation_region_param) {
+    set_has_activation_region_param();
+  } else {
+    clear_has_activation_region_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.GTSubmapDataParameter.activation_region_param)
+}
+
+// optional uint32 num_jitter = 6 [default = 0];
+inline bool GTSubmapDataParameter::has_num_jitter() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void GTSubmapDataParameter::set_has_num_jitter() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void GTSubmapDataParameter::clear_has_num_jitter() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void GTSubmapDataParameter::clear_num_jitter() {
+  num_jitter_ = 0u;
+  clear_has_num_jitter();
+}
+inline ::google::protobuf::uint32 GTSubmapDataParameter::num_jitter() const {
+  // @@protoc_insertion_point(field_get:caffe.GTSubmapDataParameter.num_jitter)
+  return num_jitter_;
+}
+inline void GTSubmapDataParameter::set_num_jitter(::google::protobuf::uint32 value) {
+  set_has_num_jitter();
+  num_jitter_ = value;
+  // @@protoc_insertion_point(field_set:caffe.GTSubmapDataParameter.num_jitter)
+}
+
+// optional bool bbox_normalization = 7 [default = true];
+inline bool GTSubmapDataParameter::has_bbox_normalization() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void GTSubmapDataParameter::set_has_bbox_normalization() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void GTSubmapDataParameter::clear_has_bbox_normalization() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void GTSubmapDataParameter::clear_bbox_normalization() {
+  bbox_normalization_ = true;
+  clear_has_bbox_normalization();
+}
+inline bool GTSubmapDataParameter::bbox_normalization() const {
+  // @@protoc_insertion_point(field_get:caffe.GTSubmapDataParameter.bbox_normalization)
+  return bbox_normalization_;
+}
+inline void GTSubmapDataParameter::set_bbox_normalization(bool value) {
+  set_has_bbox_normalization();
+  bbox_normalization_ = value;
+  // @@protoc_insertion_point(field_set:caffe.GTSubmapDataParameter.bbox_normalization)
+}
+
+// required .caffe.OffsetParameter offset_param = 8;
+inline bool GTSubmapDataParameter::has_offset_param() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void GTSubmapDataParameter::set_has_offset_param() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void GTSubmapDataParameter::clear_has_offset_param() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void GTSubmapDataParameter::clear_offset_param() {
+  if (offset_param_ != NULL) offset_param_->::caffe::OffsetParameter::Clear();
+  clear_has_offset_param();
+}
+inline const ::caffe::OffsetParameter& GTSubmapDataParameter::offset_param() const {
+  // @@protoc_insertion_point(field_get:caffe.GTSubmapDataParameter.offset_param)
+  return offset_param_ != NULL ? *offset_param_
+                         : *::caffe::OffsetParameter::internal_default_instance();
+}
+inline ::caffe::OffsetParameter* GTSubmapDataParameter::mutable_offset_param() {
+  set_has_offset_param();
+  if (offset_param_ == NULL) {
+    offset_param_ = new ::caffe::OffsetParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.GTSubmapDataParameter.offset_param)
+  return offset_param_;
+}
+inline ::caffe::OffsetParameter* GTSubmapDataParameter::release_offset_param() {
+  // @@protoc_insertion_point(field_release:caffe.GTSubmapDataParameter.offset_param)
+  clear_has_offset_param();
+  ::caffe::OffsetParameter* temp = offset_param_;
+  offset_param_ = NULL;
+  return temp;
+}
+inline void GTSubmapDataParameter::set_allocated_offset_param(::caffe::OffsetParameter* offset_param) {
+  delete offset_param_;
+  offset_param_ = offset_param;
+  if (offset_param) {
+    set_has_offset_param();
+  } else {
+    clear_has_offset_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.GTSubmapDataParameter.offset_param)
+}
+
+inline const GTSubmapDataParameter* GTSubmapDataParameter::internal_default_instance() {
+  return &GTSubmapDataParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
 // BlobShape
 
 // repeated int64 dim = 1 [packed = true];
@@ -20336,6 +23384,231 @@ inline void LayerParameter::set_allocated_bbox_to_grid_and_size_param(::caffe::B
     clear_has_bbox_to_grid_and_size_param();
   }
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.bbox_to_grid_and_size_param)
+}
+
+// optional .caffe.SizeUnitParameter size_unit_param = 1010;
+inline bool LayerParameter::has_size_unit_param() const {
+  return (_has_bits_[2] & 0x00000008u) != 0;
+}
+inline void LayerParameter::set_has_size_unit_param() {
+  _has_bits_[2] |= 0x00000008u;
+}
+inline void LayerParameter::clear_has_size_unit_param() {
+  _has_bits_[2] &= ~0x00000008u;
+}
+inline void LayerParameter::clear_size_unit_param() {
+  if (size_unit_param_ != NULL) size_unit_param_->::caffe::SizeUnitParameter::Clear();
+  clear_has_size_unit_param();
+}
+inline const ::caffe::SizeUnitParameter& LayerParameter::size_unit_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.size_unit_param)
+  return size_unit_param_ != NULL ? *size_unit_param_
+                         : *::caffe::SizeUnitParameter::internal_default_instance();
+}
+inline ::caffe::SizeUnitParameter* LayerParameter::mutable_size_unit_param() {
+  set_has_size_unit_param();
+  if (size_unit_param_ == NULL) {
+    size_unit_param_ = new ::caffe::SizeUnitParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.size_unit_param)
+  return size_unit_param_;
+}
+inline ::caffe::SizeUnitParameter* LayerParameter::release_size_unit_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.size_unit_param)
+  clear_has_size_unit_param();
+  ::caffe::SizeUnitParameter* temp = size_unit_param_;
+  size_unit_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_size_unit_param(::caffe::SizeUnitParameter* size_unit_param) {
+  delete size_unit_param_;
+  size_unit_param_ = size_unit_param;
+  if (size_unit_param) {
+    set_has_size_unit_param();
+  } else {
+    clear_has_size_unit_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.size_unit_param)
+}
+
+// optional .caffe.PaddingParameter padding_param = 1011;
+inline bool LayerParameter::has_padding_param() const {
+  return (_has_bits_[2] & 0x00000010u) != 0;
+}
+inline void LayerParameter::set_has_padding_param() {
+  _has_bits_[2] |= 0x00000010u;
+}
+inline void LayerParameter::clear_has_padding_param() {
+  _has_bits_[2] &= ~0x00000010u;
+}
+inline void LayerParameter::clear_padding_param() {
+  if (padding_param_ != NULL) padding_param_->::caffe::PaddingParameter::Clear();
+  clear_has_padding_param();
+}
+inline const ::caffe::PaddingParameter& LayerParameter::padding_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.padding_param)
+  return padding_param_ != NULL ? *padding_param_
+                         : *::caffe::PaddingParameter::internal_default_instance();
+}
+inline ::caffe::PaddingParameter* LayerParameter::mutable_padding_param() {
+  set_has_padding_param();
+  if (padding_param_ == NULL) {
+    padding_param_ = new ::caffe::PaddingParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.padding_param)
+  return padding_param_;
+}
+inline ::caffe::PaddingParameter* LayerParameter::release_padding_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.padding_param)
+  clear_has_padding_param();
+  ::caffe::PaddingParameter* temp = padding_param_;
+  padding_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_padding_param(::caffe::PaddingParameter* padding_param) {
+  delete padding_param_;
+  padding_param_ = padding_param;
+  if (padding_param) {
+    set_has_padding_param();
+  } else {
+    clear_has_padding_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.padding_param)
+}
+
+// optional .caffe.GTMapDataParameter gt_map_data_param = 1012;
+inline bool LayerParameter::has_gt_map_data_param() const {
+  return (_has_bits_[2] & 0x00000020u) != 0;
+}
+inline void LayerParameter::set_has_gt_map_data_param() {
+  _has_bits_[2] |= 0x00000020u;
+}
+inline void LayerParameter::clear_has_gt_map_data_param() {
+  _has_bits_[2] &= ~0x00000020u;
+}
+inline void LayerParameter::clear_gt_map_data_param() {
+  if (gt_map_data_param_ != NULL) gt_map_data_param_->::caffe::GTMapDataParameter::Clear();
+  clear_has_gt_map_data_param();
+}
+inline const ::caffe::GTMapDataParameter& LayerParameter::gt_map_data_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.gt_map_data_param)
+  return gt_map_data_param_ != NULL ? *gt_map_data_param_
+                         : *::caffe::GTMapDataParameter::internal_default_instance();
+}
+inline ::caffe::GTMapDataParameter* LayerParameter::mutable_gt_map_data_param() {
+  set_has_gt_map_data_param();
+  if (gt_map_data_param_ == NULL) {
+    gt_map_data_param_ = new ::caffe::GTMapDataParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.gt_map_data_param)
+  return gt_map_data_param_;
+}
+inline ::caffe::GTMapDataParameter* LayerParameter::release_gt_map_data_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.gt_map_data_param)
+  clear_has_gt_map_data_param();
+  ::caffe::GTMapDataParameter* temp = gt_map_data_param_;
+  gt_map_data_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_gt_map_data_param(::caffe::GTMapDataParameter* gt_map_data_param) {
+  delete gt_map_data_param_;
+  gt_map_data_param_ = gt_map_data_param;
+  if (gt_map_data_param) {
+    set_has_gt_map_data_param();
+  } else {
+    clear_has_gt_map_data_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.gt_map_data_param)
+}
+
+// optional .caffe.LabelDiffIgnoreParameter label_diff_ignore_param = 1013;
+inline bool LayerParameter::has_label_diff_ignore_param() const {
+  return (_has_bits_[2] & 0x00000040u) != 0;
+}
+inline void LayerParameter::set_has_label_diff_ignore_param() {
+  _has_bits_[2] |= 0x00000040u;
+}
+inline void LayerParameter::clear_has_label_diff_ignore_param() {
+  _has_bits_[2] &= ~0x00000040u;
+}
+inline void LayerParameter::clear_label_diff_ignore_param() {
+  if (label_diff_ignore_param_ != NULL) label_diff_ignore_param_->::caffe::LabelDiffIgnoreParameter::Clear();
+  clear_has_label_diff_ignore_param();
+}
+inline const ::caffe::LabelDiffIgnoreParameter& LayerParameter::label_diff_ignore_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.label_diff_ignore_param)
+  return label_diff_ignore_param_ != NULL ? *label_diff_ignore_param_
+                         : *::caffe::LabelDiffIgnoreParameter::internal_default_instance();
+}
+inline ::caffe::LabelDiffIgnoreParameter* LayerParameter::mutable_label_diff_ignore_param() {
+  set_has_label_diff_ignore_param();
+  if (label_diff_ignore_param_ == NULL) {
+    label_diff_ignore_param_ = new ::caffe::LabelDiffIgnoreParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.label_diff_ignore_param)
+  return label_diff_ignore_param_;
+}
+inline ::caffe::LabelDiffIgnoreParameter* LayerParameter::release_label_diff_ignore_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.label_diff_ignore_param)
+  clear_has_label_diff_ignore_param();
+  ::caffe::LabelDiffIgnoreParameter* temp = label_diff_ignore_param_;
+  label_diff_ignore_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_label_diff_ignore_param(::caffe::LabelDiffIgnoreParameter* label_diff_ignore_param) {
+  delete label_diff_ignore_param_;
+  label_diff_ignore_param_ = label_diff_ignore_param;
+  if (label_diff_ignore_param) {
+    set_has_label_diff_ignore_param();
+  } else {
+    clear_has_label_diff_ignore_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.label_diff_ignore_param)
+}
+
+// optional .caffe.GTSubmapDataParameter gt_submap_data_param = 1014;
+inline bool LayerParameter::has_gt_submap_data_param() const {
+  return (_has_bits_[2] & 0x00000080u) != 0;
+}
+inline void LayerParameter::set_has_gt_submap_data_param() {
+  _has_bits_[2] |= 0x00000080u;
+}
+inline void LayerParameter::clear_has_gt_submap_data_param() {
+  _has_bits_[2] &= ~0x00000080u;
+}
+inline void LayerParameter::clear_gt_submap_data_param() {
+  if (gt_submap_data_param_ != NULL) gt_submap_data_param_->::caffe::GTSubmapDataParameter::Clear();
+  clear_has_gt_submap_data_param();
+}
+inline const ::caffe::GTSubmapDataParameter& LayerParameter::gt_submap_data_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.gt_submap_data_param)
+  return gt_submap_data_param_ != NULL ? *gt_submap_data_param_
+                         : *::caffe::GTSubmapDataParameter::internal_default_instance();
+}
+inline ::caffe::GTSubmapDataParameter* LayerParameter::mutable_gt_submap_data_param() {
+  set_has_gt_submap_data_param();
+  if (gt_submap_data_param_ == NULL) {
+    gt_submap_data_param_ = new ::caffe::GTSubmapDataParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.gt_submap_data_param)
+  return gt_submap_data_param_;
+}
+inline ::caffe::GTSubmapDataParameter* LayerParameter::release_gt_submap_data_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.gt_submap_data_param)
+  clear_has_gt_submap_data_param();
+  ::caffe::GTSubmapDataParameter* temp = gt_submap_data_param_;
+  gt_submap_data_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_gt_submap_data_param(::caffe::GTSubmapDataParameter* gt_submap_data_param) {
+  delete gt_submap_data_param_;
+  gt_submap_data_param_ = gt_submap_data_param;
+  if (gt_submap_data_param) {
+    set_has_gt_submap_data_param();
+  } else {
+    clear_has_gt_submap_data_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.gt_submap_data_param)
 }
 
 inline const LayerParameter* LayerParameter::internal_default_instance() {
@@ -29142,6 +32415,32 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -29165,6 +32464,21 @@ template <> struct is_proto_enum< ::caffe::BBoxParameter_BBoxConstant> : ::googl
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::caffe::BBoxParameter_BBoxConstant>() {
   return ::caffe::BBoxParameter_BBoxConstant_descriptor();
+}
+template <> struct is_proto_enum< ::caffe::PaddingParameter_PaddingType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::caffe::PaddingParameter_PaddingType>() {
+  return ::caffe::PaddingParameter_PaddingType_descriptor();
+}
+template <> struct is_proto_enum< ::caffe::ActivationRegionParameter_ActivationMethod> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::caffe::ActivationRegionParameter_ActivationMethod>() {
+  return ::caffe::ActivationRegionParameter_ActivationMethod_descriptor();
+}
+template <> struct is_proto_enum< ::caffe::OffsetParameter_Anchor> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::caffe::OffsetParameter_Anchor>() {
+  return ::caffe::OffsetParameter_Anchor_descriptor();
 }
 template <> struct is_proto_enum< ::caffe::FillerParameter_VarianceNorm> : ::google::protobuf::internal::true_type {};
 template <>

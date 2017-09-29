@@ -15,11 +15,12 @@ void NegativeNeglectLayer<Dtype>::LayerSetUp(
   CHECK_EQ(label.num(), predicted_bbox.num());
   CHECK_EQ(label.height(), predicted_bbox.height());
   CHECK_EQ(label.width(), predicted_bbox.width());
-  CHECK_GT(label.channels(), 0);
-  CHECK_LE(label.channels(), predicted_bbox.channels());
-  CHECK_EQ(predicted_bbox.channels() % label.channels(), 0);
+  //CHECK_GT(label.channels(), 0); // ?
+  CHECK_EQ(label.channels(), 1);
+  //CHECK_LE(label.channels(), predicted_bbox.channels()); // ?
+  //CHECK_EQ(predicted_bbox.channels() % label.channels(), 0); // ?
 
-  bbox_dim_ = predicted_bbox.channels() / label.channels();
+  //bbox_dim_ = predicted_bbox.channels() / label.channels();  // ?
 }
 
 template <typename Dtype>
@@ -39,15 +40,20 @@ void NegativeNeglectLayer<Dtype>::Forward_cpu(
       for (int w = 0; w < label.width(); w++) {
         const Dtype* label_iter = label.cpu_data() + label.offset(n, 0, h, w);
         Dtype* out_iter = out.mutable_cpu_data() + out.offset(n, 0, h, w);
-        for (int c = 0; c < label.channels(); c++) {
-          if (*label_iter == LabelParameter::DUMMY_LABEL ||
-              *label_iter == LabelParameter::NONE) {
-            for (int d = 0; d < bbox_dim_; d++)
-              *(out_iter + d * HW) = BBoxParameter::DUMMY_VALUE;
-          }
-
-          out_iter += bbox_dim_ * HW;
+        if (*label_iter == LabelParameter::DUMMY_LABEL ||
+            *label_iter == LabelParameter::NONE) {
+          for(int c = 0; c<predicted_bbox.channels(); c++)
+            *(out_iter + c*HW) = BBoxParameter::DUMMY_VALUE;
         }
+        //for (int c = 0; c < label.channels(); c++) {
+        //  if (*label_iter == LabelParameter::DUMMY_LABEL ||
+        //      *label_iter == LabelParameter::NONE) {
+        //    for (int d = 0; d < bbox_dim_; d++)
+        //      *(out_iter + d * HW) = BBoxParameter::DUMMY_VALUE;
+        //  }
+
+        //  out_iter += bbox_dim_ * HW;
+        //}
       }
     }
   }

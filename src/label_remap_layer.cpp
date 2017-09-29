@@ -10,8 +10,6 @@ void LabelRemapLayer<Dtype>::LayerSetUp(
     const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
   CHECK_EQ(bottom[0]->channels(), 1);
-  CHECK_EQ(bottom[0]->width(), 1);
-  CHECK_EQ(bottom[0]->height(), 1);
 
   InitRemapTable(this->layer_param().label_remap_param());
 }
@@ -26,6 +24,7 @@ void LabelRemapLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
     for (int j = size; j--; )
       *dst_iter++ = MapLabel(*src_iter++);
   }
+
 }
 
 template <typename Dtype>
