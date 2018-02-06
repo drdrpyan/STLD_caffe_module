@@ -110,7 +110,7 @@ inline void DetectionCheckLayer<Dtype>::DecodeDetection(
     detection->resize(temp_detection.size());
 
     for (int i = 0; i < temp_detection.size(); ++i)
-      (*nms_)(temp_detection[i], &(*detection[i]));
+      (*nms_)(temp_detection[i], &((*detection)[i]));
   }
 }
 
