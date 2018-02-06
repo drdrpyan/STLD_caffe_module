@@ -444,6 +444,11 @@ message ReorgParameter {
   optional bool reverse = 2 [default = false];
 }
 
+message BatchRejectionParameter {
+  optional bool rejection_by_threshold = 1 [default = false];
+  optional float threshold = 2;
+}
+
 // Specifies the shape (dimensions) of a Blob.
 message BlobShape {
   repeated int64 dim = 1 [packed = true];
@@ -882,6 +887,7 @@ message LayerParameter {
   optional SizeRejectionParameter size_rejection_param = 1033;
   optional ConfCheckParameter conf_check_param = 1034;
   optional ReorgParameter reorg_param = 1035;
+  optional BatchRejectionParameter batch_rejection_param = 1036;
 }
 
 // Message that stores parameters used to apply transformation

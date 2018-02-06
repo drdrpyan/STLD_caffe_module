@@ -48,6 +48,7 @@ class BBoxParameter;
 class BBoxToGridAndSizeParameter;
 class BGSynthesisDataParameter;
 class BatchNormParameter;
+class BatchRejectionParameter;
 class BiasParameter;
 class BlobProto;
 class BlobProtoVector;
@@ -7646,6 +7647,114 @@ extern ::google::protobuf::internal::ExplicitlyConstructed<ReorgParameter> Reorg
 
 // -------------------------------------------------------------------
 
+class BatchRejectionParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.BatchRejectionParameter) */ {
+ public:
+  BatchRejectionParameter();
+  virtual ~BatchRejectionParameter();
+
+  BatchRejectionParameter(const BatchRejectionParameter& from);
+
+  inline BatchRejectionParameter& operator=(const BatchRejectionParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const BatchRejectionParameter& default_instance();
+
+  static const BatchRejectionParameter* internal_default_instance();
+
+  void Swap(BatchRejectionParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline BatchRejectionParameter* New() const { return New(NULL); }
+
+  BatchRejectionParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const BatchRejectionParameter& from);
+  void MergeFrom(const BatchRejectionParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(BatchRejectionParameter* other);
+  void UnsafeMergeFrom(const BatchRejectionParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bool rejection_by_threshold = 1 [default = false];
+  bool has_rejection_by_threshold() const;
+  void clear_rejection_by_threshold();
+  static const int kRejectionByThresholdFieldNumber = 1;
+  bool rejection_by_threshold() const;
+  void set_rejection_by_threshold(bool value);
+
+  // optional float threshold = 2;
+  bool has_threshold() const;
+  void clear_threshold();
+  static const int kThresholdFieldNumber = 2;
+  float threshold() const;
+  void set_threshold(float value);
+
+  // @@protoc_insertion_point(class_scope:caffe.BatchRejectionParameter)
+ private:
+  inline void set_has_rejection_by_threshold();
+  inline void clear_has_rejection_by_threshold();
+  inline void set_has_threshold();
+  inline void clear_has_threshold();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  bool rejection_by_threshold_;
+  float threshold_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<BatchRejectionParameter> BatchRejectionParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
 class BlobShape : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.BlobShape) */ {
  public:
   BlobShape();
@@ -10774,6 +10883,15 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::ReorgParameter* release_reorg_param();
   void set_allocated_reorg_param(::caffe::ReorgParameter* reorg_param);
 
+  // optional .caffe.BatchRejectionParameter batch_rejection_param = 1036;
+  bool has_batch_rejection_param() const;
+  void clear_batch_rejection_param();
+  static const int kBatchRejectionParamFieldNumber = 1036;
+  const ::caffe::BatchRejectionParameter& batch_rejection_param() const;
+  ::caffe::BatchRejectionParameter* mutable_batch_rejection_param();
+  ::caffe::BatchRejectionParameter* release_batch_rejection_param();
+  void set_allocated_batch_rejection_param(::caffe::BatchRejectionParameter* batch_rejection_param);
+
   // @@protoc_insertion_point(class_scope:caffe.LayerParameter)
  private:
   inline void set_has_name();
@@ -10946,6 +11064,8 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_conf_check_param();
   inline void set_has_reorg_param();
   inline void clear_has_reorg_param();
+  inline void set_has_batch_rejection_param();
+  inline void clear_has_batch_rejection_param();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<3> _has_bits_;
@@ -11042,6 +11162,7 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::SizeRejectionParameter* size_rejection_param_;
   ::caffe::ConfCheckParameter* conf_check_param_;
   ::caffe::ReorgParameter* reorg_param_;
+  ::caffe::BatchRejectionParameter* batch_rejection_param_;
   int phase_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_2eproto_impl();
@@ -25295,6 +25416,61 @@ inline const ReorgParameter* ReorgParameter::internal_default_instance() {
 }
 // -------------------------------------------------------------------
 
+// BatchRejectionParameter
+
+// optional bool rejection_by_threshold = 1 [default = false];
+inline bool BatchRejectionParameter::has_rejection_by_threshold() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void BatchRejectionParameter::set_has_rejection_by_threshold() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void BatchRejectionParameter::clear_has_rejection_by_threshold() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void BatchRejectionParameter::clear_rejection_by_threshold() {
+  rejection_by_threshold_ = false;
+  clear_has_rejection_by_threshold();
+}
+inline bool BatchRejectionParameter::rejection_by_threshold() const {
+  // @@protoc_insertion_point(field_get:caffe.BatchRejectionParameter.rejection_by_threshold)
+  return rejection_by_threshold_;
+}
+inline void BatchRejectionParameter::set_rejection_by_threshold(bool value) {
+  set_has_rejection_by_threshold();
+  rejection_by_threshold_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BatchRejectionParameter.rejection_by_threshold)
+}
+
+// optional float threshold = 2;
+inline bool BatchRejectionParameter::has_threshold() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void BatchRejectionParameter::set_has_threshold() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void BatchRejectionParameter::clear_has_threshold() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void BatchRejectionParameter::clear_threshold() {
+  threshold_ = 0;
+  clear_has_threshold();
+}
+inline float BatchRejectionParameter::threshold() const {
+  // @@protoc_insertion_point(field_get:caffe.BatchRejectionParameter.threshold)
+  return threshold_;
+}
+inline void BatchRejectionParameter::set_threshold(float value) {
+  set_has_threshold();
+  threshold_ = value;
+  // @@protoc_insertion_point(field_set:caffe.BatchRejectionParameter.threshold)
+}
+
+inline const BatchRejectionParameter* BatchRejectionParameter::internal_default_instance() {
+  return &BatchRejectionParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
 // BlobShape
 
 // repeated int64 dim = 1 [packed = true];
@@ -32386,6 +32562,51 @@ inline void LayerParameter::set_allocated_reorg_param(::caffe::ReorgParameter* r
     clear_has_reorg_param();
   }
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.reorg_param)
+}
+
+// optional .caffe.BatchRejectionParameter batch_rejection_param = 1036;
+inline bool LayerParameter::has_batch_rejection_param() const {
+  return (_has_bits_[2] & 0x20000000u) != 0;
+}
+inline void LayerParameter::set_has_batch_rejection_param() {
+  _has_bits_[2] |= 0x20000000u;
+}
+inline void LayerParameter::clear_has_batch_rejection_param() {
+  _has_bits_[2] &= ~0x20000000u;
+}
+inline void LayerParameter::clear_batch_rejection_param() {
+  if (batch_rejection_param_ != NULL) batch_rejection_param_->::caffe::BatchRejectionParameter::Clear();
+  clear_has_batch_rejection_param();
+}
+inline const ::caffe::BatchRejectionParameter& LayerParameter::batch_rejection_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.batch_rejection_param)
+  return batch_rejection_param_ != NULL ? *batch_rejection_param_
+                         : *::caffe::BatchRejectionParameter::internal_default_instance();
+}
+inline ::caffe::BatchRejectionParameter* LayerParameter::mutable_batch_rejection_param() {
+  set_has_batch_rejection_param();
+  if (batch_rejection_param_ == NULL) {
+    batch_rejection_param_ = new ::caffe::BatchRejectionParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.batch_rejection_param)
+  return batch_rejection_param_;
+}
+inline ::caffe::BatchRejectionParameter* LayerParameter::release_batch_rejection_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.batch_rejection_param)
+  clear_has_batch_rejection_param();
+  ::caffe::BatchRejectionParameter* temp = batch_rejection_param_;
+  batch_rejection_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_batch_rejection_param(::caffe::BatchRejectionParameter* batch_rejection_param) {
+  delete batch_rejection_param_;
+  batch_rejection_param_ = batch_rejection_param;
+  if (batch_rejection_param) {
+    set_has_batch_rejection_param();
+  } else {
+    clear_has_batch_rejection_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.batch_rejection_param)
 }
 
 inline const LayerParameter* LayerParameter::internal_default_instance() {
@@ -41050,6 +41271,8 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
   return &PReLUParameter_default_instance_.get();
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
