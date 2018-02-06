@@ -4,6 +4,7 @@
 #include "caffe/layers/data_layer.hpp"
 
 #include "bbox.hpp"
+#include "img_augmentation.hpp"
 
 namespace caffe
 {
@@ -25,6 +26,11 @@ class BaseImgBBoxDataLayer : public DataLayer<Dtype>
   void ParseLabelBBox(const Blob<Dtype>& prefetch_label,
                       std::vector<std::vector<Dtype> >* label,
                       std::vector<std::vector<bgm::BBox<Dtype> > >* bbox) const;
+#ifdef USE_OPENCV
+  void ParseLabelBBox(const Blob<Dtype>& prefetch_label,
+                      std::vector<std::vector<Dtype> >* label,
+                      std::vector<std::vector<cv::Rect_<Dtype> > >* bbox) const;
+#endif // USE_OPENCV
 
  protected:
   virtual void Forward_cpu(const vector<Blob<Dtype>*>& bottom,
@@ -34,6 +40,7 @@ class BaseImgBBoxDataLayer : public DataLayer<Dtype>
   virtual void load_batch(caffe::Batch<Dtype>* batch) override;
 
 
+  // deprecated
   void SetPad(const PaddingParameter& pad_param);
   void NoPad();
 
@@ -45,12 +52,28 @@ class BaseImgBBoxDataLayer : public DataLayer<Dtype>
   void CopyLabel(int item_id, const ImgBBoxAnnoDatum& datum,
                  Blob<Dtype>* batch_label);
 
+  void PrepareBatch(const std::vector<cv::Mat>& img,
+                    const std::vector<std::vector<int> >& label,
+                    Batch<Dtype>* batch);
+  void PrepareBatch(const std::vector<cv::Mat>& img,
+                    Batch<Dtype>* batch);
+  void CopyImage(int item_id, const cv::Mat& img,
+                 Blob<Dtype>* batch_data);
+  void CopyLabel(int item_id, const std::vector<int>& label,
+                 const std::vector<cv::Rect2f>& bbox,
+                 Blob<Dtype>* batch_label);
+
+  // deprecated, use img_aug_ instead
   bool use_pad_;
   PaddingParameter::PaddingType pad_type_;
   int pad_up_;
   int pad_down_;
   int pad_left_;
   int pad_right_;
+
+  bool do_augment_;
+  ImgAugmentation img_aug_;
+
 }; // class BaseImgBBoxDataLayer
 
 // inline functions

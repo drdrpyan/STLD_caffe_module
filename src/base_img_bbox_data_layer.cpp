@@ -9,15 +9,29 @@
 namespace caffe
 {
 
+//template <typename Dtype>
+//BaseImgBBoxDataLayer<Dtype>::BaseImgBBoxDataLayer(const LayerParameter& param)
+//  : DataLayer<Dtype>(param),
+//  use_pad_(param.has_padding_param()) {
+//
+//  if (use_pad_) {
+//    const PaddingParameter& padding_param = param.padding_param();
+//    SetPad(padding_param);
+//  }
+//}
+
 template <typename Dtype>
 BaseImgBBoxDataLayer<Dtype>::BaseImgBBoxDataLayer(const LayerParameter& param)
-  : DataLayer<Dtype>(param),
-  use_pad_(param.has_padding_param()) {
-
-  if (use_pad_) {
-    const PaddingParameter& padding_param = param.padding_param();
-    SetPad(padding_param);
+  : DataLayer<Dtype>(param) {
+  if (param.has_augmentation_param()) {
+    do_augment_ = true;
+    img_aug_.Init(param.augmentation_param());
   }
+  else
+    do_augment_ = false;
+    
+
+  use_pad_ = false;
 }
 
 template <typename Dtype>
@@ -29,10 +43,10 @@ void BaseImgBBoxDataLayer<Dtype>::DataLayerSetUp(
 
   // Use data_transformer to infer the expected blob shape from datum.
   vector<int> data_shape = this->data_transformer_->InferBlobShape(datum.img_datum());
-  if (use_pad_) {
-    data_shape[2] += (pad_up_ + pad_down_);
-    data_shape[3] += (pad_left_ + pad_right_);
-  }
+  //if (use_pad_) {
+  //  data_shape[2] += (pad_up_ + pad_down_);
+  //  data_shape[3] += (pad_left_ + pad_right_);
+  //}
   this->transformed_data_.Reshape(data_shape);
 
   // Reshape prefetch buffers for image data.
@@ -84,11 +98,53 @@ void BaseImgBBoxDataLayer<Dtype>::ParseLabelBBox(
     (*bbox)[n].clear();
 
     for (int i = 0; i < prefetch_label.width() && label_iter[i] != LabelParameter::DUMMY_LABEL; ++i) {
+      if (xmax_iter[i] - xmin_iter[i] < 5)
+        continue;
+
       (*label)[n].push_back(label_iter[i]);
       (*bbox)[n].push_back(bgm::BBox<Dtype>(xmin_iter[i], ymin_iter[i], xmax_iter[i], ymax_iter[i]));
     }
   }
 }
+
+#ifdef USE_OPENCV
+
+template <typename Dtype>
+void BaseImgBBoxDataLayer<Dtype>::ParseLabelBBox(
+    const Blob<Dtype>& prefetch_label,
+    std::vector<std::vector<Dtype> >* label,
+    std::vector<std::vector<cv::Rect_<Dtype> > >* bbox) const {
+  CHECK_EQ(prefetch_label.shape()[1], 5);
+  CHECK_EQ(prefetch_label.shape()[2], 1);
+  CHECK(label);
+  CHECK(bbox);
+
+  label->resize(prefetch_label.num());
+  bbox->resize(prefetch_label.num());
+
+  for (int n = 0; n < prefetch_label.num(); ++n) {
+    const Dtype* label_iter = prefetch_label.cpu_data() + prefetch_label.offset(n, LABEL);
+    const Dtype* xmin_iter = prefetch_label.cpu_data() + prefetch_label.offset(n, XMIN);
+    const Dtype* ymin_iter = prefetch_label.cpu_data() + prefetch_label.offset(n, YMIN);
+    const Dtype* xmax_iter = prefetch_label.cpu_data() + prefetch_label.offset(n, XMAX);
+    const Dtype* ymax_iter = prefetch_label.cpu_data() + prefetch_label.offset(n, YMAX);
+
+    (*label)[n].clear();
+    (*bbox)[n].clear();
+
+    for (int i = 0; i < prefetch_label.width() && label_iter[i] != LabelParameter::DUMMY_LABEL; ++i) {
+      if (xmax_iter[i] - xmin_iter[i] < 5)
+        continue;
+
+      (*label)[n].push_back(label_iter[i]);
+      (*bbox)[n].push_back(
+          cv::Rect_<Dtype>(cv::Point_<Dtype>(xmin_iter[i], ymin_iter[i]),
+                           cv::Point_<Dtype>(xmax_iter[i], ymax_iter[i])));
+    }
+  }
+}
+
+#endif // USE_OPENCV
 
 template <typename Dtype>
 void BaseImgBBoxDataLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
@@ -151,15 +207,34 @@ void BaseImgBBoxDataLayer<Dtype>::load_batch(caffe::Batch<Dtype>* batch) {
     Next();
   }
 
-  // copy datum
-  PrepareBatch(img_bbox_anno_datum, batch);
-  for (int i = 0; i < BATCH_SIZE; ++i) {
-    timer.Start();
-    CopyImage(i, img_bbox_anno_datum[i], &(batch->data_));
-    trans_time += timer.MicroSeconds();
+  if (do_augment_) {
+    std::vector<cv::Mat> img;
+    std::vector<std::vector<int> > label;
+    std::vector<std::vector<cv::Rect2f> > bbox;
+    img_aug_.Transform(img_bbox_anno_datum,
+                       &img, &label, &bbox);
 
-    if(this->output_labels_)
-      CopyLabel(i, img_bbox_anno_datum[i], &(batch->label_));
+    PrepareBatch(img, label, batch);
+    for (int i = 0; i < BATCH_SIZE; ++i) {
+      timer.Start();
+      CopyImage(i, img[i], &(batch->data_));
+      trans_time += timer.MicroSeconds();
+
+      if (this->output_labels_)
+        CopyLabel(i, label[i], bbox[i], &(batch->label_));
+    }
+  }
+  else { // debprecated
+    // copy datum
+    PrepareBatch(img_bbox_anno_datum, batch);
+    for (int i = 0; i < BATCH_SIZE; ++i) {
+      timer.Start();
+      CopyImage(i, img_bbox_anno_datum[i], &(batch->data_));
+      trans_time += timer.MicroSeconds();
+
+      if (this->output_labels_)
+        CopyLabel(i, img_bbox_anno_datum[i], &(batch->label_));
+    }
   }
 
   timer.Stop();
@@ -292,6 +367,108 @@ void BaseImgBBoxDataLayer<Dtype>::CopyLabel(int item_id,
       xmax_dst[i] += pad_left_;
       ymax_dst[i] += pad_up_;
     }
+  }
+  for (int i = NUM_GT; i < batch_label->width(); ++i) {
+    label_dst[i] = static_cast<Dtype>(LabelParameter::DUMMY_LABEL);
+    xmin_dst[i] = static_cast<Dtype>(BBoxParameter::DUMMY_VALUE);
+    ymin_dst[i] = static_cast<Dtype>(BBoxParameter::DUMMY_VALUE);
+    xmax_dst[i] = static_cast<Dtype>(BBoxParameter::DUMMY_VALUE);
+    ymax_dst[i] = static_cast<Dtype>(BBoxParameter::DUMMY_VALUE);
+  }
+}
+
+template <typename Dtype>
+void BaseImgBBoxDataLayer<Dtype>::PrepareBatch(
+  const std::vector<cv::Mat>& img,
+  const std::vector<std::vector<int> >& label,
+  Batch<Dtype>* batch) {
+  PrepareBatch(img, batch);
+
+  int max_num_gt = 0;
+  for (auto iter = label.begin(); iter != label.end(); ++iter)
+    if (iter->size() > max_num_gt)
+      max_num_gt = iter->size();
+
+  std::vector<int> label_shape(4);
+  label_shape[0] = layer_param_.data_param().batch_size();
+  label_shape[1] = 5; // label, x_min, y_min, x_max, y_max
+  label_shape[2] = 1;
+  label_shape[3] = max_num_gt;
+
+  batch->label_.Reshape(label_shape);
+}
+
+template <typename Dtype>
+void BaseImgBBoxDataLayer<Dtype>::PrepareBatch(
+    const std::vector<cv::Mat>& img,
+    Batch<Dtype>* batch) {
+  CHECK(batch);
+
+  std::vector<int> data_shape(4);
+  data_shape[0] = layer_param_.data_param().batch_size();
+  data_shape[1] = img[0].channels();
+  data_shape[2] = img[0].rows;
+  data_shape[3] = img[0].cols;
+
+  for (auto iter = img.cbegin(); iter != img.cend(); ++iter) {
+    CHECK_EQ(data_shape[1], iter->channels());
+    CHECK_EQ(data_shape[2], iter->rows);
+    CHECK_EQ(data_shape[3], iter->cols);
+  }
+
+  batch->data_.Reshape(data_shape);    
+}
+
+template <typename Dtype>
+void BaseImgBBoxDataLayer<Dtype>::CopyImage(
+    int item_id, const cv::Mat& img,
+    Blob<Dtype>* batch_data) {
+  cv::Mat dtype_mat;
+  if (sizeof(Dtype) == sizeof(float))
+    img.convertTo(dtype_mat,
+                  CV_MAKETYPE(CV_32F, img.channels()));
+  else if (sizeof(Dtype) == sizeof(double))
+    img.convertTo(dtype_mat,
+                  CV_MAKETYPE(CV_64F, img.channels()));
+  else
+    LOG(FATAL) << typeid(Dtype).name() << " is not supported";
+
+  std::vector<cv::Mat> channel_mat(img.channels());
+  Dtype* batch_data_ptr = batch_data->mutable_cpu_data();
+  for (int i = 0; i < img.channels(); ++i)
+    channel_mat[i] = cv::Mat(img.size(),
+                             CV_MAKETYPE(dtype_mat.depth(), 1),
+                             batch_data_ptr + batch_data->offset(item_id, i));
+
+  cv::split(dtype_mat, channel_mat);
+}
+
+template <typename Dtype>
+void BaseImgBBoxDataLayer<Dtype>::CopyLabel(
+    int item_id, const std::vector<int>& label,
+    const std::vector<cv::Rect2f>& bbox, Blob<Dtype>* batch_label) {
+  CHECK(batch_label);
+  CHECK_GE(item_id, 0);
+  CHECK_LT(item_id, batch_label->num());
+  CHECK_EQ(batch_label->shape()[1], 5);
+  CHECK_EQ(batch_label->shape()[2], 1);
+
+  const int NUM_GT = label.size();
+  CHECK_LE(NUM_GT, batch_label->width());
+  CHECK_EQ(NUM_GT, bbox.size());
+
+  Dtype* label_dst = batch_label->mutable_cpu_data() + batch_label->offset(item_id, LABEL);
+  Dtype* xmin_dst = batch_label->mutable_cpu_data() + batch_label->offset(item_id, XMIN);
+  Dtype* ymin_dst = batch_label->mutable_cpu_data() + batch_label->offset(item_id, YMIN);
+  Dtype* xmax_dst = batch_label->mutable_cpu_data() + batch_label->offset(item_id, XMAX);
+  Dtype* ymax_dst = batch_label->mutable_cpu_data() + batch_label->offset(item_id, YMAX);
+
+  for (int i = 0; i < NUM_GT; ++i) {
+    label_dst[i] = static_cast<Dtype>(label[i]);
+    xmin_dst[i] = static_cast<Dtype>(bbox[i].x);
+    ymin_dst[i] = static_cast<Dtype>(bbox[i].y);
+    xmax_dst[i] = static_cast<Dtype>(bbox[i].br().x);
+    ymax_dst[i] = static_cast<Dtype>(bbox[i].br().y);
   }
   for (int i = NUM_GT; i < batch_label->width(); ++i) {
     label_dst[i] = static_cast<Dtype>(LabelParameter::DUMMY_LABEL);

@@ -2,7 +2,14 @@
 #define CAFFE_UTIL_NCCL_H_
 #ifdef USE_NCCL
 
+#ifdef __cplusplus
+extern "C" {
+#endif 
 #include <nccl.h>
+#ifdef __cplusplus
+}
+#endif 
+
 
 #include "caffe/common.hpp"
 

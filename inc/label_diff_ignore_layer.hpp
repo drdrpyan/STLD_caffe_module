@@ -42,6 +42,8 @@ class LabelDiffIgnoreLayer : public Layer<Dtype>
   std::vector<int> ignore_label_;
   std::vector<float> ignore_rate_;
   std::vector<RNG> mask_generator_;
+
+  bool elem_wise_;
 };
 
 // inline functions

@@ -5,6 +5,8 @@
 #include "caffe/util/rng.hpp"
 
 #include <random>
+#include <chrono>
+#include <functional>
 
 #include <opencv2/core.hpp>
 
@@ -15,6 +17,8 @@ template <typename Dtype>
 GTSubmapDataLayer<Dtype>::GTSubmapDataLayer(const LayerParameter& param) 
   : BaseImgBBoxDataLayer<Dtype>(param),
     SUBMAP_BATCH_SIZE_(param.gt_submap_data_param().submap_batch_size()),
+    SUBMAP_WIDTH_(param.gt_submap_data_param().submap_size().width()),
+    SUBMAP_HEIGHT_(param.gt_submap_data_param().submap_size().height()),
     RECEPTIVE_FIELD_WIDTH_(param.gt_submap_data_param().receptive_field().width()),
     RECEPTIVE_FIELD_HEIGHT_(param.gt_submap_data_param().receptive_field().height()),
     HORIZONTAL_STRIDE_(param.gt_submap_data_param().horizontal_stride()),
@@ -95,10 +99,49 @@ void GTSubmapDataLayer<Dtype>::DataLayerSetUp(
 }
 
 template <typename Dtype>
+void GTSubmapDataLayer<Dtype>::Reshape(
+    const vector<Blob<Dtype>*>& bottom,
+    const vector<Blob<Dtype>*>& top) {
+  // data
+  std::vector<int> data_shape(4);
+  data_shape[0] = SUBMAP_BATCH_SIZE_;
+  data_shape[1] = transformed_data_.channels();
+  data_shape[2] = RECEPTIVE_FIELD_HEIGHT_ + (VERTICAL_STRIDE_ * (SUBMAP_HEIGHT_ - 1));
+  data_shape[3] = RECEPTIVE_FIELD_WIDTH_ + (HORIZONTAL_STRIDE_ * (SUBMAP_WIDTH_ - 1));
+  top[0]->Reshape(data_shape);
+
+  std::vector<int> gt_shape(4);
+  gt_shape[0] = SUBMAP_BATCH_SIZE_;
+  gt_shape[2] = SUBMAP_HEIGHT_;
+  gt_shape[3] = SUBMAP_WIDTH_;
+  if (this->output_labels_) {
+    // label map
+    if (top.size() > 1) {
+      gt_shape[1] = 1;
+      top[1]->Reshape(gt_shape);
+    }
+    // bbox map
+    if (top.size() > 2) {
+      gt_shape[1] = 4;
+      top[2]->Reshape(gt_shape);
+    }
+    // offset map
+    if (top.size() > 3) {
+      gt_shape[1] = 4;
+      top[3]->Reshape(gt_shape);
+    }
+  }
+}
+
+template <typename Dtype>
 void GTSubmapDataLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
                                            const vector<Blob<Dtype>*>& top) {
-  while(top_queue_.size() < SUBMAP_BATCH_SIZE_)
+  while (top_queue_.size() < SUBMAP_BATCH_SIZE_ * 5) {
     ExtractSubmap();
+
+    if(top_queue_.size() >= SUBMAP_BATCH_SIZE_ * 5)
+      caffe::shuffle(top_queue_.begin(), top_queue_.end());  
+  }
 
   for (int i = 0; i < SUBMAP_BATCH_SIZE_; ++i) {
     CopyTop(i, *(top_queue_.front()), top);
@@ -121,38 +164,39 @@ void GTSubmapDataLayer<Dtype>::InitBaseOffsetMap() {
   std::vector<int> map_shape(4);
   map_shape[0] = 1;
   map_shape[1] = 4;
-  map_shape[2] = 3;
-  map_shape[3] = 3;
+  map_shape[2] = SUBMAP_HEIGHT_;
+  map_shape[3] = SUBMAP_WIDTH_;
 
   base_offset_map_.Reshape(map_shape);
 
   // x
-  Dtype offset_row_x[3];
-  offset_row_x[0] = 0;
-  offset_row_x[1] = HORIZONTAL_STRIDE_;
-  offset_row_x[2] = HORIZONTAL_STRIDE_ * 2;
-  for (int i = 0; i < 3; ++i) {
+  Dtype* offset_x_1st_row = base_offset_map_.mutable_cpu_data();
+  for (int i = 0; i < SUBMAP_WIDTH_; ++i)
+    offset_x_1st_row[i] = HORIZONTAL_STRIDE_ * i;
+  for (int i = 1; i < SUBMAP_HEIGHT_; ++i) {
     Dtype* x_dst = base_offset_map_.mutable_cpu_data() + 
         base_offset_map_.offset(0, 0, i);
-    caffe_copy(3, offset_row_x, x_dst);
+    caffe_copy(SUBMAP_WIDTH_, offset_x_1st_row, x_dst);
   }
 
   // y
-  for (int i = 0; i < 3; ++i) {
+  for (int i = 0; i < SUBMAP_HEIGHT_; ++i) {
     Dtype* y_dst = base_offset_map_.mutable_cpu_data() +
         base_offset_map_.offset(0, 1, i);
-    caffe_set(3, static_cast<Dtype>(VERTICAL_STRIDE_*i), y_dst);
+    caffe_set(SUBMAP_WIDTH_, static_cast<Dtype>(VERTICAL_STRIDE_*i), y_dst);
   }
 
   // width
   Dtype* w_dst = base_offset_map_.mutable_cpu_data() +
       base_offset_map_.offset(0, 2);
-  caffe_set(9, static_cast<Dtype>(RECEPTIVE_FIELD_WIDTH_), w_dst);
+  caffe_set(SUBMAP_WIDTH_ * SUBMAP_HEIGHT_, 
+            static_cast<Dtype>(RECEPTIVE_FIELD_WIDTH_), w_dst);
 
   // height
   Dtype* h_dst = base_offset_map_.mutable_cpu_data() +
       base_offset_map_.offset(0, 3);
-  caffe_set(9, static_cast<Dtype>(RECEPTIVE_FIELD_HEIGHT_), h_dst);
+  caffe_set(SUBMAP_WIDTH_ * SUBMAP_HEIGHT_,
+            static_cast<Dtype>(RECEPTIVE_FIELD_HEIGHT_), h_dst);
 }
 
 template <typename Dtype>
@@ -172,15 +216,18 @@ void GTSubmapDataLayer<Dtype>::ExtractSubmap() {
   for (int i = 0; i < prefetch_current_->label_.num(); ++i) {
     std::vector<bgm::BBox<int> > pick, temp_pick;
 
-    PickPositive(gt_bbox[i], img_width, img_height, &temp_pick);
+    // grid 학습시엔 positive 생략 (구현 안됨)
+    PickPositive(NUM_JITTER_, gt_bbox[i],
+                 img_width, img_height, &temp_pick);
     pick.insert(pick.end(), temp_pick.cbegin(), temp_pick.cend());
 
     temp_pick.clear();
-    PickSemiPositive(gt_bbox[i], img_width, img_height, &temp_pick);
+    PickSemiPositive(1, gt_bbox[i], img_width, img_height, &temp_pick);
     pick.insert(pick.end(), temp_pick.cbegin(), temp_pick.cend());
 
     temp_pick.clear();
-    PickNegative(img_width, img_height, &temp_pick);
+    PickNegative(gt_bbox[i].size() * NUM_JITTER_,
+                 img_width, img_height, &temp_pick);
     pick.insert(pick.end(), temp_pick.cbegin(), temp_pick.cend());
 
     for (int j = 0; j < pick.size(); ++j) {
@@ -196,9 +243,11 @@ void GTSubmapDataLayer<Dtype>::ExtractSubmap() {
 
 template <typename Dtype>
 void GTSubmapDataLayer<Dtype>::PickPositive(
+    int num,
     const std::vector<bgm::BBox<Dtype> >& gt_bbox,
     int img_width, int img_height,
     std::vector<bgm::BBox<int> >* roi) const {
+  CHECK_GT(num, 0);
   CHECK_GT(img_width, 0);
   CHECK_GT(img_height, 0);
   CHECK(roi);
@@ -214,7 +263,7 @@ void GTSubmapDataLayer<Dtype>::PickPositive(
       y_max = std::max(y_max, y_min);
 
       int num_candidate = (x_max - x_min + 1)*(y_max - y_min + 1);
-      num_candidate = std::min(num_candidate, static_cast<int>(NUM_JITTER_));
+      num_candidate = std::min(num_candidate, static_cast<int>(num));
 
       std::vector<int> roi_x, roi_y;
       GetUniformRandom(num_candidate, x_min, x_max, &roi_x);
@@ -246,12 +295,15 @@ void GTSubmapDataLayer<Dtype>::GetCenterActivationPatchRange(
 
   const int GT_CENTER_X = (gt.x_max() + gt.x_min()) / 2;
   const int GT_CENTER_Y = (gt.y_max() + gt.y_min()) / 2;
-  const int PATCH_WIDTH = RECEPTIVE_FIELD_WIDTH_ + HORIZONTAL_STRIDE_ * 2;
-  const int PATCH_HEIGHT = RECEPTIVE_FIELD_HEIGHT_ + VERTICAL_STRIDE_ * 2;
+  const int PATCH_WIDTH = RECEPTIVE_FIELD_WIDTH_ + (HORIZONTAL_STRIDE_ * (SUBMAP_WIDTH_ - 1));
+  const int PATCH_HEIGHT = RECEPTIVE_FIELD_HEIGHT_ + (VERTICAL_STRIDE_ * (SUBMAP_HEIGHT_ - 1));
 
   CHECK_GE(img_width, PATCH_WIDTH);
   CHECK_GE(img_height, PATCH_HEIGHT);
 
+  // 나중에 여기 고칠 것. 지금은 stride를 0으로 두고 실행
+  CHECK_EQ(HORIZONTAL_STRIDE_, 0) << "나중에 여기 고칠 것. 지금은 stride를 0으로 두고 실행";
+  CHECK_EQ(VERTICAL_STRIDE_, 0) << "나중에 여기 고칠 것. 지금은 stride를 0으로 두고 실행";
   int roi_xmin = std::max(
       0, static_cast<int>(GT_CENTER_X - activation_region_.x_max() - HORIZONTAL_STRIDE_));
   roi_xmin = std::min(roi_xmin, img_width - PATCH_WIDTH);
@@ -265,6 +317,8 @@ void GTSubmapDataLayer<Dtype>::GetCenterActivationPatchRange(
       0, static_cast<int>(GT_CENTER_Y - activation_region_.y_min() - VERTICAL_STRIDE_));
   roi_ymax = std::min(roi_ymax, img_height - PATCH_HEIGHT);
 
+  DLOG(INFO) << "center : " << GT_CENTER_X << ", " << GT_CENTER_Y;
+  DLOG(INFO) << "range : " << roi_xmin << ", " << roi_ymin << ", " << roi_xmax << ", " << roi_ymax;
   *x_min = roi_xmin;
   *x_max = roi_xmax;
   *y_min = roi_ymin;
@@ -273,12 +327,18 @@ void GTSubmapDataLayer<Dtype>::GetCenterActivationPatchRange(
 
 template <typename Dtype>
 void GTSubmapDataLayer<Dtype>::PickSemiPositive(
-    const std::vector<bgm::BBox<Dtype> >& gt_bbox,
+    int num, const std::vector<bgm::BBox<Dtype> >& gt_bbox,
     int img_width, int img_height,
     std::vector<bgm::BBox<int> >* roi) const {
+  CHECK_GT(num, 0);
   CHECK_GT(img_width, 0);
   CHECK_GT(img_height, 0);
   CHECK(roi);
+
+  const int PATCH_WIDTH = 
+      RECEPTIVE_FIELD_WIDTH_ + (HORIZONTAL_STRIDE_ * (SUBMAP_WIDTH_ - 1));
+  const int PATCH_HEIGHT = 
+      RECEPTIVE_FIELD_HEIGHT_ + (VERTICAL_STRIDE_ * (SUBMAP_HEIGHT_ - 1));
 
   roi->clear();
 
@@ -290,17 +350,16 @@ void GTSubmapDataLayer<Dtype>::PickSemiPositive(
     y_max = std::max(y_max, y_min);
 
     int num_candidate = (x_max - x_min + 1)*(y_max - y_min + 1);
-    num_candidate = std::min(num_candidate, static_cast<int>(NUM_JITTER_));
+    num_candidate = std::min(num_candidate, num);
 
     std::vector<int> roi_x, roi_y;
     GetUniformRandom(num_candidate, x_min, x_max, &roi_x);
     GetUniformRandom(num_candidate, y_min, y_max, &roi_y);
 
     for (int j = 0; j < num_candidate; ++j) {
-      bgm::BBox<int> candidate(
-          roi_x[j], roi_y[j],
-          roi_x[j] + (RECEPTIVE_FIELD_WIDTH_ + HORIZONTAL_STRIDE_ * 2) - 1,
-          roi_y[j] + (RECEPTIVE_FIELD_HEIGHT_ + VERTICAL_STRIDE_ * 2) - 1);
+      bgm::BBox<int> candidate(roi_x[j], roi_y[j],
+                               roi_x[j] + PATCH_WIDTH - 1,
+                               roi_y[j] + PATCH_HEIGHT - 1);
       roi->push_back(candidate);
     }
   }
@@ -317,30 +376,39 @@ void GTSubmapDataLayer<Dtype>::GetSemiPositiveRange(
   CHECK(y_min);
   CHECK(y_max);
 
-  const int PATCH_WIDTH = RECEPTIVE_FIELD_WIDTH_ + HORIZONTAL_STRIDE_ * 2;
-  const int PATCH_HEIGHT = RECEPTIVE_FIELD_HEIGHT_ + VERTICAL_STRIDE_ * 2;
+  const int PATCH_WIDTH = 
+      RECEPTIVE_FIELD_WIDTH_ + (HORIZONTAL_STRIDE_ * (SUBMAP_WIDTH_ - 1));
+  const int PATCH_HEIGHT = 
+      RECEPTIVE_FIELD_HEIGHT_ + (VERTICAL_STRIDE_ * (SUBMAP_HEIGHT_ - 1));
 
   CHECK_GE(img_width, PATCH_WIDTH);
   CHECK_GE(img_height, PATCH_HEIGHT);
 
-  *x_min = std::max(0, static_cast<int>(gt.x_max() - PATCH_WIDTH + 1));
-  *x_max = std::min(img_width - PATCH_WIDTH, static_cast<int>(gt.x_min()));
-  *y_min = std::max(0, static_cast<int>(gt.y_max() - PATCH_HEIGHT + 1));
-  *y_max = std::min(img_height - PATCH_HEIGHT, static_cast<int>(gt.y_min()));
+  *x_min = std::max(0, static_cast<int>((gt.x_max()+gt.x_min())/2. - PATCH_WIDTH + 1));
+  *x_max = std::min(img_width - PATCH_WIDTH, static_cast<int>((gt.x_max()+gt.x_min())/2.));
+  *x_max = std::max(*x_min, *x_max);
+  *y_min = std::max(0, static_cast<int>((gt.y_max()+gt.y_min())/2. - PATCH_HEIGHT + 1));
+  *y_max = std::min(img_height - PATCH_HEIGHT, static_cast<int>((gt.y_max()+gt.y_min())/2.));
+  *y_max = std::max(*y_min, *y_max);
 }
 
 template <typename Dtype>
 void GTSubmapDataLayer<Dtype>::PickNegative(
-    int img_width, int img_height,
+    int num_neg, int img_width, int img_height,
     std::vector<bgm::BBox<int> >* roi) const {
+  //CHECK_GT(num_neg, 0);
   CHECK_GT(img_width, 0);
   CHECK_GT(img_height, 0);
   CHECK(roi);
 
   roi->clear();
 
-  const int PATCH_WIDTH = RECEPTIVE_FIELD_WIDTH_ + HORIZONTAL_STRIDE_ * 2;
-  const int PATCH_HEIGHT = RECEPTIVE_FIELD_HEIGHT_ + VERTICAL_STRIDE_ * 2;
+  int n = (num_neg > 0) ? num_neg : 1;
+
+  const int PATCH_WIDTH = 
+      RECEPTIVE_FIELD_WIDTH_ + (HORIZONTAL_STRIDE_ * (SUBMAP_WIDTH_ - 1));
+  const int PATCH_HEIGHT = 
+      RECEPTIVE_FIELD_HEIGHT_ + (VERTICAL_STRIDE_ * (SUBMAP_HEIGHT_ - 1));
 
   CHECK_GE(img_width, PATCH_WIDTH);
   CHECK_GE(img_height, PATCH_HEIGHT);
@@ -349,8 +417,8 @@ void GTSubmapDataLayer<Dtype>::PickNegative(
   int y_max = img_height - PATCH_HEIGHT;
 
   std::vector<int> x_range, y_range;
-  GetUniformRandom(NUM_JITTER_*2, 0, x_max, &x_range);
-  GetUniformRandom(NUM_JITTER_*2, 0, y_max, &y_range);
+  GetUniformRandom(n, 0, x_max, &x_range);
+  GetUniformRandom(n, 0, y_max, &y_range);
 
   for (int i = 0; i < x_range.size(); ++i) {
     bgm::BBox<int> neg(x_range[i], y_range[i],
@@ -369,7 +437,11 @@ void GTSubmapDataLayer<Dtype>::GetUniformRandom(int num, int min, int max,
   CHECK(random);
 
   std::uniform_int_distribution<int> dist(min, max);
-  auto random_generator = std::bind(dist, random_engine_);
+  //auto random_generator = std::bind(dist, random_engine_);
+  auto random_generator = std::bind(dist, 
+                std::default_random_engine(
+                    std::chrono::duration_cast<std::chrono::microseconds>(
+                        std::chrono::system_clock::now().time_since_epoch()).count()));
 
   random->resize(num);
   for (auto iter = random->begin(); iter != random->end(); ++iter)
@@ -400,8 +472,10 @@ void GTSubmapDataLayer<Dtype>::MakeTopData(int data_id,
   CHECK_LT(data_id, data.num());
   CHECK(top_data);
 
-  const int PATCH_WIDTH = RECEPTIVE_FIELD_WIDTH_ + HORIZONTAL_STRIDE_ * 2;
-  const int PATCH_HEIGHT = RECEPTIVE_FIELD_HEIGHT_ + VERTICAL_STRIDE_ * 2;
+  const int PATCH_WIDTH = 
+      RECEPTIVE_FIELD_WIDTH_ + (HORIZONTAL_STRIDE_ * (SUBMAP_WIDTH_ - 1));
+  const int PATCH_HEIGHT = 
+      RECEPTIVE_FIELD_HEIGHT_ + (VERTICAL_STRIDE_ * (SUBMAP_HEIGHT_ - 1));
 
   CHECK_EQ(PATCH_WIDTH, roi.x_max() - roi.x_min() + 1);
   CHECK_GE(roi.x_min(), 0);
@@ -456,8 +530,8 @@ void GTSubmapDataLayer<Dtype>::MakeLabelBBoxMap(
 
   std::vector<int> map_shape(4);
   map_shape[0] = 1;
-  map_shape[2] = 3;
-  map_shape[3] = 3;
+  map_shape[2] = SUBMAP_HEIGHT_;
+  map_shape[3] = SUBMAP_WIDTH_;
 
   map_shape[1] = 1;
   label_map->Reshape(map_shape);
@@ -472,21 +546,28 @@ void GTSubmapDataLayer<Dtype>::MakeLabelBBoxMap(
   Dtype* ymin_iter = bbox_map->mutable_cpu_data() + bbox_map->offset(0, 1);
   Dtype* width_iter = bbox_map->mutable_cpu_data() + bbox_map->offset(0, 2);
   Dtype* height_iter = bbox_map->mutable_cpu_data() + bbox_map->offset(0, 3);
-  for (int i = 0; i < 3; ++i) {
-    for (int j = 0; j < 3; ++j) {
+  for (int i = 0; i < SUBMAP_HEIGHT_; ++i) {
+    for (int j = 0; j < SUBMAP_WIDTH_; ++j) {
       int gt_idx = FindActiveGT(offset_x, offset_y, gt_bbox);
       if (gt_idx != -1) {
         *label_iter = gt_label[gt_idx];
-        *xmin_iter = gt_bbox[gt_idx].x_min() - offset_x;
-        *ymin_iter = gt_bbox[gt_idx].y_min() - offset_y;
+        // bbox normalization 제외한 결과 실험을 위해 activation_region_효과를 배제, 실험 후 복구할 것
+        *xmin_iter = ((gt_bbox[gt_idx].x_min()+gt_bbox[gt_idx].x_max())/2.) - (offset_x/* + activation_region_.x_min()*/);
+        *ymin_iter = ((gt_bbox[gt_idx].y_min()+gt_bbox[gt_idx].y_max())/2.) - (offset_y/* + activation_region_.y_min()*/);
         *width_iter = gt_bbox[gt_idx].x_max() - gt_bbox[gt_idx].x_min() + 1;
         *height_iter = gt_bbox[gt_idx].y_max() - gt_bbox[gt_idx].y_min() + 1;
 
         if (BBOX_NORMALIZATION_) {
+          int region_width = activation_region_.x_max() - activation_region_.x_min() + 1;
+          int region_height = activation_region_.y_max() - activation_region_.y_min() + 1;
           *xmin_iter /= RECEPTIVE_FIELD_WIDTH_;
           *ymin_iter /= RECEPTIVE_FIELD_HEIGHT_;
-          *width_iter /= RECEPTIVE_FIELD_WIDTH_;
-          *height_iter /= RECEPTIVE_FIELD_HEIGHT_;
+          *width_iter = std::log(*width_iter / RECEPTIVE_FIELD_WIDTH_);
+          *height_iter = std::log(*height_iter / RECEPTIVE_FIELD_HEIGHT_);
+          //*xmin_iter /= region_width;
+          //*ymin_iter /= region_height;
+          //*width_iter /= region_width;
+          //*height_iter /= region_height;
         }
       }
       else {
@@ -520,6 +601,9 @@ int GTSubmapDataLayer<Dtype>::FindActiveGT(
   bgm::BBox<Dtype> activation_region = activation_region_;
   activation_region.Shift(offset_x, offset_y);
 
+  //debug
+  int n = bbox.size();
+
   int i;
   for (i = 0; i < bbox.size() && !IsActiveGT(activation_region, bbox[i]); ++i);
   return (i == bbox.size() ? -1 : i);
@@ -544,8 +628,10 @@ bool GTSubmapDataLayer<Dtype>::IsActiveGT(
       break;
     case ActivationRegionParameter::CENTER:
     {
-      Dtype center_x = (bbox.x_min() + bbox.x_max()) / 2.0;
-      Dtype center_y = (bbox.y_min() + bbox.y_max()) / 2.0;
+      //Dtype center_x = (bbox.x_min() + bbox.x_max()) / 2.0;
+      //Dtype center_y = (bbox.y_min() + bbox.y_max()) / 2.0;
+      int center_x = (bbox.x_min() + bbox.x_max()) / 2.0;
+      int center_y = (bbox.y_min() + bbox.y_max()) / 2.0;
       if (center_x >= activation_region.x_min() &&
           center_x <= activation_region.x_max() &&
           center_y >= activation_region.y_min() &&
@@ -570,26 +656,32 @@ void GTSubmapDataLayer<Dtype>::MakeOffsetMap(int img_width, int img_height,
 
   // x
   Dtype* x_iter = offset_map->mutable_cpu_data() + offset_map->offset(0, 0);
-  caffe_add_scalar(9, static_cast<Dtype>(roi.x_min()), x_iter);
+  caffe_add_scalar(SUBMAP_WIDTH_ * SUBMAP_HEIGHT_, 
+                   static_cast<Dtype>(roi.x_min()), x_iter);
   if (OFFSET_NORMALIZATION_)
-    caffe_scal<Dtype>(9, static_cast<Dtype>(1.0 / img_width), x_iter);
+    caffe_scal<Dtype>(SUBMAP_WIDTH_ * SUBMAP_HEIGHT_,
+                      static_cast<Dtype>(1.0 / img_width), x_iter);
 
   // y
   Dtype* y_iter = offset_map->mutable_cpu_data() + offset_map->offset(0, 1);
-  caffe_add_scalar(9, static_cast<Dtype>(roi.y_min()), y_iter);
+  caffe_add_scalar(SUBMAP_WIDTH_ * SUBMAP_HEIGHT_,
+                   static_cast<Dtype>(roi.y_min()), y_iter);
   if (OFFSET_NORMALIZATION_)
-    caffe_scal<Dtype>(9, static_cast<Dtype>(1.0 / img_height), y_iter);
+    caffe_scal<Dtype>(SUBMAP_WIDTH_ * SUBMAP_HEIGHT_,
+                      static_cast<Dtype>(1.0 / img_height), y_iter);
 
   // width
   if (OFFSET_NORMALIZATION_) {
     Dtype* w_iter = offset_map->mutable_cpu_data() + offset_map->offset(0, 2);
-    caffe_scal<Dtype>(9, static_cast<Dtype>(1.0 / img_width), w_iter);
+    caffe_scal<Dtype>(SUBMAP_WIDTH_ * SUBMAP_HEIGHT_,
+                      static_cast<Dtype>(1.0 / img_width), w_iter);
   }
 
   // height
   if (OFFSET_NORMALIZATION_) {
     Dtype* h_iter = offset_map->mutable_cpu_data() + offset_map->offset(0, 3);
-    caffe_scal<Dtype>(9, static_cast<Dtype>(1.0 / img_height), h_iter);
+    caffe_scal<Dtype>(SUBMAP_WIDTH_ * SUBMAP_HEIGHT_,
+                      static_cast<Dtype>(1.0 / img_height), h_iter);
   }
 }
 
@@ -600,25 +692,32 @@ void GTSubmapDataLayer<Dtype>::CopyTop(int batch_idx, const TopBlob& top_blob,
   CHECK_LT(batch_idx, SUBMAP_BATCH_SIZE_);
   CHECK_GE(top.size(), 1);
 
+#ifndef NDEBUG
   // data
   cv::Mat debug_data, debug_label;
   cv::Mat debug_bbox_x, debug_bbox_y, debug_bbox_w, debug_bbox_h;
   cv::Mat debug_offset_x, debug_offset_y, debug_offset_w, debug_offset_h;
+#endif !NDEBUG
 
   const Dtype* data_src = top_blob.data.cpu_data();
   Dtype* data_dst = top[0]->mutable_cpu_data() + top[0]->offset(batch_idx);
   caffe_copy(top_blob.data.count(), data_src, data_dst);
-  //// debug
-  //int img_width = top_blob.data.width();
-  //int img_height = top_blob.data.height();
-  //int img_size = img_width * img_height;
-  //std::vector<cv::Mat> bgr(3);
-  //bgr[0] = cv::Mat(cv::Size(img_width, img_height), CV_32FC1, data_dst);
-  //bgr[1] = cv::Mat(cv::Size(img_width, img_height), CV_32FC1, data_dst + img_size);
-  //bgr[2] = cv::Mat(cv::Size(img_width, img_height), CV_32FC1, data_dst + img_size * 2);
-  //debug_data = cv::Mat(cv::Size(img_width, img_height), CV_32FC3);
-  //cv::merge(bgr, debug_data);
-  //debug_data.convertTo(debug_data, CV_8UC3);
+
+
+#ifndef NDEBUG
+  // debug
+  int img_width = top_blob.data.width();
+  int img_height = top_blob.data.height();
+  int img_size = img_width * img_height;
+  std::vector<cv::Mat> bgr(3);
+  bgr[0] = cv::Mat(cv::Size(img_width, img_height), CV_32FC1, data_dst);
+  bgr[1] = cv::Mat(cv::Size(img_width, img_height), CV_32FC1, data_dst + img_size);
+  bgr[2] = cv::Mat(cv::Size(img_width, img_height), CV_32FC1, data_dst + img_size * 2);
+  debug_data = cv::Mat(cv::Size(img_width, img_height), CV_32FC3);
+  cv::merge(bgr, debug_data);
+  debug_data.convertTo(debug_data, CV_8UC3);
+#endif // !NDEBUG
+
 
 
   // label
@@ -627,10 +726,13 @@ void GTSubmapDataLayer<Dtype>::CopyTop(int batch_idx, const TopBlob& top_blob,
     Dtype* label_dst = top[1]->mutable_cpu_data() + top[1]->offset(batch_idx);
     caffe_copy(top_blob.label.count(), label_src, label_dst);
 
-    //// debug
-    //debug_label = cv::Mat(cv::Size(top_blob.label.width(),
-    //                               top_blob.label.height()),
-    //                      CV_32FC1, label_dst);
+#ifndef NDEBUG
+    // debug
+    debug_label = cv::Mat(cv::Size(top_blob.label.width(),
+                                   top_blob.label.height()),
+                          CV_32FC1, label_dst);
+#endif // !NDEBUG
+
   }
 
   // bbox
@@ -639,19 +741,22 @@ void GTSubmapDataLayer<Dtype>::CopyTop(int batch_idx, const TopBlob& top_blob,
     Dtype* bbox_dst = top[2]->mutable_cpu_data() + top[2]->offset(batch_idx);
     caffe_copy(top_blob.bbox.count(), bbox_src, bbox_dst);
 
-    //// debug
-    //debug_bbox_x = cv::Mat(cv::Size(top_blob.bbox.width(),
-    //                                top_blob.bbox.height()),
-    //                       CV_32FC1, bbox_dst);
-    //debug_bbox_y = cv::Mat(cv::Size(top_blob.bbox.width(),
-    //                                top_blob.bbox.height()),
-    //                       CV_32FC1, bbox_dst + 9);
-    //debug_bbox_w = cv::Mat(cv::Size(top_blob.bbox.width(),
-    //                                top_blob.bbox.height()),
-    //                       CV_32FC1, bbox_dst + 18);
-    //debug_bbox_h = cv::Mat(cv::Size(top_blob.bbox.width(),
-    //                                top_blob.bbox.height()),
-    //                       CV_32FC1, bbox_dst + 27);
+#ifndef NDEBUG
+    // debug
+    debug_bbox_x = cv::Mat(cv::Size(top_blob.bbox.width(),
+                                    top_blob.bbox.height()),
+                           CV_32FC1, bbox_dst);
+    debug_bbox_y = cv::Mat(cv::Size(top_blob.bbox.width(),
+                                    top_blob.bbox.height()),
+                           CV_32FC1, bbox_dst + SUBMAP_WIDTH_*SUBMAP_HEIGHT_);
+    debug_bbox_w = cv::Mat(cv::Size(top_blob.bbox.width(),
+                                    top_blob.bbox.height()),
+                           CV_32FC1, bbox_dst + SUBMAP_WIDTH_*SUBMAP_HEIGHT_ * 2);
+    debug_bbox_h = cv::Mat(cv::Size(top_blob.bbox.width(),
+                                    top_blob.bbox.height()),
+                           CV_32FC1, bbox_dst + SUBMAP_WIDTH_*SUBMAP_HEIGHT_ * 3);
+#endif // !NDEBUG
+
   }
 
   // offset
@@ -660,19 +765,22 @@ void GTSubmapDataLayer<Dtype>::CopyTop(int batch_idx, const TopBlob& top_blob,
     Dtype* offset_dst = top[3]->mutable_cpu_data() + top[3]->offset(batch_idx);
     caffe_copy(top_blob.offset.count(), offset_src, offset_dst);
 
-    //// debug
-    //debug_offset_x = cv::Mat(cv::Size(top_blob.bbox.width(),
-    //                                top_blob.bbox.height()),
-    //                       CV_32FC1, offset_dst);
-    //debug_offset_y = cv::Mat(cv::Size(top_blob.bbox.width(),
-    //                                top_blob.bbox.height()),
-    //                       CV_32FC1, offset_dst + 9);
-    //debug_offset_w = cv::Mat(cv::Size(top_blob.bbox.width(),
-    //                                top_blob.bbox.height()),
-    //                       CV_32FC1, offset_dst + 18);
-    //debug_offset_h = cv::Mat(cv::Size(top_blob.bbox.width(),
-    //                                top_blob.bbox.height()),
-    //                       CV_32FC1, offset_dst + 27);
+#ifndef NDEBUG
+    // debug
+    debug_offset_x = cv::Mat(cv::Size(top_blob.bbox.width(),
+                                      top_blob.bbox.height()),
+                             CV_32FC1, offset_dst);
+    debug_offset_y = cv::Mat(cv::Size(top_blob.bbox.width(),
+                                      top_blob.bbox.height()),
+                             CV_32FC1, offset_dst + SUBMAP_WIDTH_*SUBMAP_HEIGHT_);
+    debug_offset_w = cv::Mat(cv::Size(top_blob.bbox.width(),
+                                      top_blob.bbox.height()),
+                             CV_32FC1, offset_dst + SUBMAP_WIDTH_*SUBMAP_HEIGHT_ * 2);
+    debug_offset_h = cv::Mat(cv::Size(top_blob.bbox.width(),
+                                      top_blob.bbox.height()),
+                             CV_32FC1, offset_dst + SUBMAP_WIDTH_*SUBMAP_HEIGHT_ * 3);
+#endif // !NDEBUG
+
   }
 }
 

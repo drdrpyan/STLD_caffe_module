@@ -241,7 +241,7 @@ void BBox<Dtype>::Scale(const Dtype& scale_factor,
       (*max) *= scale_factor;
       break;
     case BBOX_TOPLEFT:
-      (*max) *= scale_factor;
+      (*max) = *min + ((*max - *min) * scale_factor);
       break;
     case BBOX_CENTER:
       {

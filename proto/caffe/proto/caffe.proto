@@ -80,11 +80,18 @@ message BBoxParameter {
     TEMPLATE = 4;
   };
 
+  enum BBoxAnchor
+  {
+    TOP_LEFT = 1;
+    CENTER = 2;
+  };
   enum BBoxConstant {
     DUMMY_VALUE = -1;
   };
 
   optional BBoxType bbox_type = 1;
+  optional BBoxAnchor anchor = 2;
+  optional bool normalize = 3;
   //repeated BBoxTemplate bbox_template = 2;
 }
 
@@ -171,6 +178,7 @@ message GTMapDataParameter {
 message LabelDiffIgnoreParameter{
   repeated uint32 ignore_label = 1;
   repeated float ignore_rate = 2;
+  optional bool elem_wise = 3 [default = true];
 }
 
 message OffsetParameter {
@@ -186,18 +194,251 @@ message OffsetParameter {
 
 message GTSubmapDataParameter {
   required uint32 submap_batch_size = 1;
-  required Size2i receptive_field = 2;
-  required uint32 horizontal_stride = 3;
-  required uint32 vertical_stride = 4;
+  required Size2i submap_size = 2;
+  required Size2i receptive_field = 3;
+  required uint32 horizontal_stride = 4;
+  required uint32 vertical_stride = 5;
   
-  optional ActivationRegionParameter activation_region_param = 5;
+  optional ActivationRegionParameter activation_region_param = 6;
 
-  optional uint32 num_jitter = 6 [default = 0];
+  optional uint32 num_jitter = 7 [default = 0];
 
-  optional bool bbox_normalization = 7 [default = true];
+  optional bool bbox_normalization = 8 [default = true];
 
-  required OffsetParameter offset_param = 8;
+  required OffsetParameter offset_param = 9;
   
+}
+
+message TopSubmapDataParameter{
+  required Size2i img_size = 1;
+  
+  required uint32 submap_batch_size = 2;
+
+  required Size2i win_size = 3;
+  optional uint32 win_horizontal_stride = 4 [default = 1];
+  optional uint32 win_vertical_stride = 5 [default = 0];
+  optional uint32 num_win_rows = 6;
+  optional uint32 num_win_cols = 7;
+
+  optional Size2i offset_unit = 8;
+  optional uint32 offset_horizontal_stride = 9;
+  optional uint32 offset_vertical_stride = 10;
+
+  optional Size2i gt_unit = 11;
+  optional uint32 gt_horizontal_stride = 12;
+  optional uint32 gt_vertical_stride = 13;
+  
+  optional BBoxParameter bbox_param = 14;
+  //optional bool bbox_normalization = 14 [default = true];
+  optional bool offset_normalize = 15 [default = true];
+}
+
+message YOLOLikeLossParameter {
+  optional uint32 num_bbox_per_cell = 1 [default = 2];
+  optional uint32 num_class = 2 [default = 20];
+
+  optional float noobj_scale = 3 [default = 1];
+  optional float obj_scale = 4 [default = 1];
+  optional float class_scale = 5 [default = 1];
+  optional float coord_scale = 6 [default = 1];
+
+  optional BBoxParameter bbox_param = 7;
+
+  repeated float class_weight = 8;
+}
+
+message WeightedSoftmaxLossParameter {
+  repeated float class_weight = 1;
+}
+
+message GridProposalLossParameter{
+  optional float noobj_weight = 1 [default = 1];
+  repeated float obj_weight = 2;
+  optional uint32 num_class = 3 [default = 1];
+  optional bool general_obj_proposal = 4 [default = false];
+}
+
+message BGSynthesisDataParameter{
+  required uint32 width = 1;
+  required uint32 height = 2;
+
+  //required ImageDataParameter obj_data_param = 3;
+  //optional TransformationParameter obj_transform_param = 4;
+  //required ImageDataParameter bg_data_param = 5;
+  //optional TransformationParameter bg_transform_param = 6;
+  required LayerParameter obj_data_param = 3;
+  required LayerParameter bg_data_param = 4;
+
+  required uint32 max_obj = 5;
+  optional uint32 min_obj = 6;
+
+  optional ActivationRegionParameter active_region_param = 7;
+
+  optional uint32 batch_size = 8 [default = 1];
+  optional uint32 num_neg = 9 [default = 0];
+}
+
+message SizeFilterParameter
+{
+  optional uint32 axis = 1 [default = 2]; // 0:x, 1:y, 2:w, 3:h
+  optional double min = 2;
+  optional double max = 3;
+}
+
+message RandomResizeParameter
+{
+  optional float p = 1 [default = 1];
+  optional float w_min = 2 [default = 1];
+  optional float w_max = 3 [default = 1];
+  optional float h_min = 4 [default = 1];
+  optional float h_max = 5 [default = 1];
+}
+
+message GaussianNoiseParameter
+{
+  optional float p = 1 [default = 1];
+  optional float mean = 2 [default = 0];
+  optional float stddev = 3 [default = 1];
+}
+
+message MirrorParameter
+{
+  optional float p = 1 [default = 0.5];
+}
+
+message BlurParameter
+{
+  optional float p = 1 [default = 0.5];
+  optional uint32 kernel_size = 2 [default = 3];
+  optional float sigma = 3 [default = 1.4];
+}
+
+message AugmentationParameter
+{
+  optional PaddingParameter pad_param = 1;
+  optional RandomResizeParameter rand_resize_param = 2;
+  repeated GaussianNoiseParameter gauss_noise_param = 3;
+  optional MirrorParameter mirror_param = 4;
+  optional BlurParameter blur_param = 5;
+}
+
+message HeatmapParameter
+{
+  optional uint32 num_label = 1 [default = 1];
+  optional bool bbox_normalized = 2 [default = true];
+  optional float width = 3 [default = 1];
+  optional float height = 4 [default = 1];
+  optional uint32 rows = 5;
+  optional uint32 cols = 6;
+}
+
+message MinibatchDataParameter {
+  optional uint32 num_batch = 1 [default = 128];
+  optional uint32 width = 2 [default = 0];
+  optional uint32 height = 3 [default = 0];
+  optional uint32 num_gt = 4 [default = 10];
+  optional uint32 max_num_patch = 5 [default = 1];
+}
+
+message RowColProposalTransformParameter {
+  optional uint32 row = 1 [default = 7];
+  optional uint32 col = 2 [default = 7];
+  required uint32 in_width = 3;
+  required uint32 in_height = 4;
+  optional uint32 out_width = 5 [default = 1];
+  optional uint32 out_height = 6 [default = 1];
+
+  optional bool objectness = 7;
+  optional uint32 num_label = 8;
+  repeated uint32 ignore_label = 9;
+}
+
+message CheckParameter{
+  optional string dst_path = 1;
+  optional bool bbox_norm = 2 [default = true];
+  optional float w_divider = 3;
+  optional float h_divider = 4;
+}
+
+message MeanSubParameter{
+  required string mean_file = 1;
+}
+
+message AnnoToSegParameter {
+  optional bool objectness = 1 [default = false];
+  optional uint32 num_label = 2;
+  optional bool bbox_normalized = 3 [default = false];
+  optional uint32 in_width = 4 [default = 1];
+  optional uint32 in_height = 5 [default = 1];
+  optional uint32 out_width = 6;
+  optional uint32 out_height = 7;
+}
+
+message TrainROIParameter {
+  required uint32 img_width = 1;
+  required uint32 img_height = 2;
+  required uint32 roi_width = 3;
+  required uint32 roi_height = 4;
+}
+
+message YOLOV2LossParameter {
+	repeated Rect2f anchor = 1;
+	required uint32 num_class = 2;
+	required Size2i img_size = 3;
+	required Size2i yolo_map_size = 4;
+	optional float overlap_threshold = 5 [default = 0.3];
+	optional float noobj_scale = 6 [default = 1];
+	optional float obj_scale = 7 [default = 3];
+	optional float cls_scale = 8 [default = 2];
+	optional float coord_scale = 9 [default = 2];
+}
+
+message YOLOV2ResultParameter {
+  required Size2i cell_size = 1;
+  required uint32 num_class = 2;
+  repeated Rect2f anchor = 3;
+
+  required uint32 num_detection = 4;
+  optional bool do_nms = 5 [default = true];
+  optional float nms_overlap_threshold = 6 [default = 0.5];
+
+  optional float conf_threshold = 7 [default = 0.5];
+}
+
+message DetectionCheckParameter {
+  optional bool eval_performance = 1 [default = true];
+  optional bool draw = 2 [default = true];
+
+  optional float detection_conf_threshold = 3 [default = 0];
+  optional float iou_threshold = 4 [default = 0.5];
+  
+  optional string log_path = 5 [default = "./detection_log/"];
+
+  optional bool detection_only = 6 [default = false];
+}
+
+message SubwinOffsetParameter {
+  required Size2i win_size = 1;
+  repeated Point2i win_offset = 2;
+  optional bool global_detection = 3 [default = true];
+}
+
+message SizeRejectionParameter {
+  optional float w_min = 1;
+  optional float w_max = 2;
+  optional float h_min = 3;
+  optional float h_max = 4;
+}
+
+message ConfCheckParameter {
+  optional string out_path = 1 [default = "."];
+  optional bool draw = 2 [default = false];
+}
+
+// https://github.com/gklz1982/caffe-yolov2
+message ReorgParameter {
+  optional uint32 stride = 1;
+  optional bool reverse = 2 [default = false];
 }
 
 // Specifies the shape (dimensions) of a Blob.
@@ -617,6 +858,27 @@ message LayerParameter {
   optional GTMapDataParameter gt_map_data_param = 1012;
   optional LabelDiffIgnoreParameter label_diff_ignore_param = 1013;
   optional GTSubmapDataParameter gt_submap_data_param = 1014;
+  optional TopSubmapDataParameter top_submap_data_param = 1015;
+  optional YOLOLikeLossParameter yololike_loss_param = 1016;
+  optional WeightedSoftmaxLossParameter weighted_softmax_loss_param = 1017;
+  optional GridProposalLossParameter grid_proposal_loss_param = 1018;
+  optional BGSynthesisDataParameter bg_synthesis_data_param = 1019;
+  optional SizeFilterParameter size_filter_param = 1020;
+  optional AugmentationParameter augmentation_param = 1021;
+  optional HeatmapParameter heatmap_param = 1022;
+  optional CheckParameter check_param = 1023;
+  optional MeanSubParameter mean_sub_param = 1024;
+  optional MinibatchDataParameter minibatch_data_param = 1025;
+  optional RowColProposalTransformParameter rcp_transform_param = 1026;
+  optional AnnoToSegParameter anno_to_seg_param = 1027;
+  optional TrainROIParameter train_roi_param = 1028;
+  optional YOLOV2LossParameter yolo_v2_loss_param = 1029;
+  optional YOLOV2ResultParameter yolo_v2_result_param = 1030;
+  optional DetectionCheckParameter detection_check_param = 1031;
+  optional SubwinOffsetParameter subwin_offset_param = 1032;
+  optional SizeRejectionParameter size_rejection_param = 1033;
+  optional ConfCheckParameter conf_check_param = 1034;
+  optional ReorgParameter reorg_param = 1035;
 }
 
 // Message that stores parameters used to apply transformation
@@ -641,6 +903,120 @@ message TransformationParameter {
   // Force the decoded image to have 1 color channels.
   optional bool force_gray = 7 [default = false];
 }
+
+//// Message that stores parameters used to apply transformation
+//// to the data layer's data
+//message TransformationParameter {
+//  // For data pre-processing, we can do simple scaling and subtracting the
+//  // data mean, if provided. Note that the mean subtraction is always carried
+//  // out before scaling.
+//  optional float scale = 1 [default = 1];
+//  // Specify if we want to randomly mirror data.
+//  optional bool mirror = 2 [default = false];
+//  // Specify if we would like to randomly crop an image.
+//  optional uint32 crop_size = 3 [default = 0];
+//  // mean_file and mean_value cannot be specified at the same time
+//  optional string mean_file = 4;
+//  // if specified can be repeated once (would substract it from all the channels)
+//  // or can be repeated the same number of times as channels
+//  // (would subtract them from the corresponding channel)
+//  repeated float mean_value = 5;
+//  //Resize policy
+//  repeated ResizeParameter resize_param = 6;
+//  //Noise policy
+//  repeated NoiseParameter noise_param = 7;
+//  // Specify if we want to randomly mirror data around X axis.
+//  optional bool vertical_mirror = 8 [default = false];
+//  //Random rotation by 0-90-180-270 degrees
+//  optional bool random_90_deg_rot = 9 [default = false];
+//
+//}
+//
+//// Message that stores parameters used by data transformer for transformation policy
+//message ResizeParameter {
+//
+////Probability of using this resize policy
+//optional float prob = 1 [default = 0];
+//
+//enum Resize_mode {
+//WARP = 1;
+//FIT_SMALL_SIZE = 2;
+//FIT_LARGE_SIZE_AND_PAD = 3;
+//}
+//optional Resize_mode resize_mode = 2 [default = WARP];
+//optional uint32 height = 3 [default = 0];
+//optional uint32 width = 4 [default = 0];
+//
+//enum Pad_mode {
+//CONSTANT = 1;
+//MIRRORED = 2;
+//REPEAT_NEAREST = 3;
+//}
+//// Padding mode for BE_SMALL_SIZE_AND_PAD mode and object centering
+//optional Pad_mode pad_mode = 5 [default = CONSTANT];
+//// if specified can be repeated once (would fill all the channels)
+//// or can be repeated the same number of times as channels
+//// (would use it them to the corresponding channel)
+//repeated float pad_value = 6;
+//
+//enum Interp_mode { //Same as in OpenCV
+//LINEAR = 1;
+//AREA = 2;
+//NEAREST = 3;
+//CUBIC = 4;
+//LANCZOS4 = 5;
+//}
+////interpolation for for resizing
+//optional Interp_mode interp_mode = 7 [default = LINEAR];
+//
+//// Extracts and centers object if it lays on monotonic background. First operation
+//optional bool center_object = 8 [default = false];
+//
+//// Random rotation. Second operation after centering object
+//optional float max_angle = 9 [default = 0];
+//}
+//
+//message SaltPepperParameter {
+//enum SaltType{
+//	relative = 1;
+//	absolute = 2;
+//}
+//required SaltType type = 3 [default = relative];
+////Percentage of pixels
+//optional float fraction = 1 [default = 0];
+//repeated float value = 2;
+//}
+//
+//// Message that stores parameters used by data transformer for transformation
+//// policy
+//message NoiseParameter {
+//
+////Probability of using this resize policy
+//optional float prob = 1 [default = 0];
+//// Histogram equalized
+//optional bool hist_eq = 2 [default = false];
+//// Color inversion
+//optional bool inverse = 3 [default = false];
+//// Grayscale
+//optional bool decolorize = 4 [default = false];
+//// Gaussian blur
+//optional bool gauss_blur = 5 [default = false];
+//
+//// JPEG compression quality (-1 = no compression)
+//optional float jpeg = 6 [default = -1];
+//
+//// Posterization
+//optional bool posterize = 7 [default = false];
+//
+//// Erosion
+//optional bool erode = 8 [default = false];
+//// Salt-and-pepper noise
+//optional bool saltpepper = 9 [default = false];
+//
+//optional SaltPepperParameter saltpepper_param = 10;
+//// Local gistogram equalization
+//optional bool clahe = 11 [default = false];
+//}
 
 // Message that stores parameters shared by loss layers
 message LossParameter {

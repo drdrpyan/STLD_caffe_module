@@ -17,7 +17,7 @@ class BBoxToGridAndSizeLayer : public Layer<Dtype>
   virtual void Reshape(
       const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top) override;
-  virtual const char* type() const;
+  virtual const char* type() const override;
   virtual int ExactNumBottomBlobs() const override;
   virtual int ExactNumTopBlobs() const override;
 
@@ -101,8 +101,8 @@ inline void BBoxToGridAndSizeLayer<Dtype>::GetBBoxCenter(
   CHECK(center_x);
   CHECK(center_y);
 
-  center_x = x_min + (width / 2.0);
-  center_y = y_min + (height / 2.0);
+  *center_x = x_min + (width / 2.0);
+  *center_y = y_min + (height / 2.0);
 }
 
 } // namespace caffe

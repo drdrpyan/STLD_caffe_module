@@ -335,6 +335,10 @@ void Solver<Dtype>::Test(const int test_net_id) {
   vector<int> test_score_output_id;
   const shared_ptr<Net<Dtype> >& test_net = test_nets_[test_net_id];
   Dtype loss = 0;
+  
+  // accuracy -nan(ind) 처리용
+  std::vector<int> nan_cnt;
+  
   for (int i = 0; i < param_.test_iter(test_net_id); ++i) {
     SolverAction::Enum request = GetRequestedAction();
     // Check to see if stoppage of testing/training has been requested.
@@ -357,11 +361,29 @@ void Solver<Dtype>::Test(const int test_net_id) {
     if (param_.test_compute_loss()) {
       loss += iter_loss;
     }
+    //////////////////////////////////////////////////
+    // accuracy -nan(ind) 처리용, -nan(ind)를 1로 대체
+    //for (int j = 0; j < result.size(); ++j) {
+    //  Dtype* result_vec = result[j]->mutable_cpu_data();
+    //  for (int k = 0; k < result[j]->count(); ++k) {
+    //    if (std::isnan(result_vec[k]))
+    //      result_vec[k] = 1;
+    //  }
+    //}
+    ///////////////////////////////////////////////////
     if (i == 0) {
+      // accuracy -nan(ind) 처리용
+      nan_cnt.clear();
+
       for (int j = 0; j < result.size(); ++j) {
         const Dtype* result_vec = result[j]->cpu_data();
         for (int k = 0; k < result[j]->count(); ++k) {
-          test_score.push_back(result_vec[k]);
+          //test_score.push_back(result_vec[k]);
+
+          // accuracy -nan(ind) 처리용, -nan(ind)를 1로 대체
+          test_score.push_back(std::isnan(result_vec[k]) ? 0 : result_vec[k]);
+          nan_cnt.push_back(std::isnan(result_vec[k]) ? 1 : 0);
+
           test_score_output_id.push_back(j);
         }
       }
@@ -370,7 +392,11 @@ void Solver<Dtype>::Test(const int test_net_id) {
       for (int j = 0; j < result.size(); ++j) {
         const Dtype* result_vec = result[j]->cpu_data();
         for (int k = 0; k < result[j]->count(); ++k) {
-          test_score[idx++] += result_vec[k];
+          //test_score[idx++] += result_vec[k];
+
+          // accuracy -nan(ind) 처리용, -nan(ind)를 1로 대체
+          nan_cnt[idx] += (std::isnan(result_vec[k]) ? 1 : 0);
+          test_score[idx++] += std::isnan(result_vec[k]) ? 0 : result_vec[k];
         }
       }
     }
@@ -389,7 +415,11 @@ void Solver<Dtype>::Test(const int test_net_id) {
     const string& output_name = test_net->blob_names()[output_blob_index];
     const Dtype loss_weight = test_net->blob_loss_weights()[output_blob_index];
     ostringstream loss_msg_stream;
-    const Dtype mean_score = test_score[i] / param_.test_iter(test_net_id);
+    // accuracy -nan(ind) 처리용
+    //const Dtype mean_score = test_score[i] / param_.test_iter(test_net_id);
+    Dtype mean_score = test_score[i];
+    if(nan_cnt[i] < param_.test_iter(test_net_id)) mean_score /= (param_.test_iter(test_net_id) - nan_cnt[i]);
+    else mean_score /= param_.test_iter(test_net_id);
     if (loss_weight) {
       loss_msg_stream << " (* " << loss_weight
                       << " = " << loss_weight * mean_score << " loss)";

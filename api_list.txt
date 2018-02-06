@@ -1,0 +1,17 @@
+성능 테스트용
+test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_extra33_eval2.prototxt  -weights D:/workspace/TLR/model/tlr_yolov2_deconv_resnet101_extra33_iter_100000(best).caffemodel -gpu 1 -iterations 8334
+
+학습용
+train -solver D:/workspace/TLR/tlr/model/tlr_yolov2_solver.prototxt  -weights D:/workspace/TLR/model/tlr_yolov2_deconv_resnet101_extra33_iter_100000(best).caffemodel -gpu 0
+
+detection 테스트용
+test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_extra33_eval2.prototxt  -weights D:/workspace/TLR/model/tlr_yolov2_deconv_resnet101_extra33_iter_100000(best).caffemodel -gpu 0 -iterations 8334
+
+detection 테스트용 (trainset)
+test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_extra33_eval2.prototxt  -weights D:/workspace/TLR/model/tlr_yolov2_deconv_resnet101_extra33_iter_100000(best).caffemodel -gpu 0 -iterations 12000
+
+conf 테스트용
+test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_extra33_earlyrejection_eval.prototxt  -weights D:/tlr_snapshot/yolov2_res101/early_rejection_2/train_1/tlr_iter_74000(best).caffemodel -gpu 1 -iterations 8334
+
+late rejection 학습용
+train -solver D:/workspace/TLR/tlr/model/tlr_late_rejection_solver.prototxt -gpu 1
