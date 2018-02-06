@@ -449,6 +449,13 @@ message BatchRejectionParameter {
   optional float threshold = 2;
 }
 
+message SubnetParameter {
+  required string model = 1;
+  optional Phase phase = 2;
+  optional int32 level = 3;
+  repeated string stage = 4; 
+}
+
 // Specifies the shape (dimensions) of a Blob.
 message BlobShape {
   repeated int64 dim = 1 [packed = true];
@@ -888,6 +895,7 @@ message LayerParameter {
   optional ConfCheckParameter conf_check_param = 1034;
   optional ReorgParameter reorg_param = 1035;
   optional BatchRejectionParameter batch_rejection_param = 1036;
+  optional SubnetParameter subnet_param = 1037;
 }
 
 // Message that stores parameters used to apply transformation

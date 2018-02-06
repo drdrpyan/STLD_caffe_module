@@ -135,6 +135,7 @@ class SlidingWindowInputParameter;
 class SoftmaxParameter;
 class SolverParameter;
 class SolverState;
+class SubnetParameter;
 class SubwinOffsetParameter;
 class TanHParameter;
 class ThresholdParameter;
@@ -7755,6 +7756,146 @@ extern ::google::protobuf::internal::ExplicitlyConstructed<BatchRejectionParamet
 
 // -------------------------------------------------------------------
 
+class SubnetParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.SubnetParameter) */ {
+ public:
+  SubnetParameter();
+  virtual ~SubnetParameter();
+
+  SubnetParameter(const SubnetParameter& from);
+
+  inline SubnetParameter& operator=(const SubnetParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SubnetParameter& default_instance();
+
+  static const SubnetParameter* internal_default_instance();
+
+  void Swap(SubnetParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline SubnetParameter* New() const { return New(NULL); }
+
+  SubnetParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const SubnetParameter& from);
+  void MergeFrom(const SubnetParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(SubnetParameter* other);
+  void UnsafeMergeFrom(const SubnetParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required string model = 1;
+  bool has_model() const;
+  void clear_model();
+  static const int kModelFieldNumber = 1;
+  const ::std::string& model() const;
+  void set_model(const ::std::string& value);
+  void set_model(const char* value);
+  void set_model(const char* value, size_t size);
+  ::std::string* mutable_model();
+  ::std::string* release_model();
+  void set_allocated_model(::std::string* model);
+
+  // optional .caffe.Phase phase = 2;
+  bool has_phase() const;
+  void clear_phase();
+  static const int kPhaseFieldNumber = 2;
+  ::caffe::Phase phase() const;
+  void set_phase(::caffe::Phase value);
+
+  // optional int32 level = 3;
+  bool has_level() const;
+  void clear_level();
+  static const int kLevelFieldNumber = 3;
+  ::google::protobuf::int32 level() const;
+  void set_level(::google::protobuf::int32 value);
+
+  // repeated string stage = 4;
+  int stage_size() const;
+  void clear_stage();
+  static const int kStageFieldNumber = 4;
+  const ::std::string& stage(int index) const;
+  ::std::string* mutable_stage(int index);
+  void set_stage(int index, const ::std::string& value);
+  void set_stage(int index, const char* value);
+  void set_stage(int index, const char* value, size_t size);
+  ::std::string* add_stage();
+  void add_stage(const ::std::string& value);
+  void add_stage(const char* value);
+  void add_stage(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& stage() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_stage();
+
+  // @@protoc_insertion_point(class_scope:caffe.SubnetParameter)
+ private:
+  inline void set_has_model();
+  inline void clear_has_model();
+  inline void set_has_phase();
+  inline void clear_has_phase();
+  inline void set_has_level();
+  inline void clear_has_level();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> stage_;
+  ::google::protobuf::internal::ArenaStringPtr model_;
+  int phase_;
+  ::google::protobuf::int32 level_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<SubnetParameter> SubnetParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
 class BlobShape : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.BlobShape) */ {
  public:
   BlobShape();
@@ -10892,6 +11033,15 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::BatchRejectionParameter* release_batch_rejection_param();
   void set_allocated_batch_rejection_param(::caffe::BatchRejectionParameter* batch_rejection_param);
 
+  // optional .caffe.SubnetParameter subnet_param = 1037;
+  bool has_subnet_param() const;
+  void clear_subnet_param();
+  static const int kSubnetParamFieldNumber = 1037;
+  const ::caffe::SubnetParameter& subnet_param() const;
+  ::caffe::SubnetParameter* mutable_subnet_param();
+  ::caffe::SubnetParameter* release_subnet_param();
+  void set_allocated_subnet_param(::caffe::SubnetParameter* subnet_param);
+
   // @@protoc_insertion_point(class_scope:caffe.LayerParameter)
  private:
   inline void set_has_name();
@@ -11066,6 +11216,8 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_reorg_param();
   inline void set_has_batch_rejection_param();
   inline void clear_has_batch_rejection_param();
+  inline void set_has_subnet_param();
+  inline void clear_has_subnet_param();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<3> _has_bits_;
@@ -11163,6 +11315,7 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::ConfCheckParameter* conf_check_param_;
   ::caffe::ReorgParameter* reorg_param_;
   ::caffe::BatchRejectionParameter* batch_rejection_param_;
+  ::caffe::SubnetParameter* subnet_param_;
   int phase_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_2eproto_impl();
@@ -25471,6 +25624,171 @@ inline const BatchRejectionParameter* BatchRejectionParameter::internal_default_
 }
 // -------------------------------------------------------------------
 
+// SubnetParameter
+
+// required string model = 1;
+inline bool SubnetParameter::has_model() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void SubnetParameter::set_has_model() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void SubnetParameter::clear_has_model() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void SubnetParameter::clear_model() {
+  model_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_model();
+}
+inline const ::std::string& SubnetParameter::model() const {
+  // @@protoc_insertion_point(field_get:caffe.SubnetParameter.model)
+  return model_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void SubnetParameter::set_model(const ::std::string& value) {
+  set_has_model();
+  model_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:caffe.SubnetParameter.model)
+}
+inline void SubnetParameter::set_model(const char* value) {
+  set_has_model();
+  model_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:caffe.SubnetParameter.model)
+}
+inline void SubnetParameter::set_model(const char* value, size_t size) {
+  set_has_model();
+  model_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:caffe.SubnetParameter.model)
+}
+inline ::std::string* SubnetParameter::mutable_model() {
+  set_has_model();
+  // @@protoc_insertion_point(field_mutable:caffe.SubnetParameter.model)
+  return model_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* SubnetParameter::release_model() {
+  // @@protoc_insertion_point(field_release:caffe.SubnetParameter.model)
+  clear_has_model();
+  return model_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void SubnetParameter::set_allocated_model(::std::string* model) {
+  if (model != NULL) {
+    set_has_model();
+  } else {
+    clear_has_model();
+  }
+  model_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), model);
+  // @@protoc_insertion_point(field_set_allocated:caffe.SubnetParameter.model)
+}
+
+// optional .caffe.Phase phase = 2;
+inline bool SubnetParameter::has_phase() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void SubnetParameter::set_has_phase() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void SubnetParameter::clear_has_phase() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void SubnetParameter::clear_phase() {
+  phase_ = 0;
+  clear_has_phase();
+}
+inline ::caffe::Phase SubnetParameter::phase() const {
+  // @@protoc_insertion_point(field_get:caffe.SubnetParameter.phase)
+  return static_cast< ::caffe::Phase >(phase_);
+}
+inline void SubnetParameter::set_phase(::caffe::Phase value) {
+  assert(::caffe::Phase_IsValid(value));
+  set_has_phase();
+  phase_ = value;
+  // @@protoc_insertion_point(field_set:caffe.SubnetParameter.phase)
+}
+
+// optional int32 level = 3;
+inline bool SubnetParameter::has_level() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void SubnetParameter::set_has_level() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void SubnetParameter::clear_has_level() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void SubnetParameter::clear_level() {
+  level_ = 0;
+  clear_has_level();
+}
+inline ::google::protobuf::int32 SubnetParameter::level() const {
+  // @@protoc_insertion_point(field_get:caffe.SubnetParameter.level)
+  return level_;
+}
+inline void SubnetParameter::set_level(::google::protobuf::int32 value) {
+  set_has_level();
+  level_ = value;
+  // @@protoc_insertion_point(field_set:caffe.SubnetParameter.level)
+}
+
+// repeated string stage = 4;
+inline int SubnetParameter::stage_size() const {
+  return stage_.size();
+}
+inline void SubnetParameter::clear_stage() {
+  stage_.Clear();
+}
+inline const ::std::string& SubnetParameter::stage(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.SubnetParameter.stage)
+  return stage_.Get(index);
+}
+inline ::std::string* SubnetParameter::mutable_stage(int index) {
+  // @@protoc_insertion_point(field_mutable:caffe.SubnetParameter.stage)
+  return stage_.Mutable(index);
+}
+inline void SubnetParameter::set_stage(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:caffe.SubnetParameter.stage)
+  stage_.Mutable(index)->assign(value);
+}
+inline void SubnetParameter::set_stage(int index, const char* value) {
+  stage_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:caffe.SubnetParameter.stage)
+}
+inline void SubnetParameter::set_stage(int index, const char* value, size_t size) {
+  stage_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:caffe.SubnetParameter.stage)
+}
+inline ::std::string* SubnetParameter::add_stage() {
+  // @@protoc_insertion_point(field_add_mutable:caffe.SubnetParameter.stage)
+  return stage_.Add();
+}
+inline void SubnetParameter::add_stage(const ::std::string& value) {
+  stage_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:caffe.SubnetParameter.stage)
+}
+inline void SubnetParameter::add_stage(const char* value) {
+  stage_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:caffe.SubnetParameter.stage)
+}
+inline void SubnetParameter::add_stage(const char* value, size_t size) {
+  stage_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:caffe.SubnetParameter.stage)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+SubnetParameter::stage() const {
+  // @@protoc_insertion_point(field_list:caffe.SubnetParameter.stage)
+  return stage_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+SubnetParameter::mutable_stage() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.SubnetParameter.stage)
+  return &stage_;
+}
+
+inline const SubnetParameter* SubnetParameter::internal_default_instance() {
+  return &SubnetParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
 // BlobShape
 
 // repeated int64 dim = 1 [packed = true];
@@ -32607,6 +32925,51 @@ inline void LayerParameter::set_allocated_batch_rejection_param(::caffe::BatchRe
     clear_has_batch_rejection_param();
   }
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.batch_rejection_param)
+}
+
+// optional .caffe.SubnetParameter subnet_param = 1037;
+inline bool LayerParameter::has_subnet_param() const {
+  return (_has_bits_[2] & 0x40000000u) != 0;
+}
+inline void LayerParameter::set_has_subnet_param() {
+  _has_bits_[2] |= 0x40000000u;
+}
+inline void LayerParameter::clear_has_subnet_param() {
+  _has_bits_[2] &= ~0x40000000u;
+}
+inline void LayerParameter::clear_subnet_param() {
+  if (subnet_param_ != NULL) subnet_param_->::caffe::SubnetParameter::Clear();
+  clear_has_subnet_param();
+}
+inline const ::caffe::SubnetParameter& LayerParameter::subnet_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.subnet_param)
+  return subnet_param_ != NULL ? *subnet_param_
+                         : *::caffe::SubnetParameter::internal_default_instance();
+}
+inline ::caffe::SubnetParameter* LayerParameter::mutable_subnet_param() {
+  set_has_subnet_param();
+  if (subnet_param_ == NULL) {
+    subnet_param_ = new ::caffe::SubnetParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.subnet_param)
+  return subnet_param_;
+}
+inline ::caffe::SubnetParameter* LayerParameter::release_subnet_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.subnet_param)
+  clear_has_subnet_param();
+  ::caffe::SubnetParameter* temp = subnet_param_;
+  subnet_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_subnet_param(::caffe::SubnetParameter* subnet_param) {
+  delete subnet_param_;
+  subnet_param_ = subnet_param;
+  if (subnet_param) {
+    set_has_subnet_param();
+  } else {
+    clear_has_subnet_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.subnet_param)
 }
 
 inline const LayerParameter* LayerParameter::internal_default_instance() {
@@ -41271,6 +41634,8 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
   return &PReLUParameter_default_instance_.get();
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
