@@ -8,6 +8,7 @@
 
 #include "detection_decoder.hpp"
 #include "img_decoder.hpp"
+#include "detection_nms.hpp"
 
 namespace caffe
 {
@@ -91,6 +92,9 @@ class DetectionCheckLayer : public Layer<Dtype>
   std::unique_ptr<bgm::DetectionDecoder<Dtype> > detection_decoder_;
   std::unique_ptr<bgm::AnnoDecoder<Dtype> > anno_decoder_;
 
+  bool do_nms_;
+  std::unique_ptr<bgm::DetectionNMS<Dtype> > nms_;
+
   int img_cnt_;
   int tp_, fp_, fn_;
 }; // class DetectionCheckLayer
@@ -161,15 +165,6 @@ inline void DetectionCheckLayer<Dtype>::CloseOutStreams() {
   eval_log_ << "precision: " << tp_ / static_cast<float>(tp_ + fp_);
   eval_log_ << ", recall: " << tp_ / static_cast<float>(tp_ + fn_) << std::endl;
   eval_log_.close();
-}
-
-template <typename Dtype>
-inline void DetectionCheckLayer<Dtype>::DecodeDetection(
-    const std::vector<Blob<Dtype>*>& bottom,
-    std::vector<std::vector<bgm::Detection<Dtype> > >* detection) {
-  std::vector<Blob<Dtype>*> detection_blobs(bottom.begin(),
-                                            bottom.begin() + 3); // 0, 1, 2
-  detection_decoder_->Decode(detection_blobs, detection);
 }
 
 template <typename Dtype>

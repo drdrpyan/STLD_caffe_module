@@ -7117,6 +7117,20 @@ class DetectionCheckParameter : public ::google::protobuf::Message /* @@protoc_i
   bool detection_only() const;
   void set_detection_only(bool value);
 
+  // optional bool do_nms = 7 [default = true];
+  bool has_do_nms() const;
+  void clear_do_nms();
+  static const int kDoNmsFieldNumber = 7;
+  bool do_nms() const;
+  void set_do_nms(bool value);
+
+  // optional float nms_overlap_threshold = 8 [default = 0.5];
+  bool has_nms_overlap_threshold() const;
+  void clear_nms_overlap_threshold();
+  static const int kNmsOverlapThresholdFieldNumber = 8;
+  float nms_overlap_threshold() const;
+  void set_nms_overlap_threshold(float value);
+
   // @@protoc_insertion_point(class_scope:caffe.DetectionCheckParameter)
  private:
   inline void set_has_eval_performance();
@@ -7131,6 +7145,10 @@ class DetectionCheckParameter : public ::google::protobuf::Message /* @@protoc_i
   inline void clear_has_log_path();
   inline void set_has_detection_only();
   inline void clear_has_detection_only();
+  inline void set_has_do_nms();
+  inline void clear_has_do_nms();
+  inline void set_has_nms_overlap_threshold();
+  inline void clear_has_nms_overlap_threshold();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -7139,8 +7157,10 @@ class DetectionCheckParameter : public ::google::protobuf::Message /* @@protoc_i
   ::google::protobuf::internal::ArenaStringPtr log_path_;
   float detection_conf_threshold_;
   bool detection_only_;
+  float nms_overlap_threshold_;
   bool eval_performance_;
   bool draw_;
+  bool do_nms_;
   float iou_threshold_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_2eproto_impl();
@@ -24871,6 +24891,54 @@ inline void DetectionCheckParameter::set_detection_only(bool value) {
   set_has_detection_only();
   detection_only_ = value;
   // @@protoc_insertion_point(field_set:caffe.DetectionCheckParameter.detection_only)
+}
+
+// optional bool do_nms = 7 [default = true];
+inline bool DetectionCheckParameter::has_do_nms() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void DetectionCheckParameter::set_has_do_nms() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void DetectionCheckParameter::clear_has_do_nms() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void DetectionCheckParameter::clear_do_nms() {
+  do_nms_ = true;
+  clear_has_do_nms();
+}
+inline bool DetectionCheckParameter::do_nms() const {
+  // @@protoc_insertion_point(field_get:caffe.DetectionCheckParameter.do_nms)
+  return do_nms_;
+}
+inline void DetectionCheckParameter::set_do_nms(bool value) {
+  set_has_do_nms();
+  do_nms_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DetectionCheckParameter.do_nms)
+}
+
+// optional float nms_overlap_threshold = 8 [default = 0.5];
+inline bool DetectionCheckParameter::has_nms_overlap_threshold() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void DetectionCheckParameter::set_has_nms_overlap_threshold() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void DetectionCheckParameter::clear_has_nms_overlap_threshold() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void DetectionCheckParameter::clear_nms_overlap_threshold() {
+  nms_overlap_threshold_ = 0.5f;
+  clear_has_nms_overlap_threshold();
+}
+inline float DetectionCheckParameter::nms_overlap_threshold() const {
+  // @@protoc_insertion_point(field_get:caffe.DetectionCheckParameter.nms_overlap_threshold)
+  return nms_overlap_threshold_;
+}
+inline void DetectionCheckParameter::set_nms_overlap_threshold(float value) {
+  set_has_nms_overlap_threshold();
+  nms_overlap_threshold_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DetectionCheckParameter.nms_overlap_threshold)
 }
 
 inline const DetectionCheckParameter* DetectionCheckParameter::internal_default_instance() {

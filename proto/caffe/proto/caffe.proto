@@ -415,6 +415,9 @@ message DetectionCheckParameter {
   optional string log_path = 5 [default = "./detection_log/"];
 
   optional bool detection_only = 6 [default = false];
+
+  optional bool do_nms = 7 [default = true];
+  optional float nms_overlap_threshold = 8 [default = 0.5];
 }
 
 message SubwinOffsetParameter {

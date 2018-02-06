@@ -29,6 +29,14 @@ void DetectionCheckLayer<Dtype>::LayerSetUp(
   tp_ = 0;
   fp_ = 0;
   fn_ = 0;
+
+  do_nms_ = param.do_nms();
+  if (do_nms_) {
+    float nms_overlap_threshold = param.nms_overlap_threshold();
+    //bgm::DetectionNMS<Dtype>* detection_nms = new bgm::ConfMaxVOCNMS<Dtype>(nms_overlap_threshold);
+    bgm::DetectionNMS<Dtype>* detection_nms = new bgm::MeanSizeNMS<Dtype>(nms_overlap_threshold);
+    nms_.reset(detection_nms);
+  }
 }
 
 template <typename Dtype>
@@ -84,6 +92,26 @@ void DetectionCheckLayer<Dtype>::Forward_cpu(
   }
 
   img_cnt_ += img.size();
+}
+
+template <typename Dtype>
+inline void DetectionCheckLayer<Dtype>::DecodeDetection(
+    const std::vector<Blob<Dtype>*>& bottom,
+    std::vector<std::vector<bgm::Detection<Dtype> > >* detection) {
+  std::vector<Blob<Dtype>*> detection_blobs(bottom.begin(),
+                                            bottom.begin() + 3); // 0, 1, 2
+
+  if(!do_nms_)
+    detection_decoder_->Decode(detection_blobs, detection);
+  else {
+    std::vector<std::vector<bgm::Detection<Dtype> > > temp_detection;
+    detection_decoder_->Decode(detection_blobs, &temp_detection);
+
+    detection->resize(temp_detection.size());
+
+    for (int i = 0; i < temp_detection.size(); ++i)
+      (*nms_)(temp_detection[i], &(*detection[i]));
+  }
 }
 
 template <typename Dtype>
