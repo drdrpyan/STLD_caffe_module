@@ -1,5 +1,5 @@
-#ifndef BGM_DETECTION_ENCODER_HPP_
-#define BGM_DETECTION_ENCODER_HPP_
+#ifndef BGM_DETECTION_DECODER_HPP_
+#define BGM_DETECTION_DECODER_HPP_
 
 #include "detection_util.hpp"
 #include "anno_decoder.hpp"
@@ -92,4 +92,4 @@ void DetectionDecoder<Dtype>::DecodeConf(
 }
 } // namespace bgm
 
-#endif // !BGM_DETECTION_ENCODER_HPP_
+#endif // !BGM_DETECTION_DECODER_HPP_

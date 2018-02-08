@@ -5,6 +5,8 @@
 
 #include "anno_decoder.hpp"
 #include "anno_encoder.hpp"
+#include "detection_decoder.hpp"
+#include "detection_encoder.hpp"
 
 #include <memory>
 
@@ -23,8 +25,13 @@ class SizeRejectionLayer : public Layer<Dtype>
       const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top) override;
   virtual const char* type() const override;
-  virtual int ExactNumBottomBlobs() const override;
-  virtual int ExactNumTopBlobs() const override;
+  virtual int MinBottomBlobs() const override;
+  virtual int MaxBottomBlobs() const override;
+  virtual int MinTopBlobs() const override;
+  virtual int MaxTopBlobs() const override;
+  virtual bool EqualNumBottomTopBlobs() const override;
+  //virtual int ExactNumBottomBlobs() const override;
+  //virtual int ExactNumTopBlobs() const override;
 
  protected:
   virtual void Forward_cpu(
@@ -51,6 +58,8 @@ class SizeRejectionLayer : public Layer<Dtype>
 
   std::unique_ptr<bgm::AnnoDecoder<Dtype> > anno_decoder_;
   std::unique_ptr<bgm::AnnoEncoder<Dtype> > anno_encoder_;
+  std::unique_ptr<bgm::DetectionDecoder<Dtype> > detection_decoder_;
+  std::unique_ptr<bgm::DetectionEncoder<Dtype> > detection_encoder_;
 }; // class SizeRejectionLayer
 
 
@@ -74,14 +83,39 @@ inline const char* SizeRejectionLayer<Dtype>::type() const {
   return "SizeRejection";
 }
 
+//template <typename Dtype>
+//inline int SizeRejectionLayer<Dtype>::ExactNumBottomBlobs() const {
+//  return 2;
+//}
+//
+//template <typename Dtype>
+//inline int SizeRejectionLayer<Dtype>::ExactNumTopBlobs() const {
+//  return 2;
+//}
+
 template <typename Dtype>
-inline int SizeRejectionLayer<Dtype>::ExactNumBottomBlobs() const {
+inline int SizeRejectionLayer<Dtype>::MinBottomBlobs() const {
   return 2;
 }
 
 template <typename Dtype>
-inline int SizeRejectionLayer<Dtype>::ExactNumTopBlobs() const {
+inline int SizeRejectionLayer<Dtype>::MaxBottomBlobs() const {
+  return 3;
+}
+
+template <typename Dtype>
+inline int SizeRejectionLayer<Dtype>::MinTopBlobs() const {
   return 2;
+}
+
+template <typename Dtype>
+inline int SizeRejectionLayer<Dtype>::MaxTopBlobs() const {
+  return 3;
+}
+
+template <typename Dtype>
+inline bool SizeRejectionLayer<Dtype>::EqualNumBottomTopBlobs() const {
+  return true;
 }
 
 template <typename Dtype>
