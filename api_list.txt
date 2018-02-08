@@ -15,3 +15,6 @@ test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_extra33_early
 
 late rejection ÇÐ½À¿ë
 train -solver D:/workspace/TLR/tlr/model/tlr_late_rejection_solver.prototxt -gpu 1
+
+
+train -solver D:/workspace/TLR/tlr/model/tlr_yolov2_solver.prototxt  -weights D:/tlr_snapshot/yolov2_res101_multi/train_2/tlr_iter_89345(best).caffemodel -gpu 1
