@@ -456,6 +456,31 @@ message SubnetParameter {
   repeated string stage = 4; 
 }
 
+message FeaturemapSnapshotParameter {
+  enum OutputType {
+    LMDB = 0;
+    BIN = 1;
+  }
+
+  required string out_dst = 1;
+  optional OutputType type = 2 [default = LMDB];
+}
+
+message FeaturemapDataParameter {
+  enum InputType {
+    LMDB = 0;
+    BIN = 1;
+  }
+
+  required string src = 1;
+  optional InputType type = 2 [default = LMDB];
+}
+
+message FocalLossParameter {
+  optional float alpha = 1 [default = 1];
+  optional float gamma = 2 [default = 2];
+}
+
 // Specifies the shape (dimensions) of a Blob.
 message BlobShape {
   repeated int64 dim = 1 [packed = true];
@@ -896,6 +921,9 @@ message LayerParameter {
   optional ReorgParameter reorg_param = 1035;
   optional BatchRejectionParameter batch_rejection_param = 1036;
   optional SubnetParameter subnet_param = 1037;
+  optional FeaturemapSnapshotParameter featuremap_snapshot_param = 1038;
+  optional FeaturemapDataParameter featuremap_data_param = 1039;
+  optional FocalLossParameter focal_loss_param = 1040;
 }
 
 // Message that stores parameters used to apply transformation

@@ -69,8 +69,11 @@ class ELUParameter;
 class EltwiseParameter;
 class EmbedParameter;
 class ExpParameter;
+class FeaturemapDataParameter;
+class FeaturemapSnapshotParameter;
 class FillerParameter;
 class FlattenParameter;
+class FocalLossParameter;
 class GTMapDataParameter;
 class GTSubmapDataParameter;
 class GaussianNoiseParameter;
@@ -285,6 +288,44 @@ inline bool OffsetParameter_Anchor_Parse(
     const ::std::string& name, OffsetParameter_Anchor* value) {
   return ::google::protobuf::internal::ParseNamedEnum<OffsetParameter_Anchor>(
     OffsetParameter_Anchor_descriptor(), name, value);
+}
+enum FeaturemapSnapshotParameter_OutputType {
+  FeaturemapSnapshotParameter_OutputType_LMDB = 0,
+  FeaturemapSnapshotParameter_OutputType_BIN = 1
+};
+bool FeaturemapSnapshotParameter_OutputType_IsValid(int value);
+const FeaturemapSnapshotParameter_OutputType FeaturemapSnapshotParameter_OutputType_OutputType_MIN = FeaturemapSnapshotParameter_OutputType_LMDB;
+const FeaturemapSnapshotParameter_OutputType FeaturemapSnapshotParameter_OutputType_OutputType_MAX = FeaturemapSnapshotParameter_OutputType_BIN;
+const int FeaturemapSnapshotParameter_OutputType_OutputType_ARRAYSIZE = FeaturemapSnapshotParameter_OutputType_OutputType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* FeaturemapSnapshotParameter_OutputType_descriptor();
+inline const ::std::string& FeaturemapSnapshotParameter_OutputType_Name(FeaturemapSnapshotParameter_OutputType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    FeaturemapSnapshotParameter_OutputType_descriptor(), value);
+}
+inline bool FeaturemapSnapshotParameter_OutputType_Parse(
+    const ::std::string& name, FeaturemapSnapshotParameter_OutputType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<FeaturemapSnapshotParameter_OutputType>(
+    FeaturemapSnapshotParameter_OutputType_descriptor(), name, value);
+}
+enum FeaturemapDataParameter_InputType {
+  FeaturemapDataParameter_InputType_LMDB = 0,
+  FeaturemapDataParameter_InputType_BIN = 1
+};
+bool FeaturemapDataParameter_InputType_IsValid(int value);
+const FeaturemapDataParameter_InputType FeaturemapDataParameter_InputType_InputType_MIN = FeaturemapDataParameter_InputType_LMDB;
+const FeaturemapDataParameter_InputType FeaturemapDataParameter_InputType_InputType_MAX = FeaturemapDataParameter_InputType_BIN;
+const int FeaturemapDataParameter_InputType_InputType_ARRAYSIZE = FeaturemapDataParameter_InputType_InputType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* FeaturemapDataParameter_InputType_descriptor();
+inline const ::std::string& FeaturemapDataParameter_InputType_Name(FeaturemapDataParameter_InputType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    FeaturemapDataParameter_InputType_descriptor(), value);
+}
+inline bool FeaturemapDataParameter_InputType_Parse(
+    const ::std::string& name, FeaturemapDataParameter_InputType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<FeaturemapDataParameter_InputType>(
+    FeaturemapDataParameter_InputType_descriptor(), name, value);
 }
 enum FillerParameter_VarianceNorm {
   FillerParameter_VarianceNorm_FAN_IN = 0,
@@ -7896,6 +7937,392 @@ extern ::google::protobuf::internal::ExplicitlyConstructed<SubnetParameter> Subn
 
 // -------------------------------------------------------------------
 
+class FeaturemapSnapshotParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.FeaturemapSnapshotParameter) */ {
+ public:
+  FeaturemapSnapshotParameter();
+  virtual ~FeaturemapSnapshotParameter();
+
+  FeaturemapSnapshotParameter(const FeaturemapSnapshotParameter& from);
+
+  inline FeaturemapSnapshotParameter& operator=(const FeaturemapSnapshotParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const FeaturemapSnapshotParameter& default_instance();
+
+  static const FeaturemapSnapshotParameter* internal_default_instance();
+
+  void Swap(FeaturemapSnapshotParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline FeaturemapSnapshotParameter* New() const { return New(NULL); }
+
+  FeaturemapSnapshotParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const FeaturemapSnapshotParameter& from);
+  void MergeFrom(const FeaturemapSnapshotParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(FeaturemapSnapshotParameter* other);
+  void UnsafeMergeFrom(const FeaturemapSnapshotParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef FeaturemapSnapshotParameter_OutputType OutputType;
+  static const OutputType LMDB =
+    FeaturemapSnapshotParameter_OutputType_LMDB;
+  static const OutputType BIN =
+    FeaturemapSnapshotParameter_OutputType_BIN;
+  static inline bool OutputType_IsValid(int value) {
+    return FeaturemapSnapshotParameter_OutputType_IsValid(value);
+  }
+  static const OutputType OutputType_MIN =
+    FeaturemapSnapshotParameter_OutputType_OutputType_MIN;
+  static const OutputType OutputType_MAX =
+    FeaturemapSnapshotParameter_OutputType_OutputType_MAX;
+  static const int OutputType_ARRAYSIZE =
+    FeaturemapSnapshotParameter_OutputType_OutputType_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  OutputType_descriptor() {
+    return FeaturemapSnapshotParameter_OutputType_descriptor();
+  }
+  static inline const ::std::string& OutputType_Name(OutputType value) {
+    return FeaturemapSnapshotParameter_OutputType_Name(value);
+  }
+  static inline bool OutputType_Parse(const ::std::string& name,
+      OutputType* value) {
+    return FeaturemapSnapshotParameter_OutputType_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // required string out_dst = 1;
+  bool has_out_dst() const;
+  void clear_out_dst();
+  static const int kOutDstFieldNumber = 1;
+  const ::std::string& out_dst() const;
+  void set_out_dst(const ::std::string& value);
+  void set_out_dst(const char* value);
+  void set_out_dst(const char* value, size_t size);
+  ::std::string* mutable_out_dst();
+  ::std::string* release_out_dst();
+  void set_allocated_out_dst(::std::string* out_dst);
+
+  // optional .caffe.FeaturemapSnapshotParameter.OutputType type = 2 [default = LMDB];
+  bool has_type() const;
+  void clear_type();
+  static const int kTypeFieldNumber = 2;
+  ::caffe::FeaturemapSnapshotParameter_OutputType type() const;
+  void set_type(::caffe::FeaturemapSnapshotParameter_OutputType value);
+
+  // @@protoc_insertion_point(class_scope:caffe.FeaturemapSnapshotParameter)
+ private:
+  inline void set_has_out_dst();
+  inline void clear_has_out_dst();
+  inline void set_has_type();
+  inline void clear_has_type();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::internal::ArenaStringPtr out_dst_;
+  int type_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<FeaturemapSnapshotParameter> FeaturemapSnapshotParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class FeaturemapDataParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.FeaturemapDataParameter) */ {
+ public:
+  FeaturemapDataParameter();
+  virtual ~FeaturemapDataParameter();
+
+  FeaturemapDataParameter(const FeaturemapDataParameter& from);
+
+  inline FeaturemapDataParameter& operator=(const FeaturemapDataParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const FeaturemapDataParameter& default_instance();
+
+  static const FeaturemapDataParameter* internal_default_instance();
+
+  void Swap(FeaturemapDataParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline FeaturemapDataParameter* New() const { return New(NULL); }
+
+  FeaturemapDataParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const FeaturemapDataParameter& from);
+  void MergeFrom(const FeaturemapDataParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(FeaturemapDataParameter* other);
+  void UnsafeMergeFrom(const FeaturemapDataParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef FeaturemapDataParameter_InputType InputType;
+  static const InputType LMDB =
+    FeaturemapDataParameter_InputType_LMDB;
+  static const InputType BIN =
+    FeaturemapDataParameter_InputType_BIN;
+  static inline bool InputType_IsValid(int value) {
+    return FeaturemapDataParameter_InputType_IsValid(value);
+  }
+  static const InputType InputType_MIN =
+    FeaturemapDataParameter_InputType_InputType_MIN;
+  static const InputType InputType_MAX =
+    FeaturemapDataParameter_InputType_InputType_MAX;
+  static const int InputType_ARRAYSIZE =
+    FeaturemapDataParameter_InputType_InputType_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  InputType_descriptor() {
+    return FeaturemapDataParameter_InputType_descriptor();
+  }
+  static inline const ::std::string& InputType_Name(InputType value) {
+    return FeaturemapDataParameter_InputType_Name(value);
+  }
+  static inline bool InputType_Parse(const ::std::string& name,
+      InputType* value) {
+    return FeaturemapDataParameter_InputType_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // required string src = 1;
+  bool has_src() const;
+  void clear_src();
+  static const int kSrcFieldNumber = 1;
+  const ::std::string& src() const;
+  void set_src(const ::std::string& value);
+  void set_src(const char* value);
+  void set_src(const char* value, size_t size);
+  ::std::string* mutable_src();
+  ::std::string* release_src();
+  void set_allocated_src(::std::string* src);
+
+  // optional .caffe.FeaturemapDataParameter.InputType type = 2 [default = LMDB];
+  bool has_type() const;
+  void clear_type();
+  static const int kTypeFieldNumber = 2;
+  ::caffe::FeaturemapDataParameter_InputType type() const;
+  void set_type(::caffe::FeaturemapDataParameter_InputType value);
+
+  // @@protoc_insertion_point(class_scope:caffe.FeaturemapDataParameter)
+ private:
+  inline void set_has_src();
+  inline void clear_has_src();
+  inline void set_has_type();
+  inline void clear_has_type();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::internal::ArenaStringPtr src_;
+  int type_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<FeaturemapDataParameter> FeaturemapDataParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class FocalLossParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.FocalLossParameter) */ {
+ public:
+  FocalLossParameter();
+  virtual ~FocalLossParameter();
+
+  FocalLossParameter(const FocalLossParameter& from);
+
+  inline FocalLossParameter& operator=(const FocalLossParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const FocalLossParameter& default_instance();
+
+  static const FocalLossParameter* internal_default_instance();
+
+  void Swap(FocalLossParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline FocalLossParameter* New() const { return New(NULL); }
+
+  FocalLossParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const FocalLossParameter& from);
+  void MergeFrom(const FocalLossParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(FocalLossParameter* other);
+  void UnsafeMergeFrom(const FocalLossParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional float alpha = 1 [default = 1];
+  bool has_alpha() const;
+  void clear_alpha();
+  static const int kAlphaFieldNumber = 1;
+  float alpha() const;
+  void set_alpha(float value);
+
+  // optional float gamma = 2 [default = 2];
+  bool has_gamma() const;
+  void clear_gamma();
+  static const int kGammaFieldNumber = 2;
+  float gamma() const;
+  void set_gamma(float value);
+
+  // @@protoc_insertion_point(class_scope:caffe.FocalLossParameter)
+ private:
+  inline void set_has_alpha();
+  inline void clear_has_alpha();
+  inline void set_has_gamma();
+  inline void clear_has_gamma();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  float alpha_;
+  float gamma_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<FocalLossParameter> FocalLossParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
 class BlobShape : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.BlobShape) */ {
  public:
   BlobShape();
@@ -11042,6 +11469,33 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::SubnetParameter* release_subnet_param();
   void set_allocated_subnet_param(::caffe::SubnetParameter* subnet_param);
 
+  // optional .caffe.FeaturemapSnapshotParameter featuremap_snapshot_param = 1038;
+  bool has_featuremap_snapshot_param() const;
+  void clear_featuremap_snapshot_param();
+  static const int kFeaturemapSnapshotParamFieldNumber = 1038;
+  const ::caffe::FeaturemapSnapshotParameter& featuremap_snapshot_param() const;
+  ::caffe::FeaturemapSnapshotParameter* mutable_featuremap_snapshot_param();
+  ::caffe::FeaturemapSnapshotParameter* release_featuremap_snapshot_param();
+  void set_allocated_featuremap_snapshot_param(::caffe::FeaturemapSnapshotParameter* featuremap_snapshot_param);
+
+  // optional .caffe.FeaturemapDataParameter featuremap_data_param = 1039;
+  bool has_featuremap_data_param() const;
+  void clear_featuremap_data_param();
+  static const int kFeaturemapDataParamFieldNumber = 1039;
+  const ::caffe::FeaturemapDataParameter& featuremap_data_param() const;
+  ::caffe::FeaturemapDataParameter* mutable_featuremap_data_param();
+  ::caffe::FeaturemapDataParameter* release_featuremap_data_param();
+  void set_allocated_featuremap_data_param(::caffe::FeaturemapDataParameter* featuremap_data_param);
+
+  // optional .caffe.FocalLossParameter focal_loss_param = 1040;
+  bool has_focal_loss_param() const;
+  void clear_focal_loss_param();
+  static const int kFocalLossParamFieldNumber = 1040;
+  const ::caffe::FocalLossParameter& focal_loss_param() const;
+  ::caffe::FocalLossParameter* mutable_focal_loss_param();
+  ::caffe::FocalLossParameter* release_focal_loss_param();
+  void set_allocated_focal_loss_param(::caffe::FocalLossParameter* focal_loss_param);
+
   // @@protoc_insertion_point(class_scope:caffe.LayerParameter)
  private:
   inline void set_has_name();
@@ -11218,10 +11672,15 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_batch_rejection_param();
   inline void set_has_subnet_param();
   inline void clear_has_subnet_param();
+  inline void set_has_featuremap_snapshot_param();
+  inline void clear_has_featuremap_snapshot_param();
+  inline void set_has_featuremap_data_param();
+  inline void clear_has_featuremap_data_param();
+  inline void set_has_focal_loss_param();
+  inline void clear_has_focal_loss_param();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<3> _has_bits_;
-  mutable int _cached_size_;
+  ::google::protobuf::internal::HasBits<4> _has_bits_;
   ::google::protobuf::RepeatedPtrField< ::std::string> bottom_;
   ::google::protobuf::RepeatedPtrField< ::std::string> top_;
   ::google::protobuf::RepeatedField< float > loss_weight_;
@@ -11316,7 +11775,11 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::ReorgParameter* reorg_param_;
   ::caffe::BatchRejectionParameter* batch_rejection_param_;
   ::caffe::SubnetParameter* subnet_param_;
+  ::caffe::FeaturemapSnapshotParameter* featuremap_snapshot_param_;
+  ::caffe::FeaturemapDataParameter* featuremap_data_param_;
+  ::caffe::FocalLossParameter* focal_loss_param_;
   int phase_;
+  mutable int _cached_size_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
   friend void  protobuf_AddDesc_caffe_2eproto_impl();
   friend void protobuf_AssignDesc_caffe_2eproto();
@@ -25789,6 +26252,233 @@ inline const SubnetParameter* SubnetParameter::internal_default_instance() {
 }
 // -------------------------------------------------------------------
 
+// FeaturemapSnapshotParameter
+
+// required string out_dst = 1;
+inline bool FeaturemapSnapshotParameter::has_out_dst() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void FeaturemapSnapshotParameter::set_has_out_dst() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void FeaturemapSnapshotParameter::clear_has_out_dst() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void FeaturemapSnapshotParameter::clear_out_dst() {
+  out_dst_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_out_dst();
+}
+inline const ::std::string& FeaturemapSnapshotParameter::out_dst() const {
+  // @@protoc_insertion_point(field_get:caffe.FeaturemapSnapshotParameter.out_dst)
+  return out_dst_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void FeaturemapSnapshotParameter::set_out_dst(const ::std::string& value) {
+  set_has_out_dst();
+  out_dst_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:caffe.FeaturemapSnapshotParameter.out_dst)
+}
+inline void FeaturemapSnapshotParameter::set_out_dst(const char* value) {
+  set_has_out_dst();
+  out_dst_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:caffe.FeaturemapSnapshotParameter.out_dst)
+}
+inline void FeaturemapSnapshotParameter::set_out_dst(const char* value, size_t size) {
+  set_has_out_dst();
+  out_dst_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:caffe.FeaturemapSnapshotParameter.out_dst)
+}
+inline ::std::string* FeaturemapSnapshotParameter::mutable_out_dst() {
+  set_has_out_dst();
+  // @@protoc_insertion_point(field_mutable:caffe.FeaturemapSnapshotParameter.out_dst)
+  return out_dst_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* FeaturemapSnapshotParameter::release_out_dst() {
+  // @@protoc_insertion_point(field_release:caffe.FeaturemapSnapshotParameter.out_dst)
+  clear_has_out_dst();
+  return out_dst_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void FeaturemapSnapshotParameter::set_allocated_out_dst(::std::string* out_dst) {
+  if (out_dst != NULL) {
+    set_has_out_dst();
+  } else {
+    clear_has_out_dst();
+  }
+  out_dst_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), out_dst);
+  // @@protoc_insertion_point(field_set_allocated:caffe.FeaturemapSnapshotParameter.out_dst)
+}
+
+// optional .caffe.FeaturemapSnapshotParameter.OutputType type = 2 [default = LMDB];
+inline bool FeaturemapSnapshotParameter::has_type() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void FeaturemapSnapshotParameter::set_has_type() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void FeaturemapSnapshotParameter::clear_has_type() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void FeaturemapSnapshotParameter::clear_type() {
+  type_ = 0;
+  clear_has_type();
+}
+inline ::caffe::FeaturemapSnapshotParameter_OutputType FeaturemapSnapshotParameter::type() const {
+  // @@protoc_insertion_point(field_get:caffe.FeaturemapSnapshotParameter.type)
+  return static_cast< ::caffe::FeaturemapSnapshotParameter_OutputType >(type_);
+}
+inline void FeaturemapSnapshotParameter::set_type(::caffe::FeaturemapSnapshotParameter_OutputType value) {
+  assert(::caffe::FeaturemapSnapshotParameter_OutputType_IsValid(value));
+  set_has_type();
+  type_ = value;
+  // @@protoc_insertion_point(field_set:caffe.FeaturemapSnapshotParameter.type)
+}
+
+inline const FeaturemapSnapshotParameter* FeaturemapSnapshotParameter::internal_default_instance() {
+  return &FeaturemapSnapshotParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// FeaturemapDataParameter
+
+// required string src = 1;
+inline bool FeaturemapDataParameter::has_src() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void FeaturemapDataParameter::set_has_src() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void FeaturemapDataParameter::clear_has_src() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void FeaturemapDataParameter::clear_src() {
+  src_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_src();
+}
+inline const ::std::string& FeaturemapDataParameter::src() const {
+  // @@protoc_insertion_point(field_get:caffe.FeaturemapDataParameter.src)
+  return src_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void FeaturemapDataParameter::set_src(const ::std::string& value) {
+  set_has_src();
+  src_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:caffe.FeaturemapDataParameter.src)
+}
+inline void FeaturemapDataParameter::set_src(const char* value) {
+  set_has_src();
+  src_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:caffe.FeaturemapDataParameter.src)
+}
+inline void FeaturemapDataParameter::set_src(const char* value, size_t size) {
+  set_has_src();
+  src_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:caffe.FeaturemapDataParameter.src)
+}
+inline ::std::string* FeaturemapDataParameter::mutable_src() {
+  set_has_src();
+  // @@protoc_insertion_point(field_mutable:caffe.FeaturemapDataParameter.src)
+  return src_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* FeaturemapDataParameter::release_src() {
+  // @@protoc_insertion_point(field_release:caffe.FeaturemapDataParameter.src)
+  clear_has_src();
+  return src_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void FeaturemapDataParameter::set_allocated_src(::std::string* src) {
+  if (src != NULL) {
+    set_has_src();
+  } else {
+    clear_has_src();
+  }
+  src_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), src);
+  // @@protoc_insertion_point(field_set_allocated:caffe.FeaturemapDataParameter.src)
+}
+
+// optional .caffe.FeaturemapDataParameter.InputType type = 2 [default = LMDB];
+inline bool FeaturemapDataParameter::has_type() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void FeaturemapDataParameter::set_has_type() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void FeaturemapDataParameter::clear_has_type() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void FeaturemapDataParameter::clear_type() {
+  type_ = 0;
+  clear_has_type();
+}
+inline ::caffe::FeaturemapDataParameter_InputType FeaturemapDataParameter::type() const {
+  // @@protoc_insertion_point(field_get:caffe.FeaturemapDataParameter.type)
+  return static_cast< ::caffe::FeaturemapDataParameter_InputType >(type_);
+}
+inline void FeaturemapDataParameter::set_type(::caffe::FeaturemapDataParameter_InputType value) {
+  assert(::caffe::FeaturemapDataParameter_InputType_IsValid(value));
+  set_has_type();
+  type_ = value;
+  // @@protoc_insertion_point(field_set:caffe.FeaturemapDataParameter.type)
+}
+
+inline const FeaturemapDataParameter* FeaturemapDataParameter::internal_default_instance() {
+  return &FeaturemapDataParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// FocalLossParameter
+
+// optional float alpha = 1 [default = 1];
+inline bool FocalLossParameter::has_alpha() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void FocalLossParameter::set_has_alpha() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void FocalLossParameter::clear_has_alpha() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void FocalLossParameter::clear_alpha() {
+  alpha_ = 1;
+  clear_has_alpha();
+}
+inline float FocalLossParameter::alpha() const {
+  // @@protoc_insertion_point(field_get:caffe.FocalLossParameter.alpha)
+  return alpha_;
+}
+inline void FocalLossParameter::set_alpha(float value) {
+  set_has_alpha();
+  alpha_ = value;
+  // @@protoc_insertion_point(field_set:caffe.FocalLossParameter.alpha)
+}
+
+// optional float gamma = 2 [default = 2];
+inline bool FocalLossParameter::has_gamma() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void FocalLossParameter::set_has_gamma() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void FocalLossParameter::clear_has_gamma() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void FocalLossParameter::clear_gamma() {
+  gamma_ = 2;
+  clear_has_gamma();
+}
+inline float FocalLossParameter::gamma() const {
+  // @@protoc_insertion_point(field_get:caffe.FocalLossParameter.gamma)
+  return gamma_;
+}
+inline void FocalLossParameter::set_gamma(float value) {
+  set_has_gamma();
+  gamma_ = value;
+  // @@protoc_insertion_point(field_set:caffe.FocalLossParameter.gamma)
+}
+
+inline const FocalLossParameter* FocalLossParameter::internal_default_instance() {
+  return &FocalLossParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
 // BlobShape
 
 // repeated int64 dim = 1 [packed = true];
@@ -32970,6 +33660,141 @@ inline void LayerParameter::set_allocated_subnet_param(::caffe::SubnetParameter*
     clear_has_subnet_param();
   }
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.subnet_param)
+}
+
+// optional .caffe.FeaturemapSnapshotParameter featuremap_snapshot_param = 1038;
+inline bool LayerParameter::has_featuremap_snapshot_param() const {
+  return (_has_bits_[2] & 0x80000000u) != 0;
+}
+inline void LayerParameter::set_has_featuremap_snapshot_param() {
+  _has_bits_[2] |= 0x80000000u;
+}
+inline void LayerParameter::clear_has_featuremap_snapshot_param() {
+  _has_bits_[2] &= ~0x80000000u;
+}
+inline void LayerParameter::clear_featuremap_snapshot_param() {
+  if (featuremap_snapshot_param_ != NULL) featuremap_snapshot_param_->::caffe::FeaturemapSnapshotParameter::Clear();
+  clear_has_featuremap_snapshot_param();
+}
+inline const ::caffe::FeaturemapSnapshotParameter& LayerParameter::featuremap_snapshot_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.featuremap_snapshot_param)
+  return featuremap_snapshot_param_ != NULL ? *featuremap_snapshot_param_
+                         : *::caffe::FeaturemapSnapshotParameter::internal_default_instance();
+}
+inline ::caffe::FeaturemapSnapshotParameter* LayerParameter::mutable_featuremap_snapshot_param() {
+  set_has_featuremap_snapshot_param();
+  if (featuremap_snapshot_param_ == NULL) {
+    featuremap_snapshot_param_ = new ::caffe::FeaturemapSnapshotParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.featuremap_snapshot_param)
+  return featuremap_snapshot_param_;
+}
+inline ::caffe::FeaturemapSnapshotParameter* LayerParameter::release_featuremap_snapshot_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.featuremap_snapshot_param)
+  clear_has_featuremap_snapshot_param();
+  ::caffe::FeaturemapSnapshotParameter* temp = featuremap_snapshot_param_;
+  featuremap_snapshot_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_featuremap_snapshot_param(::caffe::FeaturemapSnapshotParameter* featuremap_snapshot_param) {
+  delete featuremap_snapshot_param_;
+  featuremap_snapshot_param_ = featuremap_snapshot_param;
+  if (featuremap_snapshot_param) {
+    set_has_featuremap_snapshot_param();
+  } else {
+    clear_has_featuremap_snapshot_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.featuremap_snapshot_param)
+}
+
+// optional .caffe.FeaturemapDataParameter featuremap_data_param = 1039;
+inline bool LayerParameter::has_featuremap_data_param() const {
+  return (_has_bits_[3] & 0x00000001u) != 0;
+}
+inline void LayerParameter::set_has_featuremap_data_param() {
+  _has_bits_[3] |= 0x00000001u;
+}
+inline void LayerParameter::clear_has_featuremap_data_param() {
+  _has_bits_[3] &= ~0x00000001u;
+}
+inline void LayerParameter::clear_featuremap_data_param() {
+  if (featuremap_data_param_ != NULL) featuremap_data_param_->::caffe::FeaturemapDataParameter::Clear();
+  clear_has_featuremap_data_param();
+}
+inline const ::caffe::FeaturemapDataParameter& LayerParameter::featuremap_data_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.featuremap_data_param)
+  return featuremap_data_param_ != NULL ? *featuremap_data_param_
+                         : *::caffe::FeaturemapDataParameter::internal_default_instance();
+}
+inline ::caffe::FeaturemapDataParameter* LayerParameter::mutable_featuremap_data_param() {
+  set_has_featuremap_data_param();
+  if (featuremap_data_param_ == NULL) {
+    featuremap_data_param_ = new ::caffe::FeaturemapDataParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.featuremap_data_param)
+  return featuremap_data_param_;
+}
+inline ::caffe::FeaturemapDataParameter* LayerParameter::release_featuremap_data_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.featuremap_data_param)
+  clear_has_featuremap_data_param();
+  ::caffe::FeaturemapDataParameter* temp = featuremap_data_param_;
+  featuremap_data_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_featuremap_data_param(::caffe::FeaturemapDataParameter* featuremap_data_param) {
+  delete featuremap_data_param_;
+  featuremap_data_param_ = featuremap_data_param;
+  if (featuremap_data_param) {
+    set_has_featuremap_data_param();
+  } else {
+    clear_has_featuremap_data_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.featuremap_data_param)
+}
+
+// optional .caffe.FocalLossParameter focal_loss_param = 1040;
+inline bool LayerParameter::has_focal_loss_param() const {
+  return (_has_bits_[3] & 0x00000002u) != 0;
+}
+inline void LayerParameter::set_has_focal_loss_param() {
+  _has_bits_[3] |= 0x00000002u;
+}
+inline void LayerParameter::clear_has_focal_loss_param() {
+  _has_bits_[3] &= ~0x00000002u;
+}
+inline void LayerParameter::clear_focal_loss_param() {
+  if (focal_loss_param_ != NULL) focal_loss_param_->::caffe::FocalLossParameter::Clear();
+  clear_has_focal_loss_param();
+}
+inline const ::caffe::FocalLossParameter& LayerParameter::focal_loss_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.focal_loss_param)
+  return focal_loss_param_ != NULL ? *focal_loss_param_
+                         : *::caffe::FocalLossParameter::internal_default_instance();
+}
+inline ::caffe::FocalLossParameter* LayerParameter::mutable_focal_loss_param() {
+  set_has_focal_loss_param();
+  if (focal_loss_param_ == NULL) {
+    focal_loss_param_ = new ::caffe::FocalLossParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.focal_loss_param)
+  return focal_loss_param_;
+}
+inline ::caffe::FocalLossParameter* LayerParameter::release_focal_loss_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.focal_loss_param)
+  clear_has_focal_loss_param();
+  ::caffe::FocalLossParameter* temp = focal_loss_param_;
+  focal_loss_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_focal_loss_param(::caffe::FocalLossParameter* focal_loss_param) {
+  delete focal_loss_param_;
+  focal_loss_param_ = focal_loss_param;
+  if (focal_loss_param) {
+    set_has_focal_loss_param();
+  } else {
+    clear_has_focal_loss_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.focal_loss_param)
 }
 
 inline const LayerParameter* LayerParameter::internal_default_instance() {
@@ -41856,6 +42681,12 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -41899,6 +42730,16 @@ template <> struct is_proto_enum< ::caffe::OffsetParameter_Anchor> : ::google::p
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::caffe::OffsetParameter_Anchor>() {
   return ::caffe::OffsetParameter_Anchor_descriptor();
+}
+template <> struct is_proto_enum< ::caffe::FeaturemapSnapshotParameter_OutputType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::caffe::FeaturemapSnapshotParameter_OutputType>() {
+  return ::caffe::FeaturemapSnapshotParameter_OutputType_descriptor();
+}
+template <> struct is_proto_enum< ::caffe::FeaturemapDataParameter_InputType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::caffe::FeaturemapDataParameter_InputType>() {
+  return ::caffe::FeaturemapDataParameter_InputType_descriptor();
 }
 template <> struct is_proto_enum< ::caffe::FillerParameter_VarianceNorm> : ::google::protobuf::internal::true_type {};
 template <>

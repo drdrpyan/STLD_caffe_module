@@ -98,8 +98,8 @@ void BaseImgBBoxDataLayer<Dtype>::ParseLabelBBox(
     (*bbox)[n].clear();
 
     for (int i = 0; i < prefetch_label.width() && label_iter[i] != LabelParameter::DUMMY_LABEL; ++i) {
-      if (xmax_iter[i] - xmin_iter[i] < 5)
-        continue;
+      //if (xmax_iter[i] - xmin_iter[i] < 5)
+      //  continue;
 
       (*label)[n].push_back(label_iter[i]);
       (*bbox)[n].push_back(bgm::BBox<Dtype>(xmin_iter[i], ymin_iter[i], xmax_iter[i], ymax_iter[i]));
@@ -133,8 +133,8 @@ void BaseImgBBoxDataLayer<Dtype>::ParseLabelBBox(
     (*bbox)[n].clear();
 
     for (int i = 0; i < prefetch_label.width() && label_iter[i] != LabelParameter::DUMMY_LABEL; ++i) {
-      if (xmax_iter[i] - xmin_iter[i] < 5)
-        continue;
+      //if (xmax_iter[i] - xmin_iter[i] < 5)
+      //  continue;
 
       (*label)[n].push_back(label_iter[i]);
       (*bbox)[n].push_back(

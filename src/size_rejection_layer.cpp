@@ -38,8 +38,8 @@ void SizeRejectionLayer<Dtype>::Forward_cpu(
     std::vector<std::vector<cv::Rect_<Dtype> > > src_bbox;
     anno_decoder_->Decode(bottom, &src_label, &src_bbox);
 
-    std::vector<std::vector<int> > dst_label;
-    std::vector<std::vector<cv::Rect_<Dtype> > > dst_bbox;
+    std::vector<std::vector<int> > dst_label(src_label.size());
+    std::vector<std::vector<cv::Rect_<Dtype> > > dst_bbox(src_bbox.size());
     for (int n = 0; n < src_label.size(); ++n) {
       for (int i = 0; i < src_label[n].size(); ++i) {
         int label = src_label[n][i];
@@ -63,7 +63,7 @@ void SizeRejectionLayer<Dtype>::Forward_cpu(
     std::vector<std::vector<bgm::Detection<Dtype> > > src_detection;
     detection_decoder_->Decode(bottom, &src_detection);
 
-    std::vector<std::vector<bgm::Detection<Dtype> > > dst_detection;
+    std::vector<std::vector<bgm::Detection<Dtype> > > dst_detection(src_detection.size());
     for (int n = 0; n < src_detection.size(); ++n) {
       for (int i = 0; i < src_detection[n].size(); ++i) {
         int label = src_detection[n][i].label;

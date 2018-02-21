@@ -56,7 +56,7 @@ void DetectionCheckLayer<Dtype>::Forward_cpu(
   DecodeImg(bottom, &img);
   CHECK_EQ(detection.size(), img.size());
   LogDetection(detection);
-  SaveImg(log_path_ + "/img/", img);
+  //SaveImg(log_path_ + "/img/", img);
 
   if (eval_performance_) {
     DecodeGT(bottom, &gt);

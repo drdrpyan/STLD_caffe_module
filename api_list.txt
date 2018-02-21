@@ -16,5 +16,18 @@ test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_extra33_early
 late rejection 학습용
 train -solver D:/workspace/TLR/tlr/model/tlr_late_rejection_solver.prototxt -gpu 1
 
+late rejection 테스트용
+test -model D:/workspace/TLR/tlr/model/tlr_late_rejection_eval.prototxt -weights D:/tlr_snapshot/late_rejection/ver1/train_1/tlr_iter_18000(best2).caffemodel -gpu 0 -iterations 8334
 
 train -solver D:/workspace/TLR/tlr/model/tlr_yolov2_solver.prototxt  -weights D:/tlr_snapshot/yolov2_res101_multi/train_2/tlr_iter_89345(best).caffemodel -gpu 1
+
+train -solver D:/workspace/TLR/tlr/model/tlr_yolov2_solver.prototxt  -snapshot d:/tlr_snapshot/yolov2_res101_deconv8/train_2/tlr_iter_1651.solverstate -gpu 1
+
+train -solver D:/workspace/TLR/tlr/model/tlr_yolov2_solver.prototxt  -weights D:/tlr_snapshot/yolov2_res101_multi/train_3/tlr_iter_82000(best).caffemodel -gpu 0
+
+test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_multiscale_eval.prototxt  -weights D:/tlr_snapshot/yolov2_res101_multi/train_5/tlr_iter_68000(best).caffemodel -gpu 1 -iterations 8334
+
+train -solver D:/workspace/TLR/tlr/model/tlr_yolov2_solver.prototxt  -snapshot D:/tlr_snapshot/yolov2_res101_deconv8/train_2/tlr_iter_62000.solverstate -gpu 1
+
+최근 성능 평가 기준
+test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_multiscale_eval.prototxt  -weights D:/tlr_snapshot/yolov2_res101_multi/train_5/tlr_iter_80000.caffemodel -gpu 1 -iterations 8334
