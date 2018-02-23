@@ -111,7 +111,7 @@ void YOLOV2Decoder<Dtype>::DecodeCellData(
     int conf_ch = yolo_v2_handler_->GetAnchorChannel(i, YOLOV2Handler<Dtype>::AnchorChannel::CONF);
     Dtype conf = bgm::Sigmoid<Dtype>(*(cell_data_[conf_ch]));
 
-    //// 기존 conf 취급
+    // 기존 conf 취급
     //if (conf > conf_threshold) {
     //  cv::Rect_<Dtype> yolo_box = GetYOLOBox(i);
     //  cv::Rect_<Dtype> raw_box = yolo_v2_handler_->YOLOBoxToRawBox(yolo_box, h, w, i);

@@ -13,7 +13,7 @@ namespace caffe
 template <typename Dtype>
 class FeaturemapSnapshotLayer : public Layer<Dtype>
 {
-  enum {COMMIT_PERIOD = 1000};
+  enum {COMMIT_PERIOD = 10};
  public:
   explicit FeaturemapSnapshotLayer(const LayerParameter& param);
   virtual ~FeaturemapSnapshotLayer() override;
@@ -45,12 +45,11 @@ class FeaturemapSnapshotLayer : public Layer<Dtype>
 template <typename Dtype>
 inline FeaturemapSnapshotLayer<Dtype>::FeaturemapSnapshotLayer(
   const LayerParameter& param) : Layer<Dtype>(param) {
-  txn_->Commit();
 }
 
 template <typename Dtype>
 inline FeaturemapSnapshotLayer<Dtype>::~FeaturemapSnapshotLayer() {
-
+  txn_->Commit();
 }
 
 template <typename Dtype>

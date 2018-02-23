@@ -2,82 +2,72 @@
 
 #include "caffe/util/benchmark.hpp"
 
+#include "boost/thread.hpp"
+
 namespace caffe
 {
+template <typename Dtype>
+FeaturemapDataLayer<Dtype>::FeaturemapDataLayer(
+    const LayerParameter& param) 
+  : Layer<Dtype>(param) {
+  db_.reset(db::GetDB(param.data_param().backend()));
+  db_->Open(param.data_param().source(), db::READ);
+  cursor_.reset(db_->NewCursor());
+}
 
 template <typename Dtype>
-void FeaturemapDataLayer<Dtype>::DataLayerSetUp(
+void FeaturemapDataLayer<Dtype>::LayerSetUp(
     const vector<Blob<Dtype>*>& bottom, const vector<Blob<Dtype>*>& top) {
-  const int batch_size = this->layer_param_.data_param().batch_size();
-
+  // reshape top
   BlobProtoVector blob_proto_vec;
   blob_proto_vec.ParseFromString(cursor_->value());
-
-  Blob<Dtype> featuremap_blob;
-  featuremap_blob.FromProto(blob_proto_vec.blobs(0));
-  std::vector<int> top_shape(featuremap_blob.shape());
-  top_shape[0] *= batch_size;
-  top[0]->Reshape(top_shape);
-
-  if (this->output_labels_) {
-    Blob<Dtype> gt_blob;
-    gt_blob.FromProto(blob_proto_vec.blobs(1));
-    std::vector<int> top_shape(gt_blob.shape());
-    top_shape[0] *= batch_size;
-    top[1]->Reshape(top_shape);
+  CHECK_EQ(blob_proto_vec.blobs_size(), top.size());
+  for (int i = 0; i < blob_proto_vec.blobs_size(); ++i) {
+    top[i]->FromProto(blob_proto_vec.blobs(i));
   }
 }
 
 template <typename Dtype>
-void FeaturemapDataLayer<Dtype>::load_batch(Batch<Dtype>* batch) {
-  //CPUTimer batch_timer;
-  //batch_timer.Start();
-  //double read_time = 0;
-  //double trans_time = 0;
-  //CPUTimer timer;
-  //CHECK(batch->data_.count());
-  //CHECK(this->transformed_data_.count());
-  //const int batch_size = this->layer_param_.data_param().batch_size();
+void FeaturemapDataLayer<Dtype>::Forward_cpu(
+    const vector<Blob<Dtype>*>& bottom, const vector<Blob<Dtype>*>& top) {
+  while (Skip())
+    Next();
 
-  //BlobProtoVector blob_proto_vec;
-  //for (int item_id = 0; item_id < batch_size; ++item_id) {
-  //  timer.Start();
-  //  while (Skip()) {
-  //    Next();
-  //  }
-  //  blob_proto_vec.ParseFromString(cursor_->value());
-  //  read_time += timer.MicroSeconds();
+  BlobProtoVector blob_proto_vec;
+  blob_proto_vec.ParseFromString(cursor_->value());
+  CHECK_EQ(blob_proto_vec.blobs_size(), top.size());
+  for (int i = 0; i < blob_proto_vec.blobs_size(); ++i)
+    top[i]->FromProto(blob_proto_vec.blobs(i));
 
-  //  if (item_id == 0) {
-  //    // Reshape according to the first datum of each batch
-  //    // on single input batches allows for inputs of varying dimension.
-  //    // Use data_transformer to infer the expected blob shape from datum.
-  //    vector<int> top_shape = this->data_transformer_->InferBlobShape(datum);
-  //    this->transformed_data_.Reshape(top_shape);
-  //    // Reshape batch according to the batch_size.
-  //    top_shape[0] = batch_size;
-  //    batch->data_.Reshape(top_shape);
-  //  }
-
-  //  // Apply data transformations (mirror, scale, crop...)
-  //  timer.Start();
-  //  int offset = batch->data_.offset(item_id);
-  //  Dtype* top_data = batch->data_.mutable_cpu_data();
-  //  this->transformed_data_.set_cpu_data(top_data + offset);
-  //  this->data_transformer_->Transform(datum, &(this->transformed_data_));
-  //  // Copy label.
-  //  if (this->output_labels_) {
-  //    Dtype* top_label = batch->label_.mutable_cpu_data();
-  //    top_label[item_id] = datum.label();
-  //  }
-  //  trans_time += timer.MicroSeconds();
-  //  Next();
-  //}
-  //timer.Stop();
-  //batch_timer.Stop();
-  //DLOG(INFO) << "Prefetch batch: " << batch_timer.MilliSeconds() << " ms.";
-  //DLOG(INFO) << "     Read time: " << read_time / 1000 << " ms.";
-  //DLOG(INFO) << "Transform time: " << trans_time / 1000 << " ms.";
+  Next();
 }
+
+template <typename Dtype>
+bool FeaturemapDataLayer<Dtype>::Skip() {
+  int size = Caffe::solver_count();
+  int rank = Caffe::solver_rank();
+  bool keep = (offset_ % size) == rank ||
+              // In test mode, only rank 0 runs, so avoid skipping
+              this->layer_param_.phase() == TEST;
+  return !keep;
+}
+
+template<typename Dtype>
+void FeaturemapDataLayer<Dtype>::Next() {
+  cursor_->Next();
+  if (!cursor_->valid()) {
+    LOG_IF(INFO, Caffe::root_solver())
+        << "Restarting data prefetching from start.";
+    cursor_->SeekToFirst();
+  }
+  offset_++;
+}
+
+#ifdef CPU_ONLY
+STUB_GPU(FeaturemapDataLayer);
+#endif
+
+INSTANTIATE_CLASS(FeaturemapDataLayer);
+REGISTER_LAYER_CLASS(FeaturemapData);
 
 } // namespace caffe

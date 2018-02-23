@@ -23,6 +23,8 @@ void FeaturemapSnapshotLayer<Dtype>::LayerSetUp(
 template <typename Dtype>
 void FeaturemapSnapshotLayer<Dtype>::Forward_cpu(
     const vector<Blob<Dtype>*>& bottom, const vector<Blob<Dtype>*>& top) {
+  LOG(INFO) << "Processing data : " << txn_count_;
+
   BlobProtoVector blob_vec;
   blob_vec.clear_blobs();
 
@@ -35,6 +37,7 @@ void FeaturemapSnapshotLayer<Dtype>::Forward_cpu(
   txn_->Put(key_str, data_str);
   
   if (++txn_count_ % COMMIT_PERIOD == 0) {
+    LOG(INFO) << "Committing transaction";
     txn_->Commit();
     txn_.reset(db_->NewTransaction());
   }

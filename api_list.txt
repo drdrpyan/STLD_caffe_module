@@ -31,3 +31,6 @@ train -solver D:/workspace/TLR/tlr/model/tlr_yolov2_solver.prototxt  -snapshot D
 
 최근 성능 평가 기준
 test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_multiscale_eval.prototxt  -weights D:/tlr_snapshot/yolov2_res101_multi/train_5/tlr_iter_80000.caffemodel -gpu 1 -iterations 8334
+
+피쳐맵 저장용
+test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_multiscale_snapshot.prototxt  -weights D:/tlr_snapshot/yolov2_res101_multi/focal1_2/tlr_iter_100000.caffemodel -gpu 0 -iterations 8334
