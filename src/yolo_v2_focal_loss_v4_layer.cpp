@@ -1,4 +1,4 @@
-#include "yolo_v2_loss_layer.hpp"
+#include "yolo_v2_focal_loss_v4_layer.hpp"
 
 #include "caffe/util/math_functions.hpp"
 
@@ -9,7 +9,7 @@ namespace caffe
 {
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::LayerSetUp(
+void YOLOV2FocalLossV4Layer<Dtype>::LayerSetUp(
     const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
   const YOLOV2LossParameter& param = layer_param_.yolo_v2_loss_param();
@@ -53,10 +53,14 @@ void YOLOV2LossLayer<Dtype>::LayerSetUp(
   CHECK_GE(coord_scale_, 0);
 
   anno_decoder_.reset(new bgm::AnnoDecoder<Dtype>);
+
+  const FocalLossParameter& focal_loss_param = layer_param_.focal_loss_param();
+  focal_loss_alpha_ = focal_loss_param.alpha();
+  focal_loss_gamma_ = focal_loss_param.gamma();
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::Reshape(
+void YOLOV2FocalLossV4Layer<Dtype>::Reshape(
     const vector<Blob<Dtype>*>& bottom, const vector<Blob<Dtype>*>& top) {
   CHECK_EQ(bottom[0]->num(), bottom[1]->num());
   CHECK_EQ(bottom[0]->num(), bottom[2]->num());
@@ -100,7 +104,7 @@ void YOLOV2LossLayer<Dtype>::Reshape(
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::Forward_cpu(
+void YOLOV2FocalLossV4Layer<Dtype>::Forward_cpu(
     const vector<Blob<Dtype>*>& bottom, const vector<Blob<Dtype>*>& top) {
   const Blob<Dtype>& yolo_out = *(bottom[0]);
   Blob<Dtype>& loss_out = *(top[0]);
@@ -115,64 +119,6 @@ void YOLOV2LossLayer<Dtype>::Forward_cpu(
   for (int n = 0; n < yolo_out.num(); ++n) {
     for (int h = 0; h < yolo_out.height(); ++h) {
       for (int w = 0; w < yolo_out.width(); ++w) {
-//        //std::vector<cv::Rect_<Dtype> > shifted_anchor;
-//        //ShiftAnchors(h, w, &shifted_anchor);
-//
-//        //int best_bbox_idx, best_anchor_idx;
-//        //Dtype best_iou;
-//        //FindBestMatching(shifted_anchor, gt_bbox[n],
-//        //                 &best_anchor_idx, &best_bbox_idx, &best_iou);
-//
-//        //for (int a = 0; a < shifted_anchor.size(); ++a) {
-//        //  if ((a != best_anchor_idx) || (best_iou < overlap_threshold_))
-//        //    ForwardNegative(yolo_out, n, h, w, a);
-//        //  else {
-//        //    ++obj_cnt_;
-//
-//        //    cv::Rect_<Dtype> true_bbox = 
-//        //        RawBBoxToAnchorBBox(gt_bbox[n][best_bbox_idx], 
-//        //                            shifted_anchor[a]);
-//        //    ForwardPositive(yolo_out, n, h, w, a,
-//        //                    gt_label[n][best_bbox_idx], true_bbox);
-//        //  }
-//        //}
-//        cv::Point anchor_lt = GetCellTopLeft(h, w);
-//        for (int a = 0; a < anchor_.size(); ++a) {
-//          cv::Rect_<Dtype> shifted_anchor = anchor_[a];
-//          shifted_anchor.x += anchor_lt.x;
-//          shifted_anchor.y += anchor_lt.y;
-//
-//          int best_bbox_idx;
-//          Dtype best_iou;
-//          FindBestMatching(shifted_anchor, gt_bbox[n],
-//                           &best_bbox_idx, &best_iou);
-//
-//          if (best_iou < overlap_threshold_) {
-//            ForwardNegative(yolo_out, n, h, w, a);
-//          }
-//          else {
-//            ++obj_cnt_;
-//
-//            cv::Rect_<Dtype> pred_yolo_box = GetPredBBox(yolo_out, n, h, w, a);
-//            cv::Rect_<Dtype> pred_raw_box = YOLOBoxToRawBox(pred_yolo_box,
-//                                                            shifted_anchor);
-//            Dtype pred_iou = CalcIoU(pred_raw_box, gt_bbox[n][best_bbox_idx]);
-//            avg_iou_ += pred_iou;
-//
-//            cv::Rect_<Dtype> true_bbox_yolo_form =
-//                RawBoxToYOLOBox(gt_bbox[n][best_bbox_idx], shifted_anchor);
-//
-////#ifdef USE_YOLOV2_SIGMOID_CONF
-////            if (pred_iou < overlap_threshold_)
-////              pred_iou = overlap_threshold_;
-////#endif // USE_YOLOV2_SIGMOID_CONF
-//
-//            ForwardPositive(yolo_out, n, h, w, a,
-//                            gt_label[n][best_bbox_idx], true_bbox_yolo_form,
-//                            pred_iou);
-
-        //  }
-        //}
         std::vector<cv::Rect_<Dtype> > shifted_anchor;
         ShiftAnchors(h, w, &shifted_anchor);
 
@@ -202,11 +148,50 @@ void YOLOV2LossLayer<Dtype>::Forward_cpu(
                             pred_iou);
           }
         }
+
+//        cv::Point anchor_lt = GetCellTopLeft(h, w);
+//        for (int a = 0; a < anchor_.size(); ++a) {
+//          cv::Rect_<Dtype> shifted_anchor = anchor_[a];
+//          shifted_anchor.x += anchor_lt.x;
+//          shifted_anchor.y += anchor_lt.y;
+//
+//          int best_bbox_idx;
+//          Dtype best_iou;
+//          FindBestMatching(shifted_anchor, gt_bbox[n],
+//                           &best_bbox_idx, &best_iou);
+//
+//          if (best_iou < overlap_threshold_) {
+//            ForwardNegative(yolo_out, n, h, w, a);
+//          }
+//          else {
+//            ++obj_cnt_;
+//
+//            cv::Rect_<Dtype> pred_yolo_box = GetPredBBox(yolo_out, n, h, w, a);
+//            cv::Rect_<Dtype> pred_raw_box = YOLOBoxToRawBox(pred_yolo_box,
+//                                                            shifted_anchor);
+//            Dtype pred_iou = CalcIoU(pred_raw_box, gt_bbox[n][best_bbox_idx]);
+//            CHECK(!std::isnan(pred_iou));
+//            CHECK(!std::isinf(pred_iou));
+//            avg_iou_ += pred_iou;
+//
+//            cv::Rect_<Dtype> true_bbox_yolo_form =
+//                RawBoxToYOLOBox(gt_bbox[n][best_bbox_idx], shifted_anchor);
+//
+////#ifdef USE_YOLOV2_SIGMOID_CONF
+////            if (pred_iou < overlap_threshold_)
+////              pred_iou = overlap_threshold_;
+////#endif // USE_YOLOV2_SIGMOID_CONF
+//
+//            ForwardPositive(yolo_out, n, h, w, a,
+//                            gt_label[n][best_bbox_idx], true_bbox_yolo_form,
+//                            pred_iou);
+//          }
+//        }
       }
     }
   }
 
-  int noobj_cnt = yolo_out.num() * yolo_out.height() * yolo_out.width() - obj_cnt_;
+  int noobj_cnt = yolo_out.num() * yolo_out.height() * yolo_out.width() * anchor_.size() - obj_cnt_;
   if (noobj_cnt > 0) {
     noobj_loss_ /= noobj_cnt;
 
@@ -256,7 +241,7 @@ void YOLOV2LossLayer<Dtype>::Forward_cpu(
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::Clear() {
+void YOLOV2FocalLossV4Layer<Dtype>::Clear() {
   noobj_loss_ = 0;
   obj_loss_ = 0;
   cls_loss_ = 0;
@@ -278,7 +263,7 @@ void YOLOV2LossLayer<Dtype>::Clear() {
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::ShiftAnchors(
+void YOLOV2FocalLossV4Layer<Dtype>::ShiftAnchors(
     int cell_row, int cell_col,
     std::vector<cv::Rect_<Dtype> >* shifted) const {
   CHECK_GE(cell_row, 0);
@@ -296,7 +281,7 @@ void YOLOV2LossLayer<Dtype>::ShiftAnchors(
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::FindBestMatching(
+void YOLOV2FocalLossV4Layer<Dtype>::FindBestMatching(
     const std::vector<cv::Rect_<Dtype> >& anchor,
     const std::vector<cv::Rect_<Dtype> >& gt_bbox,
     int* best_anchor_idx, int* best_bbox_idx, 
@@ -320,10 +305,13 @@ void YOLOV2LossLayer<Dtype>::FindBestMatching(
       }
     }
   }
+
+  //DCHECK_NE(*best_anchor_idx, 0) << gt_bbox[*best_bbox_idx] << ' ' << *best_iou;
+    
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::FindBestMatching(
+void YOLOV2FocalLossV4Layer<Dtype>::FindBestMatching(
     const cv::Rect_<Dtype>& anchor, 
     const std::vector<cv::Rect_<Dtype> >& gt_bbox,
     int* best_bbox_idx, Dtype* best_iou) const {
@@ -343,7 +331,7 @@ void YOLOV2LossLayer<Dtype>::FindBestMatching(
 }
 
 template <typename Dtype>
-cv::Rect_<Dtype> YOLOV2LossLayer<Dtype>::RawBBoxToAnchorBBox(
+cv::Rect_<Dtype> YOLOV2FocalLossV4Layer<Dtype>::RawBBoxToAnchorBBox(
     const cv::Rect_<Dtype>& raw_bbox, const cv::Rect_<Dtype>& anchor) const {
   Dtype x = (raw_bbox.x + (raw_bbox.width / 2.) - anchor.x) / anchor.width;
   Dtype y = (raw_bbox.y + (raw_bbox.height / 2.) - anchor.y) / anchor.height;
@@ -353,7 +341,7 @@ cv::Rect_<Dtype> YOLOV2LossLayer<Dtype>::RawBBoxToAnchorBBox(
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::ForwardNegative(
+void YOLOV2FocalLossV4Layer<Dtype>::ForwardNegative(
     const Blob<Dtype>& input, int n, int h, int w, int anchor) {
   // conf
   ForwardConf(input, n, h, w, anchor, noobj_scale_, 0, 
@@ -364,7 +352,7 @@ void YOLOV2LossLayer<Dtype>::ForwardNegative(
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::ForwardPositive(
+void YOLOV2FocalLossV4Layer<Dtype>::ForwardPositive(
     const Blob<Dtype>& input, int n, int h, int w, int anchor,
     Dtype true_label, const cv::Rect_<Dtype>& true_bbox_yolo_form,
     Dtype iou) {
@@ -381,7 +369,7 @@ void YOLOV2LossLayer<Dtype>::ForwardPositive(
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::ForwardConf(
+void YOLOV2FocalLossV4Layer<Dtype>::ForwardConf(
     const Blob<Dtype>& input, 
     int n, int h, int w, int anchor, Dtype scale, Dtype iou,
     Dtype& loss, Dtype& sum_conf) {
@@ -394,10 +382,20 @@ void YOLOV2LossLayer<Dtype>::ForwardConf(
 
 #ifdef USE_YOLOV2_SIGMOID_CONF
   Dtype sig_conf = Sigmoid(conf);
-  //loss += scale * std::pow(sig_conf - (iou > 0 ? 1 : 0), 2);
-  loss += scale * std::pow(sig_conf - iou, 2);
-  *(diff_data + conf_offset) = scale * (sig_conf - iou) * sig_conf * (1 - sig_conf);
   sum_conf += sig_conf;
+
+  Dtype focal_loss, focal_loss_diff;
+  focal_loss_.SigmoidRegressionFocalLoss(conf, iou,
+                                         focal_loss_alpha_, focal_loss_gamma_,
+                                         &focal_loss, &focal_loss_diff);
+  //focal_loss_.RegressionFocalLoss(sig_conf, iou,
+  //                                focal_loss_alpha_, focal_loss_gamma_,
+  //                                &focal_loss, &focal_loss_diff);
+  CHECK(!std::isnan(focal_loss_diff));
+  CHECK(!std::isinf(focal_loss_diff));
+
+  loss += scale * focal_loss;
+  *(diff_data + conf_offset) = scale * focal_loss_diff;
 
   if (&loss == &noobj_loss_) {
     if (max_noobj_ < sig_conf)
@@ -415,7 +413,7 @@ void YOLOV2LossLayer<Dtype>::ForwardConf(
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::ForwardBBox(
+void YOLOV2FocalLossV4Layer<Dtype>::ForwardBBox(
     const Blob<Dtype>& input, int n, int h, int w, int anchor,
     Dtype scale, const cv::Rect_<Dtype>& target_yolo_form) {
   const Dtype* input_data = input.cpu_data();
@@ -456,7 +454,7 @@ void YOLOV2LossLayer<Dtype>::ForwardBBox(
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::ForwardClass(
+void YOLOV2FocalLossV4Layer<Dtype>::ForwardClass(
     const Blob<Dtype>& input, int n, int h, int w, int anchor, int true_label) {
   CHECK_GT(true_label, 0);
   CHECK_LE(true_label, num_class_);
@@ -464,23 +462,48 @@ void YOLOV2LossLayer<Dtype>::ForwardClass(
   const Dtype* input_data = input.cpu_data();
   Dtype* diff_data = diff_.mutable_cpu_diff();
 
-  for (int l = 1; l <= num_class_; ++l) { // label > 0
-    int cls_offset = input.offset(n, GetClassChannel(anchor, l), h, w);
-    Dtype cls = *(input_data + cls_offset);
+  std::vector<int> cls_offset(num_class_);
+  for(int l=1; l<=num_class_; ++l)
+    cls_offset[l-1] = input.offset(n, GetClassChannel(anchor, l), h, w);
 
-    if (l == true_label)
-      avg_pos_cls_ += cls;
+  std::vector<Dtype> cls_conf(num_class_);
+  for (int l = 0; l < num_class_; ++l)
+    cls_conf[l] = *(input_data + cls_offset[l]);
+
+  // safe softmax
+  auto max_iter = std::max_element(cls_conf.begin(), cls_conf.end());
+  std::vector<Dtype> softmax(num_class_);
+  Dtype exp_sum = 0;
+  for (int l = 0; l < num_class_; ++l) {
+    softmax[l] = std::exp(cls_conf[l] - (*max_iter));
+    exp_sum += softmax[l];
+  }
+  for (int l = 0; l < num_class_; ++l) {
+    if (l != (true_label - 1))
+      avg_neg_cls_ += softmax[l] / exp_sum;
     else
-      avg_neg_cls_ += cls;
+      avg_pos_cls_ += softmax[l] / exp_sum;
+  }
 
-    Dtype target = (l != true_label) ? 0. : 1.;
-    cls_loss_ += cls_scale_ * std::pow(cls - target, 2);
-    *(diff_data + cls_offset) = cls_scale_ * (cls - target);
+  Dtype cls_loss;
+  std::vector<Dtype> cls_diff;
+  //focal_loss_.SoftmaxFocalLoss(cls_conf, true_label-1,
+  //                             focal_loss_alpha_, focal_loss_gamma_,
+  //                             &cls_loss, &cls_diff);
+  focal_loss_.SoftmaxFocalLoss(cls_conf, true_label-1,
+                               1, 0,
+                               &cls_loss, &cls_diff);
+
+  cls_loss_ += cls_scale_ * cls_loss;
+  for (int l = 0; l < num_class_; ++l) {
+    CHECK(!std::isnan(cls_diff[l]));
+    CHECK(!std::isinf(cls_diff[l]));
+    *(diff_data + cls_offset[l]) = cls_scale_ * cls_diff[l];
   }
 }
 
 template <typename Dtype>
-void YOLOV2LossLayer<Dtype>::Backward_cpu(
+void YOLOV2FocalLossV4Layer<Dtype>::Backward_cpu(
     const vector<Blob<Dtype>*>& top, 
     const vector<bool>& propagate_down,
     const vector<Blob<Dtype>*>& bottom) {
@@ -497,7 +520,7 @@ void YOLOV2LossLayer<Dtype>::Backward_cpu(
 }
 
 template <typename Dtype>
-cv::Point YOLOV2LossLayer<Dtype>::GetCellTopLeft(int row, int col) const {
+cv::Point YOLOV2FocalLossV4Layer<Dtype>::GetCellTopLeft(int row, int col) const {
   CHECK_GE(row, 0);
   CHECK_LT(row, yolo_map_size_.height);
   CHECK_GE(col, 0);
@@ -510,7 +533,7 @@ cv::Point YOLOV2LossLayer<Dtype>::GetCellTopLeft(int row, int col) const {
 }
 
 template <typename Dtype>
-Dtype YOLOV2LossLayer<Dtype>::CalcIoU(
+Dtype YOLOV2FocalLossV4Layer<Dtype>::CalcIoU(
     const cv::Rect_<Dtype>& box1, const cv::Rect_<Dtype>& box2) const {
   Dtype h_overlap = CalcOverlap(box1.x, box1.width, box2.x, box2.width);
   Dtype v_overlap = CalcOverlap(box1.y, box1.height, box2.y, box2.height);
@@ -520,7 +543,7 @@ Dtype YOLOV2LossLayer<Dtype>::CalcIoU(
 }
 
 template <typename Dtype>
-Dtype YOLOV2LossLayer<Dtype>::CalcOverlap(
+Dtype YOLOV2FocalLossV4Layer<Dtype>::CalcOverlap(
     Dtype anchor1, Dtype length1, Dtype anchor2, Dtype length2) const {
   Dtype begin = std::max(anchor1, anchor2);
   Dtype end = std::min(anchor1 + length1, anchor2 + length2);
@@ -528,7 +551,7 @@ Dtype YOLOV2LossLayer<Dtype>::CalcOverlap(
 }
 
 template <typename Dtype>
-cv::Rect_<Dtype> YOLOV2LossLayer<Dtype>::GetPredBBox(
+cv::Rect_<Dtype> YOLOV2FocalLossV4Layer<Dtype>::GetPredBBox(
     const Blob<Dtype>& input, int n, int h, int w, int anchor) const {
   const Dtype* input_data = input.cpu_data();
   Dtype x = *(input_data + input.offset(n, GetAnchorChannel(anchor, AnchorChannel::X), h, w));
@@ -539,7 +562,7 @@ cv::Rect_<Dtype> YOLOV2LossLayer<Dtype>::GetPredBBox(
 }
 
 template <typename Dtype>
-cv::Rect_<Dtype> YOLOV2LossLayer<Dtype>::RawBoxToYOLOBox(
+cv::Rect_<Dtype> YOLOV2FocalLossV4Layer<Dtype>::RawBoxToYOLOBox(
     const cv::Rect_<Dtype>& raw_box, const cv::Rect_<Dtype>& anchor) const {
   cv::Rect_<Dtype> yolo_box;
   yolo_box.x = (raw_box.x + (raw_box.width / 2.) - anchor.x) / anchor.width;
@@ -551,7 +574,7 @@ cv::Rect_<Dtype> YOLOV2LossLayer<Dtype>::RawBoxToYOLOBox(
 }
 
 template <typename Dtype>
-cv::Rect_<Dtype> YOLOV2LossLayer<Dtype>::YOLOBoxToRawBox(
+cv::Rect_<Dtype> YOLOV2FocalLossV4Layer<Dtype>::YOLOBoxToRawBox(
     const cv::Rect_<Dtype>& yolo_box, const cv::Rect_<Dtype>& anchor,
     bool shift) const {
   cv::Rect_<Dtype> raw_box;
@@ -568,10 +591,10 @@ cv::Rect_<Dtype> YOLOV2LossLayer<Dtype>::YOLOBoxToRawBox(
 }
 
 #ifdef CPU_ONLY
-STUB_GPU(YOLOV2LossLayer);
+STUB_GPU(YOLOV2FocalLossV4Layer);
 #endif
 
-INSTANTIATE_CLASS(YOLOV2LossLayer);
-REGISTER_LAYER_CLASS(YOLOV2Loss);
+INSTANTIATE_CLASS(YOLOV2FocalLossV4Layer);
+REGISTER_LAYER_CLASS(YOLOV2FocalLossV4);
 
 } // namespace caffe

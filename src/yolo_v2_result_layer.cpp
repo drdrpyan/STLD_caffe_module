@@ -81,8 +81,9 @@ void YOLOV2ResultLayer<Dtype>::InitDecoder(const YOLOV2ResultParameter& param) {
   //bgm::DetectionNMS<Dtype>* detection_nms = new bgm::VOCNMS<Dtype>(nms_overlap_threshold);
   //bgm::DetectionNMS<Dtype>* detection_nms = new bgm::ConfMaxVOCNMS<Dtype>(nms_overlap_threshold);
   bgm::DetectionNMS<Dtype>* detection_nms = new bgm::MeanSizeNMS<Dtype>(nms_overlap_threshold);
-  
-  yolo_v2_decoder_.reset(new bgm::YOLOV2Decoder<Dtype>(yolo_v2_handler, detection_nms));
+  detection_nms = new bgm::DistanceNMS<Dtype>(detection_nms);
+  //yolo_v2_decoder_.reset(new bgm::YOLOV2Decoder<Dtype>(yolo_v2_handler, detection_nms));
+  yolo_v2_decoder_.reset(new bgm::YOLOV2SoftmaxDecoder<Dtype>(yolo_v2_handler, detection_nms));
 }
 
 template <typename Dtype>
@@ -104,6 +105,13 @@ void YOLOV2ResultLayer<Dtype>::InitDecoder(
                                  a.size().width(), a.size().height());
   }
 
+  std::vector<float> anchor_weight(yolo_v2_result_param.anchor_weight_size());
+  if (anchor_weight.size() > 0) {
+    for (int i = 0; i < yolo_v2_result_param.anchor_weight_size(); ++i)
+      anchor_weight[i] = yolo_v2_result_param.anchor_weight(i);
+    CHECK_EQ(anchor.size(), anchor_weight.size());
+  }
+
   float nms_overlap_threshold = yolo_v2_result_param.nms_overlap_threshold();
   CHECK_GE(nms_overlap_threshold, 0);
 
@@ -116,10 +124,23 @@ void YOLOV2ResultLayer<Dtype>::InitDecoder(
     subwin_offset[i].y = subwin_offset_param.win_offset(i).y();
   }
   
-  bgm::YOLOV2SubwinDecoder<Dtype>* decoder = 
-      new bgm::YOLOV2SubwinDecoder<Dtype>(yolo_v2_handler, detection_nms,
-                                          subwin_offset,
-                                          subwin_offset_param.global_detection());
+  //bgm::YOLOV2SubwinDecoder<Dtype>* decoder = 
+  //    new bgm::YOLOV2SubwinDecoder<Dtype>(yolo_v2_handler, detection_nms,
+  //                                        subwin_offset,
+  //                                        subwin_offset_param.global_detection());
+  bgm::YOLOV2SubwinSoftmaxDecoder<Dtype>* decoder;
+
+  if(anchor_weight.size() > 0)
+    decoder = 
+        new bgm::YOLOV2SubwinSoftmaxDecoder<Dtype>(yolo_v2_handler, detection_nms,
+                                                   subwin_offset,
+                                                   subwin_offset_param.global_detection(),
+                                                   anchor_weight);
+  else
+    decoder = 
+        new bgm::YOLOV2SubwinSoftmaxDecoder<Dtype>(yolo_v2_handler, detection_nms,
+                                                   subwin_offset,
+                                                   subwin_offset_param.global_detection());
   yolo_v2_decoder_.reset(decoder);
 }
 

@@ -1,5 +1,5 @@
-#ifndef TLR_YOLO_V2_FOCAL_LOSS_V3_LAYER_HPP_
-#define TLR_YOLO_V2_FOCAL_LOSS_V3_LAYER_HPP_
+#ifndef TLR_YOLO_V2_FOCAL_LOSS_V4_LAYER_HPP_
+#define TLR_YOLO_V2_FOCAL_LOSS_V4_LAYER_HPP_
 
 #include "caffe/layers/loss_layer.hpp"
 
@@ -14,13 +14,13 @@ namespace caffe
 {
 
 template <typename Dtype>
-class YOLOV2FocalLossV3Layer : public LossLayer<Dtype>
+class YOLOV2FocalLossV4Layer : public LossLayer<Dtype>
 {
   enum {NUM_ANCHOR_ELEM = 5};
   enum AnchorChannel {X = 0, Y, W, H, CONF, CLASS_BEGIN};
 
  public:
-  explicit YOLOV2FocalLossV3Layer(const LayerParameter& param);
+  explicit YOLOV2FocalLossV4Layer(const LayerParameter& param);
   virtual void LayerSetUp(
       const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top) override;
@@ -114,39 +114,39 @@ class YOLOV2FocalLossV3Layer : public LossLayer<Dtype>
 
 // inline functions
 template <typename Dtype>
-inline YOLOV2FocalLossV3Layer<Dtype>::YOLOV2FocalLossV3Layer(
+inline YOLOV2FocalLossV4Layer<Dtype>::YOLOV2FocalLossV4Layer(
     const LayerParameter& param) : LossLayer<Dtype>(param) {
 
 }
 
 template <typename Dtype>
-inline const char* YOLOV2FocalLossV3Layer<Dtype>::type() const {
-  return "YOLOV2FocalLossV3";
+inline const char* YOLOV2FocalLossV4Layer<Dtype>::type() const {
+  return "YOLOV2FocalLossV4";
 }
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::ExactNumBottomBlobs() const {
+inline int YOLOV2FocalLossV4Layer<Dtype>::ExactNumBottomBlobs() const {
   return 3;
 }
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::ExactNumTopBlobs() const {
+inline int YOLOV2FocalLossV4Layer<Dtype>::ExactNumTopBlobs() const {
   return -1;
 }
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::MinTopBlobs() const {
+inline int YOLOV2FocalLossV4Layer<Dtype>::MinTopBlobs() const {
   return 1;
 }
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::MaxTopBlobs() const {
+inline int YOLOV2FocalLossV4Layer<Dtype>::MaxTopBlobs() const {
   return 13;
 }
 
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::GetAnchorChannel(
+inline int YOLOV2FocalLossV4Layer<Dtype>::GetAnchorChannel(
     int anchor, AnchorChannel ch) const {
   CHECK_GE(anchor, 0);
   CHECK_LT(anchor, anchor_.size());
@@ -154,7 +154,7 @@ inline int YOLOV2FocalLossV3Layer<Dtype>::GetAnchorChannel(
 }
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::GetClassChannel(
+inline int YOLOV2FocalLossV4Layer<Dtype>::GetClassChannel(
     int anchor, int class_label) const {
   CHECK_GE(anchor, 0);
   CHECK_LT(anchor, anchor_.size());
@@ -164,10 +164,10 @@ inline int YOLOV2FocalLossV3Layer<Dtype>::GetClassChannel(
 }
 
 template <typename Dtype>
-inline Dtype YOLOV2FocalLossV3Layer<Dtype>::Sigmoid(Dtype value) const {
+inline Dtype YOLOV2FocalLossV4Layer<Dtype>::Sigmoid(Dtype value) const {
   return 1. / (1. + std::exp(-value));
 }
 
 } // namespace caffe
 
-#endif // !TLR_YOLO_V2_FOCAL_LOSS_V2_LAYER_HPP_
+#endif // !TLR_YOLO_V2_FOCAL_LOSS_V4_LAYER_HPP_

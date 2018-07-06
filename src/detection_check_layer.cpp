@@ -35,6 +35,8 @@ void DetectionCheckLayer<Dtype>::LayerSetUp(
     float nms_overlap_threshold = param.nms_overlap_threshold();
     //bgm::DetectionNMS<Dtype>* detection_nms = new bgm::ConfMaxVOCNMS<Dtype>(nms_overlap_threshold);
     bgm::DetectionNMS<Dtype>* detection_nms = new bgm::MeanSizeNMS<Dtype>(nms_overlap_threshold);
+    detection_nms = new bgm::DistanceNMS<Dtype>(detection_nms);
+
     nms_.reset(detection_nms);
   }
 }
@@ -208,18 +210,50 @@ cv::Mat DetectionCheckLayer<Dtype>::DrawResultGT(
 
   cv::Mat result_img = img.clone();
   
+  //for (int i = 0; i < gt.size(); ++i) {
+  //  if (std::find(fn_idx.begin(), fn_idx.end(), i) != fn_idx.end())
+  //    cv::rectangle(result_img, gt[i].bbox, GT_COLOR, 2);
+  //  else
+  //    cv::rectangle(result_img, gt[i].bbox, FN_COLOR, 2);
+  //}
+
+  //for (int i = 0; i < detection.size(); ++i) {
+  //  //if (detection[i].bbox.y <= 355) {
+  //    if (std::find(fp_idx.begin(), fp_idx.end(), i) != fp_idx.end())
+  //      cv::rectangle(result_img, detection[i].bbox, FP_COLOR, 2);
+  //    else if (std::find(tp_idx.begin(), tp_idx.end(), i) != tp_idx.end())
+  //      cv::rectangle(result_img, detection[i].bbox, TP_COLOR, 2);
+  //  //}
+  //}
+
   for (int i = 0; i < gt.size(); ++i) {
-    if (std::find(fn_idx.begin(), fn_idx.end(), i) != fn_idx.end())
-      cv::rectangle(result_img, gt[i].bbox, GT_COLOR);
-    else
-      cv::rectangle(result_img, gt[i].bbox, FN_COLOR);
+    if (std::find(fn_idx.begin(), fn_idx.end(), i) != fn_idx.end()) {
+      //cv::rectangle(result_img, gt[i].bbox, GT_COLOR, 2);
+      cv::Rect rect1 = gt[i].bbox;
+      cv::Rect rect2(rect1.x + 1, rect1.y + 1, rect1.width - 1, rect1.height - 1);
+      cv::rectangle(result_img, rect1, cv::Scalar(0, 0, 0), 3);
+      cv::rectangle(result_img, rect2, cv::Scalar(255, 255, 255), 2);
+    }
+    else {
+      //cv::Rect rect1 = gt[i].bbox;
+      //cv::Rect rect2(rect1.x + 1, rect1.y + 1, rect1.width - 1, rect1.height - 1);
+      //cv::rectangle(result_img, rect1, cv::Scalar(0, 0, 0), 3);
+      //cv::rectangle(result_img, rect2, cv::Scalar(255, 255, 255), 2);
+    }
   }
 
   for (int i = 0; i < detection.size(); ++i) {
-    if(std::find(fp_idx.begin(), fp_idx.end(), i) != fp_idx.end())
-      cv::rectangle(result_img, detection[i].bbox, FP_COLOR);
-    else if(std::find(tp_idx.begin(), tp_idx.end(), i) != tp_idx.end())
-      cv::rectangle(result_img, detection[i].bbox, TP_COLOR);
+    if (detection[i].bbox.y <= 355) {
+      cv::Rect rect1 = detection[i].bbox;
+      cv::Rect rect2(rect1.x + 1, rect1.y + 1, rect1.width - 1, rect1.height - 1);
+
+      cv::rectangle(result_img, rect1, cv::Scalar(0, 0, 0), 3);
+
+      if (std::find(fp_idx.begin(), fp_idx.end(), i) != fp_idx.end())
+        cv::rectangle(result_img, rect2, FP_COLOR, 2);
+      else if (std::find(tp_idx.begin(), tp_idx.end(), i) != tp_idx.end())
+        cv::rectangle(result_img, rect2, TP_COLOR, 2);
+    }
   }
 
   return result_img;

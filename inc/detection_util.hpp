@@ -103,6 +103,21 @@ Dtype Sigmoid(Dtype value) {
   return 1. / (1 + std::exp(-value));
 }
 
+template <typename Dtype>
+void Softmax(const std::vector<Dtype>& raw_values,
+             std::vector<Dtype>* softmax) {
+  CHECK(softmax);
+  softmax->resize(raw_values.size());
+
+  Dtype exp_sum = 0;
+  for (int i = 0; i < softmax->size(); ++i) {
+    (*softmax)[i] = std::exp(raw_values[i]);
+    exp_sum += (*softmax)[i];
+  }
+
+  for (int i = 0; i < softmax->size(); ++i)
+    (*softmax)[i] /= exp_sum;
+}
 
 } // namespace bgm
 

@@ -187,7 +187,6 @@ void YOLOV2FocalLossV3Layer<Dtype>::Forward_cpu(
     noobj_loss_ /= noobj_cnt;
 
     avg_noobj_ /= noobj_cnt;
-    avg_neg_cls_ /= noobj_cnt;
   }
 
   if (obj_cnt_ > 0) {
@@ -196,6 +195,7 @@ void YOLOV2FocalLossV3Layer<Dtype>::Forward_cpu(
 
     avg_obj_ /= obj_cnt_;
     avg_pos_cls_ /= obj_cnt_;
+    avg_neg_cls_ /= obj_cnt_ * (num_class_ - 1);
     avg_iou_ /= obj_cnt_;
   }
 
@@ -454,6 +454,20 @@ void YOLOV2FocalLossV3Layer<Dtype>::ForwardClass(
   std::vector<Dtype> cls_conf(num_class_);
   for (int l = 0; l < num_class_; ++l)
     cls_conf[l] = *(input_data + cls_offset[l]);
+
+  // softmax
+  std::vector<Dtype> softmax(num_class_);
+  Dtype exp_sum = 0;
+  for (int l = 0; l < num_class_; ++l) {
+    softmax[l] = std::exp(cls_conf[l]);
+    exp_sum += softmax[l];
+  }
+  for (int l = 0; l < num_class_; ++l) {
+    if (l != (true_label - 1))
+      avg_neg_cls_ += softmax[l] / exp_sum;
+    else
+      avg_pos_cls_ += softmax[l] / exp_sum;
+  }
 
   Dtype cls_loss;
   std::vector<Dtype> cls_diff;

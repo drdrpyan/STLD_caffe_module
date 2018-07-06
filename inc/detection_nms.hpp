@@ -9,6 +9,8 @@
 #include <list>
 #include <numeric>
 
+#define NEAR_DIST 3
+
 namespace bgm
 {
 
@@ -294,5 +296,72 @@ void MeanSizeNMS<Dtype>::operator()(
   //for (int i = 0; i < pick_idx.size(); ++i)
   //  (*result)[i] = detection[pick_idx[i]];
 }
+
+template <typename Dtype>
+class DistanceNMS : public DetectionNMS<Dtype>
+{
+  public:
+    DistanceNMS(DetectionNMS<Dtype>* base_nms);
+    virtual void operator()(const std::vector<Detection<Dtype> >& detection,
+                            std::vector<Detection<Dtype> >* result) override;
+
+  private:
+    bool IsNear(const Detection<Dtype>& d1,
+                const Detection<Dtype>& d2) const;
+    float Distance(const Detection<Dtype>& d1,
+                   const Detection<Dtype>& d2) const;
+    std::unique_ptr<DetectionNMS<Dtype> > base_nms_;
+};
+
+template <typename Dtype>
+inline DistanceNMS<Dtype>::DistanceNMS(DetectionNMS<Dtype>* base_nms) 
+  : base_nms_(base_nms) {
+
+}
+
+template <typename Dtype>
+void DistanceNMS<Dtype>::operator()(
+    const std::vector<Detection<Dtype> >& detection,
+    std::vector<Detection<Dtype> >* result) {
+  result->clear();
+
+  std::vector<Detection<Dtype> > base_result;
+  (*base_nms_)(detection, &base_result);
+
+  std::list<Detection<Dtype> > temp_result(base_result.begin(), 
+                                          base_result.end());
+  auto iter1 = temp_result.begin();
+  while (iter1 != temp_result.end()) {
+    result->push_back(*iter1);
+
+    auto iter2 = iter1;
+    ++iter2;
+    while (iter2 != temp_result.end()) {
+      if (IsNear(*iter1, *iter2))
+        temp_result.erase(iter2++);
+      else
+        ++iter2;
+    }
+
+    ++iter1;
+  }
+
+  result->assign(temp_result.begin(), temp_result.end());
+}
+
+template <typename Dtype>
+inline bool DistanceNMS<Dtype>::IsNear(const Detection<Dtype>& d1,
+                                       const Detection<Dtype>& d2) const {
+  float dist = Distance(d1, d2);
+  return (dist < d1.bbox.height * NEAR_DIST);
+}
+
+template <typename Dtype>
+inline float DistanceNMS<Dtype>::Distance(const Detection<Dtype>& d1,
+                                          const Detection<Dtype>& d2) const {
+  return std::sqrt(std::pow(d1.bbox.x - d2.bbox.x, 2) + std::pow(d1.bbox.y - d2.bbox.y, 2));
+}
+
+
 } // namespace bgm
 #endif // !BGM_DETECTION_NMS_HPP_

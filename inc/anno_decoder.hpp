@@ -31,7 +31,7 @@ class AnnoDecoder
   template <typename Iterator>
   void AddIgnoreLabel(const Iterator& first, const Iterator& end);
 
- private:
+ protected:
   bool IsIgnoreLabel(int label) const;
   std::set<int> ignore_label_;
 };

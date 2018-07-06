@@ -403,6 +403,8 @@ message YOLOV2ResultParameter {
   optional float nms_overlap_threshold = 6 [default = 0.5];
 
   optional float conf_threshold = 7 [default = 0.5];
+
+  repeated float anchor_weight = 8;
 }
 
 message DetectionCheckParameter {
@@ -479,6 +481,61 @@ message FeaturemapDataParameter {
 message FocalLossParameter {
   optional float alpha = 1 [default = 1];
   optional float gamma = 2 [default = 2];
+}
+
+message NegGTParameter {
+  optional uint32 batch_size = 1 [default = 1];
+  optional uint32 num_gt = 2 [default = 10];
+}
+
+message YOLOV2NMSDataParameter {
+  required Size2i cell_size = 1;
+  required uint32 num_class = 2;
+  repeated Rect2f anchor = 3;
+}
+
+message WeightedFocalLossParameter {
+  repeated float pos_alpha = 1;
+  repeated float neg_alpha = 2;
+  repeated float pos_gamma = 3;
+  repeated float neg_gamma = 4;
+  repeated float alpha = 5;
+  repeated float gamma = 6;
+}
+
+message DHALossParameter {
+  repeated Rect2f anchor = 1;
+  required uint32 num_class = 2;
+  required Size2i cell_size = 3;
+  optional float overlap_threshold = 4 [default = 0.3];
+  optional float noobj_scale = 5 [default = 1];
+  optional float obj_scale = 6 [default = 1];
+  optional float cls_scale = 7 [default = 1];
+  optional float coord_scale = 8 [default = 1];
+
+  optional FocalLossParameter neg_anchor_fl = 9;
+  optional WeightedFocalLossParameter pos_anchor_wfl = 10;
+  optional WeightedFocalLossParameter class_wfl = 11;
+}
+
+message DHAResultParameter {
+  required Size2i cell_size = 1;
+  required uint32 num_class = 2;
+  repeated Rect2f anchor = 3;
+
+  required uint32 num_detection = 4;
+  optional bool do_nms = 5 [default = true];
+  optional float nms_overlap_threshold = 6 [default = 0.5];
+
+  optional float neg_threshold = 7 [default = 0.5];
+
+  repeated float anchor_weight = 8;
+  repeated float class_weight = 9;
+}
+
+message YOLONegRejectionParameter {
+  optional float rate = 1 [default = 0];
+  optional float diff_threshold = 2 [default = 0.3];
 }
 
 // Specifies the shape (dimensions) of a Blob.
@@ -924,6 +981,12 @@ message LayerParameter {
   optional FeaturemapSnapshotParameter featuremap_snapshot_param = 1038;
   optional FeaturemapDataParameter featuremap_data_param = 1039;
   optional FocalLossParameter focal_loss_param = 1040;
+  optional NegGTParameter neg_gt_param = 1041;
+  optional YOLOV2NMSDataParameter yolo_v2_nms_data_param = 1042;
+  optional WeightedFocalLossParameter weighted_focal_loss_param = 1043;
+  optional DHALossParameter dha_loss_param = 1044;
+  optional DHAResultParameter dha_result_param = 1045;
+  optional YOLONegRejectionParameter yolo_neg_rejection_param = 1046;
 }
 
 // Message that stores parameters used to apply transformation

@@ -1,5 +1,6 @@
 #include "minibatch_data_layer.hpp"
 
+#include <algorithm>
 #include <random>
 #include <chrono>
 
@@ -131,31 +132,91 @@ void MinibatchDataLayer<Dtype>::SelectMinibatch(
   //  minibatch->push_back({roi, new_label, new_bbox});
   //}
 
-  // neg와 pos를 반반 (pos only db시 사용)
-  while (minibatch->size() < num_minibatch / 2) {
-    int tl_x = Random(0, src_width - width_);
-    int tl_y = Random(0, src_height - height_);
-    cv::Rect roi(tl_x, tl_y, width_, height_);
-    
-    std::vector<int> new_label;
-    std::vector<cv::Rect_<Dtype> > new_bbox;
-    for (int i = 0; i < src_label.size(); ++i) {
-      if ((*obj_contained_)(roi, src_bbox[i])) {
-        new_label.push_back(src_label[i]);
-        new_bbox.push_back(
-            cv::Rect_<Dtype>(src_bbox[i].x - tl_x,
-                             src_bbox[i].y - tl_y,
-                             src_bbox[i].width,
-                             src_bbox[i].height));
+  //// neg와 pos를 반반 (pos only db시 사용)
+  //while (minibatch->size() < num_minibatch / 2) {
+  //  int tl_x = Random(0, src_width - width_);
+  //  int tl_y = Random(0, src_height - height_);
+  //  cv::Rect roi(tl_x, tl_y, width_, height_);
+  //  
+  //  std::vector<int> new_label;
+  //  std::vector<cv::Rect_<Dtype> > new_bbox;
+  //  for (int i = 0; i < src_label.size(); ++i) {
+  //    if ((*obj_contained_)(roi, src_bbox[i])) {
+  //      new_label.push_back(src_label[i]);
+  //      new_bbox.push_back(
+  //          cv::Rect_<Dtype>(src_bbox[i].x - tl_x,
+  //                           src_bbox[i].y - tl_y,
+  //                           src_bbox[i].width,
+  //                           src_bbox[i].height));
+  //    }
+  //  }
+
+  //  //if (!src_label.empty() && new_label.empty())
+  //  //  continue;
+
+  //  minibatch->push_back({roi, new_label, new_bbox});
+  //}
+  //while (minibatch->size() < num_minibatch) {
+  //  int tl_x = Random(0, src_width - width_);
+  //  int tl_y = Random(0, src_height - height_);
+  //  cv::Rect roi(tl_x, tl_y, width_, height_);
+  //  
+  //  std::vector<int> new_label;
+  //  std::vector<cv::Rect_<Dtype> > new_bbox;
+  //  for (int i = 0; i < src_label.size(); ++i) {
+  //    if ((*obj_contained_)(roi, src_bbox[i])) {
+  //      new_label.push_back(src_label[i]);
+  //      new_bbox.push_back(
+  //          cv::Rect_<Dtype>(src_bbox[i].x - tl_x,
+  //                           src_bbox[i].y - tl_y,
+  //                           src_bbox[i].width,
+  //                           src_bbox[i].height));
+  //    }
+  //  }
+
+  //  if (!src_label.empty() && new_label.empty())
+  //    continue;
+
+  //  minibatch->push_back({roi, new_label, new_bbox});
+  //}
+
+  // pick positive roi
+  for (int i = 0; i < src_bbox.size(); ++i) {
+    int x_min = src_bbox[i].x + src_bbox[i].width - width_;
+    x_min = std::max(0, x_min);
+    int y_min = src_bbox[i].y + src_bbox[i].height - height_;
+    y_min = std::max(0, y_min);
+    int x_max = std::min(static_cast<int>(src_bbox[i].x), src_width - width_);
+    x_max = std::max(0, x_max);
+    int y_max = std::min(static_cast<int>(src_bbox[i].y), src_height - height_);
+    y_max = std::max(0, y_max);
+
+    x_min = std::min(x_min, x_max);
+    y_min = std::min(y_min, y_max);
+
+    for (int j = 0; j < num_minibatch; ++j) {
+      int tl_x = Random(x_min, x_max);
+      int tl_y = Random(y_min, y_max);
+      cv::Rect roi(tl_x, tl_y, width_, height_);
+
+      std::vector<int> new_label;
+      std::vector<cv::Rect_<Dtype> > new_bbox;
+      for (int i = 0; i < src_label.size(); ++i) {
+        if ((*obj_contained_)(roi, src_bbox[i])) {
+          new_label.push_back(src_label[i]);
+          new_bbox.push_back(
+              cv::Rect_<Dtype>(src_bbox[i].x - tl_x,
+                               src_bbox[i].y - tl_y,
+                               src_bbox[i].width,
+                               src_bbox[i].height));
+        }
       }
+
+      minibatch->push_back({roi, new_label, new_bbox});
     }
-
-    //if (!src_label.empty() && new_label.empty())
-    //  continue;
-
-    minibatch->push_back({roi, new_label, new_bbox});
   }
-  while (minibatch->size() < num_minibatch) {
+
+  for (int j = 0; j < num_minibatch; ++j) {
     int tl_x = Random(0, src_width - width_);
     int tl_y = Random(0, src_height - height_);
     cv::Rect roi(tl_x, tl_y, width_, height_);
@@ -172,9 +233,6 @@ void MinibatchDataLayer<Dtype>::SelectMinibatch(
                              src_bbox[i].height));
       }
     }
-
-    if (!src_label.empty() && new_label.empty())
-      continue;
 
     minibatch->push_back({roi, new_label, new_bbox});
   }

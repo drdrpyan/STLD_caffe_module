@@ -60,6 +60,8 @@ class ConfCheckParameter;
 class ContrastiveLossParameter;
 class ConvolutionParameter;
 class CropParameter;
+class DHALossParameter;
+class DHAResultParameter;
 class DataParameter;
 class Datum;
 class DetectionCheckParameter;
@@ -101,6 +103,7 @@ class MeanSubParameter;
 class MemoryDataParameter;
 class MinibatchDataParameter;
 class MirrorParameter;
+class NegGTParameter;
 class NetParameter;
 class NetState;
 class NetStateRule;
@@ -148,10 +151,13 @@ class TrainROIParameter;
 class TransformationParameter;
 class V0LayerParameter;
 class V1LayerParameter;
+class WeightedFocalLossParameter;
 class WeightedSoftmaxLossParameter;
 class WindowDataParameter;
 class YOLOLikeLossParameter;
+class YOLONegRejectionParameter;
 class YOLOV2LossParameter;
+class YOLOV2NMSDataParameter;
 class YOLOV2ResultParameter;
 
 enum LabelParameter_LabelParamConstant {
@@ -7003,6 +7009,18 @@ class YOLOV2ResultParameter : public ::google::protobuf::Message /* @@protoc_ins
   float conf_threshold() const;
   void set_conf_threshold(float value);
 
+  // repeated float anchor_weight = 8;
+  int anchor_weight_size() const;
+  void clear_anchor_weight();
+  static const int kAnchorWeightFieldNumber = 8;
+  float anchor_weight(int index) const;
+  void set_anchor_weight(int index, float value);
+  void add_anchor_weight(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      anchor_weight() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_anchor_weight();
+
   // @@protoc_insertion_point(class_scope:caffe.YOLOV2ResultParameter)
  private:
   inline void set_has_cell_size();
@@ -7025,6 +7043,7 @@ class YOLOV2ResultParameter : public ::google::protobuf::Message /* @@protoc_ins
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
   ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f > anchor_;
+  ::google::protobuf::RepeatedField< float > anchor_weight_;
   ::caffe::Size2i* cell_size_;
   ::google::protobuf::uint32 num_class_;
   ::google::protobuf::uint32 num_detection_;
@@ -8320,6 +8339,918 @@ class FocalLossParameter : public ::google::protobuf::Message /* @@protoc_insert
   void InitAsDefaultInstance();
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<FocalLossParameter> FocalLossParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class NegGTParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.NegGTParameter) */ {
+ public:
+  NegGTParameter();
+  virtual ~NegGTParameter();
+
+  NegGTParameter(const NegGTParameter& from);
+
+  inline NegGTParameter& operator=(const NegGTParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const NegGTParameter& default_instance();
+
+  static const NegGTParameter* internal_default_instance();
+
+  void Swap(NegGTParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline NegGTParameter* New() const { return New(NULL); }
+
+  NegGTParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const NegGTParameter& from);
+  void MergeFrom(const NegGTParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(NegGTParameter* other);
+  void UnsafeMergeFrom(const NegGTParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 batch_size = 1 [default = 1];
+  bool has_batch_size() const;
+  void clear_batch_size();
+  static const int kBatchSizeFieldNumber = 1;
+  ::google::protobuf::uint32 batch_size() const;
+  void set_batch_size(::google::protobuf::uint32 value);
+
+  // optional uint32 num_gt = 2 [default = 10];
+  bool has_num_gt() const;
+  void clear_num_gt();
+  static const int kNumGtFieldNumber = 2;
+  ::google::protobuf::uint32 num_gt() const;
+  void set_num_gt(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:caffe.NegGTParameter)
+ private:
+  inline void set_has_batch_size();
+  inline void clear_has_batch_size();
+  inline void set_has_num_gt();
+  inline void clear_has_num_gt();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 batch_size_;
+  ::google::protobuf::uint32 num_gt_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<NegGTParameter> NegGTParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class YOLOV2NMSDataParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.YOLOV2NMSDataParameter) */ {
+ public:
+  YOLOV2NMSDataParameter();
+  virtual ~YOLOV2NMSDataParameter();
+
+  YOLOV2NMSDataParameter(const YOLOV2NMSDataParameter& from);
+
+  inline YOLOV2NMSDataParameter& operator=(const YOLOV2NMSDataParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const YOLOV2NMSDataParameter& default_instance();
+
+  static const YOLOV2NMSDataParameter* internal_default_instance();
+
+  void Swap(YOLOV2NMSDataParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline YOLOV2NMSDataParameter* New() const { return New(NULL); }
+
+  YOLOV2NMSDataParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const YOLOV2NMSDataParameter& from);
+  void MergeFrom(const YOLOV2NMSDataParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(YOLOV2NMSDataParameter* other);
+  void UnsafeMergeFrom(const YOLOV2NMSDataParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .caffe.Size2i cell_size = 1;
+  bool has_cell_size() const;
+  void clear_cell_size();
+  static const int kCellSizeFieldNumber = 1;
+  const ::caffe::Size2i& cell_size() const;
+  ::caffe::Size2i* mutable_cell_size();
+  ::caffe::Size2i* release_cell_size();
+  void set_allocated_cell_size(::caffe::Size2i* cell_size);
+
+  // required uint32 num_class = 2;
+  bool has_num_class() const;
+  void clear_num_class();
+  static const int kNumClassFieldNumber = 2;
+  ::google::protobuf::uint32 num_class() const;
+  void set_num_class(::google::protobuf::uint32 value);
+
+  // repeated .caffe.Rect2f anchor = 3;
+  int anchor_size() const;
+  void clear_anchor();
+  static const int kAnchorFieldNumber = 3;
+  const ::caffe::Rect2f& anchor(int index) const;
+  ::caffe::Rect2f* mutable_anchor(int index);
+  ::caffe::Rect2f* add_anchor();
+  ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >*
+      mutable_anchor();
+  const ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >&
+      anchor() const;
+
+  // @@protoc_insertion_point(class_scope:caffe.YOLOV2NMSDataParameter)
+ private:
+  inline void set_has_cell_size();
+  inline void clear_has_cell_size();
+  inline void set_has_num_class();
+  inline void clear_has_num_class();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f > anchor_;
+  ::caffe::Size2i* cell_size_;
+  ::google::protobuf::uint32 num_class_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<YOLOV2NMSDataParameter> YOLOV2NMSDataParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class WeightedFocalLossParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.WeightedFocalLossParameter) */ {
+ public:
+  WeightedFocalLossParameter();
+  virtual ~WeightedFocalLossParameter();
+
+  WeightedFocalLossParameter(const WeightedFocalLossParameter& from);
+
+  inline WeightedFocalLossParameter& operator=(const WeightedFocalLossParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const WeightedFocalLossParameter& default_instance();
+
+  static const WeightedFocalLossParameter* internal_default_instance();
+
+  void Swap(WeightedFocalLossParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline WeightedFocalLossParameter* New() const { return New(NULL); }
+
+  WeightedFocalLossParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const WeightedFocalLossParameter& from);
+  void MergeFrom(const WeightedFocalLossParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(WeightedFocalLossParameter* other);
+  void UnsafeMergeFrom(const WeightedFocalLossParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated float pos_alpha = 1;
+  int pos_alpha_size() const;
+  void clear_pos_alpha();
+  static const int kPosAlphaFieldNumber = 1;
+  float pos_alpha(int index) const;
+  void set_pos_alpha(int index, float value);
+  void add_pos_alpha(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      pos_alpha() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_pos_alpha();
+
+  // repeated float neg_alpha = 2;
+  int neg_alpha_size() const;
+  void clear_neg_alpha();
+  static const int kNegAlphaFieldNumber = 2;
+  float neg_alpha(int index) const;
+  void set_neg_alpha(int index, float value);
+  void add_neg_alpha(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      neg_alpha() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_neg_alpha();
+
+  // repeated float pos_gamma = 3;
+  int pos_gamma_size() const;
+  void clear_pos_gamma();
+  static const int kPosGammaFieldNumber = 3;
+  float pos_gamma(int index) const;
+  void set_pos_gamma(int index, float value);
+  void add_pos_gamma(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      pos_gamma() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_pos_gamma();
+
+  // repeated float neg_gamma = 4;
+  int neg_gamma_size() const;
+  void clear_neg_gamma();
+  static const int kNegGammaFieldNumber = 4;
+  float neg_gamma(int index) const;
+  void set_neg_gamma(int index, float value);
+  void add_neg_gamma(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      neg_gamma() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_neg_gamma();
+
+  // repeated float alpha = 5;
+  int alpha_size() const;
+  void clear_alpha();
+  static const int kAlphaFieldNumber = 5;
+  float alpha(int index) const;
+  void set_alpha(int index, float value);
+  void add_alpha(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      alpha() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_alpha();
+
+  // repeated float gamma = 6;
+  int gamma_size() const;
+  void clear_gamma();
+  static const int kGammaFieldNumber = 6;
+  float gamma(int index) const;
+  void set_gamma(int index, float value);
+  void add_gamma(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      gamma() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_gamma();
+
+  // @@protoc_insertion_point(class_scope:caffe.WeightedFocalLossParameter)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedField< float > pos_alpha_;
+  ::google::protobuf::RepeatedField< float > neg_alpha_;
+  ::google::protobuf::RepeatedField< float > pos_gamma_;
+  ::google::protobuf::RepeatedField< float > neg_gamma_;
+  ::google::protobuf::RepeatedField< float > alpha_;
+  ::google::protobuf::RepeatedField< float > gamma_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<WeightedFocalLossParameter> WeightedFocalLossParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class DHALossParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.DHALossParameter) */ {
+ public:
+  DHALossParameter();
+  virtual ~DHALossParameter();
+
+  DHALossParameter(const DHALossParameter& from);
+
+  inline DHALossParameter& operator=(const DHALossParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DHALossParameter& default_instance();
+
+  static const DHALossParameter* internal_default_instance();
+
+  void Swap(DHALossParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline DHALossParameter* New() const { return New(NULL); }
+
+  DHALossParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const DHALossParameter& from);
+  void MergeFrom(const DHALossParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(DHALossParameter* other);
+  void UnsafeMergeFrom(const DHALossParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .caffe.Rect2f anchor = 1;
+  int anchor_size() const;
+  void clear_anchor();
+  static const int kAnchorFieldNumber = 1;
+  const ::caffe::Rect2f& anchor(int index) const;
+  ::caffe::Rect2f* mutable_anchor(int index);
+  ::caffe::Rect2f* add_anchor();
+  ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >*
+      mutable_anchor();
+  const ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >&
+      anchor() const;
+
+  // required uint32 num_class = 2;
+  bool has_num_class() const;
+  void clear_num_class();
+  static const int kNumClassFieldNumber = 2;
+  ::google::protobuf::uint32 num_class() const;
+  void set_num_class(::google::protobuf::uint32 value);
+
+  // required .caffe.Size2i cell_size = 3;
+  bool has_cell_size() const;
+  void clear_cell_size();
+  static const int kCellSizeFieldNumber = 3;
+  const ::caffe::Size2i& cell_size() const;
+  ::caffe::Size2i* mutable_cell_size();
+  ::caffe::Size2i* release_cell_size();
+  void set_allocated_cell_size(::caffe::Size2i* cell_size);
+
+  // optional float overlap_threshold = 4 [default = 0.3];
+  bool has_overlap_threshold() const;
+  void clear_overlap_threshold();
+  static const int kOverlapThresholdFieldNumber = 4;
+  float overlap_threshold() const;
+  void set_overlap_threshold(float value);
+
+  // optional float noobj_scale = 5 [default = 1];
+  bool has_noobj_scale() const;
+  void clear_noobj_scale();
+  static const int kNoobjScaleFieldNumber = 5;
+  float noobj_scale() const;
+  void set_noobj_scale(float value);
+
+  // optional float obj_scale = 6 [default = 1];
+  bool has_obj_scale() const;
+  void clear_obj_scale();
+  static const int kObjScaleFieldNumber = 6;
+  float obj_scale() const;
+  void set_obj_scale(float value);
+
+  // optional float cls_scale = 7 [default = 1];
+  bool has_cls_scale() const;
+  void clear_cls_scale();
+  static const int kClsScaleFieldNumber = 7;
+  float cls_scale() const;
+  void set_cls_scale(float value);
+
+  // optional float coord_scale = 8 [default = 1];
+  bool has_coord_scale() const;
+  void clear_coord_scale();
+  static const int kCoordScaleFieldNumber = 8;
+  float coord_scale() const;
+  void set_coord_scale(float value);
+
+  // optional .caffe.FocalLossParameter neg_anchor_fl = 9;
+  bool has_neg_anchor_fl() const;
+  void clear_neg_anchor_fl();
+  static const int kNegAnchorFlFieldNumber = 9;
+  const ::caffe::FocalLossParameter& neg_anchor_fl() const;
+  ::caffe::FocalLossParameter* mutable_neg_anchor_fl();
+  ::caffe::FocalLossParameter* release_neg_anchor_fl();
+  void set_allocated_neg_anchor_fl(::caffe::FocalLossParameter* neg_anchor_fl);
+
+  // optional .caffe.WeightedFocalLossParameter pos_anchor_wfl = 10;
+  bool has_pos_anchor_wfl() const;
+  void clear_pos_anchor_wfl();
+  static const int kPosAnchorWflFieldNumber = 10;
+  const ::caffe::WeightedFocalLossParameter& pos_anchor_wfl() const;
+  ::caffe::WeightedFocalLossParameter* mutable_pos_anchor_wfl();
+  ::caffe::WeightedFocalLossParameter* release_pos_anchor_wfl();
+  void set_allocated_pos_anchor_wfl(::caffe::WeightedFocalLossParameter* pos_anchor_wfl);
+
+  // optional .caffe.WeightedFocalLossParameter class_wfl = 11;
+  bool has_class_wfl() const;
+  void clear_class_wfl();
+  static const int kClassWflFieldNumber = 11;
+  const ::caffe::WeightedFocalLossParameter& class_wfl() const;
+  ::caffe::WeightedFocalLossParameter* mutable_class_wfl();
+  ::caffe::WeightedFocalLossParameter* release_class_wfl();
+  void set_allocated_class_wfl(::caffe::WeightedFocalLossParameter* class_wfl);
+
+  // @@protoc_insertion_point(class_scope:caffe.DHALossParameter)
+ private:
+  inline void set_has_num_class();
+  inline void clear_has_num_class();
+  inline void set_has_cell_size();
+  inline void clear_has_cell_size();
+  inline void set_has_overlap_threshold();
+  inline void clear_has_overlap_threshold();
+  inline void set_has_noobj_scale();
+  inline void clear_has_noobj_scale();
+  inline void set_has_obj_scale();
+  inline void clear_has_obj_scale();
+  inline void set_has_cls_scale();
+  inline void clear_has_cls_scale();
+  inline void set_has_coord_scale();
+  inline void clear_has_coord_scale();
+  inline void set_has_neg_anchor_fl();
+  inline void clear_has_neg_anchor_fl();
+  inline void set_has_pos_anchor_wfl();
+  inline void clear_has_pos_anchor_wfl();
+  inline void set_has_class_wfl();
+  inline void clear_has_class_wfl();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f > anchor_;
+  ::caffe::Size2i* cell_size_;
+  ::caffe::FocalLossParameter* neg_anchor_fl_;
+  ::caffe::WeightedFocalLossParameter* pos_anchor_wfl_;
+  ::caffe::WeightedFocalLossParameter* class_wfl_;
+  ::google::protobuf::uint32 num_class_;
+  float coord_scale_;
+  float overlap_threshold_;
+  float noobj_scale_;
+  float obj_scale_;
+  float cls_scale_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<DHALossParameter> DHALossParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class DHAResultParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.DHAResultParameter) */ {
+ public:
+  DHAResultParameter();
+  virtual ~DHAResultParameter();
+
+  DHAResultParameter(const DHAResultParameter& from);
+
+  inline DHAResultParameter& operator=(const DHAResultParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DHAResultParameter& default_instance();
+
+  static const DHAResultParameter* internal_default_instance();
+
+  void Swap(DHAResultParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline DHAResultParameter* New() const { return New(NULL); }
+
+  DHAResultParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const DHAResultParameter& from);
+  void MergeFrom(const DHAResultParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(DHAResultParameter* other);
+  void UnsafeMergeFrom(const DHAResultParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .caffe.Size2i cell_size = 1;
+  bool has_cell_size() const;
+  void clear_cell_size();
+  static const int kCellSizeFieldNumber = 1;
+  const ::caffe::Size2i& cell_size() const;
+  ::caffe::Size2i* mutable_cell_size();
+  ::caffe::Size2i* release_cell_size();
+  void set_allocated_cell_size(::caffe::Size2i* cell_size);
+
+  // required uint32 num_class = 2;
+  bool has_num_class() const;
+  void clear_num_class();
+  static const int kNumClassFieldNumber = 2;
+  ::google::protobuf::uint32 num_class() const;
+  void set_num_class(::google::protobuf::uint32 value);
+
+  // repeated .caffe.Rect2f anchor = 3;
+  int anchor_size() const;
+  void clear_anchor();
+  static const int kAnchorFieldNumber = 3;
+  const ::caffe::Rect2f& anchor(int index) const;
+  ::caffe::Rect2f* mutable_anchor(int index);
+  ::caffe::Rect2f* add_anchor();
+  ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >*
+      mutable_anchor();
+  const ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >&
+      anchor() const;
+
+  // required uint32 num_detection = 4;
+  bool has_num_detection() const;
+  void clear_num_detection();
+  static const int kNumDetectionFieldNumber = 4;
+  ::google::protobuf::uint32 num_detection() const;
+  void set_num_detection(::google::protobuf::uint32 value);
+
+  // optional bool do_nms = 5 [default = true];
+  bool has_do_nms() const;
+  void clear_do_nms();
+  static const int kDoNmsFieldNumber = 5;
+  bool do_nms() const;
+  void set_do_nms(bool value);
+
+  // optional float nms_overlap_threshold = 6 [default = 0.5];
+  bool has_nms_overlap_threshold() const;
+  void clear_nms_overlap_threshold();
+  static const int kNmsOverlapThresholdFieldNumber = 6;
+  float nms_overlap_threshold() const;
+  void set_nms_overlap_threshold(float value);
+
+  // optional float neg_threshold = 7 [default = 0.5];
+  bool has_neg_threshold() const;
+  void clear_neg_threshold();
+  static const int kNegThresholdFieldNumber = 7;
+  float neg_threshold() const;
+  void set_neg_threshold(float value);
+
+  // repeated float anchor_weight = 8;
+  int anchor_weight_size() const;
+  void clear_anchor_weight();
+  static const int kAnchorWeightFieldNumber = 8;
+  float anchor_weight(int index) const;
+  void set_anchor_weight(int index, float value);
+  void add_anchor_weight(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      anchor_weight() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_anchor_weight();
+
+  // repeated float class_weight = 9;
+  int class_weight_size() const;
+  void clear_class_weight();
+  static const int kClassWeightFieldNumber = 9;
+  float class_weight(int index) const;
+  void set_class_weight(int index, float value);
+  void add_class_weight(float value);
+  const ::google::protobuf::RepeatedField< float >&
+      class_weight() const;
+  ::google::protobuf::RepeatedField< float >*
+      mutable_class_weight();
+
+  // @@protoc_insertion_point(class_scope:caffe.DHAResultParameter)
+ private:
+  inline void set_has_cell_size();
+  inline void clear_has_cell_size();
+  inline void set_has_num_class();
+  inline void clear_has_num_class();
+  inline void set_has_num_detection();
+  inline void clear_has_num_detection();
+  inline void set_has_do_nms();
+  inline void clear_has_do_nms();
+  inline void set_has_nms_overlap_threshold();
+  inline void clear_has_nms_overlap_threshold();
+  inline void set_has_neg_threshold();
+  inline void clear_has_neg_threshold();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f > anchor_;
+  ::google::protobuf::RepeatedField< float > anchor_weight_;
+  ::google::protobuf::RepeatedField< float > class_weight_;
+  ::caffe::Size2i* cell_size_;
+  ::google::protobuf::uint32 num_class_;
+  ::google::protobuf::uint32 num_detection_;
+  float neg_threshold_;
+  bool do_nms_;
+  float nms_overlap_threshold_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<DHAResultParameter> DHAResultParameter_default_instance_;
+
+// -------------------------------------------------------------------
+
+class YOLONegRejectionParameter : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.YOLONegRejectionParameter) */ {
+ public:
+  YOLONegRejectionParameter();
+  virtual ~YOLONegRejectionParameter();
+
+  YOLONegRejectionParameter(const YOLONegRejectionParameter& from);
+
+  inline YOLONegRejectionParameter& operator=(const YOLONegRejectionParameter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const YOLONegRejectionParameter& default_instance();
+
+  static const YOLONegRejectionParameter* internal_default_instance();
+
+  void Swap(YOLONegRejectionParameter* other);
+
+  // implements Message ----------------------------------------------
+
+  inline YOLONegRejectionParameter* New() const { return New(NULL); }
+
+  YOLONegRejectionParameter* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const YOLONegRejectionParameter& from);
+  void MergeFrom(const YOLONegRejectionParameter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(YOLONegRejectionParameter* other);
+  void UnsafeMergeFrom(const YOLONegRejectionParameter& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional float rate = 1 [default = 0];
+  bool has_rate() const;
+  void clear_rate();
+  static const int kRateFieldNumber = 1;
+  float rate() const;
+  void set_rate(float value);
+
+  // optional float diff_threshold = 2 [default = 0.3];
+  bool has_diff_threshold() const;
+  void clear_diff_threshold();
+  static const int kDiffThresholdFieldNumber = 2;
+  float diff_threshold() const;
+  void set_diff_threshold(float value);
+
+  // @@protoc_insertion_point(class_scope:caffe.YOLONegRejectionParameter)
+ private:
+  inline void set_has_rate();
+  inline void clear_has_rate();
+  inline void set_has_diff_threshold();
+  inline void clear_has_diff_threshold();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  float rate_;
+  float diff_threshold_;
+  friend void  protobuf_InitDefaults_caffe_2eproto_impl();
+  friend void  protobuf_AddDesc_caffe_2eproto_impl();
+  friend void protobuf_AssignDesc_caffe_2eproto();
+  friend void protobuf_ShutdownFile_caffe_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<YOLONegRejectionParameter> YOLONegRejectionParameter_default_instance_;
 
 // -------------------------------------------------------------------
 
@@ -11496,6 +12427,60 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::FocalLossParameter* release_focal_loss_param();
   void set_allocated_focal_loss_param(::caffe::FocalLossParameter* focal_loss_param);
 
+  // optional .caffe.NegGTParameter neg_gt_param = 1041;
+  bool has_neg_gt_param() const;
+  void clear_neg_gt_param();
+  static const int kNegGtParamFieldNumber = 1041;
+  const ::caffe::NegGTParameter& neg_gt_param() const;
+  ::caffe::NegGTParameter* mutable_neg_gt_param();
+  ::caffe::NegGTParameter* release_neg_gt_param();
+  void set_allocated_neg_gt_param(::caffe::NegGTParameter* neg_gt_param);
+
+  // optional .caffe.YOLOV2NMSDataParameter yolo_v2_nms_data_param = 1042;
+  bool has_yolo_v2_nms_data_param() const;
+  void clear_yolo_v2_nms_data_param();
+  static const int kYoloV2NmsDataParamFieldNumber = 1042;
+  const ::caffe::YOLOV2NMSDataParameter& yolo_v2_nms_data_param() const;
+  ::caffe::YOLOV2NMSDataParameter* mutable_yolo_v2_nms_data_param();
+  ::caffe::YOLOV2NMSDataParameter* release_yolo_v2_nms_data_param();
+  void set_allocated_yolo_v2_nms_data_param(::caffe::YOLOV2NMSDataParameter* yolo_v2_nms_data_param);
+
+  // optional .caffe.WeightedFocalLossParameter weighted_focal_loss_param = 1043;
+  bool has_weighted_focal_loss_param() const;
+  void clear_weighted_focal_loss_param();
+  static const int kWeightedFocalLossParamFieldNumber = 1043;
+  const ::caffe::WeightedFocalLossParameter& weighted_focal_loss_param() const;
+  ::caffe::WeightedFocalLossParameter* mutable_weighted_focal_loss_param();
+  ::caffe::WeightedFocalLossParameter* release_weighted_focal_loss_param();
+  void set_allocated_weighted_focal_loss_param(::caffe::WeightedFocalLossParameter* weighted_focal_loss_param);
+
+  // optional .caffe.DHALossParameter dha_loss_param = 1044;
+  bool has_dha_loss_param() const;
+  void clear_dha_loss_param();
+  static const int kDhaLossParamFieldNumber = 1044;
+  const ::caffe::DHALossParameter& dha_loss_param() const;
+  ::caffe::DHALossParameter* mutable_dha_loss_param();
+  ::caffe::DHALossParameter* release_dha_loss_param();
+  void set_allocated_dha_loss_param(::caffe::DHALossParameter* dha_loss_param);
+
+  // optional .caffe.DHAResultParameter dha_result_param = 1045;
+  bool has_dha_result_param() const;
+  void clear_dha_result_param();
+  static const int kDhaResultParamFieldNumber = 1045;
+  const ::caffe::DHAResultParameter& dha_result_param() const;
+  ::caffe::DHAResultParameter* mutable_dha_result_param();
+  ::caffe::DHAResultParameter* release_dha_result_param();
+  void set_allocated_dha_result_param(::caffe::DHAResultParameter* dha_result_param);
+
+  // optional .caffe.YOLONegRejectionParameter yolo_neg_rejection_param = 1046;
+  bool has_yolo_neg_rejection_param() const;
+  void clear_yolo_neg_rejection_param();
+  static const int kYoloNegRejectionParamFieldNumber = 1046;
+  const ::caffe::YOLONegRejectionParameter& yolo_neg_rejection_param() const;
+  ::caffe::YOLONegRejectionParameter* mutable_yolo_neg_rejection_param();
+  ::caffe::YOLONegRejectionParameter* release_yolo_neg_rejection_param();
+  void set_allocated_yolo_neg_rejection_param(::caffe::YOLONegRejectionParameter* yolo_neg_rejection_param);
+
   // @@protoc_insertion_point(class_scope:caffe.LayerParameter)
  private:
   inline void set_has_name();
@@ -11678,6 +12663,18 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   inline void clear_has_featuremap_data_param();
   inline void set_has_focal_loss_param();
   inline void clear_has_focal_loss_param();
+  inline void set_has_neg_gt_param();
+  inline void clear_has_neg_gt_param();
+  inline void set_has_yolo_v2_nms_data_param();
+  inline void clear_has_yolo_v2_nms_data_param();
+  inline void set_has_weighted_focal_loss_param();
+  inline void clear_has_weighted_focal_loss_param();
+  inline void set_has_dha_loss_param();
+  inline void clear_has_dha_loss_param();
+  inline void set_has_dha_result_param();
+  inline void clear_has_dha_result_param();
+  inline void set_has_yolo_neg_rejection_param();
+  inline void clear_has_yolo_neg_rejection_param();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<4> _has_bits_;
@@ -11778,6 +12775,12 @@ class LayerParameter : public ::google::protobuf::Message /* @@protoc_insertion_
   ::caffe::FeaturemapSnapshotParameter* featuremap_snapshot_param_;
   ::caffe::FeaturemapDataParameter* featuremap_data_param_;
   ::caffe::FocalLossParameter* focal_loss_param_;
+  ::caffe::NegGTParameter* neg_gt_param_;
+  ::caffe::YOLOV2NMSDataParameter* yolo_v2_nms_data_param_;
+  ::caffe::WeightedFocalLossParameter* weighted_focal_loss_param_;
+  ::caffe::DHALossParameter* dha_loss_param_;
+  ::caffe::DHAResultParameter* dha_result_param_;
+  ::caffe::YOLONegRejectionParameter* yolo_neg_rejection_param_;
   int phase_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_caffe_2eproto_impl();
@@ -25449,6 +26452,36 @@ inline void YOLOV2ResultParameter::set_conf_threshold(float value) {
   // @@protoc_insertion_point(field_set:caffe.YOLOV2ResultParameter.conf_threshold)
 }
 
+// repeated float anchor_weight = 8;
+inline int YOLOV2ResultParameter::anchor_weight_size() const {
+  return anchor_weight_.size();
+}
+inline void YOLOV2ResultParameter::clear_anchor_weight() {
+  anchor_weight_.Clear();
+}
+inline float YOLOV2ResultParameter::anchor_weight(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.YOLOV2ResultParameter.anchor_weight)
+  return anchor_weight_.Get(index);
+}
+inline void YOLOV2ResultParameter::set_anchor_weight(int index, float value) {
+  anchor_weight_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.YOLOV2ResultParameter.anchor_weight)
+}
+inline void YOLOV2ResultParameter::add_anchor_weight(float value) {
+  anchor_weight_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.YOLOV2ResultParameter.anchor_weight)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+YOLOV2ResultParameter::anchor_weight() const {
+  // @@protoc_insertion_point(field_list:caffe.YOLOV2ResultParameter.anchor_weight)
+  return anchor_weight_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+YOLOV2ResultParameter::mutable_anchor_weight() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.YOLOV2ResultParameter.anchor_weight)
+  return &anchor_weight_;
+}
+
 inline const YOLOV2ResultParameter* YOLOV2ResultParameter::internal_default_instance() {
   return &YOLOV2ResultParameter_default_instance_.get();
 }
@@ -26476,6 +27509,1032 @@ inline void FocalLossParameter::set_gamma(float value) {
 
 inline const FocalLossParameter* FocalLossParameter::internal_default_instance() {
   return &FocalLossParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// NegGTParameter
+
+// optional uint32 batch_size = 1 [default = 1];
+inline bool NegGTParameter::has_batch_size() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void NegGTParameter::set_has_batch_size() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void NegGTParameter::clear_has_batch_size() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void NegGTParameter::clear_batch_size() {
+  batch_size_ = 1u;
+  clear_has_batch_size();
+}
+inline ::google::protobuf::uint32 NegGTParameter::batch_size() const {
+  // @@protoc_insertion_point(field_get:caffe.NegGTParameter.batch_size)
+  return batch_size_;
+}
+inline void NegGTParameter::set_batch_size(::google::protobuf::uint32 value) {
+  set_has_batch_size();
+  batch_size_ = value;
+  // @@protoc_insertion_point(field_set:caffe.NegGTParameter.batch_size)
+}
+
+// optional uint32 num_gt = 2 [default = 10];
+inline bool NegGTParameter::has_num_gt() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void NegGTParameter::set_has_num_gt() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void NegGTParameter::clear_has_num_gt() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void NegGTParameter::clear_num_gt() {
+  num_gt_ = 10u;
+  clear_has_num_gt();
+}
+inline ::google::protobuf::uint32 NegGTParameter::num_gt() const {
+  // @@protoc_insertion_point(field_get:caffe.NegGTParameter.num_gt)
+  return num_gt_;
+}
+inline void NegGTParameter::set_num_gt(::google::protobuf::uint32 value) {
+  set_has_num_gt();
+  num_gt_ = value;
+  // @@protoc_insertion_point(field_set:caffe.NegGTParameter.num_gt)
+}
+
+inline const NegGTParameter* NegGTParameter::internal_default_instance() {
+  return &NegGTParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// YOLOV2NMSDataParameter
+
+// required .caffe.Size2i cell_size = 1;
+inline bool YOLOV2NMSDataParameter::has_cell_size() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void YOLOV2NMSDataParameter::set_has_cell_size() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void YOLOV2NMSDataParameter::clear_has_cell_size() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void YOLOV2NMSDataParameter::clear_cell_size() {
+  if (cell_size_ != NULL) cell_size_->::caffe::Size2i::Clear();
+  clear_has_cell_size();
+}
+inline const ::caffe::Size2i& YOLOV2NMSDataParameter::cell_size() const {
+  // @@protoc_insertion_point(field_get:caffe.YOLOV2NMSDataParameter.cell_size)
+  return cell_size_ != NULL ? *cell_size_
+                         : *::caffe::Size2i::internal_default_instance();
+}
+inline ::caffe::Size2i* YOLOV2NMSDataParameter::mutable_cell_size() {
+  set_has_cell_size();
+  if (cell_size_ == NULL) {
+    cell_size_ = new ::caffe::Size2i;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.YOLOV2NMSDataParameter.cell_size)
+  return cell_size_;
+}
+inline ::caffe::Size2i* YOLOV2NMSDataParameter::release_cell_size() {
+  // @@protoc_insertion_point(field_release:caffe.YOLOV2NMSDataParameter.cell_size)
+  clear_has_cell_size();
+  ::caffe::Size2i* temp = cell_size_;
+  cell_size_ = NULL;
+  return temp;
+}
+inline void YOLOV2NMSDataParameter::set_allocated_cell_size(::caffe::Size2i* cell_size) {
+  delete cell_size_;
+  cell_size_ = cell_size;
+  if (cell_size) {
+    set_has_cell_size();
+  } else {
+    clear_has_cell_size();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.YOLOV2NMSDataParameter.cell_size)
+}
+
+// required uint32 num_class = 2;
+inline bool YOLOV2NMSDataParameter::has_num_class() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void YOLOV2NMSDataParameter::set_has_num_class() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void YOLOV2NMSDataParameter::clear_has_num_class() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void YOLOV2NMSDataParameter::clear_num_class() {
+  num_class_ = 0u;
+  clear_has_num_class();
+}
+inline ::google::protobuf::uint32 YOLOV2NMSDataParameter::num_class() const {
+  // @@protoc_insertion_point(field_get:caffe.YOLOV2NMSDataParameter.num_class)
+  return num_class_;
+}
+inline void YOLOV2NMSDataParameter::set_num_class(::google::protobuf::uint32 value) {
+  set_has_num_class();
+  num_class_ = value;
+  // @@protoc_insertion_point(field_set:caffe.YOLOV2NMSDataParameter.num_class)
+}
+
+// repeated .caffe.Rect2f anchor = 3;
+inline int YOLOV2NMSDataParameter::anchor_size() const {
+  return anchor_.size();
+}
+inline void YOLOV2NMSDataParameter::clear_anchor() {
+  anchor_.Clear();
+}
+inline const ::caffe::Rect2f& YOLOV2NMSDataParameter::anchor(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.YOLOV2NMSDataParameter.anchor)
+  return anchor_.Get(index);
+}
+inline ::caffe::Rect2f* YOLOV2NMSDataParameter::mutable_anchor(int index) {
+  // @@protoc_insertion_point(field_mutable:caffe.YOLOV2NMSDataParameter.anchor)
+  return anchor_.Mutable(index);
+}
+inline ::caffe::Rect2f* YOLOV2NMSDataParameter::add_anchor() {
+  // @@protoc_insertion_point(field_add:caffe.YOLOV2NMSDataParameter.anchor)
+  return anchor_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >*
+YOLOV2NMSDataParameter::mutable_anchor() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.YOLOV2NMSDataParameter.anchor)
+  return &anchor_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >&
+YOLOV2NMSDataParameter::anchor() const {
+  // @@protoc_insertion_point(field_list:caffe.YOLOV2NMSDataParameter.anchor)
+  return anchor_;
+}
+
+inline const YOLOV2NMSDataParameter* YOLOV2NMSDataParameter::internal_default_instance() {
+  return &YOLOV2NMSDataParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// WeightedFocalLossParameter
+
+// repeated float pos_alpha = 1;
+inline int WeightedFocalLossParameter::pos_alpha_size() const {
+  return pos_alpha_.size();
+}
+inline void WeightedFocalLossParameter::clear_pos_alpha() {
+  pos_alpha_.Clear();
+}
+inline float WeightedFocalLossParameter::pos_alpha(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.WeightedFocalLossParameter.pos_alpha)
+  return pos_alpha_.Get(index);
+}
+inline void WeightedFocalLossParameter::set_pos_alpha(int index, float value) {
+  pos_alpha_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.WeightedFocalLossParameter.pos_alpha)
+}
+inline void WeightedFocalLossParameter::add_pos_alpha(float value) {
+  pos_alpha_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.WeightedFocalLossParameter.pos_alpha)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+WeightedFocalLossParameter::pos_alpha() const {
+  // @@protoc_insertion_point(field_list:caffe.WeightedFocalLossParameter.pos_alpha)
+  return pos_alpha_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+WeightedFocalLossParameter::mutable_pos_alpha() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.WeightedFocalLossParameter.pos_alpha)
+  return &pos_alpha_;
+}
+
+// repeated float neg_alpha = 2;
+inline int WeightedFocalLossParameter::neg_alpha_size() const {
+  return neg_alpha_.size();
+}
+inline void WeightedFocalLossParameter::clear_neg_alpha() {
+  neg_alpha_.Clear();
+}
+inline float WeightedFocalLossParameter::neg_alpha(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.WeightedFocalLossParameter.neg_alpha)
+  return neg_alpha_.Get(index);
+}
+inline void WeightedFocalLossParameter::set_neg_alpha(int index, float value) {
+  neg_alpha_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.WeightedFocalLossParameter.neg_alpha)
+}
+inline void WeightedFocalLossParameter::add_neg_alpha(float value) {
+  neg_alpha_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.WeightedFocalLossParameter.neg_alpha)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+WeightedFocalLossParameter::neg_alpha() const {
+  // @@protoc_insertion_point(field_list:caffe.WeightedFocalLossParameter.neg_alpha)
+  return neg_alpha_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+WeightedFocalLossParameter::mutable_neg_alpha() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.WeightedFocalLossParameter.neg_alpha)
+  return &neg_alpha_;
+}
+
+// repeated float pos_gamma = 3;
+inline int WeightedFocalLossParameter::pos_gamma_size() const {
+  return pos_gamma_.size();
+}
+inline void WeightedFocalLossParameter::clear_pos_gamma() {
+  pos_gamma_.Clear();
+}
+inline float WeightedFocalLossParameter::pos_gamma(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.WeightedFocalLossParameter.pos_gamma)
+  return pos_gamma_.Get(index);
+}
+inline void WeightedFocalLossParameter::set_pos_gamma(int index, float value) {
+  pos_gamma_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.WeightedFocalLossParameter.pos_gamma)
+}
+inline void WeightedFocalLossParameter::add_pos_gamma(float value) {
+  pos_gamma_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.WeightedFocalLossParameter.pos_gamma)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+WeightedFocalLossParameter::pos_gamma() const {
+  // @@protoc_insertion_point(field_list:caffe.WeightedFocalLossParameter.pos_gamma)
+  return pos_gamma_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+WeightedFocalLossParameter::mutable_pos_gamma() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.WeightedFocalLossParameter.pos_gamma)
+  return &pos_gamma_;
+}
+
+// repeated float neg_gamma = 4;
+inline int WeightedFocalLossParameter::neg_gamma_size() const {
+  return neg_gamma_.size();
+}
+inline void WeightedFocalLossParameter::clear_neg_gamma() {
+  neg_gamma_.Clear();
+}
+inline float WeightedFocalLossParameter::neg_gamma(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.WeightedFocalLossParameter.neg_gamma)
+  return neg_gamma_.Get(index);
+}
+inline void WeightedFocalLossParameter::set_neg_gamma(int index, float value) {
+  neg_gamma_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.WeightedFocalLossParameter.neg_gamma)
+}
+inline void WeightedFocalLossParameter::add_neg_gamma(float value) {
+  neg_gamma_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.WeightedFocalLossParameter.neg_gamma)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+WeightedFocalLossParameter::neg_gamma() const {
+  // @@protoc_insertion_point(field_list:caffe.WeightedFocalLossParameter.neg_gamma)
+  return neg_gamma_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+WeightedFocalLossParameter::mutable_neg_gamma() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.WeightedFocalLossParameter.neg_gamma)
+  return &neg_gamma_;
+}
+
+// repeated float alpha = 5;
+inline int WeightedFocalLossParameter::alpha_size() const {
+  return alpha_.size();
+}
+inline void WeightedFocalLossParameter::clear_alpha() {
+  alpha_.Clear();
+}
+inline float WeightedFocalLossParameter::alpha(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.WeightedFocalLossParameter.alpha)
+  return alpha_.Get(index);
+}
+inline void WeightedFocalLossParameter::set_alpha(int index, float value) {
+  alpha_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.WeightedFocalLossParameter.alpha)
+}
+inline void WeightedFocalLossParameter::add_alpha(float value) {
+  alpha_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.WeightedFocalLossParameter.alpha)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+WeightedFocalLossParameter::alpha() const {
+  // @@protoc_insertion_point(field_list:caffe.WeightedFocalLossParameter.alpha)
+  return alpha_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+WeightedFocalLossParameter::mutable_alpha() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.WeightedFocalLossParameter.alpha)
+  return &alpha_;
+}
+
+// repeated float gamma = 6;
+inline int WeightedFocalLossParameter::gamma_size() const {
+  return gamma_.size();
+}
+inline void WeightedFocalLossParameter::clear_gamma() {
+  gamma_.Clear();
+}
+inline float WeightedFocalLossParameter::gamma(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.WeightedFocalLossParameter.gamma)
+  return gamma_.Get(index);
+}
+inline void WeightedFocalLossParameter::set_gamma(int index, float value) {
+  gamma_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.WeightedFocalLossParameter.gamma)
+}
+inline void WeightedFocalLossParameter::add_gamma(float value) {
+  gamma_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.WeightedFocalLossParameter.gamma)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+WeightedFocalLossParameter::gamma() const {
+  // @@protoc_insertion_point(field_list:caffe.WeightedFocalLossParameter.gamma)
+  return gamma_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+WeightedFocalLossParameter::mutable_gamma() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.WeightedFocalLossParameter.gamma)
+  return &gamma_;
+}
+
+inline const WeightedFocalLossParameter* WeightedFocalLossParameter::internal_default_instance() {
+  return &WeightedFocalLossParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// DHALossParameter
+
+// repeated .caffe.Rect2f anchor = 1;
+inline int DHALossParameter::anchor_size() const {
+  return anchor_.size();
+}
+inline void DHALossParameter::clear_anchor() {
+  anchor_.Clear();
+}
+inline const ::caffe::Rect2f& DHALossParameter::anchor(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.anchor)
+  return anchor_.Get(index);
+}
+inline ::caffe::Rect2f* DHALossParameter::mutable_anchor(int index) {
+  // @@protoc_insertion_point(field_mutable:caffe.DHALossParameter.anchor)
+  return anchor_.Mutable(index);
+}
+inline ::caffe::Rect2f* DHALossParameter::add_anchor() {
+  // @@protoc_insertion_point(field_add:caffe.DHALossParameter.anchor)
+  return anchor_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >*
+DHALossParameter::mutable_anchor() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.DHALossParameter.anchor)
+  return &anchor_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >&
+DHALossParameter::anchor() const {
+  // @@protoc_insertion_point(field_list:caffe.DHALossParameter.anchor)
+  return anchor_;
+}
+
+// required uint32 num_class = 2;
+inline bool DHALossParameter::has_num_class() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void DHALossParameter::set_has_num_class() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void DHALossParameter::clear_has_num_class() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void DHALossParameter::clear_num_class() {
+  num_class_ = 0u;
+  clear_has_num_class();
+}
+inline ::google::protobuf::uint32 DHALossParameter::num_class() const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.num_class)
+  return num_class_;
+}
+inline void DHALossParameter::set_num_class(::google::protobuf::uint32 value) {
+  set_has_num_class();
+  num_class_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHALossParameter.num_class)
+}
+
+// required .caffe.Size2i cell_size = 3;
+inline bool DHALossParameter::has_cell_size() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void DHALossParameter::set_has_cell_size() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void DHALossParameter::clear_has_cell_size() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void DHALossParameter::clear_cell_size() {
+  if (cell_size_ != NULL) cell_size_->::caffe::Size2i::Clear();
+  clear_has_cell_size();
+}
+inline const ::caffe::Size2i& DHALossParameter::cell_size() const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.cell_size)
+  return cell_size_ != NULL ? *cell_size_
+                         : *::caffe::Size2i::internal_default_instance();
+}
+inline ::caffe::Size2i* DHALossParameter::mutable_cell_size() {
+  set_has_cell_size();
+  if (cell_size_ == NULL) {
+    cell_size_ = new ::caffe::Size2i;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.DHALossParameter.cell_size)
+  return cell_size_;
+}
+inline ::caffe::Size2i* DHALossParameter::release_cell_size() {
+  // @@protoc_insertion_point(field_release:caffe.DHALossParameter.cell_size)
+  clear_has_cell_size();
+  ::caffe::Size2i* temp = cell_size_;
+  cell_size_ = NULL;
+  return temp;
+}
+inline void DHALossParameter::set_allocated_cell_size(::caffe::Size2i* cell_size) {
+  delete cell_size_;
+  cell_size_ = cell_size;
+  if (cell_size) {
+    set_has_cell_size();
+  } else {
+    clear_has_cell_size();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.DHALossParameter.cell_size)
+}
+
+// optional float overlap_threshold = 4 [default = 0.3];
+inline bool DHALossParameter::has_overlap_threshold() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void DHALossParameter::set_has_overlap_threshold() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void DHALossParameter::clear_has_overlap_threshold() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void DHALossParameter::clear_overlap_threshold() {
+  overlap_threshold_ = 0.3f;
+  clear_has_overlap_threshold();
+}
+inline float DHALossParameter::overlap_threshold() const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.overlap_threshold)
+  return overlap_threshold_;
+}
+inline void DHALossParameter::set_overlap_threshold(float value) {
+  set_has_overlap_threshold();
+  overlap_threshold_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHALossParameter.overlap_threshold)
+}
+
+// optional float noobj_scale = 5 [default = 1];
+inline bool DHALossParameter::has_noobj_scale() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void DHALossParameter::set_has_noobj_scale() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void DHALossParameter::clear_has_noobj_scale() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void DHALossParameter::clear_noobj_scale() {
+  noobj_scale_ = 1;
+  clear_has_noobj_scale();
+}
+inline float DHALossParameter::noobj_scale() const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.noobj_scale)
+  return noobj_scale_;
+}
+inline void DHALossParameter::set_noobj_scale(float value) {
+  set_has_noobj_scale();
+  noobj_scale_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHALossParameter.noobj_scale)
+}
+
+// optional float obj_scale = 6 [default = 1];
+inline bool DHALossParameter::has_obj_scale() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void DHALossParameter::set_has_obj_scale() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void DHALossParameter::clear_has_obj_scale() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void DHALossParameter::clear_obj_scale() {
+  obj_scale_ = 1;
+  clear_has_obj_scale();
+}
+inline float DHALossParameter::obj_scale() const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.obj_scale)
+  return obj_scale_;
+}
+inline void DHALossParameter::set_obj_scale(float value) {
+  set_has_obj_scale();
+  obj_scale_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHALossParameter.obj_scale)
+}
+
+// optional float cls_scale = 7 [default = 1];
+inline bool DHALossParameter::has_cls_scale() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void DHALossParameter::set_has_cls_scale() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void DHALossParameter::clear_has_cls_scale() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void DHALossParameter::clear_cls_scale() {
+  cls_scale_ = 1;
+  clear_has_cls_scale();
+}
+inline float DHALossParameter::cls_scale() const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.cls_scale)
+  return cls_scale_;
+}
+inline void DHALossParameter::set_cls_scale(float value) {
+  set_has_cls_scale();
+  cls_scale_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHALossParameter.cls_scale)
+}
+
+// optional float coord_scale = 8 [default = 1];
+inline bool DHALossParameter::has_coord_scale() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void DHALossParameter::set_has_coord_scale() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void DHALossParameter::clear_has_coord_scale() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void DHALossParameter::clear_coord_scale() {
+  coord_scale_ = 1;
+  clear_has_coord_scale();
+}
+inline float DHALossParameter::coord_scale() const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.coord_scale)
+  return coord_scale_;
+}
+inline void DHALossParameter::set_coord_scale(float value) {
+  set_has_coord_scale();
+  coord_scale_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHALossParameter.coord_scale)
+}
+
+// optional .caffe.FocalLossParameter neg_anchor_fl = 9;
+inline bool DHALossParameter::has_neg_anchor_fl() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void DHALossParameter::set_has_neg_anchor_fl() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void DHALossParameter::clear_has_neg_anchor_fl() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void DHALossParameter::clear_neg_anchor_fl() {
+  if (neg_anchor_fl_ != NULL) neg_anchor_fl_->::caffe::FocalLossParameter::Clear();
+  clear_has_neg_anchor_fl();
+}
+inline const ::caffe::FocalLossParameter& DHALossParameter::neg_anchor_fl() const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.neg_anchor_fl)
+  return neg_anchor_fl_ != NULL ? *neg_anchor_fl_
+                         : *::caffe::FocalLossParameter::internal_default_instance();
+}
+inline ::caffe::FocalLossParameter* DHALossParameter::mutable_neg_anchor_fl() {
+  set_has_neg_anchor_fl();
+  if (neg_anchor_fl_ == NULL) {
+    neg_anchor_fl_ = new ::caffe::FocalLossParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.DHALossParameter.neg_anchor_fl)
+  return neg_anchor_fl_;
+}
+inline ::caffe::FocalLossParameter* DHALossParameter::release_neg_anchor_fl() {
+  // @@protoc_insertion_point(field_release:caffe.DHALossParameter.neg_anchor_fl)
+  clear_has_neg_anchor_fl();
+  ::caffe::FocalLossParameter* temp = neg_anchor_fl_;
+  neg_anchor_fl_ = NULL;
+  return temp;
+}
+inline void DHALossParameter::set_allocated_neg_anchor_fl(::caffe::FocalLossParameter* neg_anchor_fl) {
+  delete neg_anchor_fl_;
+  neg_anchor_fl_ = neg_anchor_fl;
+  if (neg_anchor_fl) {
+    set_has_neg_anchor_fl();
+  } else {
+    clear_has_neg_anchor_fl();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.DHALossParameter.neg_anchor_fl)
+}
+
+// optional .caffe.WeightedFocalLossParameter pos_anchor_wfl = 10;
+inline bool DHALossParameter::has_pos_anchor_wfl() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void DHALossParameter::set_has_pos_anchor_wfl() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void DHALossParameter::clear_has_pos_anchor_wfl() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void DHALossParameter::clear_pos_anchor_wfl() {
+  if (pos_anchor_wfl_ != NULL) pos_anchor_wfl_->::caffe::WeightedFocalLossParameter::Clear();
+  clear_has_pos_anchor_wfl();
+}
+inline const ::caffe::WeightedFocalLossParameter& DHALossParameter::pos_anchor_wfl() const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.pos_anchor_wfl)
+  return pos_anchor_wfl_ != NULL ? *pos_anchor_wfl_
+                         : *::caffe::WeightedFocalLossParameter::internal_default_instance();
+}
+inline ::caffe::WeightedFocalLossParameter* DHALossParameter::mutable_pos_anchor_wfl() {
+  set_has_pos_anchor_wfl();
+  if (pos_anchor_wfl_ == NULL) {
+    pos_anchor_wfl_ = new ::caffe::WeightedFocalLossParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.DHALossParameter.pos_anchor_wfl)
+  return pos_anchor_wfl_;
+}
+inline ::caffe::WeightedFocalLossParameter* DHALossParameter::release_pos_anchor_wfl() {
+  // @@protoc_insertion_point(field_release:caffe.DHALossParameter.pos_anchor_wfl)
+  clear_has_pos_anchor_wfl();
+  ::caffe::WeightedFocalLossParameter* temp = pos_anchor_wfl_;
+  pos_anchor_wfl_ = NULL;
+  return temp;
+}
+inline void DHALossParameter::set_allocated_pos_anchor_wfl(::caffe::WeightedFocalLossParameter* pos_anchor_wfl) {
+  delete pos_anchor_wfl_;
+  pos_anchor_wfl_ = pos_anchor_wfl;
+  if (pos_anchor_wfl) {
+    set_has_pos_anchor_wfl();
+  } else {
+    clear_has_pos_anchor_wfl();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.DHALossParameter.pos_anchor_wfl)
+}
+
+// optional .caffe.WeightedFocalLossParameter class_wfl = 11;
+inline bool DHALossParameter::has_class_wfl() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+inline void DHALossParameter::set_has_class_wfl() {
+  _has_bits_[0] |= 0x00000400u;
+}
+inline void DHALossParameter::clear_has_class_wfl() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+inline void DHALossParameter::clear_class_wfl() {
+  if (class_wfl_ != NULL) class_wfl_->::caffe::WeightedFocalLossParameter::Clear();
+  clear_has_class_wfl();
+}
+inline const ::caffe::WeightedFocalLossParameter& DHALossParameter::class_wfl() const {
+  // @@protoc_insertion_point(field_get:caffe.DHALossParameter.class_wfl)
+  return class_wfl_ != NULL ? *class_wfl_
+                         : *::caffe::WeightedFocalLossParameter::internal_default_instance();
+}
+inline ::caffe::WeightedFocalLossParameter* DHALossParameter::mutable_class_wfl() {
+  set_has_class_wfl();
+  if (class_wfl_ == NULL) {
+    class_wfl_ = new ::caffe::WeightedFocalLossParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.DHALossParameter.class_wfl)
+  return class_wfl_;
+}
+inline ::caffe::WeightedFocalLossParameter* DHALossParameter::release_class_wfl() {
+  // @@protoc_insertion_point(field_release:caffe.DHALossParameter.class_wfl)
+  clear_has_class_wfl();
+  ::caffe::WeightedFocalLossParameter* temp = class_wfl_;
+  class_wfl_ = NULL;
+  return temp;
+}
+inline void DHALossParameter::set_allocated_class_wfl(::caffe::WeightedFocalLossParameter* class_wfl) {
+  delete class_wfl_;
+  class_wfl_ = class_wfl;
+  if (class_wfl) {
+    set_has_class_wfl();
+  } else {
+    clear_has_class_wfl();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.DHALossParameter.class_wfl)
+}
+
+inline const DHALossParameter* DHALossParameter::internal_default_instance() {
+  return &DHALossParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// DHAResultParameter
+
+// required .caffe.Size2i cell_size = 1;
+inline bool DHAResultParameter::has_cell_size() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void DHAResultParameter::set_has_cell_size() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void DHAResultParameter::clear_has_cell_size() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void DHAResultParameter::clear_cell_size() {
+  if (cell_size_ != NULL) cell_size_->::caffe::Size2i::Clear();
+  clear_has_cell_size();
+}
+inline const ::caffe::Size2i& DHAResultParameter::cell_size() const {
+  // @@protoc_insertion_point(field_get:caffe.DHAResultParameter.cell_size)
+  return cell_size_ != NULL ? *cell_size_
+                         : *::caffe::Size2i::internal_default_instance();
+}
+inline ::caffe::Size2i* DHAResultParameter::mutable_cell_size() {
+  set_has_cell_size();
+  if (cell_size_ == NULL) {
+    cell_size_ = new ::caffe::Size2i;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.DHAResultParameter.cell_size)
+  return cell_size_;
+}
+inline ::caffe::Size2i* DHAResultParameter::release_cell_size() {
+  // @@protoc_insertion_point(field_release:caffe.DHAResultParameter.cell_size)
+  clear_has_cell_size();
+  ::caffe::Size2i* temp = cell_size_;
+  cell_size_ = NULL;
+  return temp;
+}
+inline void DHAResultParameter::set_allocated_cell_size(::caffe::Size2i* cell_size) {
+  delete cell_size_;
+  cell_size_ = cell_size;
+  if (cell_size) {
+    set_has_cell_size();
+  } else {
+    clear_has_cell_size();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.DHAResultParameter.cell_size)
+}
+
+// required uint32 num_class = 2;
+inline bool DHAResultParameter::has_num_class() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void DHAResultParameter::set_has_num_class() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void DHAResultParameter::clear_has_num_class() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void DHAResultParameter::clear_num_class() {
+  num_class_ = 0u;
+  clear_has_num_class();
+}
+inline ::google::protobuf::uint32 DHAResultParameter::num_class() const {
+  // @@protoc_insertion_point(field_get:caffe.DHAResultParameter.num_class)
+  return num_class_;
+}
+inline void DHAResultParameter::set_num_class(::google::protobuf::uint32 value) {
+  set_has_num_class();
+  num_class_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHAResultParameter.num_class)
+}
+
+// repeated .caffe.Rect2f anchor = 3;
+inline int DHAResultParameter::anchor_size() const {
+  return anchor_.size();
+}
+inline void DHAResultParameter::clear_anchor() {
+  anchor_.Clear();
+}
+inline const ::caffe::Rect2f& DHAResultParameter::anchor(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.DHAResultParameter.anchor)
+  return anchor_.Get(index);
+}
+inline ::caffe::Rect2f* DHAResultParameter::mutable_anchor(int index) {
+  // @@protoc_insertion_point(field_mutable:caffe.DHAResultParameter.anchor)
+  return anchor_.Mutable(index);
+}
+inline ::caffe::Rect2f* DHAResultParameter::add_anchor() {
+  // @@protoc_insertion_point(field_add:caffe.DHAResultParameter.anchor)
+  return anchor_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >*
+DHAResultParameter::mutable_anchor() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.DHAResultParameter.anchor)
+  return &anchor_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::caffe::Rect2f >&
+DHAResultParameter::anchor() const {
+  // @@protoc_insertion_point(field_list:caffe.DHAResultParameter.anchor)
+  return anchor_;
+}
+
+// required uint32 num_detection = 4;
+inline bool DHAResultParameter::has_num_detection() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void DHAResultParameter::set_has_num_detection() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void DHAResultParameter::clear_has_num_detection() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void DHAResultParameter::clear_num_detection() {
+  num_detection_ = 0u;
+  clear_has_num_detection();
+}
+inline ::google::protobuf::uint32 DHAResultParameter::num_detection() const {
+  // @@protoc_insertion_point(field_get:caffe.DHAResultParameter.num_detection)
+  return num_detection_;
+}
+inline void DHAResultParameter::set_num_detection(::google::protobuf::uint32 value) {
+  set_has_num_detection();
+  num_detection_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHAResultParameter.num_detection)
+}
+
+// optional bool do_nms = 5 [default = true];
+inline bool DHAResultParameter::has_do_nms() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void DHAResultParameter::set_has_do_nms() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void DHAResultParameter::clear_has_do_nms() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void DHAResultParameter::clear_do_nms() {
+  do_nms_ = true;
+  clear_has_do_nms();
+}
+inline bool DHAResultParameter::do_nms() const {
+  // @@protoc_insertion_point(field_get:caffe.DHAResultParameter.do_nms)
+  return do_nms_;
+}
+inline void DHAResultParameter::set_do_nms(bool value) {
+  set_has_do_nms();
+  do_nms_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHAResultParameter.do_nms)
+}
+
+// optional float nms_overlap_threshold = 6 [default = 0.5];
+inline bool DHAResultParameter::has_nms_overlap_threshold() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void DHAResultParameter::set_has_nms_overlap_threshold() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void DHAResultParameter::clear_has_nms_overlap_threshold() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void DHAResultParameter::clear_nms_overlap_threshold() {
+  nms_overlap_threshold_ = 0.5f;
+  clear_has_nms_overlap_threshold();
+}
+inline float DHAResultParameter::nms_overlap_threshold() const {
+  // @@protoc_insertion_point(field_get:caffe.DHAResultParameter.nms_overlap_threshold)
+  return nms_overlap_threshold_;
+}
+inline void DHAResultParameter::set_nms_overlap_threshold(float value) {
+  set_has_nms_overlap_threshold();
+  nms_overlap_threshold_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHAResultParameter.nms_overlap_threshold)
+}
+
+// optional float neg_threshold = 7 [default = 0.5];
+inline bool DHAResultParameter::has_neg_threshold() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void DHAResultParameter::set_has_neg_threshold() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void DHAResultParameter::clear_has_neg_threshold() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void DHAResultParameter::clear_neg_threshold() {
+  neg_threshold_ = 0.5f;
+  clear_has_neg_threshold();
+}
+inline float DHAResultParameter::neg_threshold() const {
+  // @@protoc_insertion_point(field_get:caffe.DHAResultParameter.neg_threshold)
+  return neg_threshold_;
+}
+inline void DHAResultParameter::set_neg_threshold(float value) {
+  set_has_neg_threshold();
+  neg_threshold_ = value;
+  // @@protoc_insertion_point(field_set:caffe.DHAResultParameter.neg_threshold)
+}
+
+// repeated float anchor_weight = 8;
+inline int DHAResultParameter::anchor_weight_size() const {
+  return anchor_weight_.size();
+}
+inline void DHAResultParameter::clear_anchor_weight() {
+  anchor_weight_.Clear();
+}
+inline float DHAResultParameter::anchor_weight(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.DHAResultParameter.anchor_weight)
+  return anchor_weight_.Get(index);
+}
+inline void DHAResultParameter::set_anchor_weight(int index, float value) {
+  anchor_weight_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.DHAResultParameter.anchor_weight)
+}
+inline void DHAResultParameter::add_anchor_weight(float value) {
+  anchor_weight_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.DHAResultParameter.anchor_weight)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+DHAResultParameter::anchor_weight() const {
+  // @@protoc_insertion_point(field_list:caffe.DHAResultParameter.anchor_weight)
+  return anchor_weight_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+DHAResultParameter::mutable_anchor_weight() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.DHAResultParameter.anchor_weight)
+  return &anchor_weight_;
+}
+
+// repeated float class_weight = 9;
+inline int DHAResultParameter::class_weight_size() const {
+  return class_weight_.size();
+}
+inline void DHAResultParameter::clear_class_weight() {
+  class_weight_.Clear();
+}
+inline float DHAResultParameter::class_weight(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.DHAResultParameter.class_weight)
+  return class_weight_.Get(index);
+}
+inline void DHAResultParameter::set_class_weight(int index, float value) {
+  class_weight_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.DHAResultParameter.class_weight)
+}
+inline void DHAResultParameter::add_class_weight(float value) {
+  class_weight_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.DHAResultParameter.class_weight)
+}
+inline const ::google::protobuf::RepeatedField< float >&
+DHAResultParameter::class_weight() const {
+  // @@protoc_insertion_point(field_list:caffe.DHAResultParameter.class_weight)
+  return class_weight_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+DHAResultParameter::mutable_class_weight() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.DHAResultParameter.class_weight)
+  return &class_weight_;
+}
+
+inline const DHAResultParameter* DHAResultParameter::internal_default_instance() {
+  return &DHAResultParameter_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// YOLONegRejectionParameter
+
+// optional float rate = 1 [default = 0];
+inline bool YOLONegRejectionParameter::has_rate() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void YOLONegRejectionParameter::set_has_rate() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void YOLONegRejectionParameter::clear_has_rate() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void YOLONegRejectionParameter::clear_rate() {
+  rate_ = 0;
+  clear_has_rate();
+}
+inline float YOLONegRejectionParameter::rate() const {
+  // @@protoc_insertion_point(field_get:caffe.YOLONegRejectionParameter.rate)
+  return rate_;
+}
+inline void YOLONegRejectionParameter::set_rate(float value) {
+  set_has_rate();
+  rate_ = value;
+  // @@protoc_insertion_point(field_set:caffe.YOLONegRejectionParameter.rate)
+}
+
+// optional float diff_threshold = 2 [default = 0.3];
+inline bool YOLONegRejectionParameter::has_diff_threshold() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void YOLONegRejectionParameter::set_has_diff_threshold() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void YOLONegRejectionParameter::clear_has_diff_threshold() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void YOLONegRejectionParameter::clear_diff_threshold() {
+  diff_threshold_ = 0.3f;
+  clear_has_diff_threshold();
+}
+inline float YOLONegRejectionParameter::diff_threshold() const {
+  // @@protoc_insertion_point(field_get:caffe.YOLONegRejectionParameter.diff_threshold)
+  return diff_threshold_;
+}
+inline void YOLONegRejectionParameter::set_diff_threshold(float value) {
+  set_has_diff_threshold();
+  diff_threshold_ = value;
+  // @@protoc_insertion_point(field_set:caffe.YOLONegRejectionParameter.diff_threshold)
+}
+
+inline const YOLONegRejectionParameter* YOLONegRejectionParameter::internal_default_instance() {
+  return &YOLONegRejectionParameter_default_instance_.get();
 }
 // -------------------------------------------------------------------
 
@@ -33795,6 +35854,276 @@ inline void LayerParameter::set_allocated_focal_loss_param(::caffe::FocalLossPar
     clear_has_focal_loss_param();
   }
   // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.focal_loss_param)
+}
+
+// optional .caffe.NegGTParameter neg_gt_param = 1041;
+inline bool LayerParameter::has_neg_gt_param() const {
+  return (_has_bits_[3] & 0x00000004u) != 0;
+}
+inline void LayerParameter::set_has_neg_gt_param() {
+  _has_bits_[3] |= 0x00000004u;
+}
+inline void LayerParameter::clear_has_neg_gt_param() {
+  _has_bits_[3] &= ~0x00000004u;
+}
+inline void LayerParameter::clear_neg_gt_param() {
+  if (neg_gt_param_ != NULL) neg_gt_param_->::caffe::NegGTParameter::Clear();
+  clear_has_neg_gt_param();
+}
+inline const ::caffe::NegGTParameter& LayerParameter::neg_gt_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.neg_gt_param)
+  return neg_gt_param_ != NULL ? *neg_gt_param_
+                         : *::caffe::NegGTParameter::internal_default_instance();
+}
+inline ::caffe::NegGTParameter* LayerParameter::mutable_neg_gt_param() {
+  set_has_neg_gt_param();
+  if (neg_gt_param_ == NULL) {
+    neg_gt_param_ = new ::caffe::NegGTParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.neg_gt_param)
+  return neg_gt_param_;
+}
+inline ::caffe::NegGTParameter* LayerParameter::release_neg_gt_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.neg_gt_param)
+  clear_has_neg_gt_param();
+  ::caffe::NegGTParameter* temp = neg_gt_param_;
+  neg_gt_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_neg_gt_param(::caffe::NegGTParameter* neg_gt_param) {
+  delete neg_gt_param_;
+  neg_gt_param_ = neg_gt_param;
+  if (neg_gt_param) {
+    set_has_neg_gt_param();
+  } else {
+    clear_has_neg_gt_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.neg_gt_param)
+}
+
+// optional .caffe.YOLOV2NMSDataParameter yolo_v2_nms_data_param = 1042;
+inline bool LayerParameter::has_yolo_v2_nms_data_param() const {
+  return (_has_bits_[3] & 0x00000008u) != 0;
+}
+inline void LayerParameter::set_has_yolo_v2_nms_data_param() {
+  _has_bits_[3] |= 0x00000008u;
+}
+inline void LayerParameter::clear_has_yolo_v2_nms_data_param() {
+  _has_bits_[3] &= ~0x00000008u;
+}
+inline void LayerParameter::clear_yolo_v2_nms_data_param() {
+  if (yolo_v2_nms_data_param_ != NULL) yolo_v2_nms_data_param_->::caffe::YOLOV2NMSDataParameter::Clear();
+  clear_has_yolo_v2_nms_data_param();
+}
+inline const ::caffe::YOLOV2NMSDataParameter& LayerParameter::yolo_v2_nms_data_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.yolo_v2_nms_data_param)
+  return yolo_v2_nms_data_param_ != NULL ? *yolo_v2_nms_data_param_
+                         : *::caffe::YOLOV2NMSDataParameter::internal_default_instance();
+}
+inline ::caffe::YOLOV2NMSDataParameter* LayerParameter::mutable_yolo_v2_nms_data_param() {
+  set_has_yolo_v2_nms_data_param();
+  if (yolo_v2_nms_data_param_ == NULL) {
+    yolo_v2_nms_data_param_ = new ::caffe::YOLOV2NMSDataParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.yolo_v2_nms_data_param)
+  return yolo_v2_nms_data_param_;
+}
+inline ::caffe::YOLOV2NMSDataParameter* LayerParameter::release_yolo_v2_nms_data_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.yolo_v2_nms_data_param)
+  clear_has_yolo_v2_nms_data_param();
+  ::caffe::YOLOV2NMSDataParameter* temp = yolo_v2_nms_data_param_;
+  yolo_v2_nms_data_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_yolo_v2_nms_data_param(::caffe::YOLOV2NMSDataParameter* yolo_v2_nms_data_param) {
+  delete yolo_v2_nms_data_param_;
+  yolo_v2_nms_data_param_ = yolo_v2_nms_data_param;
+  if (yolo_v2_nms_data_param) {
+    set_has_yolo_v2_nms_data_param();
+  } else {
+    clear_has_yolo_v2_nms_data_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.yolo_v2_nms_data_param)
+}
+
+// optional .caffe.WeightedFocalLossParameter weighted_focal_loss_param = 1043;
+inline bool LayerParameter::has_weighted_focal_loss_param() const {
+  return (_has_bits_[3] & 0x00000010u) != 0;
+}
+inline void LayerParameter::set_has_weighted_focal_loss_param() {
+  _has_bits_[3] |= 0x00000010u;
+}
+inline void LayerParameter::clear_has_weighted_focal_loss_param() {
+  _has_bits_[3] &= ~0x00000010u;
+}
+inline void LayerParameter::clear_weighted_focal_loss_param() {
+  if (weighted_focal_loss_param_ != NULL) weighted_focal_loss_param_->::caffe::WeightedFocalLossParameter::Clear();
+  clear_has_weighted_focal_loss_param();
+}
+inline const ::caffe::WeightedFocalLossParameter& LayerParameter::weighted_focal_loss_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.weighted_focal_loss_param)
+  return weighted_focal_loss_param_ != NULL ? *weighted_focal_loss_param_
+                         : *::caffe::WeightedFocalLossParameter::internal_default_instance();
+}
+inline ::caffe::WeightedFocalLossParameter* LayerParameter::mutable_weighted_focal_loss_param() {
+  set_has_weighted_focal_loss_param();
+  if (weighted_focal_loss_param_ == NULL) {
+    weighted_focal_loss_param_ = new ::caffe::WeightedFocalLossParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.weighted_focal_loss_param)
+  return weighted_focal_loss_param_;
+}
+inline ::caffe::WeightedFocalLossParameter* LayerParameter::release_weighted_focal_loss_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.weighted_focal_loss_param)
+  clear_has_weighted_focal_loss_param();
+  ::caffe::WeightedFocalLossParameter* temp = weighted_focal_loss_param_;
+  weighted_focal_loss_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_weighted_focal_loss_param(::caffe::WeightedFocalLossParameter* weighted_focal_loss_param) {
+  delete weighted_focal_loss_param_;
+  weighted_focal_loss_param_ = weighted_focal_loss_param;
+  if (weighted_focal_loss_param) {
+    set_has_weighted_focal_loss_param();
+  } else {
+    clear_has_weighted_focal_loss_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.weighted_focal_loss_param)
+}
+
+// optional .caffe.DHALossParameter dha_loss_param = 1044;
+inline bool LayerParameter::has_dha_loss_param() const {
+  return (_has_bits_[3] & 0x00000020u) != 0;
+}
+inline void LayerParameter::set_has_dha_loss_param() {
+  _has_bits_[3] |= 0x00000020u;
+}
+inline void LayerParameter::clear_has_dha_loss_param() {
+  _has_bits_[3] &= ~0x00000020u;
+}
+inline void LayerParameter::clear_dha_loss_param() {
+  if (dha_loss_param_ != NULL) dha_loss_param_->::caffe::DHALossParameter::Clear();
+  clear_has_dha_loss_param();
+}
+inline const ::caffe::DHALossParameter& LayerParameter::dha_loss_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.dha_loss_param)
+  return dha_loss_param_ != NULL ? *dha_loss_param_
+                         : *::caffe::DHALossParameter::internal_default_instance();
+}
+inline ::caffe::DHALossParameter* LayerParameter::mutable_dha_loss_param() {
+  set_has_dha_loss_param();
+  if (dha_loss_param_ == NULL) {
+    dha_loss_param_ = new ::caffe::DHALossParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.dha_loss_param)
+  return dha_loss_param_;
+}
+inline ::caffe::DHALossParameter* LayerParameter::release_dha_loss_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.dha_loss_param)
+  clear_has_dha_loss_param();
+  ::caffe::DHALossParameter* temp = dha_loss_param_;
+  dha_loss_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_dha_loss_param(::caffe::DHALossParameter* dha_loss_param) {
+  delete dha_loss_param_;
+  dha_loss_param_ = dha_loss_param;
+  if (dha_loss_param) {
+    set_has_dha_loss_param();
+  } else {
+    clear_has_dha_loss_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.dha_loss_param)
+}
+
+// optional .caffe.DHAResultParameter dha_result_param = 1045;
+inline bool LayerParameter::has_dha_result_param() const {
+  return (_has_bits_[3] & 0x00000040u) != 0;
+}
+inline void LayerParameter::set_has_dha_result_param() {
+  _has_bits_[3] |= 0x00000040u;
+}
+inline void LayerParameter::clear_has_dha_result_param() {
+  _has_bits_[3] &= ~0x00000040u;
+}
+inline void LayerParameter::clear_dha_result_param() {
+  if (dha_result_param_ != NULL) dha_result_param_->::caffe::DHAResultParameter::Clear();
+  clear_has_dha_result_param();
+}
+inline const ::caffe::DHAResultParameter& LayerParameter::dha_result_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.dha_result_param)
+  return dha_result_param_ != NULL ? *dha_result_param_
+                         : *::caffe::DHAResultParameter::internal_default_instance();
+}
+inline ::caffe::DHAResultParameter* LayerParameter::mutable_dha_result_param() {
+  set_has_dha_result_param();
+  if (dha_result_param_ == NULL) {
+    dha_result_param_ = new ::caffe::DHAResultParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.dha_result_param)
+  return dha_result_param_;
+}
+inline ::caffe::DHAResultParameter* LayerParameter::release_dha_result_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.dha_result_param)
+  clear_has_dha_result_param();
+  ::caffe::DHAResultParameter* temp = dha_result_param_;
+  dha_result_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_dha_result_param(::caffe::DHAResultParameter* dha_result_param) {
+  delete dha_result_param_;
+  dha_result_param_ = dha_result_param;
+  if (dha_result_param) {
+    set_has_dha_result_param();
+  } else {
+    clear_has_dha_result_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.dha_result_param)
+}
+
+// optional .caffe.YOLONegRejectionParameter yolo_neg_rejection_param = 1046;
+inline bool LayerParameter::has_yolo_neg_rejection_param() const {
+  return (_has_bits_[3] & 0x00000080u) != 0;
+}
+inline void LayerParameter::set_has_yolo_neg_rejection_param() {
+  _has_bits_[3] |= 0x00000080u;
+}
+inline void LayerParameter::clear_has_yolo_neg_rejection_param() {
+  _has_bits_[3] &= ~0x00000080u;
+}
+inline void LayerParameter::clear_yolo_neg_rejection_param() {
+  if (yolo_neg_rejection_param_ != NULL) yolo_neg_rejection_param_->::caffe::YOLONegRejectionParameter::Clear();
+  clear_has_yolo_neg_rejection_param();
+}
+inline const ::caffe::YOLONegRejectionParameter& LayerParameter::yolo_neg_rejection_param() const {
+  // @@protoc_insertion_point(field_get:caffe.LayerParameter.yolo_neg_rejection_param)
+  return yolo_neg_rejection_param_ != NULL ? *yolo_neg_rejection_param_
+                         : *::caffe::YOLONegRejectionParameter::internal_default_instance();
+}
+inline ::caffe::YOLONegRejectionParameter* LayerParameter::mutable_yolo_neg_rejection_param() {
+  set_has_yolo_neg_rejection_param();
+  if (yolo_neg_rejection_param_ == NULL) {
+    yolo_neg_rejection_param_ = new ::caffe::YOLONegRejectionParameter;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.LayerParameter.yolo_neg_rejection_param)
+  return yolo_neg_rejection_param_;
+}
+inline ::caffe::YOLONegRejectionParameter* LayerParameter::release_yolo_neg_rejection_param() {
+  // @@protoc_insertion_point(field_release:caffe.LayerParameter.yolo_neg_rejection_param)
+  clear_has_yolo_neg_rejection_param();
+  ::caffe::YOLONegRejectionParameter* temp = yolo_neg_rejection_param_;
+  yolo_neg_rejection_param_ = NULL;
+  return temp;
+}
+inline void LayerParameter::set_allocated_yolo_neg_rejection_param(::caffe::YOLONegRejectionParameter* yolo_neg_rejection_param) {
+  delete yolo_neg_rejection_param_;
+  yolo_neg_rejection_param_ = yolo_neg_rejection_param;
+  if (yolo_neg_rejection_param) {
+    set_has_yolo_neg_rejection_param();
+  } else {
+    clear_has_yolo_neg_rejection_param();
+  }
+  // @@protoc_insertion_point(field_set_allocated:caffe.LayerParameter.yolo_neg_rejection_param)
 }
 
 inline const LayerParameter* LayerParameter::internal_default_instance() {
@@ -42459,6 +44788,18 @@ inline const PReLUParameter* PReLUParameter::internal_default_instance() {
   return &PReLUParameter_default_instance_.get();
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -186,7 +186,7 @@ void ImgAugmentation::RandomResize(cv::Mat& img,
                                    bool new_size) {
   float w_scale, h_scale;
 
-  if (new_size && GetRandom() < resize_prob_) {
+  if (new_size && GetRandom() <= resize_prob_) {
     w_scale = GetRandom(resize_w_min_, resize_w_max_);
     h_scale = GetRandom(resize_h_min_, resize_h_max_);
 

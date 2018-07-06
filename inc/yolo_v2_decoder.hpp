@@ -24,11 +24,9 @@ class YOLOV2Decoder
 
  protected:
   DetectionNMS<Dtype>& nms();
-
- private:
   void InitCellData(const caffe::Blob<Dtype>& yolo_out, int batch_idx);
-  void DecodeCellData(int h, int w, Dtype conf_threshold, 
-                      std::vector<Detection<Dtype> >* detection) const;
+  virtual void DecodeCellData(int h, int w, Dtype conf_threshold, 
+                              std::vector<Detection<Dtype> >* detection) const;
   cv::Rect_<Dtype> GetYOLOBox(int anchor) const;
   void GetMaxClass(int anchor_idx,
                    int* max_class_idx, float* max_class_conf) const;
@@ -174,6 +172,96 @@ inline void YOLOV2Decoder<Dtype>::NextCellData() {
     ++(*iter);
 }
 
+template <typename Dtype>
+class YOLOV2SoftmaxDecoder : public YOLOV2Decoder<Dtype>
+{
+ public:
+  YOLOV2SoftmaxDecoder(YOLOV2Handler<Dtype>* yolo_v2_handler,
+                       DetectionNMS<Dtype>* nms);
+  YOLOV2SoftmaxDecoder(YOLOV2Handler<Dtype>* yolo_v2_handler,
+                       DetectionNMS<Dtype>* nms,
+                       const std::vector<float>& anchor_weight);
+ protected:
+  virtual void DecodeCellData(
+      int h, int w, Dtype conf_threshold, 
+      std::vector<Detection<Dtype> >* detection) const override;
+
+ private:
+  void ClsSoftmax(int anchor_idx,
+                  std::vector<Dtype>* cls_conf, int* max_idx) const;
+
+  std::vector<float> anchor_weight_;
+
+}; // class YOLOV2SoftmaxDecoder
+
+template <typename Dtype>
+inline YOLOV2SoftmaxDecoder<Dtype>::YOLOV2SoftmaxDecoder(
+    YOLOV2Handler<Dtype>* yolo_v2_handler, DetectionNMS<Dtype>* nms) 
+  : YOLOV2Decoder<Dtype>(yolo_v2_handler, nms) {
+  anchor_weight_.assign(yolo_v2_handler_->anchor().size(), 1.0f);
+}
+
+template <typename Dtype>
+inline YOLOV2SoftmaxDecoder<Dtype>::YOLOV2SoftmaxDecoder(
+    YOLOV2Handler<Dtype>* yolo_v2_handler,
+    DetectionNMS<Dtype>* nms, const std::vector<float>& anchor_weight) 
+  : YOLOV2SoftmaxDecoder<Dtype>(yolo_v2_handler, nms) {
+  anchor_weight_.assign(anchor_weight.begin(), anchor_weight.end());
+  CHECK_EQ(anchor_weight_.size(), yolo_v2_handler_->anchor().size());
+}
+template <typename Dtype>
+void YOLOV2SoftmaxDecoder<Dtype>::DecodeCellData(
+    int h, int w, Dtype conf_threshold,
+    std::vector<Detection<Dtype> >* detection) const {
+  CHECK(detection);
+  detection->clear();
+
+  for (int i = 0; i < yolo_v2_handler_->anchor().size(); ++i) {
+    int conf_ch = yolo_v2_handler_->GetAnchorChannel(i, YOLOV2Handler<Dtype>::AnchorChannel::CONF);
+    Dtype conf = bgm::Sigmoid<Dtype>(*(cell_data_[conf_ch]));
+
+    std::vector<Dtype> cls_softmax;
+    int cls_idx;
+    ClsSoftmax(i, &cls_softmax, &cls_idx); 
+
+    conf *= anchor_weight_[i];
+    //conf *= cls_softmax[cls_idx];
+
+    if (conf > conf_threshold) {
+      cv::Rect_<Dtype> yolo_box = GetYOLOBox(i);
+      cv::Rect_<Dtype> raw_box = yolo_v2_handler_->YOLOBoxToRawBox(yolo_box, h, w, i);
+
+      detection->push_back({cls_idx + 1, raw_box, static_cast<float>(conf)});
+    }
+  }
+}
+
+template <typename Dtype>
+void YOLOV2SoftmaxDecoder<Dtype>::ClsSoftmax(
+    int anchor_idx, std::vector<Dtype>* cls_conf, int* max_idx) const {
+  CHECK(cls_conf);
+  CHECK(max_idx);
+
+  cls_conf->resize(yolo_v2_handler_->num_class());
+
+  int idx = yolo_v2_handler_->GetAnchorChannel(anchor_idx, YOLOV2Handler<Dtype>::AnchorChannel::CLASS_BEGIN);
+  Dtype exp_sum = 0;
+  for (int i = 0; i < cls_conf->size(); ++i) {
+    (*cls_conf)[i] = std::exp(*(cell_data_[idx + i]));
+    exp_sum += (*cls_conf)[i];
+  }
+
+  *max_idx = 0;
+  Dtype max_conf = (*cls_conf)[0];
+  for (int i = 0; i < cls_conf->size(); ++i) {
+    if ((*cls_conf)[i] > max_conf) {
+      max_conf = (*cls_conf)[i];
+      *max_idx = i;
+    }
+
+    (*cls_conf)[i] /= exp_sum;
+  }
+}
 } // namespace bgm
 
 #endif // !BGM_YOLO_V2_DECODER_HPP_

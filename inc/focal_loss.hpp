@@ -22,6 +22,11 @@ class FocalLoss
                         Dtype alpha, Dtype gamma,
                         Dtype* loss, 
                         std::vector<Dtype>* diff) const;
+  void SoftmaxFocalLoss(const std::vector<Dtype>& value, int target,
+                        Dtype alpha, Dtype gamma,
+                        std::vector<Dtype>* prob,
+                        Dtype* loss, 
+                        std::vector<Dtype>* diff) const;
  private:
   void BaseFocalLoss(Dtype prob, Dtype alpha, Dtype gamma,
                      Dtype* loss, Dtype* diff) const;
@@ -90,6 +95,32 @@ void FocalLoss<Dtype>::SoftmaxFocalLoss(const std::vector<Dtype>& value,
 }
 
 template <typename Dtype>
+void FocalLoss<Dtype>::SoftmaxFocalLoss(const std::vector<Dtype>& value,
+                                        int target,
+                                        Dtype alpha, Dtype gamma,
+                                        std::vector<Dtype>* prob,
+                                        Dtype* loss,
+                                        std::vector<Dtype>* diff) const {
+  CHECK_GE(target, 0);
+  CHECK_LT(target, value.size());
+  CHECK(prob);
+  CHECK(loss);
+  CHECK(diff);
+  
+  Softmax(value, prob);
+
+  diff->resize(value.size());
+
+  Dtype base_diff;
+  BaseFocalLoss((*prob)[target], alpha, gamma, loss, &base_diff);
+  for(int i=0; i<prob->size(); ++i)
+    if(i != target)
+      (*diff)[i] = base_diff * (-(*prob)[i]) * (*prob)[target];
+  else
+      (*diff)[i] = base_diff * (*prob)[i] * (1 - (*prob)[i]);
+}
+
+template <typename Dtype>
 void FocalLoss<Dtype>::BaseFocalLoss(Dtype prob, Dtype alpha, Dtype gamma,
                                      Dtype* loss, Dtype* diff) const {
   CHECK_GE(prob, 0);
@@ -121,10 +152,12 @@ void FocalLoss<Dtype>::Softmax(const std::vector<Dtype>& value,
   CHECK(!value.empty());
   CHECK(softmax);
 
+  Dtype max_val = *(std::max_element(value.cbegin(), value.cend()));
+
   softmax->resize(value.size());
   Dtype exp_sum = 0;
   for (int i = 0; i < value.size(); ++i) {
-    Dtype exp_value = std::exp(value[i]);
+    Dtype exp_value = std::exp(value[i] - max_val);
     exp_sum += exp_value;
     (*softmax)[i] = exp_value;
   }

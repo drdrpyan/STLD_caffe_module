@@ -37,6 +37,7 @@ class YOLOV2Handler
 
   const std::vector<cv::Rect_<Dtype> >& anchor() const;
   const cv::Rect_<Dtype>& anchor(int idx) const;
+  const cv::Size& cell_size() const;
   int num_class() const;
 
  private:
@@ -66,7 +67,7 @@ inline cv::Rect_<Dtype> YOLOV2Handler<Dtype>::RawBoxToYOLOBox(
   cv::Rect_<Dtype> anchor = anchor_[anchor_idx];
   anchor.x += cell_size_.width * w;
   anchor.y += cell_size_.height * h;
-  RawBoxToYOLOBox(raw_box, anchor);
+  return RawBoxToYOLOBox(raw_box, anchor);
 }
 
 template <typename Dtype>
@@ -144,6 +145,11 @@ inline const std::vector<cv::Rect_<Dtype> >& YOLOV2Handler<Dtype>::anchor() cons
 template <typename Dtype>
 inline const cv::Rect_<Dtype>& YOLOV2Handler<Dtype>::anchor(int idx) const {
   return anchor_[idx];
+}
+
+template <typename Dtype>
+inline const cv::Size& YOLOV2Handler<Dtype>::cell_size() const {
+  return cell_size_;
 }
 
 template <typename Dtype>

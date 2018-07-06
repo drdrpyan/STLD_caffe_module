@@ -1,5 +1,5 @@
-#ifndef TLR_YOLO_V2_FOCAL_LOSS_V3_LAYER_HPP_
-#define TLR_YOLO_V2_FOCAL_LOSS_V3_LAYER_HPP_
+#ifndef TLR_YOLO_V2_WEIGHTED_FOCAL_LOSS_LAYER_HPP_
+#define TLR_YOLO_V2_WEIGHTED_FOCAL_LOSS_LAYER_HPP_
 
 #include "caffe/layers/loss_layer.hpp"
 
@@ -14,13 +14,13 @@ namespace caffe
 {
 
 template <typename Dtype>
-class YOLOV2FocalLossV3Layer : public LossLayer<Dtype>
+class YOLOV2WeightedFocalLossLayer : public LossLayer<Dtype>
 {
   enum {NUM_ANCHOR_ELEM = 5};
   enum AnchorChannel {X = 0, Y, W, H, CONF, CLASS_BEGIN};
 
  public:
-  explicit YOLOV2FocalLossV3Layer(const LayerParameter& param);
+  explicit YOLOV2WeightedFocalLossLayer(const LayerParameter& param);
   virtual void LayerSetUp(
       const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top) override;
@@ -41,6 +41,7 @@ class YOLOV2FocalLossV3Layer : public LossLayer<Dtype>
                             const vector<Blob<Dtype>*>& bottom) override;
 
  private:
+  void InitWeightedFocalLossParam(const WeightedFocalLossParameter& param);
   void Clear();
   void ShiftAnchors(int cell_row, int cell_col, 
                     std::vector<cv::Rect_<Dtype> >* shifted) const;
@@ -59,9 +60,14 @@ class YOLOV2FocalLossV3Layer : public LossLayer<Dtype>
                        int n, int h, int w, int anchor,
                        Dtype true_label, const cv::Rect_<Dtype>& true_bbox,
                        Dtype iou);
-  void ForwardConf(const Blob<Dtype>& input,
-                   int n, int h, int w, int anchor, Dtype scale, Dtype iou,
-                   Dtype& loss, Dtype& sum_conf);
+  //void ForwardConf(const Blob<Dtype>& input,
+  //                 int n, int h, int w, int anchor, Dtype scale, Dtype iou,
+  //                 Dtype& loss, Dtype& sum_conf);
+  void ForwardNegConf(const Blob<Dtype>& input,
+                      int n, int h, int w, int anchor, Dtype iou);
+  void ForwardPosConf(const Blob<Dtype>& input,
+                      int n, int h, int w, int anchor, Dtype iou);
+
   void ForwardBBox(
       const Blob<Dtype>& input, int n, int h, int w, int anchor,
       Dtype scale,
@@ -108,45 +114,47 @@ class YOLOV2FocalLossV3Layer : public LossLayer<Dtype>
   std::unique_ptr<bgm::AnnoDecoder<Dtype> > anno_decoder_;
 
   bgm::FocalLoss<Dtype> focal_loss_;
-  float focal_loss_alpha_;
-  float focal_loss_gamma_;
+  std::vector<float> wfl_pos_alpha_;
+  std::vector<float> wfl_neg_alpha_;
+  std::vector<float> wfl_pos_gamma_;
+  std::vector<float> wfl_neg_gamma_;
 }; // class YOLOV2LossLayer
 
 // inline functions
 template <typename Dtype>
-inline YOLOV2FocalLossV3Layer<Dtype>::YOLOV2FocalLossV3Layer(
+inline YOLOV2WeightedFocalLossLayer<Dtype>::YOLOV2WeightedFocalLossLayer(
     const LayerParameter& param) : LossLayer<Dtype>(param) {
 
 }
 
 template <typename Dtype>
-inline const char* YOLOV2FocalLossV3Layer<Dtype>::type() const {
-  return "YOLOV2FocalLossV3";
+inline const char* YOLOV2WeightedFocalLossLayer<Dtype>::type() const {
+  return "YOLOV2WeightedFocalLoss";
 }
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::ExactNumBottomBlobs() const {
+inline int YOLOV2WeightedFocalLossLayer<Dtype>::ExactNumBottomBlobs() const {
   return 3;
 }
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::ExactNumTopBlobs() const {
+inline int YOLOV2WeightedFocalLossLayer<Dtype>::ExactNumTopBlobs() const {
   return -1;
 }
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::MinTopBlobs() const {
+inline int YOLOV2WeightedFocalLossLayer<Dtype>::MinTopBlobs() const {
   return 1;
 }
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::MaxTopBlobs() const {
+inline int YOLOV2WeightedFocalLossLayer<Dtype>::MaxTopBlobs() const {
   return 13;
 }
 
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::GetAnchorChannel(
+inline int YOLOV2WeightedFocalLossLayer<Dtype>::GetAnchorChannel(
     int anchor, AnchorChannel ch) const {
   CHECK_GE(anchor, 0);
   CHECK_LT(anchor, anchor_.size());
@@ -154,7 +162,7 @@ inline int YOLOV2FocalLossV3Layer<Dtype>::GetAnchorChannel(
 }
 
 template <typename Dtype>
-inline int YOLOV2FocalLossV3Layer<Dtype>::GetClassChannel(
+inline int YOLOV2WeightedFocalLossLayer<Dtype>::GetClassChannel(
     int anchor, int class_label) const {
   CHECK_GE(anchor, 0);
   CHECK_LT(anchor, anchor_.size());
@@ -164,10 +172,10 @@ inline int YOLOV2FocalLossV3Layer<Dtype>::GetClassChannel(
 }
 
 template <typename Dtype>
-inline Dtype YOLOV2FocalLossV3Layer<Dtype>::Sigmoid(Dtype value) const {
+inline Dtype YOLOV2WeightedFocalLossLayer<Dtype>::Sigmoid(Dtype value) const {
   return 1. / (1. + std::exp(-value));
 }
 
 } // namespace caffe
 
-#endif // !TLR_YOLO_V2_FOCAL_LOSS_V2_LAYER_HPP_
+#endif // !TLR_YOLO_V2_WEIGHTED_FOCAL_LOSS_LAYER_HPP_

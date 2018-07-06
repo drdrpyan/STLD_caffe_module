@@ -5,9 +5,10 @@
 #include "caffe/util/benchmark.hpp"
 #include "caffe/util/io.hpp"
 
-
 namespace caffe
 {
+
+//bool skip_4 = false;
 
 //template <typename Dtype>
 //BaseImgBBoxDataLayer<Dtype>::BaseImgBBoxDataLayer(const LayerParameter& param)
@@ -204,6 +205,12 @@ void BaseImgBBoxDataLayer<Dtype>::load_batch(caffe::Batch<Dtype>* batch) {
     img_bbox_anno_datum[i].ParseFromString(cursor_->value());
     read_time += timer.MicroSeconds();
 
+    //if (!skip_4) {
+    //  Next();
+    //  Next();
+    //  skip_4 = true;
+    //}
+
     Next();
   }
 
@@ -213,6 +220,9 @@ void BaseImgBBoxDataLayer<Dtype>::load_batch(caffe::Batch<Dtype>* batch) {
     std::vector<std::vector<cv::Rect2f> > bbox;
     img_aug_.Transform(img_bbox_anno_datum,
                        &img, &label, &bbox);
+#ifndef NDEBUG
+    const cv::Mat& img_view = img[0];
+#endif !NDEBUG
 
     PrepareBatch(img, label, batch);
     for (int i = 0; i < BATCH_SIZE; ++i) {

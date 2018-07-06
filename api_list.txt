@@ -34,3 +34,9 @@ test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_multiscale_ev
 
 피쳐맵 저장용
 test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_multiscale_snapshot.prototxt  -weights D:/tlr_snapshot/yolov2_res101_multi/focal1_2/tlr_iter_100000.caffemodel -gpu 0 -iterations 8334
+
+train -solver D:/workspace/TLR/tlr/model/tlr_yolov2_solver.prototxt -weights D:/workspace/TLR/model/ResNet-101-model.caffemodel -gpu 1
+
+test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_focalloss4_4_snapshot_eval.prototxt  -weights D:/workspace/TLR/model/ResNet-101-model.caffemodel -gpu 0 -iterations 8334
+
+test -model D:/workspace/TLR/tlr/model/tlr_yolov2_deconv_resnet101_focalloss4_4_lisa1_snapshot_eval.prototxt  -weights E:/tlr_snapshot_2/deconv4_focalloss4_4_lisa1/train_4/tlr_iter_87000(best2).caffemodel -gpu 0 -iterations 4060
